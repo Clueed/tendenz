@@ -16,10 +16,10 @@ function App() {
         </div>
         <div className="bg-gradient-to-t Background">
           <div className="max-w-5xl Flexbox">
+            <MainBox>Today</MainBox>
             <MainBox>Yesterday</MainBox>
             <MainBox>Trailing Week</MainBox>
             <MainBox>Trailing Month</MainBox>
-            <MainBox>Trailing Year</MainBox>
           </div>
         </div>
       </div>
