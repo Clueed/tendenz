@@ -18,23 +18,3 @@ function App() {
 }
 
 export default App;
-
-// const items = ["New York", "Los Angeles", "San Francisco"];
-
-// const discription = "This is a great button";
-
-// const [countForDisplay, setCountForDisplay] = useState(0);
-
-// const handleCounter = (counter: number) => {
-//   console.log(counter);
-//   setCountForDisplay(countForDisplay + 1);
-// };
-
-{
-  /* <ListGroup items={items} heading="Cities"></ListGroup>
-<BsFillCalendarFill color="red"></BsFillCalendarFill>
-<Button color="primary" discription={discription} onClick={handleCounter}>
-  Test
-</Button>
-<h2>Clicked: {countForDisplay} times</h2> */
-}
