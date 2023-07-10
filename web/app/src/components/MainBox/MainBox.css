@@ -1,0 +1,70 @@
+body {
+    margin: 10px;
+}
+
+a {
+    all: unset;
+}
+
+.container {
+    width: 90vw;
+    max-width: 400px;
+    margin: 10px;
+}
+
+.heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0 0 0.3em 1em;
+}
+
+.grid-container {
+    background: #f5f4f2;
+    padding: 0.2em 0.1em;
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: 0.3fr 0.5fr 1fr 0.4fr 0.2fr;
+    grid-gap: 0.3em 0.1em;
+}
+
+.standardDeviation {
+    text-align: right;
+}
+
+.standardDeviation4 {
+    color: red;
+}
+
+.standardDeviation3 {
+    color: blue;
+}
+
+.standardDeviation2 {
+    color: #eb4d0e;
+}
+
+.standardDeviation1 {
+    color: purple;
+}
+
+.ticker {
+    padding-left: 20%;
+    font-style: italic;
+}
+
+.name {
+    padding-left: 10%;
+}
+
+.change {
+    text-align: right;
+    padding-right: 30%;
+}
+
+.changePositive {
+    color: green;
+}
+
+.changeNegative {
+    color: red;
+}
