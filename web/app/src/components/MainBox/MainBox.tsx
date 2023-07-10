@@ -63,7 +63,7 @@ const MainBox = ({ children }: Props) => {
   return (
     <div className="max-w-md container">
       <div className="heading">{children}</div>
-      <div className="grid-container">
+      <div className="rounded-md grid-container">
         {sortedData.map((item) => (
           <>
             <div
