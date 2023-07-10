@@ -1,4 +1,9 @@
 
+.Background {
+    max-width: 1000px;
+    margin: auto;
+}
+
 .Flexbox {
     max-width: 1000px;
     margin: auto;

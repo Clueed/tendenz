@@ -61,7 +61,7 @@ const colorStandartDeviation = (a: number) => {
 
 const MainBox = ({ children }: Props) => {
   return (
-    <div className="container">
+    <div className="max-w-md container">
       <div className="heading">{children}</div>
       <div className="grid-container">
         {sortedData.map((item) => (
@@ -86,10 +86,11 @@ const MainBox = ({ children }: Props) => {
               {item.change}%
             </div>
             <a
+              className="link"
               href={"https://de.finance.yahoo.com/quote/" + item.ticker}
               target="_blank"
             >
-              <AiOutlineLink className="link"></AiOutlineLink>
+              <AiOutlineLink></AiOutlineLink>
             </a>
           </>
         ))}

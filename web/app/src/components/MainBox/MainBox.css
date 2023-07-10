@@ -8,7 +8,6 @@ a {
 
 .container {
     width: 90vw;
-    max-width: 400px;
     margin: 10px;
 }
 
@@ -19,12 +18,13 @@ a {
 }
 
 .grid-container {
-    background: #f5f4f2;
+    background: #fff;
     padding: 0.2em 0.1em;
     display: grid;
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: 0.3fr 0.5fr 1fr 0.4fr 0.2fr;
     grid-gap: 0.3em 0.1em;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .standardDeviation {
@@ -67,4 +67,10 @@ a {
 
 .changeNegative {
     color: red;
+}
+
+.link {
+    margin:auto auto;
+    display:block;
+    text-align: center;
 }
