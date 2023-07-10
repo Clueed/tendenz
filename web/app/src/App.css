@@ -1,4 +1,11 @@
 
+.FrontPage {
+    height: 100vh;
+    background-image: url(../src/images/background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .Background {
     max-width: 1000px;
     margin: auto;
