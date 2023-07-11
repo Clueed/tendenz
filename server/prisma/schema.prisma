@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model UsStockDaily {
+  id        Int      @id @default(autoincrement())
+  v         Float
+  o         Float
+  c         Float
+  h         Float
+  l         Float
+  t         DateTime
+  vw        Float?
+  n         Int?
+  mc        Int?
+  UsStocks  UsStocks @relation(fields: [usStocksT], references: [T])
+  usStocksT String
+}
+
+model UsStocks {
+  T      String         @id
+  name   String?
+  Dailys UsStockDaily[]
+}
