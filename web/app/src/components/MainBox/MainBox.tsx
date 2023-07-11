@@ -53,34 +53,32 @@ const sortedData = data.sort(
 
 // Color of standart deviation
 const colorStandartDeviation = (a: number) => {
-  if (a > 3) return "standardDeviation4 ";
-  if (a > 2) return "standardDeviation3";
-  if (a > 1) return "standardDeviation2";
-  return "standardDeviation1";
+  if (a > 3) return "text-red-9 ";
+  if (a > 2) return "text-blue-9";
+  if (a > 1) return "text-orange-9";
+  return "text-purple-9";
 };
 
 const MainBox = ({ children }: Props) => {
   return (
-    <div className="max-w-md container">
-      <div className="heading">{children}</div>
-      <div className="rounded-md grid-container">
+    <div className="max-w-md w-[90vw] m-3">
+      <h2 className="text-[#fff] text-2xl mb-2 font-bold">{children}</h2>
+      <div className="rounded-md grid-container bg-[#fff] py-3 px-4 gap-x-1.5 gap-y-3">
         {sortedData.map((item) => (
           <>
             <div
               className={
-                "standardDeviation " +
-                colorStandartDeviation(item.standardDeviation)
+                "text-right " + colorStandartDeviation(item.standardDeviation)
               }
             >
               {item.standardDeviation}σ
             </div>
-            <div className="ticker">{item.ticker}</div>
-            <div className="name">{item.name}</div>
+            <div className="italic pl-5">{item.ticker}</div>
+            <div className="pl-3">{item.name}</div>
             <div
               className={
-                item.change > 0
-                  ? "change changePositive"
-                  : "change changeNegative"
+                "text-right pr-7 " +
+                (item.change > 0 ? "text-green-9" : "text-red-9")
               }
             >
               {item.change}%

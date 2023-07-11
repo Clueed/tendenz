@@ -5,17 +5,20 @@ import "./App.css";
 import { BsFillCalendarFill } from "react-icons/bs";
 import MainBox from "./components/MainBox/MainBox";
 import { useSpring, animated } from "@react-spring/web";
+import NavigationBar from "./components/NavigationBar/NavigationBar";
 
 function App() {
   const springs = useSpring({
-    from: { x: 0 },
-    to: { x: 100 },
+    delay: 1000,
+    from: { y: 20, opacity: 0 },
+    to: { y: 0, opacity: 1 },
   });
 
   return (
     <>
       <div className="Back">
         <div className="FrontPage">
+          <NavigationBar></NavigationBar>
           <div className="BigP">Lorem ipsum dolor sit amet.</div>
           <div className="SmallP">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam
@@ -24,24 +27,21 @@ function App() {
           </div>
           <div className="bg-gradient-to-t Background">
             <div className="max-w-5xl Flexbox">
-              <div>
+              <animated.div style={{ ...springs }}>
                 <MainBox>Today</MainBox>
-              </div>
-              <MainBox>Yesterday</MainBox>
-              <MainBox>Trailing Week</MainBox>
-              <MainBox>Trailing Month</MainBox>
+              </animated.div>
+              <animated.div style={{ ...springs }}>
+                <MainBox>Yesterday</MainBox>
+              </animated.div>
+              <animated.div style={{ ...springs }}>
+                <MainBox>Trailing Week</MainBox>
+              </animated.div>
+              <animated.div style={{ ...springs }}>
+                <MainBox>Trailing Month</MainBox>
+              </animated.div>
             </div>
           </div>
         </div>
-        <animated.div
-          style={{
-            width: 80,
-            height: 80,
-            background: "#ff6d6d",
-            borderRadius: 8,
-            ...springs,
-          }}
-        />
       </div>
     </>
   );
