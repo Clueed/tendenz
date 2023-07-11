@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@radix-ui/colors": "^1.0.0",
+    "@react-spring/web": "^9.7.3",
     "@types/node": "20.4.1",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
+    "animate.css": "^4.1.1",
     "autoprefixer": "10.4.14",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",

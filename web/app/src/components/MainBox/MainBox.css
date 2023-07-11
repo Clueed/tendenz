@@ -25,7 +25,7 @@ a {
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: 0.3fr 0.5fr 1fr 0.4fr 0.2fr;
     grid-gap: 0.3em 0.1em;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: rgba(182, 180, 180, 0.25) 0px 54px 55px, rgba(255, 255, 255, 0.12) 0px -12px 30px, rgba(255, 255, 255, 0.12) 0px 4px 6px, rgba(255, 255, 255, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 .standardDeviation {

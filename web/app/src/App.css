@@ -1,8 +1,9 @@
 body {
-    background-color: #141414;
+    background-color: #000;
 }
+    
 .FrontPage {
-    height: 100vh;
+    height: 140vh;
     background-image: url(../src/images/background.jpg);
     background-repeat: no-repeat;
     background-size: cover;
