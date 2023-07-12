@@ -11,24 +11,23 @@ datasource db {
 }
 
 model UsStockDaily {
-  id        Int      @id @default(autoincrement())
-  v         Float
-  o         Float
-  c         Float
-  h         Float
-  l         Float
-  t         DateTime
-  vw        Float?
-  n         Int?
-  mc        Int?
-  UsStocks  UsStocks @relation(fields: [usStocksT], references: [T])
-  usStocksT String
+  UsStocks       UsStocks @relation(fields: [ticker], references: [ticker])
+  ticker         String
+  date           DateTime
+  volume         Float
+  open           Float
+  close          Float
+  high           Float
+  low            Float
+  volumeWeighted Float?
+  nTransactions  Int?
+  marketCap      Int?
 
-  @@unique([usStocksT, t])
+  @@id([ticker, date])
 }
 
 model UsStocks {
-  T      String         @id
+  ticker String         @id
   name   String?
   Dailys UsStockDaily[]
 }

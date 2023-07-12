@@ -30,21 +30,21 @@ export async function allDailysOnDate(
   input_date: number | Date,
   prisma: PrismaClient
 ): Promise<string[]> {
-  let t: Date;
+  let date: Date;
 
   if (input_date instanceof Date) {
-    t = input_date;
+    date = input_date;
   } else {
-    t = new Date(input_date);
+    date = new Date(input_date);
   }
 
   const allDailysAtDate = await prisma.usStockDaily.findMany({
     where: {
-      t,
+      date,
     },
   });
 
-  return allDailysAtDate.map((daily) => daily.usStocksT);
+  return allDailysAtDate.map((daily) => daily.ticker);
 }
 
 export function timeout(ms: number) {

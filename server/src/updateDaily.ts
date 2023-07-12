@@ -6,36 +6,54 @@ export async function updateDaily(
   results: IAggsResults[],
   prisma: PrismaClient
 ): Promise<false | number> {
+  // picking frist because all dates are the same
   const allTickersAtDate = await allDailysOnDate(results[0].t, prisma);
 
   let counter: number = 0;
 
   for (const result of results) {
-    const { T, t: timestamp, ...data } = result;
-    const t = new Date(timestamp);
-    const dateString = formatDateString(t);
+    const {
+      T: ticker,
+      t: timestamp,
+      v: volume,
+      o: open,
+      c: close,
+      h: high,
+      l: low,
+      vw: volumeWeighted,
+      n: nTransactions,
+    } = result;
 
-    if (allTickersAtDate.includes(T)) {
+    const date = new Date(timestamp);
+    const dateString = formatDateString(date);
+
+    if (allTickersAtDate.includes(ticker)) {
       console.debug(
-        `Record already exists for ${T} on ${dateString}. Skipping...`
+        `Record already exists for ${ticker} on ${dateString}. Skipping...`
       );
       continue;
     }
 
     await prisma.usStockDaily.create({
       data: {
-        t,
-        ...data,
+        date,
+        volume,
+        open,
+        close,
+        high,
+        low,
+        volumeWeighted,
+        nTransactions,
         UsStocks: {
           connectOrCreate: {
-            where: { T },
-            create: { T },
+            where: { ticker: ticker },
+            create: { ticker: ticker },
           },
         },
       },
     });
 
-    console.info(`Added ${T} on ${dateString} to db`);
+    console.info(`Added ${ticker} on ${dateString} to db`);
     counter++;
   }
 

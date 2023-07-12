@@ -33,22 +33,22 @@ export async function supplementTickerDetails(
 
   const dailys = await prisma.usStockDaily.findMany({
     where: {
-      t: {
+      date: {
         gt: date,
       },
-      mc: null,
+      marketCap: null,
     },
     orderBy: {
-      t: "desc",
+      date: "desc",
     },
   });
 
   for (const daily of dailys) {
-    const { t: timestamp, usStocksT } = daily;
-    const dateString = formatDateString(timestamp);
+    const { date, ticker } = daily;
+    const dateString = formatDateString(date);
 
-    console.group(`Updating ${usStocksT} on ${dateString}`);
-    const details = await tickerDetails(polygon, usStocksT, dateString);
+    console.group(`Updating ${ticker} on ${dateString}`);
+    const details = await tickerDetails(polygon, ticker, dateString);
 
     if (!details) {
       console.warn(`No details available. Skipping...`);
@@ -70,7 +70,7 @@ export async function supplementTickerDetails(
     console.debug(`Updating name: "${name}"...`);
     await prisma.usStocks.update({
       where: {
-        T: usStocksT,
+        ticker,
       },
       data: {
         name,
@@ -88,31 +88,34 @@ export async function supplementTickerDetails(
       continue;
     }
 
-    const mc = calculateMarketCap(
+    const marketCap = calculateMarketCap(
       market_cap,
       weighted_shares_outstanding,
       share_class_shares_outstanding,
-      daily.c
+      daily.close
     );
 
     // Probably could be more elegant.
     // If calculateMarketCap is called that
     // means that atleast one of the values is available
     // and there doesn't need to be the following check.
-    if (mc === 0 || mc < 0) {
+    if (marketCap === 0 || marketCap < 0) {
       console.error(
         `Could not calculate market cap...(This shouldn't happen!)`
       );
       continue;
     }
 
-    console.debug(`Updating market cap: ${mc}`);
+    console.debug(`Updating market cap: ${marketCap}`);
     await prisma.usStockDaily.update({
       where: {
-        id: daily.id,
+        ticker_date: {
+          ticker,
+          date,
+        },
       },
       data: {
-        mc,
+        marketCap,
       },
     });
   }
