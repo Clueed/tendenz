@@ -5,7 +5,7 @@ import { allDailysOnDate, formatDateString } from "./misc.js";
 export async function updateDaily(
   results: IAggsResults[],
   prisma: PrismaClient
-): Promise<false | number> {
+): Promise<number> {
   // picking frist because all dates are the same
   const allTickersAtDate = await allDailysOnDate(results[0].t, prisma);
 

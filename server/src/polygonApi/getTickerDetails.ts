@@ -41,13 +41,15 @@ export interface ITickerDetailsResults {
 export async function tickerDetails(
   polygon: PolygonApi,
   ticker: string,
-  date: string
+  dateString: string
 ): Promise<ITickerDetailsResults | false> {
-  console.debug(`Requesting ticker details for ${ticker} on ${date}`);
+  console.debug(`Requesting ticker details`);
 
   let response: AxiosResponse;
   try {
-    response = await polygon.get(`v3/reference/tickers/${ticker}?date=${date}`);
+    response = await polygon.get(
+      `v3/reference/tickers/${ticker}?date=${dateString}`
+    );
   } catch (e) {
     if (e instanceof AxiosError) {
       if (e.response?.status === 403) {

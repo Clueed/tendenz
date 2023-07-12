@@ -8,7 +8,7 @@ export const prisma = new PrismaClient();
 export const polygon = new PolygonApi();
 
 async function main() {
-  //await reverseIncrementDailyUpdate(polygon, prisma, true);
+  await reverseIncrementDailyUpdate(polygon, prisma, true);
   await supplementTickerDetails(prisma, polygon);
 }
 

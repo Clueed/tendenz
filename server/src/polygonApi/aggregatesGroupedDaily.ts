@@ -17,7 +17,7 @@ export async function aggregatesGroupedDaily(
   polygon: PolygonApi,
   date: string
 ): Promise<false | IAggsResults[]> {
-  console.debug(`Requesting daily market for ${date}`);
+  console.debug(`Requesting daily market data`);
 
   let response: AxiosResponse;
 
@@ -28,12 +28,17 @@ export async function aggregatesGroupedDaily(
   } catch (e) {
     if (e instanceof AxiosError) {
       if (e.response?.status === 403) {
-        console.warn("Requesting todays data is forbidden.");
+        // Trading hasn't ended (probably todays date)
         return [];
       }
     }
     console.error(e);
     return false;
+  }
+
+  if (response.data.queryCount === 0 && response.data.resultsCount === 0) {
+    // Good request but not a trading day (weekend etc.)
+    return [];
   }
 
   return response.data.results as IAggsResults[];

@@ -10,6 +10,7 @@ export async function reverseIncrementDailyUpdate(
   endOnNoUpdates: boolean = false,
   startingDate: string | Date = new Date()
 ): Promise<void> {
+  console.group(`Initiating daily market update cycle`);
   let startingDateObj: Date;
 
   if (typeof startingDate === "string") {
@@ -18,14 +19,15 @@ export async function reverseIncrementDailyUpdate(
     startingDateObj = startingDate;
   }
 
-  let errorCounter = 0;
+  let errorCounter: number = 0;
 
-  let daysPast = 0;
+  let daysPast: number = 0;
 
   while (true) {
     const targetDate =
       startingDateObj.getTime() - daysPast * 24 * 60 * 60 * 1000;
     const dateString = formatDateString(targetDate);
+    console.group(`Updating ${dateString}`);
 
     const results = await aggregatesGroupedDaily(polygon, dateString);
 
@@ -44,21 +46,23 @@ export async function reverseIncrementDailyUpdate(
     }
 
     if (results.length === 0) {
-      daysPast++;
+      console.info(`No data available.`);
+      console.groupEnd();
       continue;
     }
 
     const updateCounter = await updateDaily(results, prisma);
 
-    console.info(`Updated ${updateCounter} out of ${results.length} to db`);
+    console.info(`Updated ${updateCounter} out of ${results.length} on disk`);
 
     if (endOnNoUpdates && updateCounter === 0) {
-      console.info(
-        "Ending update cycle because no change in data was detected."
-      );
+      console.groupEnd();
+      console.info("Ending update cycle. No new data available.");
       break;
     }
 
+    console.groupEnd();
     daysPast++;
   }
+  console.groupEnd();
 }
