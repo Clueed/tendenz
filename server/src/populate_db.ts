@@ -2,14 +2,14 @@ import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
 import { PolygonApi } from "./polygonApi/polygonApi.js";
 import { reverseIncrementDailyUpdate } from "./reverseIncrementDailyUpdate.js";
-import { supplementMcName } from "./supplementMcName.js";
+import { supplementTickerDetails } from "./supplementTickerDetails.js";
 
 export const prisma = new PrismaClient();
 export const polygon = new PolygonApi();
 
 async function main() {
   //await reverseIncrementDailyUpdate(polygon, prisma, true);
-  await supplementMcName();
+  await supplementTickerDetails();
 }
 
 main()

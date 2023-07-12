@@ -1,6 +1,7 @@
+import { PrismaClient } from "@prisma/client";
 import { formatDateString } from "./misc.js";
 import { tickerDetails } from "./polygonApi/getTickerDetails.js";
-import { prisma, polygon } from "./populate_db.js";
+import { PolygonApi } from "./polygonApi/polygonApi.js";
 
 export function calculateMarketCap(
   marketCap: number | undefined,
@@ -23,16 +24,19 @@ export function calculateMarketCap(
   return mc;
 }
 
-export async function supplementMcName() {
+export async function supplementTickerDetails(
+  prisma: PrismaClient,
+  polygon: PolygonApi
+) {
   let date = new Date();
-
   date.setDate(date.getDate() - 2);
+
   const dailys = await prisma.usStockDaily.findMany({
     where: {
       t: {
         gt: date,
       },
-      mc: { not: null },
+      mc: null,
     },
     orderBy: {
       t: "desc",
@@ -40,13 +44,14 @@ export async function supplementMcName() {
   });
 
   for (const daily of dailys) {
-    const { t, usStocksT } = daily;
-    const dateString = formatDateString(t);
+    const { t: timestamp, usStocksT } = daily;
+    const dateString = formatDateString(timestamp);
 
+    console.group(`Updating ${usStocksT} on ${dateString}`);
     const details = await tickerDetails(polygon, usStocksT, dateString);
 
     if (!details) {
-      console.warn("No details availablefor ${usStocksT} on ${dateString}");
+      console.warn(`No details available. Skipping...`);
       continue;
     }
 
@@ -57,17 +62,20 @@ export async function supplementMcName() {
       share_class_shares_outstanding,
     } = details;
 
-    if (name) {
-      console.debug(`Updating ${usStocksT} with name: ${name}...`);
-      await prisma.usStocks.update({
-        where: {
-          T: usStocksT,
-        },
-        data: {
-          name: name,
-        },
-      });
+    if (!name) {
+      console.info(`No name available. Skipping...`);
+      continue;
     }
+
+    console.debug(`Updating name: "${name}"...`);
+    await prisma.usStocks.update({
+      where: {
+        T: usStocksT,
+      },
+      data: {
+        name,
+      },
+    });
 
     if (
       !(
@@ -76,9 +84,7 @@ export async function supplementMcName() {
         share_class_shares_outstanding
       )
     ) {
-      console.warn(
-        `No market cap data available for ${usStocksT} on ${dateString}`
-      );
+      console.warn(`No market cap data available. Skipping...`);
       continue;
     }
 
@@ -94,13 +100,13 @@ export async function supplementMcName() {
     // means that atleast one of the values is available
     // and there doesn't need to be the following check.
     if (mc === 0 || mc < 0) {
-      console.info(
-        `Could not calculate market cap for ${usStocksT} on ${dateString}`
+      console.error(
+        `Could not calculate market cap...(This shouldn't happen!)`
       );
       continue;
     }
 
-    console.debug(`Updating market cap for ${usStocksT} on ${dateString}`);
+    console.debug(`Updating market cap: ${mc}`);
     await prisma.usStockDaily.update({
       where: {
         id: daily.id,
