@@ -1,19 +1,17 @@
 import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
-import { PolygonApi, getDailyMarket } from "./polygonApi.js";
-import { updateDaily } from "./updateDaily.js";
-import { formatDateString } from "./misc.js";
+import { PolygonApi } from "./polygonApi/polygonApi.js";
+import { reverseIncrementDailyUpdate } from "./reverseIncrementDailyUpdate.js";
 
 const prisma = new PrismaClient();
+const polygon = new PolygonApi();
 
 async function main() {
-  const polygon = new PolygonApi();
+  await reverseIncrementDailyUpdate(polygon, prisma, true);
 
-  let date = new Date();
+  /* let date = new Date();
 
-  date.setDate(date.getDate() - 2);
-
-  if (true) {
+    date.setDate(date.getDate() - 2);
     const dailys = await prisma.usStockDaily.findMany({
       where: {
         t: {
@@ -25,24 +23,10 @@ async function main() {
       },
     });
 
-    console.log("a :>> ", a);
-
     for (const d of dailys) {
     }
 
-    return;
-  }
-  let startingPoint = 0;
-
-  while (true) {
-    let today = new Date();
-    today.setDate(today.getDate() - startingPoint);
-    let date = formatDateString(today);
-
-    await updateDaily(date, polygon, prisma);
-
-    startingPoint++;
-  }
+    return;*/
 }
 
 main()

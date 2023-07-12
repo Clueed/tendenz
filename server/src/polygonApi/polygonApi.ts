@@ -1,7 +1,5 @@
-import axios, { AxiosInstance } from "axios";
-function timeout(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+import axios, { AxiosInstance, AxiosResponse } from "axios";
+
 export class PolygonApi {
   axiosInstance: AxiosInstance;
   lastRequest: number | false = false;
@@ -18,7 +16,7 @@ export class PolygonApi {
     this.requestPerMillisecond = (60 * 1000) / this.requestPerMinute;
   }
 
-  async get(url: string): Promise<any> {
+  async get(url: string): Promise<AxiosResponse<any, any>> {
     if (this.lastRequest === false) {
       this.lastRequest = Date.now();
       return this.axiosInstance.get(url);
@@ -38,19 +36,12 @@ export class PolygonApi {
   }
 }
 
-export async function getDailyMarket(polygon: PolygonApi, date: string) {
-  console.debug(`Requesting daily market for ${date}`);
-  return await polygon.get(
-    `v2/aggs/grouped/locale/us/market/stocks/${date}?adjusted=true&include_otc=false&apiKey=${process.env.POLYGON_API_KEY}`
-  );
-}
-
 export async function getTickerDetails(
   polygon: PolygonApi,
   ticker: string,
   date: string
 ) {
-  console.debug(`Requesting daily market for ${date}`);
+  console.debug(`Requesting ticker details for ${ticker} on ${date}`);
   return await polygon.get(
     `v3/reference/tickers/${ticker}?date=${date}${process.env.POLYGON_API_KEY}`
   );
