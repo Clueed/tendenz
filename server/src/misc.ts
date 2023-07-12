@@ -47,6 +47,17 @@ export async function allDailysOnDate(
   return allDailysAtDate.map((daily) => daily.usStocksT);
 }
 
-function timeout(ms: number) {
+export function timeout(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function convertDateToUTC(date: Date): Date {
+  return new Date(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+    date.getUTCHours(),
+    date.getUTCMinutes(),
+    date.getUTCSeconds()
+  );
 }

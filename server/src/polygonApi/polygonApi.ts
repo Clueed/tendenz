@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { timeout } from "../misc.js";
 
 export class PolygonApi {
   axiosInstance: AxiosInstance;
