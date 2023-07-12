@@ -17,7 +17,9 @@ export class PolygonApi {
     this.requestPerMillisecond = (60 * 1000) / this.requestPerMinute;
   }
 
-  async get(url: string): Promise<AxiosResponse<any, any>> {
+  async get(inputUrl: string): Promise<AxiosResponse<any, any>> {
+    const url = inputUrl + `&apiKey=${process.env.POLYGON_API_KEY}`;
+
     if (this.lastRequest === false) {
       this.lastRequest = Date.now();
       return this.axiosInstance.get(url);
@@ -35,15 +37,4 @@ export class PolygonApi {
     this.lastRequest = Date.now();
     return this.axiosInstance.get(url);
   }
-}
-
-export async function getTickerDetails(
-  polygon: PolygonApi,
-  ticker: string,
-  date: string
-) {
-  console.debug(`Requesting ticker details for ${ticker} on ${date}`);
-  return await polygon.get(
-    `v3/reference/tickers/${ticker}?date=${date}${process.env.POLYGON_API_KEY}`
-  );
 }

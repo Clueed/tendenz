@@ -23,6 +23,8 @@ model UsStockDaily {
   mc        Int?
   UsStocks  UsStocks @relation(fields: [usStocksT], references: [T])
   usStocksT String
+
+  @@unique([usStocksT, t])
 }
 
 model UsStocks {

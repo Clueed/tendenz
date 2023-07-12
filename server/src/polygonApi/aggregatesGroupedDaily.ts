@@ -23,7 +23,7 @@ export async function aggregatesGroupedDaily(
 
   try {
     response = await polygon.get(
-      `v2/aggs/grouped/locale/us/market/stocks/${date}?adjusted=true&include_otc=false&apiKey=${process.env.POLYGON_API_KEY}`
+      `v2/aggs/grouped/locale/us/market/stocks/${date}?adjusted=true&include_otc=false`
     );
   } catch (e) {
     if (e instanceof AxiosError) {
@@ -36,5 +36,5 @@ export async function aggregatesGroupedDaily(
     return false;
   }
 
-  return response.data.results;
+  return response.data.results as IAggsResults[];
 }

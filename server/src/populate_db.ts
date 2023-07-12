@@ -2,31 +2,14 @@ import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
 import { PolygonApi } from "./polygonApi/polygonApi.js";
 import { reverseIncrementDailyUpdate } from "./reverseIncrementDailyUpdate.js";
+import { supplementMcName } from "./supplementMcName.js";
 
-const prisma = new PrismaClient();
-const polygon = new PolygonApi();
+export const prisma = new PrismaClient();
+export const polygon = new PolygonApi();
 
 async function main() {
-  await reverseIncrementDailyUpdate(polygon, prisma, true);
-
-  /* let date = new Date();
-
-    date.setDate(date.getDate() - 2);
-    const dailys = await prisma.usStockDaily.findMany({
-      where: {
-        t: {
-          gt: date,
-        },
-      },
-      orderBy: {
-        t: "desc",
-      },
-    });
-
-    for (const d of dailys) {
-    }
-
-    return;*/
+  //await reverseIncrementDailyUpdate(polygon, prisma, true);
+  await supplementMcName();
 }
 
 main()
