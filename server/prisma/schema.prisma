@@ -21,13 +21,13 @@ model UsStockDaily {
   low            Float
   volumeWeighted Float?
   nTransactions  Int?
-  marketCap      Int?
+  marketCap      Float?
 
   @@id([ticker, date])
 }
 
 model UsStocks {
   ticker String         @id
-  name   String?
   Dailys UsStockDaily[]
+  name   String?
 }

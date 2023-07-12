@@ -9,7 +9,7 @@ export const polygon = new PolygonApi();
 
 async function main() {
   //await reverseIncrementDailyUpdate(polygon, prisma, true);
-  await supplementTickerDetails();
+  await supplementTickerDetails(prisma, polygon);
 }
 
 main()

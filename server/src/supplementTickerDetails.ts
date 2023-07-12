@@ -41,6 +41,16 @@ export async function supplementTickerDetails(
     orderBy: {
       date: "desc",
     },
+    select: {
+      date: true,
+      ticker: true,
+      close: true,
+      UsStocks: {
+        select: {
+          name: true,
+        },
+      },
+    },
   });
 
   for (const daily of dailys) {
@@ -62,20 +72,7 @@ export async function supplementTickerDetails(
       share_class_shares_outstanding,
     } = details;
 
-    if (!name) {
-      console.info(`No name available. Skipping...`);
-      continue;
-    }
-
-    console.debug(`Updating name: "${name}"...`);
-    await prisma.usStocks.update({
-      where: {
-        ticker,
-      },
-      data: {
-        name,
-      },
-    });
+    await updateName(daily.UsStocks.name, name, ticker, prisma);
 
     if (
       !(
@@ -118,5 +115,32 @@ export async function supplementTickerDetails(
         marketCap,
       },
     });
+    console.groupEnd();
   }
+}
+async function updateName(
+  dbName: string | null,
+  apiName: string | undefined,
+  ticker: string,
+  prisma: PrismaClient
+): Promise<void> {
+  if (!apiName) {
+    console.debug(`Receive no name from API. Skipping...`);
+    return;
+  }
+
+  if (apiName === dbName) {
+    console.debug(`Ticker already has name. Skipping...`);
+    return;
+  }
+
+  console.debug(`Updating name to "${apiName}"...`);
+  await prisma.usStocks.update({
+    where: {
+      ticker,
+    },
+    data: {
+      name: apiName,
+    },
+  });
 }
