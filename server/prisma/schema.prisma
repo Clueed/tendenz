@@ -28,6 +28,15 @@ model UsStockDaily {
 
 model UsStocks {
   ticker String         @id
-  Dailys UsStockDaily[]
+  dailys UsStockDaily[]
   name   String?
+}
+
+model SigmaUsStocksYesterday {
+  ticker          String  @id
+  name            String?
+  sigma           Float
+  lastClose       Float
+  secondLastClose Float
+  weight          Float
 }
