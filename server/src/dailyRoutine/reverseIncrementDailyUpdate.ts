@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import { PolygonApi } from "./polygonApi/polygonApi.js";
+import { PolygonApi } from "../polygonApi/polygonApi.js";
 import { updateDaily } from "./updateDaily.js";
-import { formatDateString } from "./misc.js";
-import { aggregatesGroupedDaily } from "./polygonApi/aggregatesGroupedDaily.js";
+import { formatDateString } from "../misc.js";
+import { aggregatesGroupedDaily } from "../polygonApi/aggregatesGroupedDaily.js";
 
 interface UpdateCounter {
   [key: string]: number;

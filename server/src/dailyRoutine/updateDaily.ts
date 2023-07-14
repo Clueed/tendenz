@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { IAggsResults } from "./polygonApi/aggregatesGroupedDaily.js";
-import { allDailysOnDate, formatDateString } from "./misc.js";
+import { IAggsResults } from "../polygonApi/aggregatesGroupedDaily.js";
+import { allDailysOnDate, formatDateString } from "../misc.js";
 
 export async function updateDaily(
   results: IAggsResults[],

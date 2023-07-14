@@ -1,5 +1,5 @@
-import { timeout } from "./misc.js";
-import { polygon, prisma } from "./populate_db.js";
+import { timeout } from "../misc.js";
+import { polygon, prisma } from "../populate_db.js";
 import { reverseIncrementDailyUpdate } from "./reverseIncrementDailyUpdate.js";
 
 export async function dailyUpdateRoutine() {

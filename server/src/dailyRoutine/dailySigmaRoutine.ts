@@ -1,6 +1,6 @@
 import { calcSigmas } from "./calcSigmas.js";
-import { formatDateString } from "./misc.js";
-import { prisma } from "./populate_db.js";
+import { formatDateString } from "../misc.js";
+import { prisma } from "../populate_db.js";
 
 export async function dailySigmaRoutine() {
   const mostRecentStock = await prisma.usStockDaily.findMany({
