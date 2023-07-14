@@ -102,6 +102,7 @@ export async function calcSigmas(prisma: PrismaClient) {
     let sigmaRow: Prisma.SigmaUsStocksYesterdayCreateInput = {
       ticker: stock.ticker,
       sigma: lastSigma,
+      date: targetDate,
       weight,
       lastClose: closes[0],
       secondLastClose: closes[1],

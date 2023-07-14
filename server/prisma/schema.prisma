@@ -33,7 +33,8 @@ model UsStocks {
 }
 
 model SigmaUsStocksYesterday {
-  ticker          String  @id
+  ticker          String   @id
+  date            DateTime
   name            String?
   sigma           Float
   lastClose       Float
