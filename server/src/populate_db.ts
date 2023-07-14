@@ -4,13 +4,15 @@ import { PolygonApi } from "./polygonApi/polygonApi.js";
 import { reverseIncrementDailyUpdate } from "./reverseIncrementDailyUpdate.js";
 import { supplementTickerDetails } from "./supplementTickerDetails.js";
 import { dailySigmaRoutine } from "./dailySigmaRoutine.js";
+import { dailyUpdateRoutine } from "./dailyUpdateRoutine.js";
 
 export const prisma = new PrismaClient();
 export const polygon = new PolygonApi();
 
 async function main() {
-  //await reverseIncrementDailyUpdate(polygon, prisma, true);
-  //await supplementTickerDetails(prisma, polygon);
+  console.group(`Initiating daily market update cycle`);
+  await dailyUpdateRoutine();
+  console.groupEnd();
 
   console.group("Checking sigma staleness...");
   await dailySigmaRoutine();

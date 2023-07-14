@@ -4,13 +4,16 @@ import { updateDaily } from "./updateDaily.js";
 import { formatDateString } from "./misc.js";
 import { aggregatesGroupedDaily } from "./polygonApi/aggregatesGroupedDaily.js";
 
+interface UpdateCounter {
+  [key: string]: number;
+}
+
 export async function reverseIncrementDailyUpdate(
   polygon: PolygonApi,
   prisma: PrismaClient,
-  endOnNoUpdates: boolean = false,
+  endOnNoUpdates: boolean = true,
   startingDate: string | Date = new Date()
-): Promise<void> {
-  console.group(`Initiating daily market update cycle`);
+): Promise<UpdateCounter> {
   let startingDateObj: Date;
 
   if (typeof startingDate === "string") {
@@ -23,6 +26,8 @@ export async function reverseIncrementDailyUpdate(
 
   let daysPast: number = 0;
 
+  let updateCounter: UpdateCounter = {};
+
   while (true) {
     const targetDate =
       startingDateObj.getTime() - daysPast * 24 * 60 * 60 * 1000;
@@ -31,7 +36,7 @@ export async function reverseIncrementDailyUpdate(
 
     const results = await aggregatesGroupedDaily(polygon, dateString);
 
-    if (!results) {
+    if (results === false) {
       errorCounter++;
 
       if (errorCounter === 5) {
@@ -45,24 +50,20 @@ export async function reverseIncrementDailyUpdate(
       continue;
     }
 
-    if (results.length === 0) {
+    if (results.length > 0) {
+      updateCounter[dateString] = await updateDaily(results, prisma);
+
+      if (endOnNoUpdates && updateCounter[dateString] === 0) {
+        console.info("Ending update cycle. No new data available.");
+        break;
+      }
+    } else {
       console.info(`No data available.`);
-      console.groupEnd();
-      continue;
-    }
-
-    const updateCounter = await updateDaily(results, prisma);
-
-    console.info(`Updated ${updateCounter} out of ${results.length} on disk`);
-
-    if (endOnNoUpdates && updateCounter === 0) {
-      console.groupEnd();
-      console.info("Ending update cycle. No new data available.");
-      break;
     }
 
     console.groupEnd();
     daysPast++;
   }
-  console.groupEnd();
+
+  return updateCounter;
 }

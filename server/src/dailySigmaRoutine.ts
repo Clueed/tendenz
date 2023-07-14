@@ -46,5 +46,6 @@ export async function dailySigmaRoutine() {
 
   console.info(`Initiating sigma recalculation...`);
   await calcSigmas(prisma);
+  console.info(`Sigma recalculation complete...`);
   return;
 }
