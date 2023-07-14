@@ -34,7 +34,7 @@ export async function dailySigmaRoutine() {
       `Most recent sigma is ${formatDateString(mostRecentSigmaDailyDate)}`
     );
 
-    if (mostRecentSigmaDailyDate === mostRecentDailyDate) {
+    if (mostRecentSigmaDailyDate.getTime() === mostRecentDailyDate.getTime()) {
       console.info(`No sigma staleness detected. Skipping...`);
       return;
     }
