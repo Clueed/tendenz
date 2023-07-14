@@ -1,6 +1,8 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 
 export async function calcSigmas(prisma: PrismaClient) {
+  await prisma.sigmaUsStocksYesterday.deleteMany();
+
   const mostRecentStock = await prisma.usStockDaily.findMany({
     orderBy: {
       date: "desc",
@@ -15,12 +17,22 @@ export async function calcSigmas(prisma: PrismaClient) {
 
   const stocks = await prisma.usStocks.findMany({
     where: {
-      dailys: {
-        some: {
-          date: targetDate,
-          marketCap: { not: null },
+      AND: [
+        {
+          dailys: {
+            some: {
+              date: targetDate,
+            },
+          },
         },
-      },
+        {
+          dailys: {
+            some: {
+              marketCap: { not: null },
+            },
+          },
+        },
+      ],
     },
     select: {
       ticker: true,
@@ -50,8 +62,6 @@ export async function calcSigmas(prisma: PrismaClient) {
   ) as number[];
 
   const marketSize = marketCaps.reduce((a, b) => a + b);
-
-  await prisma.sigmaUsStocksYesterday.deleteMany();
 
   for (const i in stocks) {
     const stock = stocks[i];
