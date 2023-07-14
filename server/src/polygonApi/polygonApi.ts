@@ -17,8 +17,23 @@ export class PolygonApi {
     this.requestPerMillisecond = (60 * 1000) / this.requestPerMinute;
   }
 
-  async get(inputUrl: string): Promise<AxiosResponse<any, any>> {
-    const url = inputUrl + `&apiKey=${process.env.POLYGON_API_KEY}`;
+  async get(
+    inputUrl: string,
+    apiKeyNumber: 1 | 2 = 1
+  ): Promise<AxiosResponse<any, any>> {
+    let apiKey: string | undefined;
+
+    if (apiKeyNumber === 1) {
+      apiKey = process.env.POLYGON_API_KEY1;
+    } else if (apiKeyNumber === 2) {
+      apiKey = process.env.POLYGON_API_KEY2;
+    }
+
+    if (!apiKey) {
+      throw new Error("Polygon API key not found");
+    }
+
+    const url = inputUrl + `&apiKey=${apiKey}`;
 
     if (this.lastRequest === false) {
       this.lastRequest = Date.now();

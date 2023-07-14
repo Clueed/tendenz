@@ -24,6 +24,33 @@ export function calculateMarketCap(
   return mc;
 }
 
+async function updateName(
+  dbName: string | null,
+  apiName: string | undefined,
+  ticker: string,
+  prisma: PrismaClient
+): Promise<void> {
+  if (!apiName) {
+    console.debug(`Receive no name from API. Skipping...`);
+    return;
+  }
+
+  if (apiName === dbName) {
+    console.debug(`Ticker already has name. Skipping...`);
+    return;
+  }
+
+  console.debug(`Updating name to "${apiName}"...`);
+  await prisma.usStocks.update({
+    where: {
+      ticker,
+    },
+    data: {
+      name: apiName,
+    },
+  });
+}
+
 export async function supplementTickerDetails(
   prisma: PrismaClient,
   polygon: PolygonApi
@@ -117,30 +144,4 @@ export async function supplementTickerDetails(
     });
     console.groupEnd();
   }
-}
-async function updateName(
-  dbName: string | null,
-  apiName: string | undefined,
-  ticker: string,
-  prisma: PrismaClient
-): Promise<void> {
-  if (!apiName) {
-    console.debug(`Receive no name from API. Skipping...`);
-    return;
-  }
-
-  if (apiName === dbName) {
-    console.debug(`Ticker already has name. Skipping...`);
-    return;
-  }
-
-  console.debug(`Updating name to "${apiName}"...`);
-  await prisma.usStocks.update({
-    where: {
-      ticker,
-    },
-    data: {
-      name: apiName,
-    },
-  });
 }

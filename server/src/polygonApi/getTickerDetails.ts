@@ -48,7 +48,8 @@ export async function tickerDetails(
   let response: AxiosResponse;
   try {
     response = await polygon.get(
-      `v3/reference/tickers/${ticker}?date=${dateString}`
+      `v3/reference/tickers/${ticker}?date=${dateString}`,
+      2
     );
   } catch (e) {
     if (e instanceof AxiosError) {
