@@ -27,9 +27,23 @@ model UsStockDaily {
 }
 
 model UsStocks {
-  ticker String         @id
-  dailys UsStockDaily[]
-  name   String?
+  ticker          String         @id
+  dailys          UsStockDaily[]
+  name            String?
+  active          Boolean?
+  cik             Int?
+  compositeFigi   String?
+  currencyName    String?
+  description     String?
+  locale          String?
+  market          String?
+  primaryExchange String?
+  shareClassFigi  String?
+  sicCode         Int?
+  sicDescription  String?
+  tickerRoot      String?
+  type            String?
+  sourceFeed      String?
 }
 
 model SigmaUsStocksYesterday {
