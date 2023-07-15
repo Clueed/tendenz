@@ -9,8 +9,6 @@ interface UpdateCounter {
 }
 
 export async function reverseIncrementDailyUpdate(
-  polygon: PolygonApi,
-  prisma: PrismaClient,
   endOnNoUpdates: boolean = true,
   startingDate: string | Date = new Date()
 ): Promise<UpdateCounter> {
@@ -34,7 +32,7 @@ export async function reverseIncrementDailyUpdate(
     const dateString = formatDateString(targetDate);
     console.group(`Updating ${dateString}`);
 
-    const results = await aggregatesGroupedDaily(polygon, dateString);
+    const results = await aggregatesGroupedDaily(dateString);
 
     if (results === false) {
       errorCounter++;
@@ -51,7 +49,7 @@ export async function reverseIncrementDailyUpdate(
     }
 
     if (results.length > 0) {
-      updateCounter[dateString] = await updateDaily(results, prisma);
+      updateCounter[dateString] = await updateDaily(results);
 
       if (endOnNoUpdates && updateCounter[dateString] === 0) {
         console.info("Ending update cycle. No new data available.");

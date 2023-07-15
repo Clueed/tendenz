@@ -1,14 +1,9 @@
 import { timeout } from "../misc.js";
-import { polygon, prisma } from "../populate_db.js";
 import { reverseIncrementDailyUpdate } from "./reverseIncrementDailyUpdate.js";
 
 export async function dailyUpdateRoutine() {
   while (true) {
-    const updateCounter = await reverseIncrementDailyUpdate(
-      polygon,
-      prisma,
-      true
-    );
+    const updateCounter = await reverseIncrementDailyUpdate(true);
 
     if (Object.keys(updateCounter).length === 0) {
       return false;

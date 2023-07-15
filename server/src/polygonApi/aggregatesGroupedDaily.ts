@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from "axios";
-import { PolygonApi } from "./polygonApi.js";
+import { polygon } from "../globals.js";
 
 export interface IAggsResults {
   T: string;
@@ -14,7 +14,6 @@ export interface IAggsResults {
 }
 
 export async function aggregatesGroupedDaily(
-  polygon: PolygonApi,
   date: string
 ): Promise<false | IAggsResults[]> {
   console.debug(`Requesting daily market data`);

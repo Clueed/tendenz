@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "./globals.js";
 
 export function DateStringToDate(dateString: string): Date {
   return new Date(Date.parse(dateString));
@@ -27,8 +27,7 @@ export function formatDateString(inputDate: Date | number): string {
 }
 
 export async function allDailysOnDate(
-  input_date: number | Date,
-  prisma: PrismaClient
+  input_date: number | Date
 ): Promise<string[]> {
   let date: Date;
 
