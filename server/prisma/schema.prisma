@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model UsStockDaily {
+  UsStocks       UsStocks @relation(fields: [ticker], references: [ticker])
+  ticker         String
+  date           DateTime
+  volume         Float
+  open           Float
+  close          Float
+  high           Float
+  low            Float
+  volumeWeighted Float?
+  nTransactions  Int?
+  marketCap      Float?
+
+  @@id([ticker, date])
+}
+
+model UsStocks {
+  ticker          String         @id
+  dailys          UsStockDaily[]
+  name            String?
+  active          Boolean?
+  cik             Int?
+  compositeFigi   String?
+  currencyName    String?
+  description     String?
+  locale          String?
+  market          String?
+  primaryExchange String?
+  shareClassFigi  String?
+  sicCode         Int?
+  sicDescription  String?
+  tickerRoot      String?
+  type            String?
+  sourceFeed      String?
+}
+
+model SigmaUsStocksYesterday {
+  ticker          String   @id
+  date            DateTime
+  name            String?
+  sigma           Float
+  lastClose       Float
+  secondLastClose Float
+  weight          Float
+}
