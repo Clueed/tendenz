@@ -21,7 +21,17 @@ fastify.get("/", async (request, reply) => {
 });
 
 const start = async () => {
-  async () => {
+  try {
+    await fastify.listen({ port: 3000 });
+  } catch (err) {
+    fastify.log.error(err);
+    await prisma.$disconnect();
+    process.exit(1);
+  }
+};
+
+async function popDB() {
+  try {
     console.group(`Initiating daily market update cycle`);
     await dailyUpdateRoutine();
     console.groupEnd();
@@ -31,17 +41,11 @@ const start = async () => {
     console.groupEnd();
 
     await supplementTickerDetails();
-  };
-
-  try {
-    await fastify.listen({ port: 3000 });
-  } catch (err) {
-    fastify.log.error(err);
-    await prisma.$disconnect();
-    process.exit(1);
+  } catch (e) {
+    console.error(e);
   }
-
   await prisma.$disconnect();
-};
+}
 
 start();
+popDB();
