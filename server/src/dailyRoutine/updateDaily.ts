@@ -1,11 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { IAggsResults } from "../polygonApi/aggregatesGroupedDaily.js";
 import { allDailysOnDate, formatDateString } from "../misc.js";
+import { prisma } from "../globals.js";
 
-export async function updateDaily(
-  results: IAggsResults[],
-  prisma: PrismaClient
-): Promise<number> {
+export async function updateDaily(results: IAggsResults[]): Promise<number> {
   // picking frist because all dates are the same
   const allTickersAtDate = await allDailysOnDate(results[0].t, prisma);
 

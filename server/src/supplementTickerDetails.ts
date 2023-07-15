@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { formatDateString } from "./misc.js";
 import { tickerDetails } from "./polygonApi/getTickerDetails.js";
-import { PolygonApi } from "./polygonApi/polygonApi.js";
-import { polygon, prisma } from "./populate_db.js";
+import { prisma } from "./globals.js";
 
 export function calculateMarketCap(
   marketCap: number | undefined,
@@ -28,8 +26,7 @@ export function calculateMarketCap(
 async function updateName(
   dbName: string | null,
   apiName: string | undefined,
-  ticker: string,
-  prisma: PrismaClient
+  ticker: string
 ): Promise<void> {
   if (!apiName) {
     console.debug(`Receive no name from API. Skipping...`);
@@ -87,7 +84,7 @@ export async function supplementTickerDetails() {
     const dateString = formatDateString(date);
 
     console.group(`Updating ${ticker} on ${dateString}`);
-    const details = await tickerDetails(polygon, ticker, dateString);
+    const details = await tickerDetails(ticker, dateString);
 
     if (!details) {
       console.warn(`No details available. Skipping...`);
@@ -101,7 +98,7 @@ export async function supplementTickerDetails() {
       share_class_shares_outstanding,
     } = details;
 
-    await updateName(stock.name, name, ticker, prisma);
+    await updateName(stock.name, name, ticker);
 
     if (
       !(

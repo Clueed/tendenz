@@ -1,6 +1,7 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "../globals.js";
 
-export async function calcSigmas(prisma: PrismaClient) {
+export async function calcSigmas() {
   await prisma.sigmaUsStocksYesterday.deleteMany();
 
   const mostRecentStock = await prisma.usStockDaily.findMany({

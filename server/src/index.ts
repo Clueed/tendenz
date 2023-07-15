@@ -1,15 +1,15 @@
 // ESM
-import Fastify, { FastifyInstance, RouteShorthandOptions } from "fastify";
-import { Server, IncomingMessage, ServerResponse } from "http";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import Fastify from "fastify";
+import { prisma } from "./globals.js";
+import { dailySigmaRoutine } from "./dailyRoutine/dailySigmaRoutine.js";
+import { dailyUpdateRoutine } from "./dailyRoutine/dailyUpdateRoutine.js";
+import { supplementTickerDetails } from "./supplementTickerDetails.js";
 
 const fastify = Fastify({
   logger: true,
 });
 
-fastify.get("/stocks/us/yesterday", async (request, reply) => {
+fastify.get("/", async (request, reply) => {
   const test = await prisma.sigmaUsStocksYesterday.findMany({
     orderBy: {
       weight: "desc",
@@ -20,16 +20,28 @@ fastify.get("/stocks/us/yesterday", async (request, reply) => {
   return test;
 });
 
-/**
- * Run the server!
- */
 const start = async () => {
+  async () => {
+    console.group(`Initiating daily market update cycle`);
+    await dailyUpdateRoutine();
+    console.groupEnd();
+
+    console.group("Checking sigma staleness...");
+    await dailySigmaRoutine();
+    console.groupEnd();
+
+    await supplementTickerDetails();
+  };
+
   try {
     await fastify.listen({ port: 3000 });
   } catch (err) {
     fastify.log.error(err);
+    await prisma.$disconnect();
     process.exit(1);
   }
+
+  await prisma.$disconnect();
 };
 
 start();

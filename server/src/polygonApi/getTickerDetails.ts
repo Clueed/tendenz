@@ -1,5 +1,6 @@
 import { AxiosError, AxiosResponse } from "axios";
 import { PolygonApi } from "./polygonApi.js";
+import { polygon } from "../globals.js";
 
 export interface ITickerDetailsResults {
   active?: boolean;
@@ -39,7 +40,6 @@ export interface ITickerDetailsResults {
 }
 
 export async function tickerDetails(
-  polygon: PolygonApi,
   ticker: string,
   dateString: string
 ): Promise<ITickerDetailsResults | false> {
