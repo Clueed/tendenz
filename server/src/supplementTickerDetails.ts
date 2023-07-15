@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { formatDateString } from "./misc.js";
 import { tickerDetails } from "./polygonApi/getTickerDetails.js";
 import { PolygonApi } from "./polygonApi/polygonApi.js";
+import { polygon, prisma } from "./populate_db.js";
 
 export function calculateMarketCap(
   marketCap: number | undefined,
@@ -51,37 +52,38 @@ async function updateName(
   });
 }
 
-export async function supplementTickerDetails(
-  prisma: PrismaClient,
-  polygon: PolygonApi
-) {
+/**
+ * Mainly supplements stocks with marketcap data but also with name and other ticker details.
+ * Looks at which stocks do not have a market cap in the last 7 days and updates the most recent marketcap available with an api call each.
+ *
+ */
+export async function supplementTickerDetails() {
   let date = new Date();
-  date.setDate(date.getDate() - 2);
+  date.setDate(date.getDate() - 7);
 
-  const dailys = await prisma.usStockDaily.findMany({
+  const stocksWithoutMarketCap = await prisma.usStocks.findMany({
     where: {
-      date: {
-        gt: date,
-      },
-      marketCap: null,
-    },
-    orderBy: {
-      date: "desc",
-    },
-    select: {
-      date: true,
-      ticker: true,
-      close: true,
-      UsStocks: {
-        select: {
-          name: true,
+      dailys: {
+        none: {
+          marketCap: { not: null },
+          date: {
+            gt: date,
+          },
         },
       },
     },
   });
 
-  for (const daily of dailys) {
-    const { date, ticker } = daily;
+  for (const stock of stocksWithoutMarketCap) {
+    const mostRecentDaily = await prisma.usStockDaily.findMany({
+      where: {
+        ticker: stock.ticker,
+      },
+      orderBy: { date: "desc" },
+      take: 1,
+    });
+
+    const { date, ticker, close } = mostRecentDaily[0];
     const dateString = formatDateString(date);
 
     console.group(`Updating ${ticker} on ${dateString}`);
@@ -99,7 +101,7 @@ export async function supplementTickerDetails(
       share_class_shares_outstanding,
     } = details;
 
-    await updateName(daily.UsStocks.name, name, ticker, prisma);
+    await updateName(stock.name, name, ticker, prisma);
 
     if (
       !(
@@ -116,7 +118,7 @@ export async function supplementTickerDetails(
       market_cap,
       weighted_shares_outstanding,
       share_class_shares_outstanding,
-      daily.close
+      close
     );
 
     // Probably could be more elegant.
