@@ -1,6 +1,8 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 import { timeout } from "../misc.js";
 
+// TODO: handle retry on error - especially rate limit
+
 export class PolygonApi {
   axiosInstance: AxiosInstance;
   lastRequest: number | false = false;

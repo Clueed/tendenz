@@ -8,6 +8,20 @@ interface UpdateStatus {
   date: string;
 }
 
+function consecutiveZeros(array: number[]) {
+  let zeros = 0;
+
+  for (const i of array) {
+    if (i === 0) {
+      zeros++;
+    } else {
+      break;
+    }
+  }
+
+  return zeros;
+}
+
 export async function reverseIncrementDailyUpdate(
   endOnNoUpdates: boolean = true
 ): Promise<UpdateStatus[]> {
@@ -28,7 +42,7 @@ export async function reverseIncrementDailyUpdate(
     if (results.length > 0) {
       updateCount = await updateDaily(results);
     } else {
-      console.info("Not data available.");
+      console.info("No data available.");
       updateCount = 0;
     }
 
@@ -54,18 +68,4 @@ export async function reverseIncrementDailyUpdate(
   }
 
   return stats;
-}
-
-function consecutiveZeros(array: number[]) {
-  let zeros = 0;
-
-  for (const i of array) {
-    if (i === 0) {
-      zeros++;
-    } else {
-      break;
-    }
-  }
-
-  return zeros;
 }

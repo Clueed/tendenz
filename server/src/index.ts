@@ -1,11 +1,9 @@
-// ESM
+import Bree from "bree";
 import Fastify from "fastify";
-import { prisma } from "./globals.js";
 import { dailySigmaRoutine } from "./dailyRoutine/dailySigmaRoutine.js";
-import { dailyUpdateRoutine } from "./dailyRoutine/dailyUpdateRoutine.js";
-import { supplementTickerDetails } from "./supplementTickerDetails.js";
-
-console.log(process.env.NODE_ENV);
+import { reverseIncrementDailyUpdate } from "./dailyRoutine/reverseIncrementDailyUpdate.js";
+import { supplementTickerDetails } from "./dailyRoutine/supplementTickerDetails.js";
+import { prisma } from "./globals.js";
 
 if (process.env.NODE_ENV === "production") {
   console.debug = function () {};
@@ -36,19 +34,20 @@ const start = async () => {
   }
 };
 
+const bree = new Bree({
+  jobs: [
+    {
+      name: "updateMarket",
+      cron: "3 * * * *",
+    },
+  ],
+});
+
 async function popDB() {
   try {
-    console.group(`Initiating daily market update cycle`);
-    await dailyUpdateRoutine(0);
-    console.groupEnd();
-
-    //console.group("Checking sigma staleness...");
-    //await dailySigmaRoutine();
-    //console.groupEnd();
-
-    console.group(`Initiating data supplement cycle`);
-    await supplementTickerDetails();
-    console.groupEnd();
+    await dailySigmaRoutine();
+    supplementTickerDetails();
+    await bree.start();
   } catch (e) {
     console.error(e);
   }

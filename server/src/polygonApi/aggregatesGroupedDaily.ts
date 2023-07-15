@@ -13,9 +13,15 @@ export interface IAggsResults {
   vw?: number;
 }
 
+/**
+ * Retrieves aggregated daily market data for a specific date.
+ *
+ * @param {string} date - The date for which to retrieve the data in the format "YYYY-MM-DD".
+ * @return {Promise<false | IAggsResults[]>} - A promise that resolves to an array of aggregated results or false if an error occurred.
+ */
 export async function aggregatesGroupedDaily(
   date: string
-): Promise<false | IAggsResults[]> {
+): Promise<IAggsResults[]> {
   console.debug(`Requesting daily market data`);
 
   let response: AxiosResponse;
@@ -32,7 +38,7 @@ export async function aggregatesGroupedDaily(
       }
     }
     console.error(e);
-    return false;
+    return [];
   }
 
   if (response.data.queryCount === 0 && response.data.resultsCount === 0) {
