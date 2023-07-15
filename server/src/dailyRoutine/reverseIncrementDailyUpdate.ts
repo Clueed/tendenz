@@ -63,6 +63,7 @@ export async function reverseIncrementDailyUpdate(
 
     const updatedDays = stats.reverse().map((day) => day.updated);
     if (endOnNoUpdates && consecutiveZeros(updatedDays) >= 5) {
+      // covers weekend + holiday + buffer
       break;
     }
   }

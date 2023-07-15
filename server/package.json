@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node --watch --loader ts-node/esm --inspect --trace-uncaught ./src/index.ts",
     "dev-prisma-migrate": "prisma migrate dev --name init",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --sourceMap false"
   },
   "keywords": [],
   "author": "",

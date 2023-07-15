@@ -28,7 +28,7 @@ RUN npx prisma generate
 COPY --link src/ ./src
 COPY --link tsconfig*.json ./
 RUN npm install typescript -g
-RUN npx tsc
+RUN npm run build
 
 # Copy application code
 COPY --link . .
