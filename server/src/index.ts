@@ -5,6 +5,10 @@ import { dailySigmaRoutine } from "./dailyRoutine/dailySigmaRoutine.js";
 import { dailyUpdateRoutine } from "./dailyRoutine/dailyUpdateRoutine.js";
 import { supplementTickerDetails } from "./supplementTickerDetails.js";
 
+if (process.env.NODE_ENV === "production") {
+  console.debug = function () {};
+}
+
 const fastify = Fastify({
   logger: true,
 });
@@ -33,7 +37,7 @@ const start = async () => {
 async function popDB() {
   try {
     console.group(`Initiating daily market update cycle`);
-    await dailyUpdateRoutine();
+    await dailyUpdateRoutine(0);
     console.groupEnd();
 
     console.group("Checking sigma staleness...");

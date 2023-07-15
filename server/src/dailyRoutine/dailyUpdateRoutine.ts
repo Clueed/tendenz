@@ -1,7 +1,7 @@
 import { timeout } from "../misc.js";
 import { reverseIncrementDailyUpdate } from "./reverseIncrementDailyUpdate.js";
 
-export async function dailyUpdateRoutine() {
+export async function dailyUpdateRoutine(retryHours: number = 0) {
   while (true) {
     const updateCounter = await reverseIncrementDailyUpdate(true);
 
@@ -20,7 +20,11 @@ export async function dailyUpdateRoutine() {
       return true;
     }
 
-    console.info(`Trying again in 1 hour...`);
-    await timeout(1000 * 60 * 60);
+    return false;
+
+    if (retryHours > 0) {
+      console.info(`Trying again in ${retryHours} hour...`);
+      await timeout(1000 * 60 * 60 * retryHours);
+    }
   }
 }

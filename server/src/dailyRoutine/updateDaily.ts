@@ -50,7 +50,7 @@ export async function updateDaily(results: IAggsResults[]): Promise<number> {
       },
     });
 
-    console.info(`Added ${ticker} on ${dateString} to db`);
+    console.debug(`Added ${ticker} on ${dateString} to db`);
     counter++;
   }
 

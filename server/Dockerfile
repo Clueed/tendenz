@@ -39,6 +39,9 @@ ENV NODE_ENV=production
 # Final stage for app image
 FROM base
 
+# Set production environment
+ENV NODE_ENV=production
+
 # Install packages needed for deployment
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y openssl && \
