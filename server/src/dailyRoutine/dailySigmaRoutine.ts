@@ -13,6 +13,10 @@ export async function dailySigmaRoutine() {
     },
   });
 
+  if (mostRecentStock.length === 0) {
+    return;
+  }
+
   const mostRecentDailyDate = mostRecentStock[0].date;
   console.debug(
     `Most recent daily data is ${formatDateString(mostRecentDailyDate)}`

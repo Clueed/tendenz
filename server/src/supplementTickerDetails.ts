@@ -1,4 +1,4 @@
-import { formatDateString } from "./misc.js";
+import { formatDateString, timeout } from "./misc.js";
 import { tickerDetails } from "./polygonApi/getTickerDetails.js";
 import { prisma } from "./globals.js";
 
@@ -70,6 +70,11 @@ export async function supplementTickerDetails() {
       },
     },
   });
+
+  if (stocksWithoutMarketCap.length === 0) {
+    console.info("No stocks without market cap. Skipping...");
+    return false;
+  }
 
   for (const stock of stocksWithoutMarketCap) {
     const mostRecentDaily = await prisma.usStockDaily.findMany({

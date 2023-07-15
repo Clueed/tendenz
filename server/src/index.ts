@@ -5,6 +5,8 @@ import { dailySigmaRoutine } from "./dailyRoutine/dailySigmaRoutine.js";
 import { dailyUpdateRoutine } from "./dailyRoutine/dailyUpdateRoutine.js";
 import { supplementTickerDetails } from "./supplementTickerDetails.js";
 
+console.log(process.env.NODE_ENV);
+
 if (process.env.NODE_ENV === "production") {
   console.debug = function () {};
 }
@@ -40,11 +42,13 @@ async function popDB() {
     await dailyUpdateRoutine(0);
     console.groupEnd();
 
-    console.group("Checking sigma staleness...");
-    await dailySigmaRoutine();
-    console.groupEnd();
+    //console.group("Checking sigma staleness...");
+    //await dailySigmaRoutine();
+    //console.groupEnd();
 
+    console.group(`Initiating data supplement cycle`);
     await supplementTickerDetails();
+    console.groupEnd();
   } catch (e) {
     console.error(e);
   }
