@@ -1,5 +1,3 @@
-import React from "react";
-import "./MainBox.css";
 import { AiOutlineLink } from "react-icons/ai";
 
 // Standartabweichung, Ticker + Name, prozentuale Veränderung, Link zu Yahoo Finance
@@ -62,7 +60,7 @@ const colorStandartDeviation = (a: number) => {
 const MainBox = () => {
   return (
     <div className="max-w-md w-[90vw] m-3">
-      <div className="rounded-md grid-container bg-[#fff] py-3 px-4 gap-x-1.5 gap-y-3">
+      <div className="rounded-md grid grid-cols-[0.3fr_0.5fr_1fr_0.4fr_0.2fr] bg-[#fff] py-3 px-4 gap-x-1.5 gap-y-3 shadow-md">
         {sortedData.map((item) => (
           <>
             <div
@@ -72,8 +70,8 @@ const MainBox = () => {
             >
               {item.standardDeviation}σ
             </div>
-            <div className="italic pl-5">${item.ticker}</div>
-            <div className="pl-3">{item.name}</div>
+            <div className="pl-5 italic text-slate-9">${item.ticker}</div>
+            <div className="pl-3 text-slate-9">{item.name}</div>
             <div
               className={
                 "text-right pr-7 " +
@@ -83,11 +81,11 @@ const MainBox = () => {
               {item.change}%
             </div>
             <a
-              className="link"
+              className="my-auto text-slate-9"
               href={"https://de.finance.yahoo.com/quote/" + item.ticker}
               target="_blank"
             >
-              <AiOutlineLink></AiOutlineLink>
+              <AiOutlineLink />
             </a>
           </>
         ))}
