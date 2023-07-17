@@ -1,13 +1,18 @@
 import React from "react";
+import { AiFillGithub, AiFillQuestionCircle } from "react-icons/ai";
+import "./NavigationBar.css";
 
 const NavigationBar = () => {
   return (
-    <div className="flex text-[#fff] justify-center">
-      <div className="max-w-md w-screen flex justify-end gap-5">
-        <div>Test 1</div>
-        <div>Test 2</div>
-        <div>Test 3</div>
-        <div>Test 4</div>
+    <div className="Check">
+      <div className="FlexBox">
+        <div>
+          <AiFillGithub className="GitHub"></AiFillGithub>
+        </div>
+        <div className="Tendenz">TENDENZ</div>
+        <div>
+          <AiFillQuestionCircle className="Question"></AiFillQuestionCircle>
+        </div>
       </div>
     </div>
   );

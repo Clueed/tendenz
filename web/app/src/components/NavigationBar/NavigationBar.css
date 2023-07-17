@@ -1,0 +1,28 @@
+
+.FlexBox {
+    display: flex;
+    flex-direction: row;
+    height: 10vh;
+}
+
+.GitHub {
+    font-size: 2rem;
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+}
+
+.Tendenz {
+    font-size: 2rem;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.Question {
+    font-size: 2rem;
+    flex: 1;
+    display: flex;
+    margin-top: 0.5rem;
+}
