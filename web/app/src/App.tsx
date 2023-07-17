@@ -24,6 +24,11 @@ function App() {
             <div>
               <div className="Index">US Stocks</div>
             </div>
+            <div className="MainBox">
+              <div>
+                <MainBox></MainBox>
+              </div>
+            </div>
           </div>
         </div>
       </div>

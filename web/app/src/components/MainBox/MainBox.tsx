@@ -59,10 +59,9 @@ const colorStandartDeviation = (a: number) => {
   return "text-purple-9";
 };
 
-const MainBox = ({ children }: Props) => {
+const MainBox = () => {
   return (
     <div className="max-w-md w-[90vw] m-3">
-      <h2 className="text-[#fff] text-2xl mb-2 font-bold">{children}</h2>
       <div className="rounded-md grid-container bg-[#fff] py-3 px-4 gap-x-1.5 gap-y-3">
         {sortedData.map((item) => (
           <>
@@ -73,7 +72,7 @@ const MainBox = ({ children }: Props) => {
             >
               {item.standardDeviation}σ
             </div>
-            <div className="italic pl-5">{item.ticker}</div>
+            <div className="italic pl-5">${item.ticker}</div>
             <div className="pl-3">{item.name}</div>
             <div
               className={
