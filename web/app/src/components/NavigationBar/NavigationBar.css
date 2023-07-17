@@ -3,10 +3,11 @@
     display: flex;
     flex-direction: row;
     height: 10vh;
+    margin-bottom: 5vh;
 }
 
 .GitHub {
-    font-size: 2rem;
+    font-size: 1.5rem;
     flex: 1;
     display: flex;
     justify-content: flex-start;
@@ -14,14 +15,15 @@
 }
 
 .Tendenz {
-    font-size: 2rem;
+    height: 1.5rem;
+    margin-top: 0.7rem;
     flex: 1;
     display: flex;
     justify-content: center;
 }
 
 .Question {
-    font-size: 2rem;
+    font-size: 1.5rem;
     flex: 1;
     display: flex;
     margin-top: 0.5rem;

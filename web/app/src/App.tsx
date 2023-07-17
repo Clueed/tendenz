@@ -16,7 +16,14 @@ function App() {
             <div>
               <NavigationBar></NavigationBar>
             </div>
-            <div className="Heading">Objective insight across all markets</div>
+            <div>
+              <div className="Heading">Objective insight</div>
+              <div className="Heading">across all markets</div>
+              <div className="Heading2">skip past the statistical noise</div>
+            </div>
+            <div>
+              <div className="Index">US Stocks</div>
+            </div>
           </div>
         </div>
       </div>
