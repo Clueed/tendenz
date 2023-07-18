@@ -6,10 +6,6 @@
 app = "tendenz-server"
 primary_region = "ams"
 
-[[mounts]]
-  source = "data"
-  destination = "/data"
-
 [http_service]
   internal_port = 3000
   force_https = true
