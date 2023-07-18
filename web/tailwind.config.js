@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: 'media',
+  darkMode: "media",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,34 +8,36 @@ module.exports = {
   ],
   theme: {
     colors: {
-      tomato: generateScale("tomato"),
-      red: generateScale("red"),
-      crimson: generateScale("crimson"),
-      pink: generateScale("pink"),
-      plum: generateScale("plum"),
-      purple: generateScale("purple"),
-      violet: generateScale("violet"),
-      indigo: generateScale("indigo"),
-      blue: generateScale("blue"),
-      cyan: generateScale("cyan"),
-      teal: generateScale("teal"),
-      green: generateScale("green"),
-      grass: generateScale("grass"),
-      orange: generateScale("orange"),
-      brown: generateScale("brown"),
-      sky: generateScale("sky"),
-      mint: generateScale("mint"),
-      lime: generateScale("lime"),
-      yellow: generateScale("yellow"),
-      amber: generateScale("amber"),
-      gray: generateScale("gray"),
-      mauve: generateScale("mauve"),
-      slate: generateScale("slate"),
-      sage: generateScale("sage"),
-      olive: generateScale("olive"),
-      sand: generateScale("sand"),
-      bronze: generateScale("bronze"),
-      gold: generateScale("gold"),
+      ...createColorObject([
+        "tomato",
+        "red",
+        "crimson",
+        "pink",
+        "plum",
+        "purple",
+        "violet",
+        "indigo",
+        "blue",
+        "cyan",
+        "teal",
+        "green",
+        "grass",
+        "orange",
+        "brown",
+        "sky",
+        "mint",
+        "lime",
+        "yellow",
+        "amber",
+        "gray",
+        "mauve",
+        "slate",
+        "sage",
+        "olive",
+        "sand",
+        "bronze",
+        "gold",
+      ]),
       black: generateScale("black", true),
       white: generateScale("white", true),
     },
@@ -49,6 +51,14 @@ module.exports = {
   },
   plugins: [],
 };
+
+function createColorObject(names) {
+  let colors = {};
+  for (const name of names) {
+    colors[name] = generateScale(name);
+  }
+  return colors;
+}
 
 function generateScale(name, alpha_only = false) {
   let scale = Array.from({ length: 12 }, (_, i) => {
