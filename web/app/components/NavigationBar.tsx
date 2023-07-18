@@ -1,23 +1,20 @@
 import React from "react";
 import { AiFillGithub, AiFillQuestionCircle } from "react-icons/ai";
 import { Logo } from "./Logo";
+import Link from "next/link";
 
-const NavigationBar = () => {
+export default function NavigationBar() {
   return (
-    <div>
-      <div className="flex flex-row h-[10vh] mb-[5vh]">
-        <div>
-          <AiFillGithub className="flex justify-start flex-1 mt-2 text-2xl" />
-        </div>
-        <div className="flex-1 h-4 text-slate-7">
-          <Logo />
-        </div>
-        <div>
-          <AiFillQuestionCircle className="flex flex-1 mt-2 text-2xl" />
-        </div>
-      </div>
-    </div>
+    <nav className="flex w-full justify-between items-center py-10 px-[7.5vw]">
+      <a href="https://www.github.com/Clueed/tendenz" target="_blank">
+        <AiFillGithub className="h-5 w-5 text-slate-9" />
+      </a>
+      <Link href="/" className="h-4 text-slate-12">
+        <Logo />
+      </Link>
+      <Link href="/">
+        <AiFillQuestionCircle className="h-5 w-5 text-slate-9" />
+      </Link>
+    </nav>
   );
-};
-
-export default NavigationBar;
+}
