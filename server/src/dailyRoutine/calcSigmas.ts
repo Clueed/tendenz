@@ -64,7 +64,7 @@ export async function calcSigmas() {
 
   const marketSize = marketCaps.reduce((a, b) => a + b);
 
-  for (const i in stocks) {
+  for (const i in stocks.slice(0, 100)) {
     const stock = stocks[i];
 
     if (stock.dailys.length < 3) {
