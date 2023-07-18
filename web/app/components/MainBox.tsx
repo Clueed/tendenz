@@ -19,17 +19,15 @@ export default function MainBox({ data }: { data: SigmaUsStocksYesterday[] }) {
   }
 
   return (
-    <div className="max-w-[90vw]">
-      <div className="flex flex-col w-full gap-3 ">
-        {data.map((entry, i) => (
-          <MainBoxRow
-            key={entry.ticker}
-            entry={entry}
-            onClick={() => handleExpand(i)}
-            expanded={expandedList[i]}
-          />
-        ))}
-      </div>
+    <div className="flex flex-col w-full gap-3 ">
+      {data.map((entry, i) => (
+        <MainBoxRow
+          key={entry.ticker}
+          entry={entry}
+          onClick={() => handleExpand(i)}
+          expanded={expandedList[i]}
+        />
+      ))}
     </div>
   );
 }
