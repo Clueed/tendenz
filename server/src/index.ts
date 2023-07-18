@@ -30,16 +30,11 @@ const bree = new Bree({
   jobs: [
     {
       name: "updateMarket",
-      cron: "3 * * * *",
+      cron: "5 * * * *",
     },
     {
       name: "updateSupplements",
-      cron: "10 0 * * *",
-      closeWorkerAfterMs: 59 * 60 * 1000,
-    },
-    {
-      name: "updateSigma",
-      cron: "30 */3 * * *",
+      cron: "30 * * * *",
     },
   ],
 });
