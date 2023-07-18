@@ -1,9 +1,13 @@
 import Link from "next/link";
 import NavigationBar from "./components/NavigationBar";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Rubik } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const rubik = Rubik({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-rubik",
+});
 
 export default function RootLayout({
   children,
@@ -12,7 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark-theme">
-      <body className={inter.className + " bg-slate-3 relative text-slate-12"}>
+      <body
+        className={
+          rubik.variable + " font-sans bg-slate-3 relative text-slate-12"
+        }
+      >
         <NavigationBar />
         {children}
         <footer className="flex justify-around pt-20 pb-10 text-slate-7">

@@ -48,7 +48,7 @@ export default function MainBoxRow({
       }
       onClick={onClick}
     >
-      <div className="text-2xl font-bold text-right text-sky-12">{sigma}</div>
+      <div className="font-sans text-3xl text-right text-sky-12">{sigma}</div>
       <div className="flex-col">
         <div className="text-sm text-slate-11">{entry.ticker}</div>
         <div className="text-lg text-slate-12 line-clamp-2">{entry.name}</div>
