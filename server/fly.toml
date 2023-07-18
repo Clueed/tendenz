@@ -1,0 +1,19 @@
+# fly.toml app configuration file generated for tendenz-server on 2023-07-15T13:32:54+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "tendenz-server"
+primary_region = "ams"
+
+[[mounts]]
+  source = "data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = false
+  min_machines_running = 0
+  processes = ["app"]
