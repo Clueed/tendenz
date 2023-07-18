@@ -2,54 +2,59 @@ import { calcSigmas } from "./calcSigmas.js";
 import { formatDateString } from "../misc.js";
 import { prisma } from "../globals.js";
 
+async function detectSigmaStaleness(): Promise<boolean> {
+  const mostRecentDaily = await prisma.usStockDaily.findFirst({
+    orderBy: {
+      date: "desc",
+    },
+    take: 1,
+    select: {
+      date: true,
+    },
+  });
+
+  if (mostRecentDaily === null) {
+    console.error("Database is empty. Aborting...");
+    return false;
+  }
+
+  const targetDate = mostRecentDaily.date;
+  console.debug(`Most recent daily date is ${formatDateString(targetDate)}.`);
+
+  const sigmaCount = await prisma.sigmaUsStocksYesterday.count({
+    where: {
+      date: targetDate,
+    },
+  });
+
+  if (sigmaCount === 0) {
+    console.debug(`No sigmas entries on ${targetDate}`);
+    return true;
+  }
+
+  const dailyCount = await prisma.usStockDaily.count({
+    where: {
+      date: targetDate,
+      marketCap: { not: null },
+    },
+  });
+
+  if (sigmaCount !== dailyCount) {
+    return true;
+  }
+
+  return false;
+}
+
 export async function dailySigmaRoutine() {
-  const mostRecentStock = await prisma.usStockDaily.findMany({
-    orderBy: {
-      date: "desc",
-    },
-    take: 1,
-    select: {
-      date: true,
-    },
-  });
+  const stale = await detectSigmaStaleness();
 
-  if (mostRecentStock.length === 0) {
-    return;
-  }
-
-  const mostRecentDailyDate = mostRecentStock[0].date;
-  console.debug(
-    `Most recent daily data is ${formatDateString(mostRecentDailyDate)}`
-  );
-
-  const mostRecentSigma = await prisma.sigmaUsStocksYesterday.findMany({
-    orderBy: {
-      date: "desc",
-    },
-    take: 1,
-    select: {
-      date: true,
-    },
-  });
-
-  if (mostRecentSigma.length > 0) {
-    const mostRecentSigmaDailyDate = mostRecentSigma[0].date;
-    console.debug(
-      `Most recent sigma is ${formatDateString(mostRecentSigmaDailyDate)}`
-    );
-
-    if (mostRecentSigmaDailyDate.getTime() === mostRecentDailyDate.getTime()) {
-      console.info(`No sigma staleness detected. Skipping...`);
-      return;
-    }
-
+  if (stale) {
     console.info(`Sigma staleness detected.`);
+    console.info(`Initiating sigma recalculation...`);
+    await calcSigmas();
+    console.info(`Sigma recalculation complete...`);
   } else {
-    console.info("No sigma data available.");
+    console.info(`No sigma staleness detected. Skipping...`);
   }
-
-  console.info(`Initiating sigma recalculation...`);
-  await calcSigmas();
-  console.info(`Sigma recalculation complete...`);
-  return;
 }
