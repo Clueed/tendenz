@@ -67,7 +67,7 @@ export async function calcSigmas() {
   for (const i in stocks.slice(0, 100)) {
     const stock = stocks[i];
 
-    if (stock.dailys.length < 3) {
+    if (stock.dailys.length < 10) {
       console.warn(
         `Not enough data points to calculate sigma (${stock.dailys.length})`
       );

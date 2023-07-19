@@ -6,4 +6,4 @@ if (process.env.NODE_ENV === "production") {
 }
 
 await reverseIncrementDailyUpdate(true);
-await dailySigmaRoutine();
+//await dailySigmaRoutine();

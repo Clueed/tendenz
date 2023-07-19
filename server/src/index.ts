@@ -3,6 +3,8 @@ import Fastify from "fastify";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import prismaPlugin from "./plugins/prisma.js";
+import { calcSigmas } from "./dailyRoutine/calcSigmas.js";
+import { dailySigmaRoutine } from "./dailyRoutine/dailySigmaRoutine.js";
 
 if (process.env.NODE_ENV === "production") {
   console.debug = function () {};
