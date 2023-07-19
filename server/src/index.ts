@@ -3,8 +3,6 @@ import Fastify from "fastify";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import prismaPlugin from "./plugins/prisma.js";
-import { calcSigmas } from "./dailyRoutine/calcSigmas.js";
-import { dailySigmaRoutine } from "./dailyRoutine/dailySigmaRoutine.js";
 
 if (process.env.NODE_ENV === "production") {
   console.debug = function () {};
@@ -36,7 +34,7 @@ const bree = new Bree({
     },
     {
       name: "updateSupplements",
-      cron: "30 * * * *",
+      cron: "0 4 * * *",
     },
   ],
 });

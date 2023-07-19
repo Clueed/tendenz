@@ -5,5 +5,5 @@ if (process.env.NODE_ENV === "production") {
   console.debug = function () {};
 }
 
-await reverseIncrementDailyUpdate(true);
-//await dailySigmaRoutine();
+await reverseIncrementDailyUpdate();
+await dailySigmaRoutine();

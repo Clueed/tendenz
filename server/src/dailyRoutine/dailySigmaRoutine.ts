@@ -46,13 +46,13 @@ async function detectSigmaStaleness(): Promise<boolean> {
   return false;
 }
 
-export async function dailySigmaRoutine() {
+export async function dailySigmaRoutine(dry: boolean = false) {
   const stale = await detectSigmaStaleness();
 
   if (stale) {
     console.info(`Sigma staleness detected.`);
     console.info(`Initiating sigma recalculation...`);
-    await calcSigmas();
+    await calcSigmas(dry);
     console.info(`Sigma recalculation complete...`);
   } else {
     console.info(`No sigma staleness detected. Skipping...`);
