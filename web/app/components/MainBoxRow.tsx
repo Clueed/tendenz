@@ -23,7 +23,7 @@ export default function MainBoxRow({
   const secondLastClose = formatDollar(entry.secondLastClose);
   const sigma = r(entry.sigma);
   const dailyReturn =
-    r((1 - entry.lastClose / entry.secondLastClose) * 100, 1) + "%";
+    r((1 - entry.secondLastClose / entry.lastClose) * 100, 1) + "%";
 
   return (
     <div
@@ -37,7 +37,9 @@ export default function MainBoxRow({
         {sigma}
         <span className="ml-1 text-xl text-slate-10">σ</span>
       </div>
-      <div className="text-lg align-baseline line-clamp-2">
+      <div
+        className={"text-lg align-baseline " + (!expanded && "line-clamp-2")}
+      >
         <span className="mr-1 text-slate-11 ">{entry.ticker}</span>
         {"  "}
         <span className="text-slate-12">{entry.name}</span>
@@ -58,7 +60,7 @@ export default function MainBoxRow({
             <div className="text-xs leading-tight">return</div>
           </div>
           <div className="flex flex-col p-2 text-right">
-            <div className="text-xl">{dailyReturn}</div>
+            <div className="text-xl">{lastClose}</div>
             <div className="text-xs leading-tight">yesterday</div>
             <div className="text-xs leading-tight text-slate-11">
               close price
