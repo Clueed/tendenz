@@ -52,6 +52,7 @@ export async function dailySigmaRoutine(dry: boolean = false) {
   if (stale) {
     console.info(`Sigma staleness detected.`);
     console.info(`Initiating sigma recalculation...`);
+    await prisma.sigmaUsStocksYesterday.deleteMany({});
     await calcSigmas(dry);
     console.info(`Sigma recalculation complete...`);
   } else {
