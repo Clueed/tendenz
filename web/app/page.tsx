@@ -1,7 +1,7 @@
+import { get } from "http";
+import { ExplainingTitle } from "./ExplainingTitle";
 import Hero from "./components/Hero";
 import MainBox from "./components/MainBox";
-import NavigationBar from "./components/NavigationBar";
-
 export interface SigmaUsStocksYesterday {
   ticker: string;
   date: string;
@@ -20,8 +20,6 @@ async function getData() {
     console.error(e);
     return [];
   }
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
 }
 
 export default async function Home() {
@@ -30,31 +28,36 @@ export default async function Home() {
     <main className="flex flex-col items-center">
       <Hero />
       <section className="max-w-[90vw]">
-        <h1 className="mt-12 text-4xl font-normal text-indigo-11">
-          Yesterday&apos;s anomalies
-        </h1>
-        <section className="mt-6">
-          <h2 className="text-3xl font-normal text-slate-12">US stocks</h2>
-          <div className="mt-[4vh] flex justify-center">
+        <ExplainingTitle text={"yesterday's anomalies"} />
+        <section>
+          <div className="px-5">
+            <h2 className="text-3xl font-normal text-slate-12">stocks</h2>
+            <span className="text-base text-slate-11">United States</span>
+          </div>
+          <div className="flex justify-center mt-4">
             <MainBox data={data} />
           </div>
         </section>
         <section className="mt-[10rem]">
-          <h2 className="text-3xl font-normal text-slate-12">Coming soon...</h2>
+          <h2 className="text-3xl font-normal text-slate-12">coming soon...</h2>
           <div className="flex flex-wrap justify-start gap-10 mx-10 my-10 text-2xl bg-clip-text text-black-a1 bg-gradient-to-br from-indigo-10 to-sky-10 via-violet-10">
-            <div>options</div>
-            <div>global equities</div>
-            <div>commodities</div>
-            <div>credit default swaps</div>
-            <div>foreign exchange</div>
-            <div>equity indexes</div>
-            <div>cryptocurrencies</div>
-            <div>bonds</div>
-            <div>derivatives</div>
-            <div>notes</div>
-            <div>interest rates</div>
-            <div>mortgage-backed securities</div>
-            <div>economic indicators</div>
+            {[
+              "options",
+              "global equities",
+              "commodities",
+              "credit default swaps",
+              "foreign exchange",
+              "equity indexes",
+              "cryptocurrencies",
+              "bonds",
+              "derivatives",
+              "notes",
+              "interest rates",
+              "mortgage-backed securities",
+              "economic indicators",
+            ].map((v) => (
+              <div key={v}>{v} </div>
+            ))}
           </div>
         </section>
       </section>

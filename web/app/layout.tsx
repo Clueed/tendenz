@@ -23,7 +23,7 @@ export default function RootLayout({
       >
         <NavigationBar />
         {children}
-        <footer className="flex justify-around pt-20 pb-10 text-slate-7">
+        <footer className="flex justify-around pt-20 pb-10 text-sm text-slate-a8">
           <Link href="/disclaimers">disclaimers</Link>
           <div>© 2023</div>
         </footer>

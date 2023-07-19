@@ -1,7 +1,7 @@
 export default function Disclaimers() {
   return (
-    <section className="mx-auto w-[60ch] max-w-[85vw]">
-      <h1 className="text-xl font-bold text-center my-10 text-slate-11">
+    <section className="mx-auto w-[60ch] max-w-[85vw] pt-10">
+      <h1 className="relative mb-5 text-4xl font-normal text-indigo-11">
         Disclaimers
       </h1>
       <p className="leading-loose text-slate-12">

@@ -28,7 +28,7 @@ export default function MainBoxRow({
   return (
     <div
       className={
-        "grid w-100 grid-cols-[1.5fr_3fr] backdrop-blur-3xl sm:grid-cols-[1fr_3fr_1fr_1fr] gap-x-5 gap-y-1 items-center rounded-md py-3 px-5 transition-all ease-out hover:scale-[1.01] hover:bg-gradient-to-br from-slate-a1 to-slate-a3  cursor-pointer " +
+        "grid w-100 grid-cols-[1.5fr_3fr] backdrop-blur-3xl sm:grid-cols-[1fr_3fr_1fr_1fr] gap-x-5 gap-y-1 items-center rounded-md py-3 px-3 transition-all ease-out hover:scale-[1.01] hover:bg-gradient-to-br from-slate-a1 to-slate-a3  cursor-pointer " +
         (expanded && " bg-gradient-to-br scale-[1.01]")
       }
       onClick={onClick}
