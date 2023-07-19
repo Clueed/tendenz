@@ -52,6 +52,14 @@ export class PolygonApi {
     }
 
     this.lastRequest = Date.now();
-    return this.axiosInstance.get(url);
+
+    const res = await this.axiosInstance.get(url);
+
+    if (res.status === 429) {
+      console.warn("Hit rate limit. Retrying...");
+      return this.get(inputUrl, apiKeyNumber);
+    }
+
+    return res;
   }
 }
