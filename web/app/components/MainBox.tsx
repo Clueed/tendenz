@@ -29,7 +29,7 @@ export default function MainBox({ data }: { data: SigmaUsStocksYesterday[] }) {
               expanded={expandedList[i]}
             />
           ))
-        : [0, 1, 2, 3, 4].map((i) => (
+        : [...Array(4).keys()].map((i) => (
             <>
               <div
                 key={i}

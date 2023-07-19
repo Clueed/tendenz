@@ -1,5 +1,4 @@
-import { get } from "http";
-import { ExplainingTitle } from "./ExplainingTitle";
+import { ExplainingTitle } from "./components/ExplainingTitle";
 import Hero from "./components/Hero";
 import MainBox from "./components/MainBox";
 export interface SigmaUsStocksYesterday {
@@ -56,7 +55,7 @@ export default async function Home() {
               "mortgage-backed securities",
               "economic indicators",
             ].map((v) => (
-              <div key={v}>{v} </div>
+              <div key={v}>{v}</div>
             ))}
           </div>
         </section>
