@@ -113,6 +113,7 @@ export async function supplementTickerDetails() {
       )
     ) {
       console.warn(`No market cap data available. Skipping...`);
+      console.groupEnd();
       continue;
     }
 
@@ -131,6 +132,7 @@ export async function supplementTickerDetails() {
       console.error(
         `Could not calculate market cap...(This shouldn't happen!)`
       );
+      console.groupEnd();
       continue;
     }
 

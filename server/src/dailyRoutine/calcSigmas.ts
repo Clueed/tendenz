@@ -1,9 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../globals.js";
 
-export async function calcSigmas() {
-  await prisma.sigmaUsStocksYesterday.deleteMany();
-
+export async function calcSigmas(dry: Boolean = false) {
   const mostRecentStock = await prisma.usStockDaily.findMany({
     orderBy: {
       date: "desc",
@@ -39,79 +37,77 @@ export async function calcSigmas() {
       ticker: true,
       name: true,
       dailys: {
-        orderBy: {
-          date: "desc",
+        where: {
+          marketCap: { not: null },
         },
         select: {
-          date: true,
-          close: true,
           marketCap: true,
         },
+        orderBy: { date: "desc" },
+        take: 1,
       },
     },
   });
 
-  // given the query above
-  // all the dailys will be order such that
-  // (1) its a descending
-  // (2) index = 0 is the same everywhere and the most recent
-  // (3) all stocks in the array have a value on that day (index = 0)
-  // (4) all have atleast one value for marketCap (doesn't have to be recent)
-
+  // casting type because marketCap has to be !== based on query above
   const marketCaps = stocks.map(
-    (stock) => stock.dailys.find((daily) => daily.marketCap !== null)?.marketCap
+    (stock) => stock.dailys[0].marketCap
   ) as number[];
 
   const marketSize = marketCaps.reduce((a, b) => a + b);
 
-  for (const i in stocks.slice(0, 100)) {
-    const stock = stocks[i];
+  for (const { ticker, name } of stocks) {
+    const dailys = await prisma.usStockDaily.findMany({
+      where: {
+        ticker,
+      },
+      orderBy: { date: "asc" },
+      select: {
+        marketCap: true,
+        close: true,
+      },
+    });
 
-    if (stock.dailys.length < 3) {
+    if (dailys.length < 30) {
       console.warn(
-        `Not enough data points to calculate sigma (${stock.dailys.length})`
+        `${ticker}: Not enough data points to calculate sigma (${dailys.length} < 30)`
       );
       continue;
     }
 
-    const closes = stock.dailys.map((daily) => daily.close);
-
-    // no going forward in time with reverse()
-
-    let logReturns: number[] = [];
-    const closesChronological = closes.slice(1).reverse();
-
-    for (let i = 1; i < closesChronological.length; i++) {
-      const curr = closes[i];
-      const prev = closes[i - 1];
-      const logReturn = Math.log(curr / prev);
-      logReturns.push(logReturn);
-    }
-
+    const closes = dailys.map((daily) => daily.close);
+    const closesChronological = closes.reverse();
+    let logReturns = calcLogReturns(closesChronological).reverse();
     if (logReturns.length === 0) {
       console.error("OMG! NO LOG RETURNS");
       continue;
     }
 
-    const n = logReturns.length;
-    const mean = logReturns.reduce((a, b) => a + b) / n;
-    const stdev = Math.sqrt(
-      logReturns.map((x) => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
-    );
-
-    const lastSigma = (logReturns[0] - mean) / stdev;
-
+    const lastSigma = calcSigma(logReturns.slice(1), logReturns[0]);
     if (!lastSigma) {
       console.error("OMG! NO SIGMA");
       continue;
     }
 
-    const mostRecentMarketCap = marketCaps[i];
+    const mostRecentMarketCap = dailys.find(
+      (daily) => daily.marketCap !== null
+    )?.marketCap;
+    if (!mostRecentMarketCap) {
+      console.error("OMG! NO MARKETCAP!");
+      continue;
+    }
+
     const marketCapWeight = mostRecentMarketCap / marketSize;
     const weight = (0.5 + marketCapWeight) * Math.abs(lastSigma);
 
+    if (!weight) {
+      console.error("OMG! NO WEIGHT!");
+      console.error("Weight:", weight);
+      continue;
+    }
+
     let sigmaRow: Prisma.SigmaUsStocksYesterdayCreateInput = {
-      ticker: stock.ticker,
+      ticker: ticker,
       sigma: lastSigma,
       date: targetDate,
       weight,
@@ -119,12 +115,36 @@ export async function calcSigmas() {
       secondLastClose: closes[1],
     };
 
-    if (stock.name) {
-      sigmaRow.name = stock.name;
+    if (name) {
+      sigmaRow.name = name;
     }
 
-    await prisma.sigmaUsStocksYesterday.create({
-      data: sigmaRow,
-    });
+    if (!dry) {
+      await prisma.sigmaUsStocksYesterday.create({
+        data: sigmaRow,
+      });
+    }
   }
+}
+
+function calcSigma(population: number[], sample: number) {
+  const n = population.length;
+  const mean = population.reduce((a, b) => a + b) / n;
+  const stdev = Math.sqrt(
+    population.map((x) => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+  );
+
+  const lastSigma = (sample - mean) / stdev;
+  return lastSigma;
+}
+
+function calcLogReturns(closesChronological: number[]): number[] {
+  let logReturns: number[] = [];
+  for (let i = 1; i < closesChronological.length; i++) {
+    const curr = closesChronological[i];
+    const prev = closesChronological[i - 1];
+    const logReturn = Math.log(curr / prev);
+    logReturns.push(logReturn);
+  }
+  return logReturns;
 }

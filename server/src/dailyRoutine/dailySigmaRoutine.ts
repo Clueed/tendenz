@@ -2,8 +2,8 @@ import { calcSigmas } from "./calcSigmas.js";
 import { formatDateString } from "../misc.js";
 import { prisma } from "../globals.js";
 
-export async function dailySigmaRoutine() {
-  const mostRecentStock = await prisma.usStockDaily.findMany({
+async function detectSigmaStaleness(): Promise<boolean> {
+  const mostRecentDaily = await prisma.usStockDaily.findFirst({
     orderBy: {
       date: "desc",
     },
@@ -13,43 +13,49 @@ export async function dailySigmaRoutine() {
     },
   });
 
-  if (mostRecentStock.length === 0) {
-    return;
+  if (mostRecentDaily === null) {
+    console.error("Database is empty. Aborting...");
+    return false;
   }
 
-  const mostRecentDailyDate = mostRecentStock[0].date;
-  console.debug(
-    `Most recent daily data is ${formatDateString(mostRecentDailyDate)}`
-  );
+  const targetDate = mostRecentDaily.date;
+  console.debug(`Most recent daily date is ${formatDateString(targetDate)}.`);
 
-  const mostRecentSigma = await prisma.sigmaUsStocksYesterday.findMany({
-    orderBy: {
-      date: "desc",
-    },
-    take: 1,
-    select: {
-      date: true,
+  const sigmaCount = await prisma.sigmaUsStocksYesterday.count({
+    where: {
+      date: targetDate,
     },
   });
 
-  if (mostRecentSigma.length > 0) {
-    const mostRecentSigmaDailyDate = mostRecentSigma[0].date;
-    console.debug(
-      `Most recent sigma is ${formatDateString(mostRecentSigmaDailyDate)}`
-    );
+  if (sigmaCount === 0) {
+    console.debug(`No sigmas entries on ${targetDate}`);
+    return true;
+  }
 
-    if (mostRecentSigmaDailyDate.getTime() === mostRecentDailyDate.getTime()) {
-      console.info(`No sigma staleness detected. Skipping...`);
-      return;
-    }
+  const dailyCount = await prisma.usStockDaily.count({
+    where: {
+      date: targetDate,
+      marketCap: { not: null },
+    },
+  });
 
+  if (sigmaCount !== dailyCount) {
+    return true;
+  }
+
+  return false;
+}
+
+export async function dailySigmaRoutine(dry: boolean = false) {
+  const stale = await detectSigmaStaleness();
+
+  if (stale) {
     console.info(`Sigma staleness detected.`);
+    console.info(`Initiating sigma recalculation...`);
+    await prisma.sigmaUsStocksYesterday.deleteMany({});
+    await calcSigmas(dry);
+    console.info(`Sigma recalculation complete...`);
   } else {
-    console.info("No sigma data available.");
+    console.info(`No sigma staleness detected. Skipping...`);
   }
-
-  console.info(`Initiating sigma recalculation...`);
-  await calcSigmas();
-  console.info(`Sigma recalculation complete...`);
-  return;
 }

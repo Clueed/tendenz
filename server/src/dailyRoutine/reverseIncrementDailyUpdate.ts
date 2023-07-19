@@ -23,12 +23,12 @@ function consecutiveZeros(array: number[]) {
 }
 
 export async function reverseIncrementDailyUpdate(
-  endOnNoUpdates: boolean = true
+  endOnNoUpdates: boolean = true,
+  startingDate: Date = new Date()
 ): Promise<UpdateStatus[]> {
   let stats: UpdateStatus[] = [];
 
   let daysPast: number = 0;
-  const startingDate = new Date();
 
   while (true) {
     const targetDate = startingDate.getTime() - daysPast * 24 * 60 * 60 * 1000;

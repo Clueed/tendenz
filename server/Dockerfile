@@ -9,6 +9,10 @@ LABEL fly_launch_runtime="Node.js/Prisma"
 # Node.js/Prisma app lives here
 WORKDIR /app
 
+# Set production environment
+ENV NODE_ENV=production
+
+
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
@@ -18,7 +22,7 @@ RUN apt-get update -qq && \
 
 # Install node modules
 COPY --link package-lock.json package.json ./
-RUN npm ci
+RUN npm ci --include=dev
 
 # Generate Prisma Client
 COPY --link prisma .
@@ -33,13 +37,15 @@ RUN npm run build
 # Copy application code
 COPY --link . .
 
-# Set production environment
-ENV NODE_ENV=production
+# Build application
+RUN npm run build
+
+# Remove development dependencies
+RUN npm prune --omit=dev
 
 # Final stage for app image
 FROM base
 
-# Set production environment
 ENV NODE_ENV=production
 
 # Install packages needed for deployment
