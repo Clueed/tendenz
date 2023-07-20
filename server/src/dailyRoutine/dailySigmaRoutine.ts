@@ -32,6 +32,10 @@ async function detectSigmaStaleness(): Promise<boolean> {
     return true;
   }
 
+  // This doesn't make sense
+  // it need to look for some: {target_date} and some: {marketCap : not null}
+  // Sigma can't be calculated for some because of populations amounts
+  // So this will always be true
   const dailyCount = await prisma.usStockDaily.count({
     where: {
       date: targetDate,
@@ -47,7 +51,8 @@ async function detectSigmaStaleness(): Promise<boolean> {
 }
 
 export async function dailySigmaRoutine(dry: boolean = false) {
-  const stale = await detectSigmaStaleness();
+  //const stale = await detectSigmaStaleness();
+  const stale = true;
 
   if (stale) {
     console.info(`Sigma staleness detected.`);
