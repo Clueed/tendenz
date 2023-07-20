@@ -74,7 +74,7 @@ const bree = new Bree({
 });
 
 const start = async () => {
-  //bree.start();
+  bree.start();
   try {
     await fastify.listen({ port: 3000, host: "0.0.0.0" });
   } catch (err) {
