@@ -15,14 +15,48 @@ const fastify = Fastify({
 fastify.register(prismaPlugin);
 
 fastify.get("/", async (request, reply) => {
-  const test = await fastify.prisma.sigmaUsStocksYesterday.findMany({
+  const sigmaYesterday = await fastify.prisma.sigmaUsStocksYesterday.findMany({
     orderBy: {
       weight: "desc",
     },
     take: 10,
   });
 
-  return test;
+  const response: tendenzApiSigmaYesterday[] = sigmaYesterday.map(
+    ({
+      ticker,
+      name,
+      sigma,
+      weight,
+      marketCap,
+      stdLogReturn,
+      meanLogReturn,
+      sampleSize,
+      lastClose,
+      lastLogReturn,
+      lastDate,
+      secondLastClose,
+      secondLastLogReturn,
+      secondLastDate,
+    }) => ({
+      ticker,
+      name,
+      sigma,
+      weight,
+      marketCap,
+      stdLogReturn,
+      meanLogReturn,
+      sampleSize,
+      last: { close: lastClose, logReturn: lastLogReturn, date: lastDate },
+      secondLast: {
+        close: secondLastClose,
+        logReturn: secondLastLogReturn,
+        date: secondLastDate,
+      },
+    })
+  );
+
+  return response;
 });
 
 const bree = new Bree({
@@ -40,7 +74,7 @@ const bree = new Bree({
 });
 
 const start = async () => {
-  bree.start();
+  //bree.start();
   try {
     await fastify.listen({ port: 3000, host: "0.0.0.0" });
   } catch (err) {
@@ -50,3 +84,22 @@ const start = async () => {
 };
 
 start();
+
+export interface tendenzApiSigmaYesterdayDay {
+  close: number;
+  logReturn: number;
+  date: Date;
+}
+
+export interface tendenzApiSigmaYesterday {
+  ticker: string;
+  name: string | null;
+  sigma: number;
+  weight: number;
+  marketCap: number;
+  stdLogReturn: number;
+  meanLogReturn: number;
+  sampleSize: number;
+  last: tendenzApiSigmaYesterdayDay;
+  secondLast: tendenzApiSigmaYesterdayDay;
+}
