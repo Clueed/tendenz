@@ -1,20 +1,30 @@
 import { ExplainingTitle } from "./components/ExplainingTitle";
 import Hero from "./components/Hero";
 import MainBox from "./components/MainBox";
-export interface SigmaUsStocksYesterday {
+
+export interface tendenzApiSigmaYesterdayDay {
+  close: number;
+  logReturn: number;
+  date: Date;
+}
+
+export interface tendenzApiSigmaYesterday {
   ticker: string;
-  date: string;
-  name: string;
+  name: string | null;
   sigma: number;
-  lastClose: number;
-  secondLastClose: number;
   weight: number;
+  marketCap: number;
+  stdLogReturn: number;
+  meanLogReturn: number;
+  sampleSize: number;
+  last: tendenzApiSigmaYesterdayDay;
+  secondLast: tendenzApiSigmaYesterdayDay;
 }
 
 async function getData() {
   try {
     const res = await fetch("https://tendenz-server.fly.dev/");
-    return res.json() as Promise<SigmaUsStocksYesterday[]>;
+    return res.json() as Promise<tendenzApiSigmaYesterday[]>;
   } catch (e) {
     console.error(e);
     return [];

@@ -1,6 +1,6 @@
 "use client";
 
-import { SigmaUsStocksYesterday } from "../page";
+import { tendenzApiSigmaYesterday } from "../page";
 
 function r(n: number, digits = 2): string {
   return n.toFixed(digits);
@@ -15,15 +15,15 @@ export default function MainBoxRow({
   onClick,
   expanded,
 }: {
-  entry: SigmaUsStocksYesterday;
+  entry: tendenzApiSigmaYesterday;
   onClick: () => void;
   expanded: boolean;
 }) {
-  const lastClose = formatDollar(entry.lastClose);
-  const secondLastClose = formatDollar(entry.secondLastClose);
+  const lastClose = formatDollar(entry.last.close);
+  const secondLastClose = formatDollar(entry.secondLast.close);
   const sigma = r(entry.sigma);
   const dailyReturn =
-    r((1 - entry.secondLastClose / entry.lastClose) * 100, 1) + "%";
+    r((1 - entry.secondLast.close / entry.last.close) * 100, 1) + "%";
 
   return (
     <div
