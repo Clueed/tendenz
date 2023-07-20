@@ -1,11 +1,14 @@
 "use client";
 
-import { AiOutlineLink } from "react-icons/ai";
-import { SigmaUsStocksYesterday } from "../page";
+import { tendenzApiSigmaYesterday } from "../page";
 import MainBoxRow from "./MainBoxRow";
 import { useState } from "react";
 
-export default function MainBox({ data }: { data: SigmaUsStocksYesterday[] }) {
+export default function MainBox({
+  data,
+}: {
+  data: tendenzApiSigmaYesterday[];
+}) {
   const [expandedList, setExpandedList] = useState<boolean[]>(
     data.map(() => false)
   );
