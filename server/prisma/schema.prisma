@@ -47,11 +47,18 @@ model UsStocks {
 }
 
 model SigmaUsStocksYesterday {
-  ticker          String   @id
-  date            DateTime
-  name            String?
-  sigma           Float
-  lastClose       Float
-  secondLastClose Float
-  weight          Float
+  ticker              String   @id
+  name                String?
+  sigma               Float
+  weight              Float
+  marketCap           Float
+  stdLogReturn        Float
+  meanLogReturn       Float
+  sampleSize          Int
+  lastClose           Float
+  lastLogReturn       Float
+  lastDate            DateTime
+  secondLastClose     Float
+  secondLastLogReturn Float
+  secondLastDate      DateTime
 }

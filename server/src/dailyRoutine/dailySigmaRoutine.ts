@@ -3,6 +3,7 @@ import { formatDateString } from "../misc.js";
 import { prisma } from "../globals.js";
 
 async function detectSigmaStaleness(): Promise<boolean> {
+  console.group("Initiating calcSigma job...");
   const mostRecentDaily = await prisma.usStockDaily.findFirst({
     orderBy: {
       date: "desc",
@@ -23,7 +24,7 @@ async function detectSigmaStaleness(): Promise<boolean> {
 
   const sigmaCount = await prisma.sigmaUsStocksYesterday.count({
     where: {
-      date: targetDate,
+      lastDate: targetDate,
     },
   });
 
@@ -63,4 +64,5 @@ export async function dailySigmaRoutine(dry: boolean = false) {
   } else {
     console.info(`No sigma staleness detected. Skipping...`);
   }
+  console.groupEnd();
 }
