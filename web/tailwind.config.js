@@ -50,9 +50,23 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-rubik)"],
       },
+      keyframes: {
+        slideDown: {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        slideUp: {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        slideDown: "slideDown 500ms ease-in-out",
+        slideUp: "slideUp 500ms ease-in-out",
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-radix")()],
 };
 
 function createColorObject(names) {

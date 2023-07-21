@@ -10,10 +10,13 @@
   },
   "dependencies": {
     "@radix-ui/colors": "^1.0.1",
+    "@radix-ui/react-accordion": "^1.1.2",
+    "classnames": "^2.3.2",
     "next": "^13.4.11",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-icons": "^4.10.1"
+    "react-icons": "^4.10.1",
+    "tailwindcss-radix": "^2.8.0"
   },
   "devDependencies": {
     "@types/node": "^20.4.2",
@@ -24,6 +27,7 @@
     "eslint-config-next": "^13.4.11",
     "postcss": "^8.4.26",
     "tailwindcss": "^3.3.3",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vercel": "^31.0.4"
   }
 }
