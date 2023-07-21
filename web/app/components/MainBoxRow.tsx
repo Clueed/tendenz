@@ -20,26 +20,24 @@ export default function MainBoxRow({
   return (
     <Accordion.Item
       value={entry.ticker}
-      className="transition-all ease-out hover:scale-[1.01] hover:bg-gradient-to-br from-slate-a1 to-slate-a3 data-[state=open]:bg-gradient-to-br"
+      className="transition-all ease-out hover:scale-[1.01] hover:bg-gradient-to-br from-slate-a1 to-slate-a3 data-[state=open]:bg-gradient-to-br py-3 px-3"
     >
       <Accordion.Trigger asChild>
         <div
           className={
-            "grid w-100 grid-cols-[1.5fr_3fr]  gap-x-5 gap-y-1 items-start rounded-md py-3 px-3 cursor-pointer group"
+            "grid w-100 grid-cols-[7rem_auto] gap-x-4  items-start rounded-md cursor-pointer group"
           }
         >
-          <div className="flex items-start justify-end text-right">
-            <div className="flex flex-col">
-              <span className="text-3xl leading-none text-indigo-12">
-                {sigma}
-              </span>
-              <MarketCap marketCap={entry.marketCap} expanded={true} />
+          <div className="grid grid-cols-[auto_min-content] items-baseline">
+            <div className="text-3xl leading-none text-indigo-12 text-right">
+              {sigma}
             </div>
-            <span className="ml-1 text-xl text-slate-10">σ</span>
+            <div className="ml-1 text-xl text-slate-10">σ</div>
+            <MarketCap marketCap={entry.marketCap} expanded={true} />
           </div>
           <div
             className={classNames(
-              "text-lg leading-tight data-[state=closed]:line-clamp-2"
+              "text-lg leading-tight line-clamp-2 group-radix-state-delayed-open:line-clamp-none"
             )}
           >
             <span className="mr-1 text-slate-11">{entry.ticker}</span>

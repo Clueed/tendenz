@@ -41,7 +41,7 @@ export function MarketCap({
 
   return (
     <>
-      <div className="inline-flex flex-col flex-wrap leading-none">
+      <div className="inline-flex flex-row-reverse gap-x-2 items-baseline flex-wrap leading-none text-right">
         <span
           className={classNames(
             "text-xs text-slate-11 group-radix-state-open:text-slate-12"
