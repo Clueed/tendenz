@@ -1,6 +1,7 @@
 import Hero from "./components/Hero";
 import MainBox from "./components/MainBox";
 import NavigationBar from "./components/NavigationBar";
+import Form from "./components/Form";
 
 export interface SigmaUsStocksYesterday {
   ticker: string;
@@ -62,18 +63,23 @@ const data: SigmaUsStocksYesterday[] = [
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center">
-      <Hero />
-      <h1 className="mt-[16vh]  text-center text-4xl text-slate-9">
-        US Stocks
-      </h1>
-      <div className="mt-[4vh] flex justify-center">
-        <MainBox data={data} />
-      </div>
-      <h1 className="mt-[16vh]  text-center text-4xl text-slate-9">Indexes</h1>
-      <div className="mt-[4vh] flex justify-center blur-sm">
-        <MainBox data={data} />
+    <main>
+      <div>
+        <Form />
       </div>
     </main>
+    // <main className="flex flex-col items-center">
+    //   <Hero />
+    //   <h1 className="mt-[16vh]  text-center text-4xl text-slate-9">
+    //     US Stocks
+    //   </h1>
+    //   <div className="mt-[4vh] flex justify-center">
+    //     <MainBox data={data} />
+    //   </div>
+    //   <h1 className="mt-[16vh]  text-center text-4xl text-slate-9">Indexes</h1>
+    //   <div className="mt-[4vh] flex justify-center blur-sm">
+    //     <MainBox data={data} />
+    //   </div>
+    // </main>
   );
 }
