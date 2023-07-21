@@ -1,5 +1,7 @@
 "use client";
 
+import * as Accordion from "@radix-ui/react-accordion";
+
 import { tendenzApiSigmaYesterday } from "../page";
 import MainBoxRow from "./MainBoxRow";
 import { useState } from "react";
@@ -9,28 +11,15 @@ export default function MainBox({
 }: {
   data: tendenzApiSigmaYesterday[];
 }) {
-  const [expandedList, setExpandedList] = useState<boolean[]>(
-    data.map(() => false)
-  );
-
-  function handleExpand(index: number) {
-    const newExpandedList = expandedList.map((value, i) =>
-      i === index ? !value : false
-    );
-
-    setExpandedList(newExpandedList);
-  }
-
   return (
-    <div className="relative flex flex-col w-full gap-3">
+    <Accordion.Root
+      collapsible
+      type="single"
+      className="relative flex flex-col w-full gap-3"
+    >
       {data.length > 0
         ? data.map((entry, i) => (
-            <MainBoxRow
-              key={entry.ticker}
-              entry={entry}
-              onClick={() => handleExpand(i)}
-              expanded={expandedList[i]}
-            />
+            <MainBoxRow key={entry.ticker} entry={entry} />
           ))
         : [...Array(4).keys()].map((i) => (
             <>
@@ -47,6 +36,6 @@ export default function MainBox({
               </div>
             </>
           ))}
-    </div>
+    </Accordion.Root>
   );
 }
