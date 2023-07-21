@@ -23,7 +23,9 @@ export interface tendenzApiSigmaYesterday {
 
 async function getData() {
   try {
-    const res = await fetch("https://tendenz-server.fly.dev/");
+    const res = await fetch("https://tendenz-server.fly.dev/", {
+      next: { revalidate: 60 },
+    });
     return res.json() as Promise<tendenzApiSigmaYesterday[]>;
   } catch (e) {
     console.error(e);
