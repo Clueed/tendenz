@@ -27,11 +27,12 @@ export default function RootLayout({
           <Link href="/disclaimers">disclaimers</Link>
           <div>© 2023</div>
         </footer>
+        <div className="absolute top-0 w-full h-full overflow-clip -z-40 backdrop-blur-3xl"></div>
         <div className="absolute top-0 w-full h-full overflow-clip -z-50">
-          <div className="absolute w-44 h-44 bg-sky-4 blur-3xl left-[-20vw] top-[25%]" />
-          <div className="absolute w-[30em] h-[30em] bg-indigo-3 blur-3xl left-[40vw] top-[-20em]" />
-          <div className="absolute w-[30em] h-[30em] bg-indigo-3 blur-3xl left-[40vw] top-[45%]" />
-          <div className="absolute w-44 h-44 bg-sky-4 blur-3xl right-[10vw] bottom-[-10em]" />
+          <div className="absolute rounded-full w-44 h-44 bg-sky-4 left-[-20vw] top-[25%]" />
+          <div className="absolute rounded-full w-[30em] h-[30em] bg-indigo-3 left-[40vw] top-[-20em]" />
+          <div className="absolute rounded-full w-[30em] h-[30em] bg-indigo-3 left-[40vw] top-[45%]" />
+          <div className="absolute rounded-full w-44 h-44 bg-sky-4 right-[10vw] bottom-[-10em]" />
         </div>
       </body>
     </html>
