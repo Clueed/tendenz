@@ -37,7 +37,7 @@ export default function MainBoxRow({
           </div>
           <div
             className={classNames(
-              "text-lg leading-tight line-clamp-2 group-radix-state-delayed-open:line-clamp-none"
+              "text-lg leading-tight max-h-[calc(1.25*1.125rem*2)] group-radix-state-open:max-h-full overflow-clip transition-all delay-150 duration-300"
             )}
           >
             <span className="mr-1 text-slate-11">{entry.ticker}</span>
