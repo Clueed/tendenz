@@ -4,7 +4,6 @@ import * as Accordion from "@radix-ui/react-accordion";
 
 import { tendenzApiSigmaYesterday } from "../page";
 import MainBoxRow from "./MainBoxRow";
-import { useState } from "react";
 
 export default function MainBox({
   data,

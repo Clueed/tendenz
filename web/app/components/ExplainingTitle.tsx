@@ -1,26 +1,27 @@
 "use client";
 
+import * as Accordion from "@radix-ui/react-accordion";
 import Link from "next/link";
-import React, { useState } from "react";
 import { AiFillQuestionCircle } from "react-icons/ai";
 export function ExplainingTitle({ text }: { text: string }) {
-  const [expanded, setExpanded] = useState<boolean>(false);
-
   return (
-    <div
-      onClick={() => setExpanded(!expanded)}
-      className={
-        "cursor-pointer mt-8 mb-4 py-5 px-5 " +
-        (expanded && "bg-gradient-to-br from-slate-a1 to-slate-a3 rounded-md ")
-      }
-    >
-      <h1 className="relative inline text-5xl font-normal text-indigo-11">
-        {text}
-      </h1>{" "}
-      <AiFillQuestionCircle className="inline align-super top-0 right-[-3.1rem] w-6 h-6 text-indigo-a11 opacity-50" />
-      {expanded && (
-        <>
-          <div className="pt-3 border-indigo-a6 ">
+    <Accordion.Root type="single" collapsible>
+      <Accordion.Item
+        value="expanding-titel1"
+        className={
+          "cursor-pointer mt-8 mb-4 py-5 px-5 from-slate-a1 to-slate-a3 rounded-md data-[state=open]:bg-gradient-to-br"
+        }
+      >
+        <Accordion.Trigger asChild>
+          <div>
+            <h1 className="relative inline text-5xl font-normal text-indigo-11">
+              {text}
+            </h1>{" "}
+            <AiFillQuestionCircle className="inline align-super top-0 right-[-3.1rem] w-6 h-6 text-indigo-a11 opacity-50" />
+          </div>
+        </Accordion.Trigger>
+        <Accordion.Content asChild>
+          <div className="pt-3 border-indigo-a6 data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden">
             <p className="leading-relaxed text-indigo-12 ">
               We track all financial instruments with a two year history. Each
               day on market close we calculate statistical probabilities on the
@@ -37,8 +38,8 @@ export function ExplainingTitle({ text }: { text: string }) {
               </Link>
             </div>
           </div>
-        </>
-      )}
-    </div>
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion.Root>
   );
 }
