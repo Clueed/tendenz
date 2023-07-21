@@ -43,20 +43,20 @@ export function MarketCap({
     <>
       <div className="inline-flex flex-col flex-wrap leading-none">
         <span
-          className={classNames("text-xs text-slate-11", {
-            "text-slate-12": expanded,
-          })}
+          className={classNames(
+            "text-xs text-slate-11 group-radix-state-open:text-slate-12"
+          )}
         >
           {sign}
           {label}
         </span>
-        {expanded && (
-          <span
-            className={classNames("text-[0.6rem] text-right text-slate-a11")}
-          >
-            market cap
-          </span>
-        )}
+        <span
+          className={classNames(
+            "text-[0.6rem] text-right text-slate-a11 hidden group-radix-state-open:inline"
+          )}
+        >
+          market cap
+        </span>
       </div>
     </>
   );

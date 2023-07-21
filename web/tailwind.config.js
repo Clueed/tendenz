@@ -61,12 +61,12 @@ module.exports = {
         },
       },
       animation: {
-        slideDown: "slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)",
-        slideUp: "slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+        slideDown: "slideDown 500ms ease-in-out",
+        slideUp: "slideUp 500ms ease-in-out",
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-radix")()],
 };
 
 function createColorObject(names) {
