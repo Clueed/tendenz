@@ -2,6 +2,7 @@ import Link from "next/link";
 import NavigationBar from "./components/NavigationBar";
 import "./globals.css";
 import { Rubik } from "next/font/google";
+import Head from "next/head";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -16,13 +17,52 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark-theme">
+      <Head>
+        <title>Tendenz - skip past the noise</title>
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png?v=2"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png?v=2"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png?v=2"
+        />
+        <link rel="manifest" href="/site.webmanifest?v=2" />
+        <link
+          rel="mask-icon"
+          href="/safari-pinned-tab.svg?v=2"
+          color="#fbfcfd"
+        />
+        <link rel="shortcut icon" href="/favicon.ico?v=2" />
+        <meta name="msapplication-TileColor" content="#fbfcfd" />
+        <meta
+          name="theme-color"
+          content="#F1F3F5"
+          media="(prefers-color-scheme: light)"
+        />
+        <meta
+          name="theme-color"
+          content="#202425"
+          media="(prefers-color-scheme: dark)"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <body
         className={
           rubik.variable + " font-sans bg-slate-3 relative text-slate-12"
         }
       >
         <NavigationBar />
-        {children}
+        <main>{children}</main>
         <footer className="flex justify-around pt-20 pb-10 text-sm text-slate-a8">
           <Link href="/disclaimers">disclaimers</Link>
           <div>© 2023</div>

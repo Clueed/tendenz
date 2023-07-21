@@ -9,7 +9,7 @@ export function MainBoxRowSecond({
   lastClose: string;
 }) {
   return (
-    <div className="flex justify-around gap-2 text-slate-12 mt-3">
+    <div className="flex justify-around gap-2 mt-3 text-slate-12">
       <div className="flex flex-col p-2 text-right">
         <div className="text-xl">{secondLastClose}</div>
         <div className="text-xs leading-tight text-slate-a12">

@@ -36,7 +36,7 @@ async function getData() {
 export default async function Home() {
   const data = await getData();
   return (
-    <main className="flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <Hero />
       <section className="max-w-[90vw]">
         <ExplainingTitle text={"yesterday's anomalies"} />
@@ -72,6 +72,6 @@ export default async function Home() {
           </div>
         </section>
       </section>
-    </main>
+    </div>
   );
 }
