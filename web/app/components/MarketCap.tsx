@@ -3,7 +3,6 @@ import classNames from "classnames";
 
 export function MarketCap({
   marketCap,
-  expanded,
 }: {
   marketCap: number;
   expanded: boolean;
@@ -41,10 +40,10 @@ export function MarketCap({
 
   return (
     <>
-      <div className="inline-flex flex-row-reverse gap-x-2 items-baseline flex-wrap leading-none text-right">
+      <div className="inline-flex flex-row-reverse flex-wrap items-baseline leading-none text-right gap-x-2">
         <span
           className={classNames(
-            "text-xs text-slate-11 group-radix-state-open:text-slate-12"
+            "text-xs text-slate-11 group-radix-state-open:text-slate-12 transition-colors duration-1000 delay-1000"
           )}
         >
           {sign}
@@ -52,7 +51,7 @@ export function MarketCap({
         </span>
         <span
           className={classNames(
-            "text-[0.6rem] text-right text-slate-a11 hidden group-radix-state-open:inline"
+            "text-[0.6rem] text-right text-slate-a11 opacity-0 group-radix-state-open:opacity-100 transition-opacity duration-1000 delay-1000"
           )}
         >
           market cap

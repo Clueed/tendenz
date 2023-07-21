@@ -20,16 +20,16 @@ export default function MainBoxRow({
   return (
     <Accordion.Item
       value={entry.ticker}
-      className="transition-all ease-out hover:scale-[1.01] hover:bg-gradient-to-br from-slate-a1 to-slate-a3 data-[state=open]:bg-gradient-to-br py-3 px-3"
+      className="transition-all ease-out hover:scale-[1.01] hover:bg-gradient-to-br from-slate-a1 to-slate-a3 data-[state=open]:bg-gradient-to-br py-3 px-3 group"
     >
       <Accordion.Trigger asChild>
         <div
           className={
-            "grid w-100 grid-cols-[7rem_auto] gap-x-4  items-start rounded-md cursor-pointer group"
+            "grid w-100 grid-cols-[7rem_auto] gap-x-4  items-start rounded-md cursor-pointer"
           }
         >
           <div className="grid grid-cols-[auto_min-content] items-baseline">
-            <div className="text-3xl leading-none text-indigo-12 text-right">
+            <div className="text-3xl leading-none text-right text-indigo-12">
               {sigma}
             </div>
             <div className="ml-1 text-xl text-slate-10">σ</div>
