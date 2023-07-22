@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark-theme">
-      <Head>
+      <head>
         <title>Tendenz - skip past the noise</title>
         <link
           rel="apple-touch-icon"
@@ -55,7 +55,7 @@ export default function RootLayout({
           media="(prefers-color-scheme: dark)"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      </head>
       <body
         className={
           rubik.variable + " font-sans bg-slate-3 relative text-slate-12"
