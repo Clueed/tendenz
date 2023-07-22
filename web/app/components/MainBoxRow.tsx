@@ -30,7 +30,7 @@ export default function MainBoxRow({
   return (
     <Accordion.Item
       value={entry.ticker}
-      className="transition-all rounded-xl ease-out hover:scale-[1.01] hover:bg-gradient-to-br from-slate-a1 to-slate-a3 data-[state=open]:bg-gradient-to-br py-3 px-3 group"
+      className="transition-all duration-500 ease-in-out rounded-xl hover:scale-[1.01] hover:bg-gradient-to-br from-slate-a1 to-slate-a3 data-[state=open]:bg-gradient-to-br py-3 px-3 group data-[state=open]:-mx-[3vw]"
     >
       <Accordion.Trigger asChild>
         <div
@@ -48,7 +48,7 @@ export default function MainBoxRow({
 
           <div
             className={classNames(
-              "text-lg leading-[1.425] max-h-[calc(1.425*1.125rem*2)] group-radix-state-open:max-h-full overflow-clip transition-all delay-150 duration-300"
+              "text-lg leading-[1.425] max-h-[calc(1.425*1.125rem*2)] group-radix-state-open:max-h-full overflow-clip transition-all duration-700"
             )}
           >
             <span className="mr-1 text-slate-11">{entry.ticker}</span>
@@ -60,7 +60,7 @@ export default function MainBoxRow({
                 {" "}
                 <span
                   key={type}
-                  className="text-[0.6em] text-slate-11 opacity-0 group-radix-state-open:opacity-100 transition-opacity delay-150 duration-700 bg-slate-a3 rounded-md px-2 py-1"
+                  className="text-[0.6em] text-slate-11 opacity-0 group-radix-state-open:opacity-100 transition-opacity delay-700 duration-300 bg-slate-a3 rounded-md px-2 py-1"
                 >
                   {type}
                 </span>

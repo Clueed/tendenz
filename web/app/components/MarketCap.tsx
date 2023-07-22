@@ -1,12 +1,7 @@
 "use client";
 import classNames from "classnames";
 
-export function MarketCap({
-  marketCap,
-}: {
-  marketCap: number;
-  expanded: boolean;
-}) {
+export function MarketCap({ marketCap }: { marketCap: number }) {
   let label: string;
 
   if (marketCap > 1000000000000) {
