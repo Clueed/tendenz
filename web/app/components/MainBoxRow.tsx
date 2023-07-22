@@ -30,7 +30,7 @@ export default function MainBoxRow({
   return (
     <Accordion.Item
       value={entry.ticker}
-      className="transition-all duration-500 ease-in-out rounded-xl hover:scale-[1.01] hover:bg-gradient-to-br from-slate-a1 to-slate-a3 data-[state=open]:bg-gradient-to-br py-3 px-3 group data-[state=open]:-mx-[3vw]"
+      className="transition-all duration-500 ease-in-out rounded-xl hover:bg-gradient-to-br from-slate-a1 to-slate-a3 data-[state=open]:bg-gradient-to-br py-3 px-3 group"
     >
       <Accordion.Trigger asChild>
         <div
