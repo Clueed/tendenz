@@ -4,59 +4,58 @@ export default function Disclaimers() {
       <h1 className="relative mb-5 text-4xl font-normal text-indigo-11">
         disclaimers
       </h1>
-      <p className="mt-2 leading-loose text-slate-12">
-        All data and information provided by Tendenz is intended for
-        informational purposes only and is provided &quot;as is,&quot; without
-        any warranty or guarantee of accuracy, completeness, or timeliness. The
-        content is not intended to serve as financial, investment, tax, legal,
-        accounting, or any other form of professional advice. If you are
-        considering making any financial decisions or executing trades, it is
-        strongly advised to consult with your broker or financial representative
-        to verify pricing and suitability before proceeding.
+      <p className="leading-loose text-slate-12">
+        All data and information is provided “as is” for informational purposes
+        only, and is not intended for trading purposes or financial, investment,
+        tax, legal, accounting or other advice. Please consult your broker or
+        financial representative to verify pricing before executing any trade.
+        Tendenz is not an investment adviser, financial adviser or a securities
+        broker. None of the data and information constitutes investment advice
+        nor an offering, recommendation or solicitation by Tendenz to buy, sell
+        or hold any security or financial product, and Tendenz makes no
+        representation (and has no opinion) regarding the advisability or
+        suitability of any investment.
       </p>
-      <p className="mt-2 leading-loose text-slate-12">
-        Tendenz explicitly states that it is not an investment adviser,
-        financial adviser, or securities broker. The data and information
-        presented do not constitute investment advice, nor do they represent an
-        offering, recommendation, or solicitation by Tendenz to buy, sell, or
-        hold any security or financial product. Tendenz does not express any
-        opinion on the advisability or suitability of any investment.
+      <p className="leading-loose text-slate-12">
+        None of the data and information constitutes investment advice (whether
+        general or customized). The financial products or operations referred to
+        in such data and information may not be suitable for your investment
+        profile and investment objectives or expectations. It is your
+        responsibility to consider whether any financial product or operation is
+        suitable for you based on your interests, investment objectives,
+        investment horizon and risk appetite. Tendenz shall not be liable for
+        any damages arising from any operations or investments in financial
+        products referred to within. Tendenz does not recommend using the data
+        and information provided as the only basis for making any investment
+        decision.
       </p>
-      <p className="mt-2 leading-loose text-slate-12">
-        It is essential to recognize that the financial products or operations
-        mentioned in the data and information may not be suitable for
-        everyone&apos;s investment profile, objectives, or expectations. It is
-        the individual&apos;s responsibility to carefully consider whether a
-        particular financial product or operation aligns with their interests,
-        investment objectives, time horizon, and risk tolerance. Tendenz shall
-        not be held liable for any damages resulting from any operations or
-        investments made in reliance on the information provided.
+      <p className="leading-loose text-slate-12">
+        Data is provided by financial exchanges and other content providers and
+        may be delayed as specified by financial exchanges or other data
+        providers. Tendenz does not verify any data and disclaims any obligation
+        to do so.
       </p>
-      <p className="mt-2 leading-loose text-slate-12">
-        The data and information presented by Tendenz are sourced from financial
-        exchanges and content providers, and there may be delays in its
-        availability as specified by these providers. Tendenz does not undertake
-        verification of the data and explicitly disclaims any obligation to do
-        so. Consequently, neither Tendenz nor any of its information providers
-        can be held liable for any errors, omissions, defects, delays, or
-        interruptions in the data or any actions taken based on such
-        information.
+      <p className="leading-loose text-slate-12">
+        Tendenz, its data or content providers, the financial exchanges and each
+        of their affiliates and business partners (A) expressly disclaim the
+        accuracy, adequacy, or completeness of any data and (B) shall not be
+        liable for any errors, omissions or other defects in, delays or
+        interruptions in such data, or for any actions taken in reliance
+        thereon. Neither Tendenz nor any of our information providers will be
+        liable for any damages relating to your use of the information provided
+        herein. As used here, “business partners” does not refer to an agency,
+        partnership, or joint venture relationship between Tendenz and any such
+        parties.
       </p>
-      <p className="mt-2 leading-loose text-slate-12">
-        Tendenz, its data or content providers, the financial exchanges, and
-        their affiliates and business partners expressly disclaim any
-        responsibility for the accuracy, adequacy, or completeness of the data.
-        None of these parties shall be liable for any damages arising from the
-        use of the information provided herein. &quot;Business partners&quot;
-        mentioned in this context do not refer to an agency, partnership, or
-        joint venture relationship between Tendenz and any third parties.
+      <p className="leading-loose text-slate-12">
+        You agree not to copy, modify, reformat, download, store, reproduce,
+        reprocess, transmit or redistribute any data or information found herein
+        or use any such data or information in a commercial enterprise without
+        obtaining prior written consent.
       </p>
-      <p className="mt-2 leading-loose text-slate-12">
-        Any use of the data or information found herein for commercial purposes
-        requires obtaining prior written consent from Tendenz. Copying,
-        modifying, reformatting, downloading, storing, reproducing,
-        reprocessing, transmitting, or redistributing the data or information
-        without authorization is prohibited.
+      <p className="leading-loose text-slate-12">
+        Either Tendenz or its third party data or content providers have
+        exclusive proprietary rights in the data and information provided.
       </p>
     </section>
   );
