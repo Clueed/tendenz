@@ -43,7 +43,7 @@ export default function MainBoxRow({
               {sigma}
             </div>
             <div className="ml-1 text-xl text-slate-10">σ</div>
-            <MarketCap marketCap={entry.marketCap} expanded={true} />
+            <MarketCap marketCap={entry.marketCap} />
           </div>
 
           <div
@@ -100,6 +100,10 @@ function handleTickerTypes(name: string | null) {
       shareTypes.push(type);
     }
   }
+
+  shareTypes = shareTypes.map((type) =>
+    type.replace(" ", String.fromCharCode(160))
+  );
 
   return { formattedName, shareTypes };
 }
