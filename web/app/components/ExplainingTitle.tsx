@@ -1,29 +1,5 @@
 "use client";
-import * as Popover from "@radix-ui/react-popover";
-import { ReactNode } from "react";
-
-function Pop({ children, popover }: { children: string; popover: ReactNode }) {
-  return (
-    <Popover.Root>
-      <Popover.Trigger className="group">
-        <span className="transition-colors border-b-2 border-slate-8 group-radix-state-open:border-indigo-12 group-radix-state-open:text-indigo-12">
-          {children}
-        </span>
-      </Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Content
-          sideOffset={5}
-          className="z-50 px-4 py-3 rounded-md shadow-md text-base bg-indigo-12 leading-snug text-indigo-2 max-w-[var(--radix-popover-content-available-height)] w-[var(--radix-popover-trigger-width)] border-none"
-          avoidCollisions
-          collisionPadding={10}
-        >
-          {popover}
-          <Popover.Arrow className="fill-indigo-12" />
-        </Popover.Content>
-      </Popover.Portal>
-    </Popover.Root>
-  );
-}
+import Pop from "./Pop";
 
 export function ExplainingTitle({ text }: { text: string }) {
   return (
@@ -32,7 +8,8 @@ export function ExplainingTitle({ text }: { text: string }) {
         {text}
       </h1>
       <p className="mt-2 text-lg leading-relaxed text-slate-11">
-        statistical probabilities market close prices of based on{" "}
+        statistical probabilities of market close prices, <br />
+        based on{" "}
         <Pop popover={"daily returns of each assets over the past two years"}>
           historical returns
         </Pop>
