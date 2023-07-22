@@ -1,8 +1,7 @@
-import Link from "next/link";
+import { Rubik } from "next/font/google";
+import { Footer } from "./Footer";
 import NavigationBar from "./components/NavigationBar";
 import "./globals.css";
-import { Rubik } from "next/font/google";
-import Head from "next/head";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -17,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark-theme">
-      <Head>
+      <head>
         <title>Tendenz - skip past the noise</title>
         <link
           rel="apple-touch-icon"
@@ -55,7 +54,7 @@ export default function RootLayout({
           media="(prefers-color-scheme: dark)"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
+      </head>
       <body
         className={
           rubik.variable + " font-sans bg-slate-3 relative text-slate-12"
@@ -63,10 +62,7 @@ export default function RootLayout({
       >
         <NavigationBar />
         <main>{children}</main>
-        <footer className="flex justify-around pt-20 pb-10 text-sm text-slate-a8">
-          <Link href="/disclaimers">disclaimers</Link>
-          <div>© 2023</div>
-        </footer>
+        <Footer />
         <div className="absolute top-0 w-full h-full overflow-clip -z-40 backdrop-blur-3xl"></div>
         <div className="absolute top-0 w-full h-full overflow-clip -z-50">
           <div className="absolute rounded-full w-44 h-44 bg-sky-4 left-[-20vw] top-[25%]" />

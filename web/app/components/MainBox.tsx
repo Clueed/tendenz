@@ -4,21 +4,29 @@ import * as Accordion from "@radix-ui/react-accordion";
 
 import { tendenzApiSigmaYesterday } from "../page";
 import MainBoxRow from "./MainBoxRow";
+import { useState } from "react";
 
 export default function MainBox({
   data,
 }: {
   data: tendenzApiSigmaYesterday[];
 }) {
+  const [expandedKey, setOpen] = useState<string>("");
+
   return (
     <Accordion.Root
       collapsible
       type="single"
       className="relative flex flex-col w-full gap-3"
+      onValueChange={(o) => setOpen(o)}
     >
       {data.length > 0
         ? data.map((entry, i) => (
-            <MainBoxRow key={entry.ticker} entry={entry} />
+            <MainBoxRow
+              key={entry.ticker}
+              entry={entry}
+              expanded={expandedKey === entry.ticker}
+            />
           ))
         : [...Array(4).keys()].map((i) => (
             <>

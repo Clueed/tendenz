@@ -1,56 +1,59 @@
 "use client";
-import classNames from "classnames";
 
-export function MarketCap({ marketCap }: { marketCap: number }) {
-  let label: string;
+import { AnimatePresence, motion } from "framer-motion";
 
-  if (marketCap > 1000000000000) {
-    label = "1T";
-  } else if (marketCap > 500000000000) {
-    label = "500B";
-  } else if (marketCap > 100000000000) {
-    label = "100B";
-  } else if (marketCap > 50000000000) {
-    label = "50B";
-  } else if (marketCap > 10000000000) {
-    label = "10B";
-  } else if (marketCap > 1000000000) {
-    label = "1B";
-  } else if (marketCap > 100000000) {
-    label = "100M";
-  } else if (marketCap > 50000000) {
-    label = "50M";
-  } else if (marketCap > 10000000) {
-    label = "10M";
-  } else {
-    label = "1M";
+function calculateLabel(marketCap: number): string {
+  const thresholds = [
+    { cap: 1e12, label: "1T" },
+    { cap: 5e11, label: "500B" },
+    { cap: 1e11, label: "100B" },
+    { cap: 5e10, label: "50B" },
+    { cap: 1e10, label: "10B" },
+    { cap: 1e9, label: "1B" },
+    { cap: 1e8, label: "100M" },
+    { cap: 5e7, label: "50M" },
+    { cap: 1e7, label: "10M" },
+  ];
+
+  for (const threshold of thresholds) {
+    if (marketCap > threshold.cap) {
+      return threshold.label;
+    }
   }
 
-  let sign: string;
-  if (marketCap > 1000000) {
-    sign = ">";
-  } else {
-    sign = "<";
-  }
+  return "1M";
+}
+
+export function MarketCap({
+  marketCap,
+  expanded,
+}: {
+  marketCap: number;
+  expanded: boolean;
+}) {
+  const label = calculateLabel(marketCap);
+  const formattedMarketCap = marketCap > 1e6 ? label + "+" : ">" + label;
 
   return (
     <>
-      <div className="inline-flex flex-row-reverse flex-wrap items-baseline leading-none text-right gap-x-2">
-        <span
-          className={classNames(
-            "text-xs text-slate-11 group-radix-state-open:text-slate-12 transition-colors duration-1000 delay-1000"
-          )}
+      <div className="inline-flex flex-col flex-wrap items-end leading-none text-right gap-x-2">
+        <motion.div
+          className={"text-xs text-slate-11 pt-[0rem]"}
+          animate={{ color: expanded ? `var(--slate-12)` : `var(--slate-11)` }}
         >
-          {sign}
-          {label}
-        </span>
-        <span
-          className={classNames(
-            "text-[0.6rem] text-right text-slate-a11 opacity-0 group-radix-state-open:opacity-100 transition-opacity duration-1000 delay-1000"
+          {formattedMarketCap}
+        </motion.div>
+        <AnimatePresence>
+          {expanded && (
+            <motion.span
+              className={"text-[0.6rem] text-right text-slate-a11"}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              market cap
+            </motion.span>
           )}
-        >
-          market cap
-        </span>
+        </AnimatePresence>
       </div>
     </>
   );
