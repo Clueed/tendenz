@@ -30,12 +30,11 @@ export default function Pop({
               collisionPadding={10}
             >
               <motion.div
-                key="popContent"
                 initial={{ y: "-10%", opacity: 0 }}
                 animate={{
                   y: "0",
                   opacity: 1,
-                  transition: { type: "spring", duration: 0.3 },
+                  transition: { type: "spring", duration: 1 },
                 }}
                 exit={{ y: "-10%", opacity: 0 }}
                 className="z-50 px-4 py-3 rounded-md shadow-md text-base bg-indigo-12 leading-snug text-indigo-2 max-w-[var(--radix-popover-content-available-height)] w-[var(--radix-popover-trigger-width)] border-none"

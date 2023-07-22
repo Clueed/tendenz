@@ -6,11 +6,14 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { MarketCap } from "./MarketCap";
 import { MainBoxRowSecond } from "./MainBoxRowSecond";
 import { useMemo } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function MainBoxRow({
   entry,
+  expanded,
 }: {
   entry: tendenzApiSigmaYesterday;
+  expanded: boolean;
 }) {
   const lastClose = formatDollar(entry.last.close);
   const secondLastClose = formatDollar(entry.secondLast.close);
@@ -30,7 +33,7 @@ export default function MainBoxRow({
   return (
     <Accordion.Item
       value={entry.ticker}
-      className="transition-all duration-500 ease-in-out rounded-xl hover:bg-gradient-to-br from-sky-a4 to-indigo-a5 data-[state=open]:bg-gradient-to-br py-3 px-3 group"
+      className="transition-all duration-500 ease-in-out rounded-xl hover:bg-gradient-to-br from-sky-a4 to-indigo-a5 data-[state=open]:bg-gradient-to-br py-3 px-3"
     >
       <Accordion.Trigger asChild>
         <div
@@ -43,13 +46,15 @@ export default function MainBoxRow({
               {sigma}
             </div>
             <div className="ml-1 text-xl text-slate-10">σ</div>
-            <MarketCap marketCap={entry.marketCap} />
+            <MarketCap marketCap={entry.marketCap} expanded={expanded} />
           </div>
 
-          <div
-            className={classNames(
-              "text-lg leading-[1.425] max-h-[calc(1.425*1.125rem*2)] group-radix-state-open:max-h-full overflow-clip transition-all duration-700"
-            )}
+          <motion.div
+            animate={{
+              height: expanded ? "auto" : "calc(1.425*1.125rem*2)",
+              transition: { type: "spring", duration: 3 },
+            }}
+            className={"text-lg leading-[1.425] overflow-clip"}
           >
             <span className="mr-1 text-slate-11">{entry.ticker}</span>
             {"  "}
@@ -58,30 +63,42 @@ export default function MainBoxRow({
             {shareTypes.map((type) => (
               <>
                 {" "}
-                <span
+                <motion.span
+                  animate={{
+                    opacity: expanded ? 1 : 0,
+                    transition: { type: "spring", duration: 0.5, delay: 1 },
+                  }}
                   key={type}
-                  className="text-[0.6em] text-slate-11 opacity-0 group-radix-state-open:opacity-100 transition-opacity delay-700 duration-300 bg-slate-a3 rounded-md px-2 py-1"
+                  className="text-[0.6em] text-slate-11 bg-slate-a3 rounded-md px-2 py-1"
                 >
                   {type}
-                </span>
+                </motion.span>
               </>
             ))}
-          </div>
+          </motion.div>
         </div>
       </Accordion.Trigger>
-      <Accordion.Content asChild>
-        <div
-          className={classNames(
-            "data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden"
-          )}
-        >
-          <MainBoxRowSecond
-            lastClose={lastClose}
-            secondLastClose={secondLastClose}
-            dailyReturn={dailyReturn}
-          />
-        </div>
-      </Accordion.Content>
+      <AnimatePresence>
+        {expanded && (
+          <Accordion.Content asChild forceMount>
+            <motion.div
+              initial={{ height: 0 }}
+              animate={{
+                height: "auto",
+                transition: { type: "spring", duration: 2 },
+              }}
+              exit={{ height: 0 }}
+              className={"overflow-hidden"}
+            >
+              <MainBoxRowSecond
+                lastClose={lastClose}
+                secondLastClose={secondLastClose}
+                dailyReturn={dailyReturn}
+              />
+            </motion.div>
+          </Accordion.Content>
+        )}
+      </AnimatePresence>
     </Accordion.Item>
   );
 }
@@ -94,7 +111,7 @@ function handleTickerTypes(name: string | null) {
     return { formattedName, shareTypes };
   }
 
-  for (const type of ["Common Stock", "Class A"]) {
+  for (const type of ["Common Stock", "Ordinary Shares", "Class A"]) {
     if (formattedName!.search(type) !== -1) {
       formattedName = formattedName!.replace(type, "");
       shareTypes.push(type);
