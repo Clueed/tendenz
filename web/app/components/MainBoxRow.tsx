@@ -16,13 +16,6 @@ export default function MainBoxRow({
   entry: tendenzApiSigmaYesterday;
   expanded: boolean;
 }) {
-  const lastClose = formatDollar(entry.last.close);
-  const secondLastClose = formatDollar(entry.secondLast.close);
-  const dailyReturn = useMemo(
-    () => r((1 - entry.secondLast.close / entry.last.close) * 100, 1) + "%",
-    [entry.secondLast.close, entry.last.close]
-  );
-
   return (
     <Accordion.Item
       value={entry.ticker}
@@ -50,9 +43,8 @@ export default function MainBoxRow({
               className={"overflow-hidden"}
             >
               <MainBoxRowSecond
-                lastClose={lastClose}
-                secondLastClose={secondLastClose}
-                dailyReturn={dailyReturn}
+                last={entry.last}
+                secondLast={entry.secondLast}
               />
             </motion.div>
           </Accordion.Content>
@@ -60,12 +52,4 @@ export default function MainBoxRow({
       </AnimatePresence>
     </Accordion.Item>
   );
-}
-
-function r(n: number, digits = 2): string {
-  return n.toFixed(digits);
-}
-
-function formatDollar(n: number): string {
-  return "$" + r(n);
 }
