@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useMemo } from "react";
-import { tendenzApiSigmaYesterday } from "../../page";
 import { MarketCap } from "./MarketCap";
 
 interface Props {
@@ -55,6 +54,7 @@ export function SigmaCardHeader({
           <>
             {" "}
             <motion.span
+              initial={{ opacity: 0 }}
               animate={{
                 opacity: expanded ? 1 : 0,
                 transition: {
