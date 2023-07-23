@@ -5,8 +5,15 @@ import { tendenzApiSigmaYesterday } from "../page";
 import * as Accordion from "@radix-ui/react-accordion";
 import { MarketCap } from "./MarketCap";
 import { MainBoxRowSecond } from "./MainBoxRowSecond";
-import { useMemo } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import {
+  AnimatePresence,
+  PanInfo,
+  motion,
+  useAnimate,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
 
 export default function MainBoxRow({
   entry,
@@ -30,75 +37,100 @@ export default function MainBoxRow({
     [name]
   );
 
+  const x = useMotionValue(0);
+  const xInput = [0, -50];
+  const width = useTransform(x, xInput, ["2rem", "10rem"]);
+  const opacity = useTransform(x, xInput, [0, "10rem"]);
+
   return (
-    <Accordion.Item
-      value={entry.ticker}
-      className="transition-all duration-500 ease-in-out rounded-xl hover:bg-gradient-to-br from-sky-a4 to-indigo-a5 data-[state=open]:bg-gradient-to-br py-3 px-3"
-    >
-      <Accordion.Trigger asChild>
-        <div
-          className={
-            "grid w-100 grid-cols-[7rem_auto] gap-x-4 items-start cursor-pointer"
-          }
-        >
-          <div className="grid grid-cols-[auto_min-content] items-baseline">
-            <div className="text-3xl leading-none text-right text-indigo-12">
-              {sigma}
-            </div>
-            <div className="ml-1 text-xl text-slate-10">σ</div>
-            <MarketCap marketCap={entry.marketCap} expanded={expanded} />
-          </div>
-
-          <motion.div
-            animate={{
-              height: expanded ? "auto" : "calc(1.425*1.125rem*2)",
-              transition: { type: "spring", duration: 3 },
-            }}
-            className={"text-lg leading-[1.425] overflow-clip"}
+    <Accordion.Item value={entry.ticker} className="relative">
+      <motion.div
+        drag="x"
+        style={{ x }}
+        dragConstraints={{ right: 0, left: -50 }}
+        dragSnapToOrigin
+        dragTransition={{ bounceStiffness: 600, bounceDamping: 50 }}
+        dragMomentum={false}
+        dragElastic={0.1}
+        animate={{
+          backgroundImage: expanded
+            ? "linear-gradient(to bottom right, var(--tw-gradient-stops))"
+            : "none",
+          transition: { type: "spring", duration: 5 },
+        }}
+        className="relative px-3 py-3 rounded-xl from-sky-a4 to-indigo-a5"
+      >
+        <Accordion.Trigger asChild>
+          <div
+            className={
+              "grid w-100 grid-cols-[7rem_auto] gap-x-4 items-start cursor-pointer"
+            }
           >
-            <span className="mr-1 text-slate-11">{entry.ticker}</span>
-            {"  "}
+            <div className="grid grid-cols-[auto_min-content] items-baseline">
+              <div className="text-3xl leading-none text-right text-indigo-12">
+                {sigma}
+              </div>
+              <div className="ml-1 text-xl text-slate-10">σ</div>
+              <MarketCap marketCap={entry.marketCap} expanded={expanded} />
+            </div>
 
-            <span className="text-slate-12">{formattedName}</span>
-            {shareTypes.map((type) => (
-              <>
-                {" "}
-                <motion.span
-                  animate={{
-                    opacity: expanded ? 1 : 0,
-                    transition: { type: "spring", duration: 0.5, delay: 1 },
-                  }}
-                  key={type}
-                  className="text-[0.6em] text-slate-11 bg-slate-a3 rounded-md px-2 py-1"
-                >
-                  {type}
-                </motion.span>
-              </>
-            ))}
-          </motion.div>
-        </div>
-      </Accordion.Trigger>
-      <AnimatePresence>
-        {expanded && (
-          <Accordion.Content asChild forceMount>
             <motion.div
-              initial={{ height: 0 }}
               animate={{
-                height: "auto",
-                transition: { type: "spring", duration: 2 },
+                height: expanded ? "auto" : "calc(1.425*1.125rem*2)",
+                transition: { type: "spring", duration: 3 },
               }}
-              exit={{ height: 0 }}
-              className={"overflow-hidden"}
+              className={"text-lg leading-[1.425] overflow-clip"}
             >
-              <MainBoxRowSecond
-                lastClose={lastClose}
-                secondLastClose={secondLastClose}
-                dailyReturn={dailyReturn}
-              />
+              <span className="mr-1 text-slate-11">{entry.ticker}</span>
+              {"  "}
+
+              <span className="text-slate-12">{formattedName}</span>
+              {shareTypes.map((type) => (
+                <>
+                  {" "}
+                  <motion.span
+                    animate={{
+                      opacity: expanded ? 1 : 0,
+                      transition: { type: "spring", duration: 0.5, delay: 1 },
+                    }}
+                    key={type}
+                    className="text-[0.6em] text-slate-11 bg-slate-a3 rounded-md px-2 py-1"
+                  >
+                    {type}
+                  </motion.span>
+                </>
+              ))}
             </motion.div>
-          </Accordion.Content>
-        )}
-      </AnimatePresence>
+          </div>
+        </Accordion.Trigger>
+        <AnimatePresence>
+          {expanded && (
+            <Accordion.Content asChild forceMount>
+              <motion.div
+                initial={{ height: 0 }}
+                animate={{
+                  height: "auto",
+                  transition: { type: "spring", duration: 2 },
+                }}
+                exit={{ height: 0 }}
+                className={"overflow-hidden"}
+              >
+                <MainBoxRowSecond
+                  lastClose={lastClose}
+                  secondLastClose={secondLastClose}
+                  dailyReturn={dailyReturn}
+                />
+              </motion.div>
+            </Accordion.Content>
+          )}
+        </AnimatePresence>
+      </motion.div>
+      <motion.div
+        className="absolute top-0 right-0 h-full -z-10 overflow-clip bg-gradient-to-l from-purple-a3 to-transparent to-100% px-1 rounded-r-xl flex items-center justify-end pr-2"
+        style={{ width: width }}
+      >
+        <div>{">"}</div>
+      </motion.div>
     </Accordion.Item>
   );
 }

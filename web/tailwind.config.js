@@ -40,6 +40,7 @@ module.exports = {
       ]),
       black: generateScale("black", true),
       white: generateScale("white", true),
+      transparent: "#00000000",
     },
     extend: {
       backgroundImage: {
