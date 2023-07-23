@@ -1,15 +1,12 @@
 "use client";
 
-import classNames from "classnames";
-import { tendenzApiSigmaYesterday } from "../page";
+import { tendenzApiSigmaYesterday } from "../../page";
 import * as Accordion from "@radix-ui/react-accordion";
-import { MarketCap } from "./MarketCap";
-import { MainBoxRowSecond } from "./MainBoxRowSecond";
-import { useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { MainCardTrigger } from "./MainCardTrigger";
+import { SigmaCardHeader } from "./SigmaCardHeader";
+import { SigmaCardBody } from "./SigmaCardBody";
 
-export default function MainBoxRow({
+export default function SigmaCard({
   entry,
   expanded,
 }: {
@@ -21,8 +18,8 @@ export default function MainBoxRow({
       value={entry.ticker}
       className="transition-all duration-500 ease-in-out rounded-xl hover:bg-gradient-to-br from-sky-a4 to-indigo-a5 data-[state=open]:bg-gradient-to-br py-3 px-3"
     >
-      <Accordion.Trigger asChild>
-        <MainCardTrigger
+      <Accordion.Trigger>
+        <SigmaCardHeader
           expanded={expanded}
           name={entry.name!}
           sigma={entry.sigma}
@@ -42,10 +39,7 @@ export default function MainBoxRow({
               exit={{ height: 0 }}
               className={"overflow-hidden"}
             >
-              <MainBoxRowSecond
-                last={entry.last}
-                secondLast={entry.secondLast}
-              />
+              <SigmaCardBody last={entry.last} secondLast={entry.secondLast} />
             </motion.div>
           </Accordion.Content>
         )}

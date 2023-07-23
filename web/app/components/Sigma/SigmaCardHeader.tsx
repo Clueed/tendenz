@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useMemo } from "react";
-import { tendenzApiSigmaYesterday } from "../page";
+import { tendenzApiSigmaYesterday } from "../../page";
 import { MarketCap } from "./MarketCap";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
   marketCap: number;
 }
 
-export function MainCardTrigger({
+export function SigmaCardHeader({
   expanded,
   sigma,
   ticker,

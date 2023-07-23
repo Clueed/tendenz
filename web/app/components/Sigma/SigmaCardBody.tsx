@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
-import { tendenzApiSigmaYesterdayDay } from "../page";
+import { tendenzApiSigmaYesterdayDay } from "../../page";
 
-export function MainCardContent({
+export function SigmaCardBody({
   last,
   secondLast,
 }: {

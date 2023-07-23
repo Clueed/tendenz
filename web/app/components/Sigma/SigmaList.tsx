@@ -2,11 +2,11 @@
 
 import * as Accordion from "@radix-ui/react-accordion";
 
-import { tendenzApiSigmaYesterday } from "../page";
-import MainBoxRow from "./MainBoxRow";
+import { tendenzApiSigmaYesterday } from "../../page";
+import SigmaCard from "./SigmaCard";
 import { useState } from "react";
 
-export default function MainBox({
+export default function SigmaList({
   data,
 }: {
   data: tendenzApiSigmaYesterday[];
@@ -22,7 +22,7 @@ export default function MainBox({
     >
       {data.length > 0
         ? data.map((entry, i) => (
-            <MainBoxRow
+            <SigmaCard
               key={entry.ticker}
               entry={entry}
               expanded={expandedKey === entry.ticker}

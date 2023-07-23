@@ -1,6 +1,6 @@
 import { ExplainingTitle } from "./components/ExplainingTitle";
 import Hero from "./components/Hero";
-import MainBox from "./components/MainBox";
+import SigmaList from "./components/Sigma/SigmaList";
 
 export interface tendenzApiSigmaYesterdayDay {
   close: number;
@@ -46,7 +46,7 @@ export default async function Home() {
             <span className="text-base text-slate-11">United States</span>
           </div>
           <div className="flex justify-center mt-4">
-            <MainBox data={data} />
+            <SigmaList data={data} />
           </div>
         </section>
         <section className="mt-[10rem]">
