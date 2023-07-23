@@ -30,7 +30,7 @@ export function SigmaCardHeader({
       }
     >
       <div className="grid grid-cols-[auto_min-content] items-baseline">
-        <div className="text-3xl leading-none text-right text-indigo-12">
+        <div className="text-3xl leading-tight text-right text-indigo-12">
           {formattedSigma}
         </div>
         <div className="ml-1 text-xl text-slate-10">σ</div>
@@ -45,7 +45,7 @@ export function SigmaCardHeader({
             duration: 3,
           },
         }}
-        className={"text-lg leading-[1.425] overflow-clip"}
+        className={"text-lg leading-[1.425] overflow-clip text-left"}
       >
         <span className="mr-1 text-slate-11">{ticker}</span>
         {"  "}
