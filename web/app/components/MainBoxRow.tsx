@@ -39,7 +39,7 @@ export default function MainBoxRow({
 
   const x = useMotionValue(0);
   const xInput = [0, -50];
-  const width = useTransform(x, xInput, ["2rem", "10rem"]);
+  const width = useTransform(x, (x) => `${Math.abs(x)}px`);
   const opacity = useTransform(x, xInput, [0, "10rem"]);
 
   return (
@@ -125,12 +125,13 @@ export default function MainBoxRow({
           )}
         </AnimatePresence>
       </motion.div>
-      <motion.div
-        className="absolute top-0 right-0 h-full -z-10 overflow-clip bg-gradient-to-l from-purple-a3 to-transparent to-100% px-1 rounded-r-xl flex items-center justify-end pr-2"
-        style={{ width: width }}
-      >
+      <motion.div className="absolute top-0 right-0 flex items-center justify-end h-full pr-2 -z-10">
         <div>{">"}</div>
       </motion.div>
+      <motion.div
+        className="absolute top-0 right-0 h-full -z-10 overflow-clip bg-gradient-to-l from-purple-a3 to-transparent to-100% px-1 rounded-r-xl flex items-center justify-end pr-2"
+        style={{ width, opacity }}
+      ></motion.div>
     </Accordion.Item>
   );
 }
