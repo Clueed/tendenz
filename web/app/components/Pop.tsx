@@ -14,7 +14,7 @@ export default function Pop({
   return (
     <Popover.Root onOpenChange={(o) => setOpen(o)} open={open}>
       <Popover.Trigger className="group">
-        <span className="transition-colors border-b-2 border-slate-8 group-radix-state-open:border-indigo-12 group-radix-state-open:text-indigo-12">
+        <span className="border-b-2 transition-colors border-slate-8 group-radix-state-open:border-indigo-12 group-radix-state-open:text-indigo-12">
           {children}
         </span>
       </Popover.Trigger>

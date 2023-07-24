@@ -5,7 +5,7 @@ import SigmaList from "./components/Sigma/SigmaList";
 export interface tendenzApiSigmaYesterdayDay {
   close: number;
   logReturn: number;
-  date: Date;
+  date: string;
 }
 
 export interface tendenzApiSigmaYesterday {
@@ -39,7 +39,7 @@ export default async function Home() {
     <div className="flex flex-col items-center">
       <Hero />
       <section className="max-w-[90vw]">
-        <ExplainingTitle text={"yesterday's anomalies"} />
+        <ExplainingTitle date={data[0].last.date} />
         <section>
           <div className="px-5">
             <h2 className="text-3xl font-normal text-slate-12">stocks</h2>

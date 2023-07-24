@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { tendenzApiSigmaYesterdayDay } from "../../page";
+import { npl } from "../naturalLanguageProcessing";
 
 export function SigmaCardBody({
   last,
@@ -21,7 +22,7 @@ export function SigmaCardBody({
       <div className="flex flex-col p-2 text-right">
         <div className="text-xl">{formattedSecondLastClose}</div>
         <div className="text-xs leading-tight text-slate-a12">
-          day before yesterday
+          {npl(last.date)}
         </div>
         <div className="text-[0.6rem] leading-tight text-slate-a11">
           close price
@@ -33,7 +34,9 @@ export function SigmaCardBody({
       </div>
       <div className="flex flex-col p-2 text-right">
         <div className="text-xl">{formattedLastClose}</div>
-        <div className="text-xs leading-tight text-slate-a12">yesterday</div>
+        <div className="text-xs leading-tight text-slate-a12">
+          {npl(secondLast.date)}
+        </div>
         <div className="text-[0.6rem] leading-tight text-slate-a11">
           close price
         </div>
