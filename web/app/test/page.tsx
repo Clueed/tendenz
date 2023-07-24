@@ -41,3 +41,5 @@ L ${(459.908+offset).toFixed(3)} 256.471
 Z
 `;
 }
+// How to do this correctly
+// https://reactfordataviz.com/articles/responsive-svg-drawing-with-react-and-uselayouteffect/
