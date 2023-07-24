@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { ExplainingTitle } from "./components/ExplainingTitle";
 import Hero from "./components/Hero";
 import SigmaList from "./components/Sigma/SigmaList";

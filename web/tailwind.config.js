@@ -50,6 +50,9 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-rubik)"],
       },
+      fontSize: {
+        "2xs": "0.6rem",
+      },
     },
   },
   plugins: [require("tailwindcss-radix")()],
