@@ -39,7 +39,6 @@ export function ExplainingTitlePopover({
   return (
     <Pop
       popoverColor="indigo"
-      blur="xl"
       popoverContent={
         <div className="text-indigo-12 w-[calc(var(--radix-popover-trigger-width)*1.5)] text-base leading-relaxed">
           {popoverText}

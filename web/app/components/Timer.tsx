@@ -9,7 +9,6 @@ export default function Timer() {
 
   return (
     <Pop
-      blur="2xl"
       popoverContent={
         <div className="w-40 text-slate-12">
           {timeTill} hours until the next update. Data is available after
@@ -21,7 +20,7 @@ export default function Timer() {
       {(open) => (
         <div
           className={classNames(
-            "flex items-center gap-1.5 px-3 py-1 stroke-2 rounded-xl bg-slate-6 text-slate-11",
+            "flex items-center gap-1.5 px-3 py-1 stroke-2 rounded-xl bg-slate-6 text-slate-11 backdrop-blur-xl",
             { "text-slate-12 shadow-2xl drop-shadow-xl bg-slate-7": open }
           )}
         >
