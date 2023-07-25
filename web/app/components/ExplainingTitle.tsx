@@ -1,7 +1,7 @@
 "use client";
 import classNames from "classnames";
 import Pop from "./Pop";
-import { npl } from "./naturalLanguageProcessing";
+import { npl } from "../misc/naturalLanguageProcessing";
 
 export function ExplainingTitle({ date }: { date: string }) {
   return (

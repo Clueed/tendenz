@@ -2,10 +2,11 @@
 import React from "react";
 import Pop from "./Pop";
 import classNames from "classnames";
-import IconClock from "./IconClock";
+import IconClock from "./Navbar/IconClock";
+import { hoursUntilNextWeekdayHour } from "../misc/hoursUntilNextWeekdayHour";
 
 export default function Timer() {
-  const timeTill = hoursUntilNextWeekdayHour(new Date(), 2);
+  const timeTill = hoursUntilNextWeekdayHour(2);
 
   return (
     <Pop
@@ -31,20 +32,4 @@ export default function Timer() {
       )}
     </Pop>
   );
-}
-
-function hoursUntilNextWeekdayHour(currentDate: Date, hour: number): number {
-  const currentDay = currentDate.getUTCDay();
-
-  let hoursRemaining = 0;
-
-  if (currentDay === 5) {
-    hoursRemaining = hour - currentDate.getUTCHours() + 24 * 3;
-  } else if (currentDay === 6) {
-    hoursRemaining = hour - currentDate.getUTCHours() + 24 * 2;
-  } else {
-    hoursRemaining = hour - currentDate.getUTCHours() + 24;
-  }
-
-  return hoursRemaining;
 }

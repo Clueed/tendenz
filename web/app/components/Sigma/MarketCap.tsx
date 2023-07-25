@@ -1,28 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-
-function calculateLabel(marketCap: number): string {
-  const thresholds = [
-    { cap: 1e12, label: "1T" },
-    { cap: 5e11, label: "500B" },
-    { cap: 1e11, label: "100B" },
-    { cap: 5e10, label: "50B" },
-    { cap: 1e10, label: "10B" },
-    { cap: 1e9, label: "1B" },
-    { cap: 1e8, label: "100M" },
-    { cap: 5e7, label: "50M" },
-    { cap: 1e7, label: "10M" },
-  ];
-
-  for (const threshold of thresholds) {
-    if (marketCap > threshold.cap) {
-      return threshold.label;
-    }
-  }
-
-  return "1M";
-}
+import { getMarketCapCategory } from "../../misc/getMarketCapCategory";
 
 export function MarketCap({
   marketCap,
@@ -31,7 +10,7 @@ export function MarketCap({
   marketCap: number;
   expanded: boolean;
 }) {
-  const label = calculateLabel(marketCap);
+  const label = getMarketCapCategory(marketCap);
   const formattedMarketCap = marketCap > 1e6 ? label + "+" : ">" + label;
 
   return (

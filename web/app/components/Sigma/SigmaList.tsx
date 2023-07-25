@@ -1,10 +1,8 @@
 "use client";
-
 import * as Accordion from "@radix-ui/react-accordion";
-
+import { useState } from "react";
 import { tendenzApiSigmaYesterday } from "../../page";
 import SigmaCard from "./SigmaCard";
-import { useState } from "react";
 
 export default function SigmaList({
   data,
