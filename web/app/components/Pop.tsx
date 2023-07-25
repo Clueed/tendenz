@@ -1,23 +1,49 @@
+import * as Popover from "@radix-ui/react-popover";
+import { Slot } from "@radix-ui/react-slot";
+import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode, useState } from "react";
-import * as Popover from "@radix-ui/react-popover";
+
+type BgColors = "indigo" | "slate";
 
 export default function Pop({
   children,
-  popover,
+  popoverContent,
+  popoverContainerStyle,
+  popoverColor,
+  blur = "none",
 }: {
-  children: string;
-  popover: ReactNode;
+  children: (open: boolean) => JSX.Element;
+  popoverContent: JSX.Element;
+  popoverContainerStyle?: string;
+  popoverColor: BgColors;
+  blur?: "none" | "xs" | "sm" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
 }) {
   const [open, setOpen] = useState<boolean>(false);
 
+  type colors<K extends string | number | symbol> = {
+    [k in K]: string;
+  };
+
+  const colors: {
+    [key in BgColors]: {
+      pop: string;
+      arrow: string;
+    };
+  } = {
+    indigo: {
+      pop: "bg-gradient-to-br from-indigo-a2 to-indigo-a3",
+      arrow: "fill-indigo-a3",
+    },
+    slate: {
+      pop: "bg-gradient-to-br from-slate-a2 to-slate-a3",
+      arrow: "fill-slate-a4",
+    },
+  };
+
   return (
     <Popover.Root onOpenChange={(o) => setOpen(o)} open={open}>
-      <Popover.Trigger className="group">
-        <span className="border-b-2 transition-colors border-slate-8 group-radix-state-open:border-indigo-12 group-radix-state-open:text-indigo-12">
-          {children}
-        </span>
-      </Popover.Trigger>
+      <Popover.Trigger className="group">{children(open)}</Popover.Trigger>
 
       <AnimatePresence>
         {open && (
@@ -37,10 +63,17 @@ export default function Pop({
                   transition: { type: "spring", duration: 1 },
                 }}
                 exit={{ y: "-10%", opacity: 0 }}
-                className="z-50 px-4 py-3 rounded-md shadow-md text-base bg-indigo-12 leading-snug text-indigo-2 max-w-[var(--radix-popover-content-available-height)] w-[var(--radix-popover-trigger-width)] border-none"
+                className={classNames(
+                  "z-50 px-5 py-4 rounded-md shadow-md border-none",
+                  "backdrop-blur-" + blur,
+                  popoverContainerStyle,
+                  colors[popoverColor].pop
+                )}
               >
-                {popover}
-                <Popover.Arrow className="fill-indigo-12" />
+                {popoverContent}
+                <Popover.Arrow
+                  className={classNames(colors[popoverColor].arrow)}
+                />
               </motion.div>
             </Popover.Content>
           </Popover.Portal>
