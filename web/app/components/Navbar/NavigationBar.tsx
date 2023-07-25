@@ -1,7 +1,7 @@
 import React from "react";
 import { Logo } from "./Logo";
 import Link from "next/link";
-import Timer from "./Timer";
+import Timer from "../Timer";
 
 export default function NavigationBar() {
   return (

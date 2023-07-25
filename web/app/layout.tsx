@@ -1,6 +1,6 @@
 import { Rubik } from "next/font/google";
 import { Footer } from "./Footer";
-import NavigationBar from "./components/NavigationBar";
+import NavigationBar from "./components/Navbar/NavigationBar";
 import "./globals.css";
 
 const rubik = Rubik({

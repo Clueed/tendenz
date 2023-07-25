@@ -1,7 +1,7 @@
 "use client";
 import classNames from "classnames";
 import Pop from "./Pop";
-import { npl } from "./naturalLanguageProcessing";
+import { npl } from "../misc/naturalLanguageProcessing";
 
 export function ExplainingTitle({ date }: { date: string }) {
   return (
@@ -39,7 +39,6 @@ export function ExplainingTitlePopover({
   return (
     <Pop
       popoverColor="indigo"
-      blur="xl"
       popoverContent={
         <div className="text-indigo-12 w-[calc(var(--radix-popover-trigger-width)*1.5)] text-base leading-relaxed">
           {popoverText}

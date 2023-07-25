@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { tendenzApiSigmaYesterdayDay } from "../../page";
-import { npl } from "../naturalLanguageProcessing";
+import { npl } from "../../misc/naturalLanguageProcessing";
 import { YahooButton } from "./YahooButton";
 import classNames from "classnames";
 
