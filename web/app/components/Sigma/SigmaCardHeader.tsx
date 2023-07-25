@@ -37,11 +37,12 @@ export function SigmaCardHeader({
       </div>
 
       <motion.div
+        initial={{ height: "calc(1.425*1.125rem*2)" }}
         animate={{
           height: expanded ? "auto" : "calc(1.425*1.125rem*2)",
           transition: {
             type: "spring",
-            duration: 3,
+            duration: 0.75,
           },
         }}
         className={"text-lg leading-[1.425] overflow-clip text-left"}
@@ -53,21 +54,12 @@ export function SigmaCardHeader({
         {shareTypes.map((type) => (
           <>
             {" "}
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: expanded ? 1 : 0,
-                transition: {
-                  type: "spring",
-                  duration: 0.5,
-                  delay: 1,
-                },
-              }}
+            <span
               key={type}
-              className="text-[0.6em] text-slate-11 bg-slate-a3 rounded-md px-2 py-1"
+              className="text-[0.6em] text-slate-a11 bg-slate-a3 rounded-md px-2 py-1"
             >
               {type}
-            </motion.span>
+            </span>
           </>
         ))}
       </motion.div>

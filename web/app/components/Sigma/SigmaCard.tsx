@@ -16,8 +16,14 @@ export default function SigmaCard({
   return (
     <Accordion.Item
       value={entry.ticker}
-      className="transition-all duration-500 ease-in-out rounded-xl hover:bg-gradient-to-br from-sky-a4 to-indigo-a5 data-[state=open]:bg-gradient-to-br py-3 px-3"
+      className="relative p-3 rounded-xl overflow-clip"
     >
+      <motion.div
+        className="absolute top-0 right-0 w-full h-full shadow-sm from-sky-a4 to-indigo-a5 bg-gradient-to-br -z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: expanded ? 1 : 0 }}
+        transition={{ duration: 0.75, type: "spring" }}
+      />
       <Accordion.Trigger>
         <SigmaCardHeader
           expanded={expanded}
@@ -34,12 +40,19 @@ export default function SigmaCard({
               initial={{ height: 0 }}
               animate={{
                 height: "auto",
-                transition: { type: "spring", duration: 2 },
               }}
               exit={{ height: 0 }}
               className={"overflow-hidden"}
+              transition={{
+                type: "spring",
+                duration: 0.75,
+              }}
             >
-              <SigmaCardBody last={entry.last} secondLast={entry.secondLast} />
+              <SigmaCardBody
+                last={entry.last}
+                secondLast={entry.secondLast}
+                ticker={entry.ticker}
+              />
             </motion.div>
           </Accordion.Content>
         )}
