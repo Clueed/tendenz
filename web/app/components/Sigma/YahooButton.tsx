@@ -6,12 +6,12 @@ export function YahooButton({ ticker }: { ticker: string }) {
       target="_blank"
       rel="noopener noreferrer"
       href={`https://finance.yahoo.com/quote/${ticker}`}
-      className="p-2 rounded-md shadow-sm from-violet-a6 to-violet-a7 bg-gradient-to-br text-violet-1"
+      className="flex items-center p-2 gap-1 rounded-md shadow-sm from-violet-a6 to-violet-a7 bg-gradient-to-br text-violet-11"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        height="0.9rem"
-        width="0.9rem"
+        height="1rem"
+        width="1rem"
         viewBox="0 0 512 512"
         fill="currentColor"
         aria-hidden="true"
@@ -21,6 +21,20 @@ export function YahooButton({ ticker }: { ticker: string }) {
         License - https://fontawesome.com/license (Commercial License) Copyright
         2023 Fonticons, Inc.
         <path d="M64 64c0-17.7-14.3-32-32-32S0 46.3 0 64V400c0 44.2 35.8 80 80 80H480c17.7 0 32-14.3 32-32s-14.3-32-32-32H80c-8.8 0-16-7.2-16-16V64zm406.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L320 210.7l-57.4-57.4c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 221.3l57.4 57.4c12.5 12.5 32.8 12.5 45.3 0l128-128z" />
+      </svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="0.5rem"
+        viewBox="0 0 320 512"
+        fill="currentColor"
+        aria-hidden="true"
+        focusable="false"
+        strokeWidth={10}
+      >
+        ! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com
+        License - https://fontawesome.com/license (Commercial License) Copyright
+        2023 Fonticons, Inc.{" "}
+        <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
       </svg>
       <VisuallyHidden.Root>(opens in a new tab)</VisuallyHidden.Root>
     </a>

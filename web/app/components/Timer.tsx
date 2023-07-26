@@ -2,7 +2,7 @@
 import React from "react";
 import Pop from "./Pop";
 import classNames from "classnames";
-import IconClock from "./Navbar/IconClock";
+import IconClock from "./IconClock";
 import { hoursUntilNextWeekdayHour } from "../misc/hoursUntilNextWeekdayHour";
 
 export default function Timer() {
@@ -21,7 +21,7 @@ export default function Timer() {
       {(open) => (
         <div
           className={classNames(
-            "flex items-center gap-1.5 px-3 py-1 stroke-2 rounded-xl bg-slate-6 text-slate-11 backdrop-blur-xl",
+            "flex items-center gap-1.5 px-3 py-1 stroke-2 rounded-xl bg-slate-5 text-slate-10 backdrop-blur-xl",
             { "text-slate-12 shadow-2xl drop-shadow-xl": open }
           )}
         >
