@@ -6,7 +6,7 @@ export function YahooButton({ ticker }: { ticker: string }) {
       target="_blank"
       rel="noopener noreferrer"
       href={`https://finance.yahoo.com/quote/${ticker}`}
-      className="flex items-center gap-1 p-2 rounded-md shadow-sm from-violet-a6 to-violet-a7 bg-gradient-to-br text-violet-11"
+      className="flex items-center p-2 gap-1 rounded-md shadow-sm from-violet-a6 to-violet-a7 bg-gradient-to-br text-violet-11"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -28,7 +28,7 @@ export function SigmaCardBody({
 
   return (
     <div className="grid grid-cols-[1fr_7rem_repeat(content_fit,_2)_1fr] mt-4 text-right justify-between">
-      <div className="col-start-2 row-start-1 text-xl">
+      <div className="text-xl col-start-2 row-start-1">
         {formattedSecondLastClose}
       </div>
       <div className="col-start-2">
@@ -52,7 +52,7 @@ export function SigmaCardBody({
         <div className="text-xs leading-tight text-slate-a12">return</div>
       </div>
 
-      <div className="col-start-4 row-start-1 text-xl">
+      <div className="text-xl col-start-4 row-start-1">
         {formattedLastClose}
       </div>
       <div className="col-start-4">
