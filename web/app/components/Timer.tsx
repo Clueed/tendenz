@@ -2,7 +2,7 @@
 import React from "react";
 import Pop from "./Pop";
 import classNames from "classnames";
-import IconClock from "./Navbar/IconClock";
+import IconClock from "./IconClock";
 import { hoursUntilNextWeekdayHour } from "../misc/hoursUntilNextWeekdayHour";
 
 export default function Timer() {

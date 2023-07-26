@@ -15,6 +15,8 @@ export default function IconClock({ animationTrigger }: Props) {
       height="1em"
       viewBox="0 0 512 512"
       fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
     >
       Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License
       - https://fontawesome.com/license (Commercial License) Copyright 2023
