@@ -47,7 +47,7 @@ export default async function Home() {
 
         <SigmaList data={data} />
       </section>
-      <section className="mt-[10rem]">
+      <section className="mt-20">
         <ComingSoon />
       </section>
     </>
