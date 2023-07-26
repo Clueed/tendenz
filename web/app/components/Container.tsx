@@ -13,7 +13,7 @@ function Container({
   return (
     <div
       className={classNames("grid [&>*]:col-start-2", className, {
-        "grid-cols-[1fr_min(800px,_90vw)_1fr]": type === "default",
+        "grid-cols-[1fr_min(640px,_90vw)_1fr]": type === "default",
       })}
     >
       {children}
