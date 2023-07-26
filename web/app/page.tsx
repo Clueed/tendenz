@@ -38,9 +38,8 @@ export default async function Home() {
   const data = await getData();
   return (
     <div className="flex flex-col items-center">
-      <header>
-        <Hero />
-      </header>
+      <Hero />
+
       <section>
         <ExplainingTitle date={data[0].last.date} />
 
