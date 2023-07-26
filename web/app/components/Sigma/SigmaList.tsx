@@ -3,6 +3,7 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { useState } from "react";
 import { tendenzApiSigmaYesterday } from "../../page";
 import SigmaCard from "./SigmaCard";
+import Timer from "../Timer";
 
 export default function SigmaList({
   data,
@@ -13,9 +14,12 @@ export default function SigmaList({
 
   return (
     <>
-      <div className="px-5">
-        <h2 className="text-3xl font-normal text-slate-12">stocks</h2>
-        <span className="text-base text-slate-11">United States</span>
+      <div className="flex justify-between">
+        <div>
+          <h2 className="text-3xl font-normal text-slate-12">stocks</h2>
+          <span className="text-base text-slate-11">United States</span>
+        </div>
+        <Timer />
       </div>
 
       <Accordion.Root
