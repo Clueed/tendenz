@@ -1,10 +1,16 @@
-import { Rubik } from "next/font/google";
+import localFont from "next/font/local";
 import { Footer } from "./Footer";
 import NavigationBar from "./components/Navbar/NavigationBar";
 import "./globals.css";
 
-const rubik = Rubik({
-  subsets: ["latin"],
+const rubik = localFont({
+  src: [
+    { path: "./fonts/DMSans-VariableFont_opsz,wght.woff2", style: "normal" },
+    {
+      path: "./fonts/DMSans-Italic-VariableFont_opsz,wght.woff2",
+      style: "italic",
+    },
+  ],
   display: "swap",
   variable: "--font-rubik",
 });
