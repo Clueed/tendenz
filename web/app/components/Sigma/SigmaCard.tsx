@@ -16,7 +16,7 @@ export default function SigmaCard({
   return (
     <Accordion.Item
       value={entry.ticker}
-      className="relative p-3 rounded-xl overflow-clip"
+      className="relative p-3 sm:rounded-xl overflow-clip"
     >
       <motion.div
         className="absolute top-0 right-0 w-full h-full shadow-sm from-sky-a4 to-indigo-a5 bg-gradient-to-br -z-10"

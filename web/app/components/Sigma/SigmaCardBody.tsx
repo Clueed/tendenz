@@ -27,7 +27,7 @@ export function SigmaCardBody({
   //const dailyReturnColor = dailyReturn > 0 ? "text-indigo-a9" : "text-red-a9";
 
   return (
-    <div className="grid grid-cols-[1fr_repeat(content_fit,_3)_1fr] mt-4 text-right justify-between">
+    <div className="grid grid-cols-[1fr_7rem_repeat(content_fit,_2)_1fr] mt-4 text-right justify-between">
       <div className="col-start-2 row-start-1 text-xl">
         {formattedSecondLastClose}
       </div>
