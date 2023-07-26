@@ -1,11 +1,12 @@
 "use client";
 import classNames from "classnames";
-import Pop from "./Pop";
 import { npl } from "../misc/naturalLanguageProcessing";
+import Container from "./Container";
+import Pop from "./Pop";
 
 export function ExplainingTitle({ date }: { date: string }) {
   return (
-    <div className="p-5 mt-8 mb-4">
+    <Container type="default">
       <h1 className="relative inline text-4xl font-normal text-indigo-11">
         {npl(date)}&apos;s anomalies
       </h1>
@@ -25,7 +26,7 @@ export function ExplainingTitle({ date }: { date: string }) {
           triggerText="market capitalization."
         />
       </p>
-    </div>
+    </Container>
   );
 }
 

@@ -37,17 +37,19 @@ async function getData() {
 export default async function Home() {
   const data = await getData();
   return (
-    <div className="flex flex-col items-center">
+    <>
       <Hero />
 
-      <section>
-        <ExplainingTitle date={data[0].last.date} />
+      <section className="my-10">
+        <div className="my-5">
+          <ExplainingTitle date={data[0].last.date} />
+        </div>
 
         <SigmaList data={data} />
       </section>
       <section className="mt-[10rem]">
         <ComingSoon />
       </section>
-    </div>
+    </>
   );
 }
