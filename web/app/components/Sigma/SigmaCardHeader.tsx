@@ -51,6 +51,7 @@ export function SigmaCardHeader({
         {"  "}
 
         <span className="text-slate-12">{formattedName}</span>
+        <br className="@sm:inline hidden" />
         {shareTypes.map((type) => (
           <Fragment key={type}>
             {" "}

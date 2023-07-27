@@ -31,6 +31,7 @@ export default function SigmaList({
         type="single"
         className="relative flex flex-col w-full gap-3"
         onValueChange={(o) => setOpen(o)}
+        asChild
       >
         <motion.div layout="size" layoutRoot>
           {data.length > 0
