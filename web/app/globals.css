@@ -177,6 +177,28 @@
 }
 
 .mask-linear-gradient-tt {
-  -webkit-mask-image: linear-gradient(to top, transparent -0%, black 20%);
-  mask-image: linear-gradient(to top, transparent -0%, black 20%);
+  -webkit-mask-image: linear-gradient(
+    to top,
+    transparent 0%,
+    black 25%,
+    black 75%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to top,
+    transparent 0%,
+    black 25%,
+    50%,
+    black 60%,
+    transparent 100%
+  );
+}
+
+.mask-linear-radial {
+  -webkit-mask-image: radial-gradient(
+    circle at center,
+    black 0%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(circle at center, black 0%, transparent 100%);
 }

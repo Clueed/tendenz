@@ -49,7 +49,7 @@ export default async function Home() {
 
         <SigmaList data={data} />
       </section>
-      <section className="mt-20">
+      <section>
         <ComingSoon />
       </section>
     </>
