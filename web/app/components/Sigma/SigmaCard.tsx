@@ -1,5 +1,3 @@
-"use client";
-
 import { tendenzApiSigmaYesterday } from "../../page";
 import * as Accordion from "@radix-ui/react-accordion";
 import { AnimatePresence, Variants, motion } from "framer-motion";
@@ -14,28 +12,16 @@ export default function SigmaCard({
   entry: tendenzApiSigmaYesterday;
   expanded: boolean;
 }) {
-  const bgClassNames =
-    "absolute top-0 right-0 w-full h-full shadow-sm -z-10 sm:rounded-xl col-span-full sm:col-start-2 sm:col-end-2";
-
   return (
     <Accordion.Item
       value={entry.ticker}
-      className="relative grid py-2 grid-cols-default group"
+      className="relative grid py-2 grid-cols-default"
     >
-      <motion.div
-        className={classNames(
-          bgClassNames,
-          "from-sky-a4 to-indigo-a5 bg-gradient-to-br"
-        )}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: expanded ? 1 : 0 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
-      />
       <div
         className={classNames(
-          bgClassNames,
-          "bg-slate-a4 transition-opacity opacity-0",
-          { "group-hover:opacity-100": !expanded }
+          "absolute top-0 right-0 w-full h-full -z-10 sm:rounded-xl col-span-full sm:col-start-2 sm:col-end-2 transition-color",
+          { "hover:bg-slate-a4 hover:shadow-sm": !expanded },
+          { "from-sky-a4 to-indigo-a5 bg-gradient-to-br shadow-sm": expanded }
         )}
       />
       <div className="col-start-2 col-end-2 @container">
