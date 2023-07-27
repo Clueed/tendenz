@@ -6,7 +6,7 @@ import Pop from "./Pop";
 
 export function ExplainingTitle({ date }: { date: string }) {
   return (
-    <Container type="default">
+    <Container type="default" className="lg:text-center">
       <h1 className="relative inline text-4xl font-normal text-indigo-11">
         {npl(date)}&apos;s anomalies
       </h1>
