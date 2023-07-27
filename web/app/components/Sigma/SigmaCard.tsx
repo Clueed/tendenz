@@ -15,12 +15,12 @@ export default function SigmaCard({
   return (
     <Accordion.Item
       value={entry.ticker}
-      className="relative grid py-2 grid-cols-default"
+      className="relative grid py-2 grid-cols-default group"
     >
       <div
         className={classNames(
           "absolute top-0 right-0 w-full h-full -z-10 sm:rounded-xl col-span-full sm:col-start-2 sm:col-end-2 transition-color",
-          { "hover:bg-slate-a4 hover:shadow-sm": !expanded },
+          { "group-hover:bg-slate-a4 group-hover:shadow-sm": !expanded },
           { "from-sky-a4 to-indigo-a5 bg-gradient-to-br shadow-sm": expanded }
         )}
       />
