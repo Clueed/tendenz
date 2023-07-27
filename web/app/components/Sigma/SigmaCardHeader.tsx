@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { MarketCap } from "./MarketCap";
 
 interface Props {
@@ -52,7 +52,7 @@ export function SigmaCardHeader({
 
         <span className="text-slate-12">{formattedName}</span>
         {shareTypes.map((type) => (
-          <>
+          <Fragment key={type}>
             {" "}
             <motion.span
               initial={{ opacity: 0 }}
@@ -63,12 +63,11 @@ export function SigmaCardHeader({
                   duration: 0.5,
                 },
               }}
-              key={type}
               className="text-[0.6em] text-slate-11 bg-slate-a4 rounded-md px-2 py-1"
             >
               {type}
             </motion.span>
-          </>
+          </Fragment>
         ))}
       </motion.div>
     </div>
