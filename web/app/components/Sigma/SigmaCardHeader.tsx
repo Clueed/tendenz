@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Fragment, useMemo } from "react";
 import { MarketCap } from "./MarketCap";
+import { Tag } from "./Tag";
 
 interface Props {
   expanded: boolean;
@@ -25,7 +26,7 @@ export function SigmaCardHeader({
   return (
     <div
       className={
-        "grid w-100 grid-cols-[7rem_auto] gap-x-4 items-start cursor-pointer"
+        "grid w-100 grid-cols-[7.5rem_auto] gap-x-4 items-start cursor-pointer"
       }
     >
       <div className="grid grid-cols-[auto_min-content] items-baseline">
@@ -33,7 +34,15 @@ export function SigmaCardHeader({
           {formattedSigma}
         </div>
         <div className="ml-1 text-xl text-slate-10">σ</div>
-        <MarketCap marketCap={marketCap} expanded={expanded} />
+        <div className="block text-right">
+          <Tag className="@lg:hidden inline">
+            <MarketCap
+              marketCap={marketCap}
+              expanded={expanded}
+              expandDirection="left"
+            />
+          </Tag>
+        </div>
       </div>
 
       <motion.div
@@ -51,25 +60,33 @@ export function SigmaCardHeader({
         {"  "}
 
         <span className="text-slate-12">{formattedName}</span>
-        <br className="@sm:inline hidden" />
-        {shareTypes.map((type) => (
-          <Fragment key={type}>
-            {" "}
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: expanded ? 1 : 0,
-                transition: {
-                  type: "spring",
-                  duration: 0.5,
-                },
-              }}
-              className="text-[0.6em] text-slate-11 bg-slate-a4 rounded-md px-2 py-1"
-            >
-              {type}
-            </motion.span>
-          </Fragment>
-        ))}
+        <Tag className="hidden @lg:inline">
+          <MarketCap
+            marketCap={marketCap}
+            expanded={expanded}
+            expandDirection="right"
+          />
+        </Tag>
+        <AnimatePresence>
+          {expanded &&
+            shareTypes.map((type) => (
+              <Tag key={type}>
+                {" "}
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: expanded ? 1 : 0,
+                    transition: {
+                      type: "spring",
+                      duration: 0.5,
+                    },
+                  }}
+                >
+                  {type}
+                </motion.span>
+              </Tag>
+            ))}
+        </AnimatePresence>
       </motion.div>
     </div>
   );

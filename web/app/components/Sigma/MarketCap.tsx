@@ -2,38 +2,57 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { getMarketCapCategory } from "../../misc/getMarketCapCategory";
+import classNames from "classnames";
+import { Tag } from "./Tag";
 
 export function MarketCap({
   marketCap,
   expanded,
+  className,
+  expandDirection,
 }: {
   marketCap: number;
   expanded: boolean;
+  expandDirection: "right" | "left";
+  className?: string;
 }) {
   const label = getMarketCapCategory(marketCap);
   const formattedMarketCap = marketCap > 1e6 ? label + "+" : ">" + label;
 
   return (
     <>
-      <div className="inline-flex flex-col flex-wrap items-end leading-none text-right gap-x-2">
-        <motion.div
-          className={"text-xs text-slate-11 pt-[0rem]"}
-          animate={{ color: expanded ? `var(--slate-12)` : `var(--slate-11)` }}
+      <motion.div
+        layout
+        className={classNames(
+          "inline-flex items-center flex-wrap leading-none gap-x-2",
+          className
+        )}
+      >
+        <div
+          className={classNames("text-xs", {
+            "text-slate-12": expanded,
+            "text-slate-11": !expanded,
+            "order-2": expandDirection === "left",
+          })}
         >
           {formattedMarketCap}
-        </motion.div>
-        <AnimatePresence>
+        </div>
+        <AnimatePresence mode="wait" presenceAffectsLayout>
           {expanded && (
             <motion.span
-              className={"text-[0.6rem] text-right text-slate-a11"}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ width: 0 }}
+              animate={{ width: "auto" }}
+              exit={{ width: 0 }}
+              className={classNames(
+                "text-[0.6rem] text-slate-a11 line-clamp-1",
+                { "order-1": expandDirection === "left" }
+              )}
             >
               market cap
             </motion.span>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </>
   );
 }
