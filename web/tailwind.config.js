@@ -41,6 +41,9 @@ module.exports = {
       black: generateScale("black", true),
       white: generateScale("white", true),
     },
+    future: {
+      hoverOnlyWhenSupported: true,
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
