@@ -12,7 +12,7 @@ function Container({
 }) {
   return (
     <div
-      className={classNames("grid [&>*]:col-start-2", className, {
+      className={classNames("grid [&>*]:col-[2_/_2]", className, {
         "grid-cols-[1fr_min(640px,_90vw)_1fr]": type === "default",
       })}
     >

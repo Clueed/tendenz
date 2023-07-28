@@ -38,16 +38,18 @@ export default async function Home() {
   const data = await getData();
   return (
     <>
-      <Hero />
+      <header className="my-5">
+        <Hero />
+      </header>
 
-      <section className="my-10">
-        <div className="my-5">
+      <section className="my-[5vh]">
+        <div className="my-[5vh]">
           <ExplainingTitle date={data[0].last.date} />
         </div>
 
         <SigmaList data={data} />
       </section>
-      <section className="mt-20">
+      <section>
         <ComingSoon />
       </section>
     </>

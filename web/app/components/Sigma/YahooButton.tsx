@@ -1,12 +1,29 @@
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { motion } from "framer-motion";
 
 export function YahooButton({ ticker }: { ticker: string }) {
   return (
-    <a
+    <motion.a
+      initial={{
+        paddingLeft: "0.5rem",
+        paddingRight: "0.5rem",
+        marginLeft: "0rem",
+        marginRight: "0rem",
+        gap: "0.25rem",
+        color: "var(--violet-11)",
+      }}
+      whileHover={{
+        paddingLeft: "0.75rem",
+        paddingRight: "0.75rem",
+        marginLeft: "-0.25rem",
+        marginRight: "-0.25rem",
+        gap: "0.5rem",
+        color: "var(--violet-12)",
+      }}
       target="_blank"
       rel="noopener noreferrer"
       href={`https://finance.yahoo.com/quote/${ticker}`}
-      className="flex items-center p-2 gap-1 rounded-md shadow-sm from-violet-a6 to-violet-a7 bg-gradient-to-br text-violet-11"
+      className="flex items-center gap-1 py-2 shadow-sm rounded-l-md from-violet-a6 to-violet-a7 bg-gradient-to-br"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -37,6 +54,6 @@ export function YahooButton({ ticker }: { ticker: string }) {
         <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
       </svg>
       <VisuallyHidden.Root>(opens in a new tab)</VisuallyHidden.Root>
-    </a>
+    </motion.a>
   );
 }

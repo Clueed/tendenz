@@ -72,11 +72,19 @@ export default function RootLayout({
         <div className="absolute top-0 left-0 w-full h-full opacity-5 -z-30 noise2" />
         <div className="absolute top-0 w-full h-full -z-40 backdrop-blur-3xl"></div>
         <div className="absolute top-0 w-full h-full overflow-clip -z-50">
-          <div className="absolute rounded-full opacity-30 -top-48 w-96 h-96 bg-indigo-a12 -left-48" />
-          <div className="absolute rounded-full w-96 h-96 bg-sky-3 -left-48 top-[25%]" />
-          <div className="absolute rounded-full w-[30em] h-[30em] bg-indigo-3 left-[40vw] top-[-20em]" />
-          <div className="absolute rounded-full w-96 h-96 bg-indigo-6 -right-48 top-[45%]" />
-          <div className="absolute rounded-full w-44 h-44 bg-sky-4 right-[10vw] bottom-[-10em]" />
+          {
+            // Top
+          }
+          <div className="absolute rounded-full lg:hidden opacity-30 -top-48 w-96 h-96 bg-indigo-a12 -left-48" />
+          <div className="absolute top-0 hidden -translate-x-1/2 -translate-y-1/2 rounded-full lg:block opacity-20 w-[50vw] h-96 bg-indigo-a12 left-1/2" />
+          {
+            // Middle
+          }
+          <div className="absolute rounded-full w-96 h-96 bg-sky-a3 -left-48 top-[25%]" />
+          <div className="absolute rounded-full w-96 h-96 bg-indigo-a4 -right-48 top-[45%]" />
+          {
+            // Middle
+          }
         </div>
       </body>
     </html>

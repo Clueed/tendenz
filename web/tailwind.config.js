@@ -41,6 +41,9 @@ module.exports = {
       black: generateScale("black", true),
       white: generateScale("white", true),
     },
+    future: {
+      hoverOnlyWhenSupported: true,
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -50,9 +53,15 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-rubik)"],
       },
+      gridTemplateColumns: {
+        default: "1fr min(640px, 90vw) 1fr",
+      },
     },
   },
-  plugins: [require("tailwindcss-radix")()],
+  plugins: [
+    require("@tailwindcss/container-queries"),
+    require("tailwindcss-radix"),
+  ],
 };
 
 function createColorObject(names) {

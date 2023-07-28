@@ -15,22 +15,23 @@ export default function SigmaList({
   const [expandedKey, setOpen] = useState<string>("");
 
   return (
-    <>
-      <Container type="default">
-        <div className="flex justify-between">
+    <div className="relative">
+      <div className="grid grid-cols-default">
+        <div className="flex justify-between col-start-2">
           <div>
             <h2 className="text-3xl font-normal text-slate-12">stocks</h2>
             <span className="text-base text-slate-11">United States</span>
           </div>
           <Timer />
         </div>
-      </Container>
+      </div>
 
       <Accordion.Root
         collapsible
         type="single"
         className="relative flex flex-col w-full gap-3"
         onValueChange={(o) => setOpen(o)}
+        asChild
       >
         <motion.div layout="size" layoutRoot>
           {data.length > 0
@@ -58,6 +59,6 @@ export default function SigmaList({
               ))}
         </motion.div>
       </Accordion.Root>
-    </>
+    </div>
   );
 }
