@@ -3,6 +3,7 @@ import Fastify from "fastify";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import prismaPlugin from "./plugins/prisma.js";
+import { Prisma } from "@prisma/client";
 
 if (process.env.NODE_ENV === "production") {
   console.debug = function () {};
@@ -14,12 +15,29 @@ const fastify = Fastify({
 
 fastify.register(prismaPlugin);
 
-fastify.get("/", async (request, reply) => {
+fastify.get("/:page", async (request, reply) => {
+  const query = request.query as Query;
+  const minMarketCap = Number(query?.minMarketCap);
+
+  let where: Prisma.SigmaUsStocksYesterdayWhereInput = {};
+  if (minMarketCap) {
+    where.marketCap = {
+      gt: minMarketCap,
+    };
+  }
+
+  const PAGE_SIZE = 10;
+  const params = request.params as Params;
+  const page = Number(params?.page) || 0;
+  const skip = page * PAGE_SIZE;
+
   const sigmaYesterday = await fastify.prisma.sigmaUsStocksYesterday.findMany({
     orderBy: {
       weight: "desc",
     },
-    take: 10,
+    where,
+    take: PAGE_SIZE,
+    skip,
   });
 
   const response: tendenzApiSigmaYesterday[] = sigmaYesterday.map(
@@ -84,6 +102,13 @@ const start = async () => {
 };
 
 start();
+
+export interface Query {
+  minMarketCap?: string;
+}
+export interface Params {
+  page?: string;
+}
 
 export interface tendenzApiSigmaYesterdayDay {
   close: number;
