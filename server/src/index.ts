@@ -15,8 +15,8 @@ const fastify = Fastify({
 
 fastify.register(prismaPlugin);
 
-fastify.get("/", async (request, reply) => {
-  const query = request.query as Params;
+fastify.get("/:page", async (request, reply) => {
+  const query = request.query as Query;
   const minMarketCap = Number(query?.minMarketCap);
 
   let where: Prisma.SigmaUsStocksYesterdayWhereInput = {};
@@ -26,12 +26,18 @@ fastify.get("/", async (request, reply) => {
     };
   }
 
+  const PAGE_SIZE = 10;
+  const params = request.params as Params;
+  const page = Number(params?.page) || 0;
+  const skip = page * PAGE_SIZE;
+
   const sigmaYesterday = await fastify.prisma.sigmaUsStocksYesterday.findMany({
     orderBy: {
       weight: "desc",
     },
     where,
-    take: 10,
+    take: PAGE_SIZE,
+    skip,
   });
 
   const response: tendenzApiSigmaYesterday[] = sigmaYesterday.map(
@@ -97,8 +103,11 @@ const start = async () => {
 
 start();
 
-export interface Params {
+export interface Query {
   minMarketCap?: string;
+}
+export interface Params {
+  page?: string;
 }
 
 export interface tendenzApiSigmaYesterdayDay {
