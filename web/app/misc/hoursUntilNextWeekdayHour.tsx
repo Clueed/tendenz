@@ -3,8 +3,6 @@ export function hoursUntilNextWeekdayHour(hour: number): number {
   const currentDate = new Date();
   const currentDay = currentDate.getUTCDay();
 
-  console.log("currentDay :>> ", currentDay);
-
   let hoursRemaining = 0;
 
   if (currentDay === 6) {

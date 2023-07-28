@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import Pop from "./Pop";
 import classNames from "classnames";
@@ -10,6 +9,7 @@ export default function Timer() {
 
   return (
     <Pop
+      offset={-10}
       popoverContent={
         <div className="w-40 text-slate-12">
           {timeTill} hours until the next update. Data is available after
@@ -21,8 +21,12 @@ export default function Timer() {
       {(open) => (
         <div
           className={classNames(
-            "flex items-center gap-1.5 px-3 py-1 stroke-2 rounded-xl bg-slate-5 text-slate-10 backdrop-blur-xl",
-            { "text-slate-12 shadow-2xl drop-shadow-xl": open }
+            "flex items-center gap-1.5 px-3 py-1 stroke-2 rounded-xl transition-all",
+            {
+              "text-slate-11 bg-slate-a3 group-hover/popover:bg-slate-a5 group-hover/popover:shadow-sm":
+                !open,
+            },
+            { "text-slate-1 bg-slate-a8 shadow-md": open }
           )}
         >
           <IconClock animationTrigger={open} />

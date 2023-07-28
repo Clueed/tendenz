@@ -22,13 +22,14 @@ export function MarketCap({
   return (
     <>
       <motion.div
-        layout
+        layout="preserve-aspect"
         className={classNames(
           "inline-flex items-center flex-wrap leading-none gap-x-2",
           className
         )}
       >
-        <div
+        <motion.div
+          layout="preserve-aspect"
           className={classNames("text-xs", {
             "text-slate-12": expanded,
             "text-slate-11": !expanded,
@@ -36,15 +37,17 @@ export function MarketCap({
           })}
         >
           {formattedMarketCap}
-        </div>
+        </motion.div>
         <AnimatePresence mode="wait" presenceAffectsLayout>
           {expanded && (
             <motion.span
+              layout="size"
               initial={{ width: 0 }}
               animate={{ width: "auto" }}
               exit={{ width: 0 }}
+              transition={{ duration: 1 }}
               className={classNames(
-                "text-[0.6rem] text-slate-a11 line-clamp-1",
+                "text-[0.6rem] text-slate-a11 line-clamp-1 truncate",
                 { "order-1": expandDirection === "left" }
               )}
             >
