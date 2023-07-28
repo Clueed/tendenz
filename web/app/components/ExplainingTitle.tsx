@@ -7,10 +7,7 @@ import Pop from "./Pop";
 export function ExplainingTitle({ date }: { date: string }) {
   return (
     <div className="grid lg:text-center grid-cols-default">
-      <h1 className="relative inline col-start-2 text-4xl font-normal text-indigo-11">
-        {npl(date)}&apos;s anomalies
-      </h1>
-      <p className="col-start-2 mt-2 text-lg leading-relaxed text-slate-11 ">
+      <p className="col-start-2 text-lg leading-relaxed text-slate-11 ">
         statistical probabilities of market close prices, <br />
         based on{" "}
         <ExplainingTitlePopover

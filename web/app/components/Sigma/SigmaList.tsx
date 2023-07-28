@@ -6,6 +6,7 @@ import SigmaCard from "./SigmaCard";
 import Timer from "../Timer";
 import { motion } from "framer-motion";
 import Container from "../Container";
+import { npl } from "@/app/misc/naturalLanguageProcessing";
 
 export default function SigmaList({
   data,
@@ -16,7 +17,10 @@ export default function SigmaList({
 
   return (
     <div className="relative">
-      <div className="grid grid-cols-default">
+      <div className="grid grid-cols-default my-[2.5vw] gap-y-[2vw]">
+        <h1 className="relative inline col-start-2 text-4xl font-normal text-indigo-11">
+          {npl(data[0].last.date)}&apos;s anomalies
+        </h1>
         <div className="flex justify-between col-start-2">
           <div>
             <h2 className="text-3xl font-normal text-slate-12">stocks</h2>

@@ -38,15 +38,12 @@ export default async function Home() {
   const data = await getData();
   return (
     <>
-      <header className="my-5">
+      <header className="my-[5vh] flex flex-col gap-[2vh]">
         <Hero />
+        <ExplainingTitle date={data[0].last.date} />
       </header>
 
       <section className="my-[5vh]">
-        <div className="my-[5vh]">
-          <ExplainingTitle date={data[0].last.date} />
-        </div>
-
         <SigmaList data={data} />
       </section>
       <section>
