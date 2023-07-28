@@ -10,11 +10,13 @@ export default function Pop({
   children,
   popoverContent,
   popoverColor,
+  offset,
 }: {
   children: (open: boolean) => JSX.Element;
   popoverContent: JSX.Element;
   popoverColor: BgColors;
   popoverContainerClassNames?: string;
+  offset: number;
 }) {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -30,17 +32,19 @@ export default function Pop({
   } = {
     indigo: {
       popClassNames: "bg-gradient-to-br from-indigo-a2 to-indigo-a3",
-      arrowClassNames: "fill-indigo-a3",
+      arrowClassNames: "fill-indigo-5",
     },
     slate: {
       popClassNames: "bg-gradient-to-br from-slate-a2 to-slate-a3",
-      arrowClassNames: "fill-slate-a2",
+      arrowClassNames: "fill-slate-6",
     },
   };
 
   return (
     <Popover.Root onOpenChange={(o) => setOpen(o)} open={open}>
-      <Popover.Trigger className="group">{children(open)}</Popover.Trigger>
+      <Popover.Trigger className="group/popover">
+        {children(open)}
+      </Popover.Trigger>
 
       <AnimatePresence>
         {open && (
@@ -48,7 +52,7 @@ export default function Pop({
             <Popover.Content
               forceMount
               asChild
-              sideOffset={4}
+              sideOffset={offset}
               avoidCollisions
               collisionPadding={10}
             >
@@ -67,7 +71,10 @@ export default function Pop({
               >
                 {popoverContent}
                 <Popover.Arrow
-                  className={classNames(colors[popoverColor].arrowClassNames)}
+                  className={classNames(
+                    colors[popoverColor].arrowClassNames,
+                    "drop-shadow-2xl"
+                  )}
                 />
               </motion.div>
             </Popover.Content>
