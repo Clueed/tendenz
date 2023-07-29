@@ -9,7 +9,7 @@ export default function Timer() {
 
   return (
     <Pop
-      offset={-10}
+      offset={0}
       popoverContent={
         <div className="w-40 text-slate-12">
           {timeTill} hours until the next update. Data is available after
@@ -21,9 +21,9 @@ export default function Timer() {
       {(open) => (
         <div
           className={classNames(
-            "flex items-center gap-1.5 px-3 py-1 stroke-2 rounded-xl transition-all",
+            "flex items-center gap-1 px-3 py-1 stroke-2 rounded-xl transition-all text-sm",
             {
-              "text-slate-11 bg-slate-a3 group-hover/popover:bg-slate-a5 group-hover/popover:shadow-sm":
+              "text-slate-a11  group-hover/popover:bg-slate-a5 group-hover/popover:shadow-sm":
                 !open,
             },
             { "text-slate-1 bg-slate-a8 shadow-md": open }

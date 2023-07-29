@@ -2,17 +2,21 @@ import { tendenzApiSigmaYesterday } from "@/app/page";
 import * as Accordion from "@radix-ui/react-accordion";
 import { motion } from "framer-motion";
 import SigmaCard from "./SigmaCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function SigmaAccordion({ data }: { data: tendenzApiSigmaYesterday[] }) {
-  const [expandedKey, setOpen] = useState<string>("");
+  const [expandedKey, setExpandedKey] = useState<string>("");
+
+  useEffect(() => {
+    setExpandedKey("");
+  }, [data]);
 
   return (
     <Accordion.Root
       collapsible
       type="single"
       className="relative flex flex-col w-full gap-3"
-      onValueChange={(o) => setOpen(o)}
+      onValueChange={(o) => setExpandedKey(o)}
       asChild
     >
       <motion.div layout="size" layoutRoot>
