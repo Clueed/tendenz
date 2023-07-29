@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { ComingSoon } from "./components/ComingSoon";
 import { ExplainingTitle } from "./components/ExplainingTitle";
 import Hero from "./components/Hero";
@@ -43,10 +44,10 @@ async function getData(minMarketCap?: number) {
 }
 
 const marketCapBuckets = {
-  "10M": { minMarketCap: 10e6, entries: [] },
-  "100M": { minMarketCap: 100e6, entries: [] },
-  "1B": { minMarketCap: 1e9, entries: [] },
-  "50B": { minMarketCap: 50e9, entries: [] },
+  "10m": { minMarketCap: 10e6, entries: [] },
+  "100m": { minMarketCap: 100e6, entries: [] },
+  "1b": { minMarketCap: 1e9, entries: [] },
+  "50b": { minMarketCap: 50e9, entries: [] },
 };
 
 export type MarketCapBuckets = keyof typeof marketCapBuckets;
@@ -80,6 +81,7 @@ export default async function Home() {
       <section className="my-[5vh]">
         <SigmaList data={data} />
       </section>
+
       <section>
         <ComingSoon />
       </section>
