@@ -22,6 +22,11 @@ export interface tendenzApiSigmaYesterday {
   secondLast: tendenzApiSigmaYesterdayDay;
 }
 
+export interface MarketCapBucket {
+  minMarketCap: number;
+  entries: tendenzApiSigmaYesterday[];
+}
+
 async function getData(minMarketCap?: number) {
   try {
     const res = await fetch(
@@ -37,33 +42,33 @@ async function getData(minMarketCap?: number) {
   }
 }
 
-export interface MarketCapBucket {
-  label: string;
-  minMarketCap: number;
-  entries: tendenzApiSigmaYesterday[] | [];
-}
+const marketCapBuckets = {
+  "10M": { minMarketCap: 10e6, entries: [] },
+  "100M": { minMarketCap: 100e6, entries: [] },
+  "1B": { minMarketCap: 1e9, entries: [] },
+  "50B": { minMarketCap: 50e9, entries: [] },
+};
+
+export type MarketCapBuckets = keyof typeof marketCapBuckets;
+
+export type MarketCapDataObject = {
+  [key in keyof typeof marketCapBuckets]: MarketCapBucket;
+};
 
 export default async function Home() {
-  const marketCapBuckets = [
-    { label: "10M", minMarketCap: 10e6 },
-    { label: "100M", minMarketCap: 100e6 },
-    { label: "1B", minMarketCap: 1e9 },
-    { label: "50B", minMarketCap: 50e9 },
-  ];
-
-  async function fetchDataForBucket(bucket: {
-    label: string;
-    minMarketCap: number;
-  }) {
+  async function fetchDataForBucket(bucket: { minMarketCap: number }) {
     const entries = await getData(bucket.minMarketCap);
     return { ...bucket, entries };
   }
 
-  const data = await Promise.all(marketCapBuckets.map(fetchDataForBucket));
-
-  console.log(data[0].entries[0]);
-  console.log(data[1].entries[0]);
-  console.log(data[2].entries[0]);
+  const data = Object.fromEntries(
+    await Promise.all(
+      Object.entries(marketCapBuckets).map(async ([key, value]) => [
+        key,
+        await fetchDataForBucket(value),
+      ])
+    )
+  );
 
   return (
     <>
