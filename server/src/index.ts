@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import prismaPlugin from "./plugins/prisma.js";
 import { Prisma } from "@prisma/client";
+import cors from "@fastify/cors";
 
 if (process.env.NODE_ENV === "production") {
   console.debug = function () {};
@@ -13,6 +14,9 @@ const fastify = Fastify({
   logger: true,
 });
 
+fastify.register(cors, {
+  origin: "*",
+});
 fastify.register(prismaPlugin);
 
 fastify.get("/:page", async (request, reply) => {
@@ -92,7 +96,7 @@ const bree = new Bree({
 });
 
 const start = async () => {
-  bree.start();
+  //bree.start();
   try {
     await fastify.listen({ port: 3000, host: "0.0.0.0" });
   } catch (err) {
