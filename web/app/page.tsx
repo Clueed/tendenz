@@ -75,7 +75,7 @@ export default async function Home() {
     ] = bucket.entries;
   }
 
-  //console.log("fallback :>> ", fallback);
+  console.log("fallback :>> ", fallback);
 
   return (
     <>
@@ -85,7 +85,7 @@ export default async function Home() {
       </header>
 
       <section className="my-[5vh]">
-        <SigmaListDataWrapper fallback={{}}>
+        <SigmaListDataWrapper fallback={fallback}>
           <SigmaList marketCapBuckets={marketCapBuckets} />
         </SigmaListDataWrapper>
       </section>

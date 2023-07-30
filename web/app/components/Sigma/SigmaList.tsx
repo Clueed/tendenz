@@ -31,12 +31,6 @@ export default function SigmaList({
 
   console.log("newData :>> ", data);
 
-  if (error) {
-    console.log("error :>> ", error);
-    return <div>failed to load</div>;
-  }
-  if (isLoading) return <div>loading...</div>;
-
   return (
     <div className="relative">
       <div className="grid grid-cols-default my-[2.5vw]">
