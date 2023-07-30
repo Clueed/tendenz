@@ -4,7 +4,7 @@ import { npl } from "../misc/naturalLanguageProcessing";
 import Container from "./Container";
 import Pop from "./Pop";
 
-export function ExplainingTitle({ date }: { date: string }) {
+export function ExplainingTitle() {
   return (
     <div className="grid lg:text-center grid-cols-default">
       <p className="col-start-2 text-lg leading-relaxed text-slate-11 ">

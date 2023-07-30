@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { ComingSoon } from "./components/ComingSoon";
 import { ExplainingTitle } from "./components/ExplainingTitle";
 import Hero from "./components/Hero";
@@ -22,11 +23,19 @@ export interface tendenzApiSigmaYesterday {
   secondLast: tendenzApiSigmaYesterdayDay;
 }
 
-async function getData() {
+export interface MarketCapBucket {
+  minMarketCap: number;
+  entries: tendenzApiSigmaYesterday[];
+}
+
+async function getData(minMarketCap?: number) {
   try {
-    const res = await fetch("https://tendenz-server.fly.dev/", {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(
+      `https://tendenz-server.fly.dev/?minMarketCap=${minMarketCap}`,
+      {
+        next: { revalidate: 60 },
+      }
+    );
     return res.json() as Promise<tendenzApiSigmaYesterday[]>;
   } catch (e) {
     console.error(e);
@@ -34,18 +43,45 @@ async function getData() {
   }
 }
 
+const marketCapBuckets = {
+  "10m": { minMarketCap: 10e6, entries: [] },
+  "100m": { minMarketCap: 100e6, entries: [] },
+  "1b": { minMarketCap: 1e9, entries: [] },
+  "50b": { minMarketCap: 50e9, entries: [] },
+};
+
+export type MarketCapBuckets = keyof typeof marketCapBuckets;
+
+export type MarketCapDataObject = {
+  [key in keyof typeof marketCapBuckets]: MarketCapBucket;
+};
+
 export default async function Home() {
-  const data = await getData();
+  async function fetchDataForBucket(bucket: { minMarketCap: number }) {
+    const entries = await getData(bucket.minMarketCap);
+    return { ...bucket, entries };
+  }
+
+  const data = Object.fromEntries(
+    await Promise.all(
+      Object.entries(marketCapBuckets).map(async ([key, value]) => [
+        key,
+        await fetchDataForBucket(value),
+      ])
+    )
+  );
+
   return (
     <>
       <header className="my-[5vh] flex flex-col gap-[2vh]">
         <Hero />
-        <ExplainingTitle date={data[0].last.date} />
+        <ExplainingTitle />
       </header>
 
       <section className="my-[5vh]">
         <SigmaList data={data} />
       </section>
+
       <section>
         <ComingSoon />
       </section>

@@ -45,6 +45,9 @@ module.exports = {
       hoverOnlyWhenSupported: true,
     },
     extend: {
+      fontSize: {
+        xxs: ["0.64rem", { lineHeight: "1rem" }],
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

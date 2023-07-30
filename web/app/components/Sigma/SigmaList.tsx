@@ -1,68 +1,47 @@
 "use client";
-import * as Accordion from "@radix-ui/react-accordion";
-import { useState } from "react";
-import { tendenzApiSigmaYesterday } from "../../page";
-import SigmaCard from "./SigmaCard";
+import { MarketCapDataObject } from "../../page";
 import Timer from "../Timer";
-import { motion } from "framer-motion";
-import Container from "../Container";
 import { npl } from "@/app/misc/naturalLanguageProcessing";
+import { SigmaAccordion } from "./SigmaAccordion";
+import { useState } from "react";
+import MarketCapFilter from "./MarketCapFilter";
 
-export default function SigmaList({
-  data,
-}: {
-  data: tendenzApiSigmaYesterday[];
-}) {
-  const [expandedKey, setOpen] = useState<string>("");
+export default function SigmaList({ data }: { data: MarketCapDataObject }) {
+  const defaultKey: keyof MarketCapDataObject = "1b";
+  const [inputKey, setValue] = useState<keyof MarketCapDataObject>(defaultKey);
+
+  const marketCapBuckets = Object.keys(data) as (keyof MarketCapDataObject)[];
 
   return (
     <div className="relative">
-      <div className="grid grid-cols-default my-[2.5vw] gap-y-[2vw]">
-        <h1 className="relative inline col-start-2 text-4xl font-normal text-indigo-11">
-          {npl(data[0].last.date)}&apos;s anomalies
-        </h1>
-        <div className="flex justify-between col-start-2">
-          <div>
-            <h2 className="text-3xl font-normal text-slate-12">stocks</h2>
-            <span className="text-base text-slate-11">United States</span>
-          </div>
+      <div className="grid grid-cols-default my-[2.5vw]">
+        <div className="flex justify-between col-start-2 mb-3">
+          <h1 className="text-4xl font-normal text-indigo-11">
+            {npl(data[defaultKey].entries[0].last.date)}&apos;s anomalies
+          </h1>
           <Timer />
+        </div>
+        <div className="flex items-end justify-between col-start-2 mb-2 align-bottom">
+          <h2 className="text-3xl font-normal leading-none text-slate-12">
+            stocks
+          </h2>
+          <div>
+            <MarketCapFilter<typeof marketCapBuckets>
+              selectedKey={inputKey}
+              selectKey={setValue}
+              allKeys={marketCapBuckets}
+            />
+          </div>
+        </div>
+        <div className="flex items-start justify-between col-start-2 align-top">
+          <h3 className="text-base leading-none text-slate-11">
+            United States
+          </h3>
+          <div className="mr-1 text-xxs text-slate-a10">minimum market cap</div>
         </div>
       </div>
 
-      <Accordion.Root
-        collapsible
-        type="single"
-        className="relative flex flex-col w-full gap-3"
-        onValueChange={(o) => setOpen(o)}
-        asChild
-      >
-        <motion.div layout="size" layoutRoot>
-          {data.length > 0
-            ? data.map((entry, i) => (
-                <SigmaCard
-                  key={entry.ticker}
-                  entry={entry}
-                  expanded={expandedKey === entry.ticker}
-                />
-              ))
-            : [...Array(4).keys()].map((i) => (
-                <>
-                  <div
-                    key={i}
-                    className="h-16 px-5 py-2 my-2 rounded-lg blur-sm w-100 bg-slate-5"
-                  >
-                    {" "}
-                  </div>
-                  <div className="absolute flex items-center justify-center w-full h-full ">
-                    <div className="text-2xl font-light text-slate-10">
-                      Loading...
-                    </div>
-                  </div>
-                </>
-              ))}
-        </motion.div>
-      </Accordion.Root>
+      <SigmaAccordion data={data[inputKey].entries} />
     </div>
   );
 }
