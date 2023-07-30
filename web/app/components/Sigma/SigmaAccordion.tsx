@@ -1,7 +1,6 @@
 import * as Accordion from "@radix-ui/react-accordion";
 import { AnimatePresence, Variants } from "framer-motion";
 import { useEffect, useState } from "react";
-import { NextPageButton } from "./NextPageButton";
 import { Page } from "./Page";
 
 export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
@@ -9,24 +8,24 @@ export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
 
   useEffect(() => {
     setExpandedKey("");
-    setPage(1);
+    setPageIndex(1);
   }, [minMarketCap]);
 
-  const [page, setPage] = useState<number>(1);
+  const [pageIndex, setPageIndex] = useState<number>(1);
 
   function handleNextPage() {
-    const nextPage = page + 1;
-    setPage(nextPage);
+    const nextPage = pageIndex + 1;
+    setPageIndex(nextPage);
   }
 
   const pages = [];
-  for (let i = 0; i < page; i++) {
+  for (let i = 0; i < pageIndex; i++) {
     pages.push(
       <Page
         page={i}
         minMarketCap={minMarketCap}
         expandedKey={expandedKey}
-        last={i === page - 1}
+        last={i === pageIndex - 1}
         handleNextPage={handleNextPage}
       />
     );
