@@ -41,17 +41,6 @@ function Page({
   const url = `https://tendenz-server.fly.dev/${page}?minMarketCap=${minMarketCap}`;
   const { data, error, isLoading, isValidating } = useSWR(url);
 
-  console.log("data :>> ", data);
-
-  if (isLoading) {
-    return <span>loading</span>;
-  }
-  if (isValidating) {
-    return <span>validating</span>;
-  }
-  if (error) {
-    return <span>error</span>;
-  }
   if (data) {
     return data.map((entry) => (
       <motion.div
@@ -69,6 +58,15 @@ function Page({
         />
       </motion.div>
     ));
+  }
+
+  if (isLoading) {
+    <div className="flex items-center justify-center">
+      <div className="w-10 h-10 border-b-2 border-blue-500 rounded-full animate-spin"></div>
+    </div>;
+  }
+  if (error) {
+    return <span>error</span>;
   }
 }
 
@@ -103,7 +101,34 @@ export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
     >
       <AnimatePresence presenceAffectsLayout mode="popLayout" initial={false}>
         {pages}
-        <button onClick={handleNextPage}>Next</button>
+        <motion.div
+          whileInView={{
+            y: [0, 15, 0],
+            transition: {
+              delay: 10,
+              repeat: Infinity,
+              repeatDelay: 10,
+            },
+          }}
+          className="flex items-center justify-center"
+        >
+          <button
+            onClick={handleNextPage}
+            className="p-3 transition-all rounded-md hover:bg-slate-a5 bg-slate-a2 hover:shadow-md"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 512 512"
+              fill="currentColor"
+            >
+              Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com
+              License - https://fontawesome.com/license (Commercial License)
+              Copyright 2023 Fonticons, Inc.{" "}
+              <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+            </svg>
+          </button>
+        </motion.div>
       </AnimatePresence>
     </Accordion.Root>
   );
