@@ -13,8 +13,8 @@ const fetcher = async (url: string) => {
     console.warn('"error" :>> ', "error");
     const error = new Error("An error occurred while fetching the data.");
     // Attach extra info to the error object.
-    error.info = await res.json();
-    error.status = res.status;
+    // error.info = await res.json();
+    // error.status = res.status;
     throw error;
   }
 
