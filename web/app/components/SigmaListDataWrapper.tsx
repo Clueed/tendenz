@@ -45,7 +45,12 @@ export default function SigmaListDataWrapper({
 }) {
   return (
     <SWRConfig
-      value={{ fallback, fetcher, use: [logger], revalidateOnMount: false }}
+      value={{
+        fallback,
+        fetcher,
+        use: [logger],
+        revalidateIfStale: false,
+      }}
     >
       {children}
     </SWRConfig>

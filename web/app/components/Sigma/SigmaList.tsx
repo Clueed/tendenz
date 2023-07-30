@@ -5,7 +5,7 @@ import { npl } from "@/app/misc/naturalLanguageProcessing";
 import { SigmaAccordion } from "./SigmaAccordion";
 import { useState } from "react";
 import MarketCapFilter from "./MarketCapFilter";
-import useSWR from "swr";
+
 import { MarketCapBucket } from "@/app/page";
 
 export default function SigmaList({
@@ -15,21 +15,9 @@ export default function SigmaList({
 }) {
   const defaultKey = "1b";
   const [bucketKey, setBucketKey] = useState(defaultKey);
-
-  const [page, setPage] = useState<number>(0);
-
   const minMarketCap = marketCapBuckets.filter(
     (bucket) => bucket.label === bucketKey
   )[0].minMarketCap;
-
-  const url = `https://tendenz-server.fly.dev/${page}?minMarketCap=${minMarketCap}`;
-
-  console.log("url :>> ", url);
-
-  //@ts-ignore
-  const { data, error, isLoading, isValidating } = useSWR(url);
-
-  console.log("newData :>> ", data);
 
   return (
     <div className="relative">
@@ -63,7 +51,7 @@ export default function SigmaList({
         </div>
       </div>
 
-      <SigmaAccordion data={data} />
+      <SigmaAccordion minMarketCap={minMarketCap} />
     </div>
   );
 }
