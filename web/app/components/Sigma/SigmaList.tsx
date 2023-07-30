@@ -7,10 +7,13 @@ import * as ToggleGroup from "@radix-ui/react-toggle-group";
 import { useState } from "react";
 import classNames from "classnames";
 import { AnimatePresence, Variants, motion } from "framer-motion";
+import MarketCapFilter from "./MarketCapFilter";
 
 export default function SigmaList({ data }: { data: MarketCapDataObject }) {
   const defaultKey: keyof MarketCapDataObject = "1b";
   const [inputKey, setValue] = useState<keyof MarketCapDataObject>(defaultKey);
+
+  const marketCapBuckets = Object.keys(data) as (keyof MarketCapDataObject)[];
 
   return (
     <div className="relative">
@@ -27,39 +30,11 @@ export default function SigmaList({ data }: { data: MarketCapDataObject }) {
             <span className="text-base text-slate-11">United States</span>
           </div>
           <div className="flex flex-col items-end justify-end ">
-            <ToggleGroup.Root
-              type="single"
-              value={inputKey}
-              onValueChange={(value) => {
-                if (value) setValue(value as keyof MarketCapDataObject);
-                {
-                  // value is guarenteed to be a key because the values are directly created from the keys below
-                }
-              }}
-              asChild
-            >
-              <div className="inline-flex text-xs rounded-xl overflow-clip bg-slate-a2 text-slate-11">
-                {Object.keys(data).map((marketCapBucket) => (
-                  <ToggleGroup.Item
-                    key={marketCapBucket}
-                    value={marketCapBucket}
-                    className={classNames(
-                      "px-2 py-1 first:pl-3 last:pr-3 transition-all",
-                      {
-                        "hover:bg-slate-a5 hover:text-slate-12":
-                          inputKey !== marketCapBucket,
-                      },
-                      {
-                        "text-slate-1 bg-slate-a8":
-                          inputKey === marketCapBucket,
-                      }
-                    )}
-                  >
-                    {marketCapBucket}
-                  </ToggleGroup.Item>
-                ))}
-              </div>
-            </ToggleGroup.Root>
+            <MarketCapFilter<typeof marketCapBuckets>
+              selectedKey={inputKey}
+              selectKey={setValue}
+              allKeys={marketCapBuckets}
+            />
             <div className="pt-1 pr-3 text-xxs text-slate-a11">
               minimum market cap
             </div>
