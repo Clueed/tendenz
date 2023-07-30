@@ -21,12 +21,12 @@ export default function Timer() {
       {(open) => (
         <div
           className={classNames(
-            "flex items-center gap-1 px-3 py-1 stroke-2 rounded-xl transition-all text-sm",
+            "flex items-center gap-1 px-2 py-1 stroke-2 rounded-md transition-all text-sm",
             {
-              "text-slate-a11  group-hover/popover:bg-slate-a5 group-hover/popover:shadow-sm":
+              "text-slate-a11 bg-slate-a2 group-hover/popover:bg-slate-a5 group-hover/popover:shadow-sm":
                 !open,
             },
-            { "text-slate-1 bg-slate-a8 shadow-md": open }
+            { "text-slate-2 bg-slate-a8 shadow-md": open }
           )}
         >
           <IconClock animationTrigger={open} />

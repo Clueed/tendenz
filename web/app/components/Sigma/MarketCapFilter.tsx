@@ -17,23 +17,23 @@ export default function MarketCapFilter<T extends string[]>({
       value={selectedKey}
       onValueChange={(newKey) => {
         if (allKeys.includes(newKey)) {
-          selectKey(newKey as (typeof allKeys)[number]);
+          selectKey(newKey);
         }
       }}
       asChild
     >
-      <div className="inline-flex text-xs rounded-xl overflow-clip bg-slate-a2 text-slate-11">
+      <div className="inline-flex text-xs rounded-md overflow-clip bg-slate-a2 text-slate-11">
         {allKeys.map((key) => (
           <ToggleGroup.Item
             key={key}
             value={key}
             className={classNames(
-              "px-2 py-1 first:pl-3 last:pr-3 transition-all",
+              "px-2 py-1  transition-all",
               {
                 "hover:bg-slate-a5 hover:text-slate-12": key !== selectedKey,
               },
               {
-                "text-slate-1 bg-slate-a8": key === selectedKey,
+                "text-slate-1 bg-slate-a8 font-semibold": key === selectedKey,
               }
             )}
           >
