@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { SWRConfig } from "swr";
 
@@ -23,20 +22,20 @@ const fetcher = async (url: string) => {
 };
 
 // @ts-ignore
-function logger(useSWRNext) {
-  return (key, fetcher, config) => {
-    // Add logger to the original fetcher.
-    const extendedFetcher = (...args) => {
-      console.warn("SWR Request:", key);
-      return fetcher(...args);
-    };
+// function logger(useSWRNext) {
+//   return (key, fetcher, config) => {
+//     // Add logger to the original fetcher.
+//     const extendedFetcher = (...args) => {
+//       console.warn("SWR Request:", key);
+//       return fetcher(...args);
+//     };
 
-    // Execute the hook with the new fetcher.
-    return useSWRNext(key, extendedFetcher, config);
-  };
-}
+//     // Execute the hook with the new fetcher.
+//     return useSWRNext(key, extendedFetcher, config);
+//   };
+// }
 
-export default function SigmaListDataWrapper({
+export default function SWRConfigProvider({
   children,
   fallback,
 }: {
@@ -48,8 +47,8 @@ export default function SigmaListDataWrapper({
       value={{
         fallback,
         fetcher,
-        use: [logger],
         revalidateIfStale: false,
+        focusThrottleInterval: 60000,
       }}
     >
       {children}

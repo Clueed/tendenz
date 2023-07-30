@@ -1,9 +1,8 @@
-import { Suspense } from "react";
 import { ComingSoon } from "./components/ComingSoon";
 import { ExplainingTitle } from "./components/ExplainingTitle";
 import Hero from "./components/Hero";
 import SigmaList from "./components/Sigma/SigmaList";
-import SigmaListDataWrapper from "./components/SigmaListDataWrapper";
+import SWRConfigProvider from "./components/SWRConfigProvider";
 
 export interface tendenzApiSigmaYesterdayDay {
   close: number;
@@ -75,8 +74,6 @@ export default async function Home() {
     ] = bucket.entries;
   }
 
-  console.log("fallback :>> ", fallback);
-
   return (
     <>
       <header className="my-[5vh] flex flex-col gap-[2vh]">
@@ -85,9 +82,9 @@ export default async function Home() {
       </header>
 
       <section className="my-[5vh]">
-        <SigmaListDataWrapper fallback={fallback}>
+        <SWRConfigProvider fallback={fallback}>
           <SigmaList marketCapBuckets={marketCapBuckets} />
-        </SigmaListDataWrapper>
+        </SWRConfigProvider>
       </section>
 
       <section>
