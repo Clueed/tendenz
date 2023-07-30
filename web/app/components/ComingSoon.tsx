@@ -53,9 +53,6 @@ export function ComingSoon() {
 
   return (
     <div className="relative py-[10vw]">
-      {
-        // <div className="absolute h-full translate-x-1/2 translate-y-1/2 rounded-full w-96 bg-violet-a5 blur-3xl right-1/2 bottom-1/2 -z-10" />
-      }
       <div className="absolute top-0 left-0 w-full h-full shadow-inner -z-10 bg-gradient-to-b from-indigo-a3 via-indigo-a4 to-violet-a4 mask-linear-gradient-tt" />
       <div className="grid grid-cols-default">
         <div className="col-start-2">
