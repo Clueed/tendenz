@@ -1,23 +1,51 @@
 "use client";
-import { MarketCapDataObject } from "../../page";
+
 import Timer from "../Timer";
 import { npl } from "@/app/misc/naturalLanguageProcessing";
 import { SigmaAccordion } from "./SigmaAccordion";
 import { useState } from "react";
 import MarketCapFilter from "./MarketCapFilter";
+import useSWR from "swr";
+import { MarketCapBucket } from "@/app/page";
 
-export default function SigmaList({ data }: { data: MarketCapDataObject }) {
-  const defaultKey: keyof MarketCapDataObject = "1b";
-  const [inputKey, setValue] = useState<keyof MarketCapDataObject>(defaultKey);
+export default function SigmaList({
+  marketCapBuckets,
+}: {
+  marketCapBuckets: MarketCapBucket[];
+}) {
+  const defaultKey = "1b";
+  const [bucketKey, setBucketKey] = useState(defaultKey);
 
-  const marketCapBuckets = Object.keys(data) as (keyof MarketCapDataObject)[];
+  const [page, setPage] = useState<number>(0);
+
+  const minMarketCap = marketCapBuckets.filter(
+    (bucket) => bucket.label === bucketKey
+  )[0].minMarketCap;
+
+  const url = `https://tendenz-server.fly.dev/${page}?minMarketCap=${minMarketCap}`;
+
+  console.log("url :>> ", url);
+
+  //@ts-ignore
+  const { data, error, isLoading, isValidating } = useSWR(url);
+
+  console.log("newData :>> ", data);
+
+  if (error) {
+    console.log("error :>> ", error);
+    return <div>failed to load</div>;
+  }
+  if (isLoading) return <div>loading...</div>;
 
   return (
     <div className="relative">
       <div className="grid grid-cols-default my-[2.5vw]">
         <div className="flex justify-between col-start-2 mb-3">
           <h1 className="text-4xl font-normal text-indigo-11">
-            {npl(data[defaultKey].entries[0].last.date)}&apos;s anomalies
+            {
+              //npl(data[0].last.date)
+            }
+            &apos;s anomalies
           </h1>
           <Timer />
         </div>
@@ -26,10 +54,10 @@ export default function SigmaList({ data }: { data: MarketCapDataObject }) {
             stocks
           </h2>
           <div>
-            <MarketCapFilter<typeof marketCapBuckets>
-              selectedKey={inputKey}
-              selectKey={setValue}
-              allKeys={marketCapBuckets}
+            <MarketCapFilter
+              selectedKey={bucketKey}
+              selectKey={setBucketKey}
+              allKeys={marketCapBuckets.map((bucket) => bucket.label)}
             />
           </div>
         </div>
@@ -41,7 +69,7 @@ export default function SigmaList({ data }: { data: MarketCapDataObject }) {
         </div>
       </div>
 
-      <SigmaAccordion data={data[inputKey].entries} />
+      <SigmaAccordion data={data} />
     </div>
   );
 }

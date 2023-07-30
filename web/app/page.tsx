@@ -3,6 +3,7 @@ import { ComingSoon } from "./components/ComingSoon";
 import { ExplainingTitle } from "./components/ExplainingTitle";
 import Hero from "./components/Hero";
 import SigmaList from "./components/Sigma/SigmaList";
+import SigmaListDataWrapper from "./components/SigmaListDataWrapper";
 
 export interface tendenzApiSigmaYesterdayDay {
   close: number;
@@ -23,11 +24,6 @@ export interface tendenzApiSigmaYesterday {
   secondLast: tendenzApiSigmaYesterdayDay;
 }
 
-export interface MarketCapBucket {
-  minMarketCap: number;
-  entries: tendenzApiSigmaYesterday[];
-}
-
 async function getData(minMarketCap?: number) {
   try {
     const res = await fetch(
@@ -43,33 +39,43 @@ async function getData(minMarketCap?: number) {
   }
 }
 
-const marketCapBuckets = {
-  "10m": { minMarketCap: 10e6, entries: [] },
-  "100m": { minMarketCap: 100e6, entries: [] },
-  "1b": { minMarketCap: 1e9, entries: [] },
-  "50b": { minMarketCap: 50e9, entries: [] },
-};
+export interface MarketCapBucket {
+  label: string;
+  minMarketCap: number;
+}
 
-export type MarketCapBuckets = keyof typeof marketCapBuckets;
+const marketCapBuckets: MarketCapBucket[] = [
+  { label: "10m", minMarketCap: 10e6 },
+  { label: "100m", minMarketCap: 100e6 },
+  { label: "1b", minMarketCap: 1e9 },
+  { label: "50b", minMarketCap: 50e9 },
+];
 
-export type MarketCapDataObject = {
-  [key in keyof typeof marketCapBuckets]: MarketCapBucket;
-};
+export interface MarketCapBucketWithData extends MarketCapBucket {
+  entries: tendenzApiSigmaYesterday[];
+}
 
 export default async function Home() {
-  async function fetchDataForBucket(bucket: { minMarketCap: number }) {
-    const entries = await getData(bucket.minMarketCap);
-    return { ...bucket, entries };
+  async function fetchDataForBucket(minMarketCap: number) {
+    return await getData(minMarketCap);
   }
 
-  const data = Object.fromEntries(
-    await Promise.all(
-      Object.entries(marketCapBuckets).map(async ([key, value]) => [
-        key,
-        await fetchDataForBucket(value),
-      ])
-    )
+  const data = await Promise.all(
+    marketCapBuckets.map(async (bucket) => {
+      const entries = await fetchDataForBucket(bucket.minMarketCap);
+      return { ...bucket, entries };
+    })
   );
+
+  let fallback: any = {};
+
+  for (const bucket of data) {
+    fallback[
+      `https://tendenz-server.fly.dev/0?minMarketCap=${bucket.minMarketCap}`
+    ] = bucket.entries;
+  }
+
+  //console.log("fallback :>> ", fallback);
 
   return (
     <>
@@ -79,7 +85,9 @@ export default async function Home() {
       </header>
 
       <section className="my-[5vh]">
-        <SigmaList data={data} />
+        <SigmaListDataWrapper fallback={{}}>
+          <SigmaList marketCapBuckets={marketCapBuckets} />
+        </SigmaListDataWrapper>
       </section>
 
       <section>
