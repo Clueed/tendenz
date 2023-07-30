@@ -66,11 +66,8 @@ export default function SigmaList({ data }: { data: MarketCapDataObject }) {
           </div>
         </div>
       </div>
-      <div className="h-[40rem] overflow-clip">
-        <AnimatePresence>
-          <SigmaAccordion data={data[inputKey].entries} />
-        </AnimatePresence>
-      </div>
+
+      <SigmaAccordion data={data[inputKey].entries} />
     </div>
   );
 }

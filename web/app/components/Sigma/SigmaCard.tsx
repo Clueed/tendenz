@@ -15,7 +15,7 @@ export default function SigmaCard({
   return (
     <Accordion.Item
       value={entry.ticker}
-      className="relative grid py-2 grid-cols-default group"
+      className="relative grid py-2 mb-2 grid-cols-default group"
     >
       <div
         className={classNames(
@@ -25,7 +25,7 @@ export default function SigmaCard({
         )}
       />
       <div className="col-start-2 col-end-2 @container">
-        <Accordion.Trigger>
+        <Accordion.Trigger className="w-full">
           <SigmaCardHeader
             expanded={expanded}
             name={entry.name!}
