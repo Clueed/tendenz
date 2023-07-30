@@ -10,8 +10,10 @@ import { MarketCapBucket } from "@/app/page";
 
 export default function SigmaList({
   marketCapBuckets,
+  lastDate,
 }: {
   marketCapBuckets: MarketCapBucket[];
+  lastDate?: string;
 }) {
   const defaultKey = "1b";
   const [bucketKey, setBucketKey] = useState(defaultKey);
@@ -24,9 +26,7 @@ export default function SigmaList({
       <div className="grid grid-cols-default my-[2.5vw]">
         <div className="flex justify-between col-start-2 mb-3">
           <h1 className="text-4xl font-normal text-indigo-11">
-            {
-              //npl(data[0].last.date)
-            }
+            {lastDate ? npl(lastDate) : "yesterday"}
             &apos;s anomalies
           </h1>
           <Timer />

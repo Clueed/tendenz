@@ -74,6 +74,8 @@ export default async function Home() {
     ] = bucket.entries;
   }
 
+  const lastDate = data[0].entries[0].last.date;
+
   return (
     <>
       <header className="my-[5vh] flex flex-col gap-[2vh]">
@@ -83,7 +85,7 @@ export default async function Home() {
 
       <section className="my-[5vh]">
         <SWRConfigProvider fallback={fallback}>
-          <SigmaList marketCapBuckets={marketCapBuckets} />
+          <SigmaList marketCapBuckets={marketCapBuckets} lastDate={lastDate} />
         </SWRConfigProvider>
       </section>
 
