@@ -6,21 +6,22 @@ import { SigmaAccordion } from "./SigmaAccordion";
 import { useState } from "react";
 import MarketCapFilter from "./MarketCapFilter";
 import { MARKET_CAP_BUCKETS } from "@/app/page";
+import { useSigmaYesterday } from "@/app/misc/tendenzApi";
 
 type MarketCapBucketLabel = (typeof MARKET_CAP_BUCKETS)[number]["label"];
 
 export default function SigmaList({
   marketCapBuckets,
-  lastDate,
 }: {
   marketCapBuckets: typeof MARKET_CAP_BUCKETS;
-  lastDate?: string;
 }) {
   const defaultKey: MarketCapBucketLabel = "1b";
   const [bucketKey, setBucketKey] = useState<MarketCapBucketLabel>(defaultKey);
   const minMarketCap = marketCapBuckets.filter(
     (bucket) => bucket.label === bucketKey
   )[0].minMarketCap;
+
+  const lastDate = useSigmaYesterday(minMarketCap, 0)?.data?.[0].last.date;
 
   return (
     <div className="relative">

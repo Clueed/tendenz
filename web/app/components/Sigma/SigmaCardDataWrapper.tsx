@@ -1,8 +1,7 @@
-import { tendenzApiSigmaYesterday } from "@/app/page";
 import { Variants, motion } from "framer-motion";
 import SigmaCard from "./SigmaCard";
-import useSWR from "swr";
 import { NextPageButton } from "./NextPageButton";
+import { useSigmaYesterday } from "@/app/misc/tendenzApi";
 
 const transition = {
   type: "spring",
@@ -28,7 +27,7 @@ export const variants: Variants = {
   },
 };
 
-export function Page({
+export function SigmaCardDataWrapper({
   page,
   minMarketCap,
   expandedKey,
@@ -41,9 +40,10 @@ export function Page({
   last: boolean;
   handleNextPage: () => void;
 }) {
-  const url = `https://tendenz-server.fly.dev/${page}?minMarketCap=${minMarketCap}`;
-  const { data, error, isLoading, isValidating } =
-    useSWR<tendenzApiSigmaYesterday[]>(url);
+  const { data, error, isLoading, isValidating } = useSigmaYesterday(
+    minMarketCap,
+    page
+  );
 
   if (error) {
     return <span>error</span>;

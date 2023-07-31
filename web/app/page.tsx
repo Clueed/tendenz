@@ -3,7 +3,7 @@ import { ExplainingTitle } from "./components/ExplainingTitle";
 import Hero from "./components/Hero";
 import SigmaList from "./components/Sigma/SigmaList";
 import SWRConfigProvider from "./components/SWRConfigProvider";
-import { tendenzApiSigmaYesterday } from "./types/tendenzApiTypes";
+import { getFallback } from "./misc/tendenzApi";
 
 export const MARKET_CAP_BUCKETS = [
   { label: "10m", minMarketCap: 10e6 },
@@ -12,26 +12,9 @@ export const MARKET_CAP_BUCKETS = [
   { label: "50b", minMarketCap: 50e9 },
 ] as const;
 
-async function getData(url: string) {
-  try {
-    const res = await fetch(url, {
-      next: { revalidate: 600 },
-    });
-    return res.json() as Promise<tendenzApiSigmaYesterday[]>;
-  } catch (e) {
-    console.error(e);
-    return [];
-  }
-}
-
 export default async function Home() {
-  let fallback: { [key: string]: tendenzApiSigmaYesterday[] } = {};
-
-  await Promise.all(
-    MARKET_CAP_BUCKETS.map(async (bucket) => {
-      const url = `https://tendenz-server.fly.dev/0?minMarketCap=${bucket.minMarketCap}`;
-      fallback[url] = await getData(url);
-    })
+  const fallback = await getFallback(
+    MARKET_CAP_BUCKETS.map((b) => b.minMarketCap)
   );
 
   const lastDate = fallback[Object.keys(fallback)[0]][0].last.date;
