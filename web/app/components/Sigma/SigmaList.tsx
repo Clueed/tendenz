@@ -5,7 +5,7 @@ import { npl } from "@/app/misc/naturalLanguageProcessing";
 import { SigmaAccordion } from "./SigmaAccordion";
 import { useState } from "react";
 import MarketCapFilter from "./MarketCapFilter";
-import { MARKET_CAP_BUCKETS } from "@/app/page";
+import { MARKET_CAP_BUCKETS } from "@/app/misc/MARKET_CAP_BUCKETS";
 import { useSigmaYesterday } from "@/app/misc/tendenzApi";
 
 type MarketCapBucketLabel = (typeof MARKET_CAP_BUCKETS)[number]["label"];
@@ -34,7 +34,7 @@ export default function SigmaList({
 
           <Timer />
         </div>
-        <div className="flex items-end justify-between col-start-2 mb-2 align-bottom">
+        <div className="flex items-end justify-between mb-2 align-bottom col-start-2">
           <h2 className="text-3xl font-normal leading-none text-slate-12">
             stocks
           </h2>
@@ -46,7 +46,7 @@ export default function SigmaList({
             />
           </div>
         </div>
-        <div className="flex items-start justify-between col-start-2 align-top">
+        <div className="flex items-start justify-between align-top col-start-2">
           <h3 className="text-base leading-none text-slate-11">
             United States
           </h3>

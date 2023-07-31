@@ -1,5 +1,5 @@
 import { url } from "inspector";
-import { MARKET_CAP_BUCKETS } from "../page";
+import { MARKET_CAP_BUCKETS } from "./MARKET_CAP_BUCKETS";
 import useSWR, { SWRResponse } from "swr";
 
 export interface tendenzApiSigmaYesterdayDay {

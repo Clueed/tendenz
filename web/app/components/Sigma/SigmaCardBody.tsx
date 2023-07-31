@@ -1,10 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import { tendenzApiSigmaYesterdayDay } from "../../page";
 import { npl } from "../../misc/naturalLanguageProcessing";
 import { YahooButton } from "./YahooButton";
 import classNames from "classnames";
+import { tendenzApiSigmaYesterdayDay } from "@/app/misc/tendenzApi";
 
 export function SigmaCardBody({
   last,

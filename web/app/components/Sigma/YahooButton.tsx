@@ -23,7 +23,7 @@ export function YahooButton({ ticker }: { ticker: string }) {
       target="_blank"
       rel="noopener noreferrer"
       href={`https://finance.yahoo.com/quote/${ticker}`}
-      className="flex items-center gap-1 py-2 shadow-sm rounded-l-md from-violet-a6 to-violet-a7 bg-gradient-to-br"
+      className="flex items-center py-2 gap-1 shadow-sm rounded-l-md from-violet-a6 to-violet-a7 bg-gradient-to-br"
       transition={{ type: "spring", duration: 0.75, bounce: 0.1 }}
     >
       <svg

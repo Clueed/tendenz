@@ -5,7 +5,7 @@ import Pop from "./Pop";
 export function ExplainingTitle() {
   return (
     <div className="grid lg:text-center grid-cols-default">
-      <div className="col-start-2 text-lg leading-relaxed text-slate-11 ">
+      <div className="text-lg leading-relaxed col-start-2 text-slate-11 ">
         <span className="text-xl">
           statistical probabilities of market close prices,{" "}
         </span>

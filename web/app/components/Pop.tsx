@@ -1,8 +1,7 @@
 import * as Popover from "@radix-ui/react-popover";
-import { Slot } from "@radix-ui/react-slot";
 import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 
 type BgColors = "indigo" | "slate";
 

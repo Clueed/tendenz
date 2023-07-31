@@ -15,7 +15,7 @@ export default function SigmaCard({
   return (
     <Accordion.Item
       value={entry.ticker}
-      className="relative grid py-2 mb-2 grid-cols-default group"
+      className="relative py-2 mb-2 grid grid-cols-default group"
     >
       <div
         className={classNames(

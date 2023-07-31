@@ -1,9 +1,8 @@
 import Link from "next/link";
-import Container from "./components/Container";
 
 export function Footer() {
   return (
-    <footer className="grid pt-10 pb-5 grid-cols-default">
+    <footer className="pt-10 pb-5 grid grid-cols-default">
       <div className="flex flex-col items-stretch col-start-2 gap-5">
         <div className="flex justify-around text-slate-9">
           <Link href="/disclaimers">disclaimers</Link>
