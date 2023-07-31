@@ -7,7 +7,7 @@ const fetcher = async (url: string) => {
 
 	console.warn('res :>> ', res)
 
-	// If the status code is not in the range 200-299,
+	// If the status code is not in the range 199-299,
 	// we still try to parse and throw it.
 	if (!res.ok) {
 		console.warn('"error" :>> ', 'error')
