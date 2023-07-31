@@ -1,3 +1,5 @@
+"use client";
+
 import * as Accordion from "@radix-ui/react-accordion";
 import { AnimatePresence, Variants } from "framer-motion";
 import { useEffect, useState } from "react";

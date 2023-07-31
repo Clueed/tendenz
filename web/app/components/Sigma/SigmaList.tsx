@@ -5,30 +5,32 @@ import { npl } from "@/app/misc/naturalLanguageProcessing";
 import { SigmaAccordion } from "./SigmaAccordion";
 import { useState } from "react";
 import MarketCapFilter from "./MarketCapFilter";
+import { MARKET_CAP_BUCKETS } from "@/app/page";
 
-import { MarketCapBucket } from "@/app/page";
+type MarketCapBucketLabel = (typeof MARKET_CAP_BUCKETS)[number]["label"];
 
 export default function SigmaList({
   marketCapBuckets,
   lastDate,
 }: {
-  marketCapBuckets: MarketCapBucket[];
+  marketCapBuckets: typeof MARKET_CAP_BUCKETS;
   lastDate?: string;
 }) {
-  const defaultKey = "1b";
-  const [bucketKey, setBucketKey] = useState(defaultKey);
+  const defaultKey: MarketCapBucketLabel = "1b";
+  const [bucketKey, setBucketKey] = useState<MarketCapBucketLabel>(defaultKey);
   const minMarketCap = marketCapBuckets.filter(
     (bucket) => bucket.label === bucketKey
   )[0].minMarketCap;
 
   return (
     <div className="relative">
-      <div className="grid grid-cols-default my-[2.5vw]">
-        <div className="flex justify-between col-start-2 mb-3">
+      <div className="grid grid-cols-default my-[2.5vh]">
+        <div className="flex justify-between items-end col-start-2 mb-[1.5vh] gap-5">
           <h1 className="text-4xl font-normal text-indigo-11">
             {lastDate ? npl(lastDate) : "yesterday"}
             &apos;s anomalies
           </h1>
+
           <Timer />
         </div>
         <div className="flex items-end justify-between col-start-2 mb-2 align-bottom">

@@ -3,34 +3,20 @@ import { ExplainingTitle } from "./components/ExplainingTitle";
 import Hero from "./components/Hero";
 import SigmaList from "./components/Sigma/SigmaList";
 import SWRConfigProvider from "./components/SWRConfigProvider";
+import { tendenzApiSigmaYesterday } from "./types/tendenzApiTypes";
 
-export interface tendenzApiSigmaYesterdayDay {
-  close: number;
-  logReturn: number;
-  date: string;
-}
+export const MARKET_CAP_BUCKETS = [
+  { label: "10m", minMarketCap: 10e6 },
+  { label: "100m", minMarketCap: 100e6 },
+  { label: "1b", minMarketCap: 1e9 },
+  { label: "50b", minMarketCap: 50e9 },
+] as const;
 
-export interface tendenzApiSigmaYesterday {
-  ticker: string;
-  name: string | null;
-  sigma: number;
-  weight: number;
-  marketCap: number;
-  stdLogReturn: number;
-  meanLogReturn: number;
-  sampleSize: number;
-  last: tendenzApiSigmaYesterdayDay;
-  secondLast: tendenzApiSigmaYesterdayDay;
-}
-
-async function getData(minMarketCap?: number) {
+async function getData(url: string) {
   try {
-    const res = await fetch(
-      `https://tendenz-server.fly.dev/?minMarketCap=${minMarketCap}`,
-      {
-        next: { revalidate: 60 },
-      }
-    );
+    const res = await fetch(url, {
+      next: { revalidate: 600 },
+    });
     return res.json() as Promise<tendenzApiSigmaYesterday[]>;
   } catch (e) {
     console.error(e);
@@ -38,43 +24,17 @@ async function getData(minMarketCap?: number) {
   }
 }
 
-export interface MarketCapBucket {
-  label: string;
-  minMarketCap: number;
-}
-
-const marketCapBuckets: MarketCapBucket[] = [
-  { label: "10m", minMarketCap: 10e6 },
-  { label: "100m", minMarketCap: 100e6 },
-  { label: "1b", minMarketCap: 1e9 },
-  { label: "50b", minMarketCap: 50e9 },
-];
-
-export interface MarketCapBucketWithData extends MarketCapBucket {
-  entries: tendenzApiSigmaYesterday[];
-}
-
 export default async function Home() {
-  async function fetchDataForBucket(minMarketCap: number) {
-    return await getData(minMarketCap);
-  }
+  let fallback: { [key: string]: tendenzApiSigmaYesterday[] } = {};
 
-  const data = await Promise.all(
-    marketCapBuckets.map(async (bucket) => {
-      const entries = await fetchDataForBucket(bucket.minMarketCap);
-      return { ...bucket, entries };
+  await Promise.all(
+    MARKET_CAP_BUCKETS.map(async (bucket) => {
+      const url = `https://tendenz-server.fly.dev/0?minMarketCap=${bucket.minMarketCap}`;
+      fallback[url] = await getData(url);
     })
   );
 
-  let fallback: any = {};
-
-  for (const bucket of data) {
-    fallback[
-      `https://tendenz-server.fly.dev/0?minMarketCap=${bucket.minMarketCap}`
-    ] = bucket.entries;
-  }
-
-  const lastDate = data[0].entries[0].last.date;
+  const lastDate = fallback[Object.keys(fallback)[0]][0].last.date;
 
   return (
     <>
@@ -85,7 +45,10 @@ export default async function Home() {
 
       <section className="my-[5vh]">
         <SWRConfigProvider fallback={fallback}>
-          <SigmaList marketCapBuckets={marketCapBuckets} lastDate={lastDate} />
+          <SigmaList
+            marketCapBuckets={MARKET_CAP_BUCKETS}
+            lastDate={lastDate}
+          />
         </SWRConfigProvider>
       </section>
 
