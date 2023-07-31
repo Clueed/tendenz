@@ -1,25 +1,25 @@
-"use client";
-import React from "react";
-import { SWRConfig } from "swr";
+'use client'
+import React from 'react'
+import { SWRConfig } from 'swr'
 
 const fetcher = async (url: string) => {
-  const res = await fetch(url);
+	const res = await fetch(url)
 
-  console.warn("res :>> ", res);
+	console.warn('res :>> ', res)
 
-  // If the status code is not in the range 200-299,
-  // we still try to parse and throw it.
-  if (!res.ok) {
-    console.warn('"error" :>> ', "error");
-    const error = new Error("An error occurred while fetching the data.");
-    // Attach extra info to the error object.
-    // error.info = await res.json();
-    // error.status = res.status;
-    throw error;
-  }
+	// If the status code is not in the range 200-299,
+	// we still try to parse and throw it.
+	if (!res.ok) {
+		console.warn('"error" :>> ', 'error')
+		const error = new Error('An error occurred while fetching the data.')
+		// Attach extra info to the error object.
+		// error.info = await res.json();
+		// error.status = res.status;
+		throw error
+	}
 
-  return res.json();
-};
+	return res.json()
+}
 
 // @ts-ignore
 // function logger(useSWRNext) {
@@ -36,22 +36,22 @@ const fetcher = async (url: string) => {
 // }
 
 export default function SWRConfigProvider({
-  children,
-  fallback,
+	children,
+	fallback,
 }: {
-  children: React.ReactNode;
-  fallback: any;
+	children: React.ReactNode
+	fallback: any
 }) {
-  return (
-    <SWRConfig
-      value={{
-        fallback,
-        fetcher,
-        revalidateIfStale: false,
-        focusThrottleInterval: 60000,
-      }}
-    >
-      {children}
-    </SWRConfig>
-  );
+	return (
+		<SWRConfig
+			value={{
+				fallback,
+				fetcher,
+				revalidateIfStale: false,
+				focusThrottleInterval: 60000,
+			}}
+		>
+			{children}
+		</SWRConfig>
+	)
 }
