@@ -3,7 +3,7 @@
 import * as Accordion from "@radix-ui/react-accordion";
 import { AnimatePresence, Variants } from "framer-motion";
 import { useEffect, useState } from "react";
-import { SigmaCardDataWrapper } from "./SigmaCardDataWrapper";
+import { PageOfSigmaCards } from "./PageOfSigmaCards";
 
 export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
   const [expandedKey, setExpandedKey] = useState<string>("");
@@ -23,7 +23,8 @@ export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
   const pages = [];
   for (let i = 0; i < pageIndex; i++) {
     pages.push(
-      <SigmaCardDataWrapper
+      <PageOfSigmaCards
+        key={i}
         page={i}
         minMarketCap={minMarketCap}
         expandedKey={expandedKey}
@@ -38,11 +39,8 @@ export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
       collapsible
       type="single"
       onValueChange={(o) => setExpandedKey(o)}
-      asChild
     >
-      <AnimatePresence presenceAffectsLayout mode="popLayout" initial={false}>
-        {pages}
-      </AnimatePresence>
+      <AnimatePresence initial={false}>{pages}</AnimatePresence>
     </Accordion.Root>
   );
 }

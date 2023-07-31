@@ -1,3 +1,5 @@
+"use client";
+
 import { Variants, motion } from "framer-motion";
 import SigmaCard from "./SigmaCard";
 import { NextPageButton } from "./NextPageButton";
@@ -27,7 +29,7 @@ export const variants: Variants = {
   },
 };
 
-export function SigmaCardDataWrapper({
+export function PageOfSigmaCards({
   page,
   minMarketCap,
   expandedKey,

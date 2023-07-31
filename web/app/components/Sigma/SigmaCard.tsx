@@ -1,9 +1,9 @@
-import { tendenzApiSigmaYesterday } from "../../page";
 import * as Accordion from "@radix-ui/react-accordion";
-import { AnimatePresence, Variants, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { SigmaCardHeader } from "./SigmaCardHeader";
 import { SigmaCardBody } from "./SigmaCardBody";
 import classNames from "classnames";
+import { tendenzApiSigmaYesterday } from "@/app/misc/tendenzApi";
 
 export default function SigmaCard({
   entry,

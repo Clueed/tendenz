@@ -51,7 +51,6 @@ export default function Pop({
           <Popover.Portal forceMount>
             <Popover.Content
               forceMount
-              asChild
               sideOffset={offset}
               avoidCollisions
               collisionPadding={10}
