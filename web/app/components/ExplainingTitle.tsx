@@ -1,14 +1,15 @@
 "use client";
 import classNames from "classnames";
-import { npl } from "../misc/naturalLanguageProcessing";
-import Container from "./Container";
 import Pop from "./Pop";
 
 export function ExplainingTitle() {
   return (
     <div className="grid lg:text-center grid-cols-default">
-      <p className="col-start-2 text-lg leading-relaxed text-slate-11 ">
-        statistical probabilities of market close prices, <br />
+      <div className="col-start-2 text-lg leading-relaxed text-slate-11 ">
+        <span className="text-xl">
+          statistical probabilities of market close prices,{" "}
+        </span>
+        <br />
         based on{" "}
         <ExplainingTitlePopover
           popoverText="daily returns of each assets over the past two years"
@@ -16,13 +17,7 @@ export function ExplainingTitle() {
         />
         , <br />
         in units of standard deviation (σ), <br />
-        weighted by{" "}
-        <ExplainingTitlePopover
-          popoverText="total dollar market value, calculated as all amount of outstanding
-              stock times stock price"
-          triggerText="market capitalization."
-        />
-      </p>
+      </div>
     </div>
   );
 }

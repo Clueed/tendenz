@@ -3,7 +3,7 @@ import { Footer } from "./Footer";
 import NavigationBar from "./components/Navbar/NavigationBar";
 import "./globals.css";
 
-const rubik = localFont({
+const dmSans = localFont({
   src: [
     { path: "./fonts/DMSans-VariableFont_opsz,wght.woff2", style: "normal" },
     {
@@ -12,7 +12,7 @@ const rubik = localFont({
     },
   ],
   display: "swap",
-  variable: "--font-rubik",
+  variable: "--font-dmsans",
 });
 
 export default function RootLayout({
@@ -63,7 +63,7 @@ export default function RootLayout({
       </head>
       <body
         className={
-          rubik.variable + " font-sans bg-slate-3 relative text-slate-12"
+          dmSans.variable + " font-sans bg-slate-3 relative text-slate-12"
         }
       >
         <NavigationBar />
