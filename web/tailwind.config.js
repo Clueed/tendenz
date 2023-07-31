@@ -54,7 +54,7 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontFamily: {
-        sans: ["var(--font-rubik)"],
+        sans: ["var(--font-dmsans)"],
       },
       gridTemplateColumns: {
         default: "1fr min(640px, 90vw) 1fr",
