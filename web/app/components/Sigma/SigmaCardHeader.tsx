@@ -34,15 +34,7 @@ export function SigmaCardHeader({
 					{formattedSigma}
 				</div>
 				<div className="ml-1 text-xl text-slate-10">σ</div>
-				<div className="block text-right">
-					<Tag className="inline @lg:hidden">
-						<MarketCap
-							marketCap={marketCap}
-							expanded={expanded}
-							expandDirection="left"
-						/>
-					</Tag>
-				</div>
+				<div className="block text-right"></div>
 			</div>
 
 			<motion.div
