@@ -8,6 +8,7 @@ export interface tendenzApiSigmaYesterday {
 	ticker: string
 	name: string | null
 	sigma: number
+	absSigma: number
 	weight: number
 	marketCap: number
 	stdLogReturn: number

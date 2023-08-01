@@ -1,9 +1,9 @@
 'use client'
 
-import { tendenzApiSigmaYesterdayDay } from '@/app/misc/tendenzApi'
 import classNames from 'classnames'
 import { useMemo } from 'react'
 import { npl } from '../../misc/naturalLanguageProcessing'
+import { tendenzApiSigmaYesterdayDay } from '../api/sharedApi'
 import { YahooButton } from './YahooButton'
 
 export function SigmaCardBody({
