@@ -2,11 +2,11 @@
 
 import { MARKET_CAP_BUCKETS } from '@/app/misc/MARKET_CAP_BUCKETS'
 import { npl } from '@/app/misc/naturalLanguageProcessing'
-import { useSigmaYesterday } from '@/app/misc/tendenzApi'
 import { useState } from 'react'
 import Timer from '../Timer'
 import MarketCapFilter from './MarketCapFilter'
 import { SigmaAccordion } from './SigmaAccordion'
+import { useSigmaYesterday } from '../api/clientApi'
 
 type MarketCapBucketLabel = (typeof MARKET_CAP_BUCKETS)[number]['label']
 
