@@ -53,11 +53,7 @@ export function SigmaCardHeader({
 
 				<span className="text-slate-12">{formattedName}</span>
 				<Tag className="hidden @lg:inline">
-					<MarketCap
-						marketCap={marketCap}
-						expanded={expanded}
-						expandDirection="right"
-					/>
+					<MarketCap marketCap={marketCap} />
 				</Tag>
 				<AnimatePresence>
 					{expanded &&
