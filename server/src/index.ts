@@ -37,7 +37,7 @@ fastify.get("/:page", async (request, reply) => {
 
   const sigmaYesterday = await fastify.prisma.sigmaUsStocksYesterday.findMany({
     orderBy: {
-      weight: "desc",
+      absSigma: "desc",
     },
     where,
     take: PAGE_SIZE,
@@ -49,6 +49,7 @@ fastify.get("/:page", async (request, reply) => {
       ticker,
       name,
       sigma,
+      absSigma,
       weight,
       marketCap,
       stdLogReturn,
@@ -64,6 +65,7 @@ fastify.get("/:page", async (request, reply) => {
       ticker,
       name,
       sigma,
+      absSigma,
       weight,
       marketCap,
       stdLogReturn,
@@ -96,7 +98,7 @@ const bree = new Bree({
 });
 
 const start = async () => {
-  //bree.start();
+  bree.start();
   try {
     await fastify.listen({ port: 3000, host: "0.0.0.0" });
   } catch (err) {
@@ -124,6 +126,7 @@ export interface tendenzApiSigmaYesterday {
   ticker: string;
   name: string | null;
   sigma: number;
+  absSigma: number;
   weight: number;
   marketCap: number;
   stdLogReturn: number;
