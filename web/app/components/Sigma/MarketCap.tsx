@@ -2,19 +2,19 @@
 
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
 import { getMarketCapCategory } from '../../misc/getMarketCapCategory'
 
 export function MarketCap({
 	marketCap,
-	expanded,
 	className,
-	expandDirection,
+	expandDirection = 'right',
 }: {
 	marketCap: number
-	expanded: boolean
-	expandDirection: 'right' | 'left'
+	expandDirection?: 'right' | 'left'
 	className?: string
 }) {
+	const [expanded, setExpanded] = useState<Boolean>(false)
 	const label = getMarketCapCategory(marketCap)
 	const formattedMarketCap = marketCap > 1e6 ? label + '+' : '>' + label
 
@@ -26,6 +26,10 @@ export function MarketCap({
 					'inline-flex flex-wrap items-center gap-x-2 leading-none',
 					className,
 				)}
+				onClick={event => {
+					event?.preventDefault()
+					setExpanded(!expanded)
+				}}
 			>
 				<motion.div
 					layout="preserve-aspect"
