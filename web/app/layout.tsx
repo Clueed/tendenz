@@ -63,7 +63,7 @@ export default function RootLayout({
 			</head>
 			<body
 				className={
-					dmSans.variable + ' relative bg-slate-3 font-sans text-slate-12'
+					dmSans.variable + ' relative bg-slate-1 font-sans text-slate-12'
 				}
 			>
 				<NavigationBar />
