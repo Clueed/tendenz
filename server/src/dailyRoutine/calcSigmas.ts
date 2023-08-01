@@ -122,6 +122,7 @@ async function handleStock(
     ticker,
     name,
     sigma,
+    absSigma: Math.abs(sigma),
     stdLogReturn: stdev,
     meanLogReturn: mean,
     sampleSize: n,
