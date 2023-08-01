@@ -50,6 +50,7 @@ model SigmaUsStocksYesterday {
   ticker              String   @id
   name                String?
   sigma               Float
+  absSigma            Float
   weight              Float
   marketCap           Float
   stdLogReturn        Float
