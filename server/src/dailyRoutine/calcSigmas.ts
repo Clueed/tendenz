@@ -175,9 +175,15 @@ async function getStocksOnDate(targetDate: Date) {
 }
 
 async function getDailyOfStock(ticker: string) {
+  let date = new Date();
+  date.setUTCFullYear(date.getUTCFullYear() - 2);
+
   return await prisma.usStockDaily.findMany({
     where: {
       ticker,
+      date: {
+        gt: date,
+      },
     },
     orderBy: { date: "asc" },
     select: {
