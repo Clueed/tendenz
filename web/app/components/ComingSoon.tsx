@@ -16,15 +16,11 @@ export function ComingSoon() {
 		'economic indicators',
 	]
 
-	const test = Array.from({ length: 3 }, () => {
-		return {}
-	})
-
 	const container = {
 		hidden: { opacity: 0 },
-		visible: (i = Math.ceil(Math.random() * 1000) / 15) => ({
+		visible: (i = Math.ceil(Math.random() * 50) / 25) => ({
 			opacity: 1,
-			transition: { staggerChildren: 0.03, delayChildren: 0.04 * i },
+			transition: { staggerChildren: 0.05, delayChildren: i },
 		}),
 	}
 
@@ -53,14 +49,24 @@ export function ComingSoon() {
 
 	return (
 		<div className="relative py-[10vw]">
-			<div className="mask-linear-gradient-tt absolute left-0 top-0 -z-10 h-full w-full bg-gradient-to-b from-indigo-a3 via-indigo-a4 to-violet-a4 shadow-inner" />
 			<div className="grid grid-cols-default">
 				<div className="col-start-2">
-					<h2 className="mt-10 text-center text-4xl font-normal text-indigo-12">
-						coming soon...
-					</h2>
+					<motion.h2
+						variants={container}
+						initial="hidden"
+						whileInView="visible"
+						className="mt-10 text-center text-4xl font-normal text-indigo-12"
+					>
+						{'coming soon...'.split('').map((c, i) => {
+							return (
+								<motion.span key={i} variants={child}>
+									{c === ' ' ? '\u00A0' : c}
+								</motion.span>
+							)
+						})}
+					</motion.h2>
 					<motion.div
-						className="my-10 flex flex-wrap justify-around gap-x-4 gap-y-6 bg-gradient-to-br from-indigo-10 via-violet-9 to-sky-9 bg-clip-text text-2xl text-black-a1 sm:text-3xl"
+						className="my-10 flex flex-wrap justify-around gap-x-4 gap-y-6 bg-gradient-to-br from-indigo-11 via-violet-11 to-sky-11 bg-clip-text text-2xl text-black-a1 sm:text-3xl"
 						initial={{ backgroundSize: '100%' }}
 						animate={{ backgroundSize: '500%' }}
 						transition={{
@@ -71,16 +77,15 @@ export function ComingSoon() {
 					>
 						<AnimatePresence>
 							{items.map((v, ii) => {
-								const wordDelay = Math.ceil(Math.random() * 10) / 5
 								return (
 									<motion.div
 										key={v}
 										variants={container}
 										initial="hidden"
 										whileInView="visible"
+										transition={{ delay: 1 }}
 									>
 										{v.split('').map((c, i) => {
-											const characterDelay = wordDelay + Math.random() / 2
 											return (
 												<motion.span key={ii + i} variants={child}>
 													{c === ' ' ? '\u00A0' : c}
