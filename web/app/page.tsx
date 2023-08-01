@@ -24,7 +24,7 @@ export default async function Home() {
 				</SWRConfigProvider>
 			</section>
 
-			<section>
+			<section className="my-[5vh]">
 				<ComingSoon />
 			</section>
 		</>
