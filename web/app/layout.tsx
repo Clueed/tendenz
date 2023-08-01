@@ -63,12 +63,15 @@ export default function RootLayout({
 			</head>
 			<body
 				className={
-					dmSans.variable + ' relative bg-slate-1 font-sans text-slate-12'
+					dmSans.variable +
+					' relative min-h-screen bg-slate-1 font-sans text-slate-12'
 				}
 			>
 				<NavigationBar />
-				<main>{children}</main>
-				<Footer />
+				<div className="flex min-h-full flex-col content-between justify-between">
+					<main>{children}</main>
+					<Footer />
+				</div>
 				<div className="noise2 absolute left-0 top-0 -z-30 h-full w-full opacity-5" />
 				<div className="absolute top-0 -z-40 h-full w-full backdrop-blur-3xl"></div>
 				<div className="absolute top-0 -z-50 h-full w-full overflow-clip">
