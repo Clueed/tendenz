@@ -62,28 +62,32 @@ export function SigmaCardHeader({
 				{'  '}
 
 				<span className="text-slate-12">{formattedName}</span>
-				<Tag>
-					<MarketCap marketCap={marketCap} />
-				</Tag>
+
 				<AnimatePresence>
-					{expanded &&
-						shareTypes.map(type => (
-							<Tag key={type}>
-								{' '}
-								<motion.span
-									initial={{ opacity: 0 }}
-									animate={{
-										opacity: expanded ? 1 : 0,
-										transition: {
-											type: 'spring',
-											duration: 0.5,
-										},
-									}}
-								>
-									{type}
-								</motion.span>
+					{expanded && (
+						<>
+							<Tag>
+								<MarketCap marketCap={marketCap} />
 							</Tag>
-						))}
+							{shareTypes.map(type => (
+								<Tag key={type}>
+									{' '}
+									<motion.span
+										initial={{ opacity: 0 }}
+										animate={{
+											opacity: expanded ? 1 : 0,
+											transition: {
+												type: 'spring',
+												duration: 0.5,
+											},
+										}}
+									>
+										{type}
+									</motion.span>
+								</Tag>
+							))}
+						</>
+					)}
 				</AnimatePresence>
 			</motion.div>
 		</div>
