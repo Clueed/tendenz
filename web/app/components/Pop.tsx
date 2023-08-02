@@ -30,10 +30,6 @@ export default function Pop({
 }) {
 	const [open, setOpen] = useState<boolean>(false)
 
-	type colors<K extends string | number | symbol> = {
-		[k in K]: string
-	}
-
 	return (
 		<Popover.Root onOpenChange={o => setOpen(o)} open={open}>
 			<Popover.Trigger className="group/popover">

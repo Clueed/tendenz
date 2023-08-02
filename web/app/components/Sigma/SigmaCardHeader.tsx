@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useMemo } from 'react'
 import { MarketCap } from './MarketCap'
@@ -18,7 +19,7 @@ export function SigmaCardHeader({
 	name,
 	marketCap,
 }: Props) {
-	const formattedSigma = sigma.toFixed(2)
+	const formattedSigma = Math.abs(sigma).toFixed(2)
 	const { formattedName, shareTypes } = useMemo(
 		() => handleTickerTypes(name),
 		[name],
@@ -29,12 +30,21 @@ export function SigmaCardHeader({
 				'w-100 grid cursor-pointer grid-cols-[7.5rem_auto] items-start gap-x-4'
 			}
 		>
-			<div className="grid grid-cols-[auto_min-content] items-baseline">
+			<div className="grid grid-cols-[_auto_min-content] items-center">
 				<div className="text-right text-3xl leading-tight text-indigo-12">
 					{formattedSigma}
 				</div>
-				<div className="ml-1 text-xl text-slate-10">σ</div>
-				<div className="block text-right"></div>
+				<div className="ml-1 flex flex-col text-xl">
+					<div
+						className={classNames('-my-1 text-xs opacity-90', {
+							'text-red-a11': sigma < 0,
+							'text-green-a11': sigma > 0,
+						})}
+					>
+						{sigma < 0 ? '↓' : '↑'}
+					</div>
+					<div className="-my-1 text-slate-10">σ</div>
+				</div>
 			</div>
 
 			<motion.div
