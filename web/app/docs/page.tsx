@@ -4,7 +4,10 @@ export default function docs() {
 	return (
 		<>
 			<>
-				<section className="grid grid-cols-default pt-10">
+				<section
+					id="statistical-significants"
+					className="grid grid-cols-default pt-10"
+				>
 					<H2>statistical significants: z-score</H2>
 					<P>
 						When we talk about statistical significance, we are referring to the
@@ -51,7 +54,7 @@ export default function docs() {
 								Calculate the daily logarithmic return for the last two years.
 							</LI>
 							<LI>Find the average and standard deviation of these returns.</LI>
-							<LI>Plug the most recent return into the Z-Score formula.</LI>
+							<LI>Plug the most recent return X into the Z-Score formula.</LI>
 						</OL>
 					</P>
 					<P>
@@ -61,7 +64,10 @@ export default function docs() {
 						</div>
 					</P>
 				</section>
-				<section className="grid grid-cols-default pt-10">
+				<section
+					id="market-capitalization"
+					className="grid grid-cols-default pt-10"
+				>
 					<H2>market capitalization</H2>
 					<P>
 						Market capitalization (market cap) is a financial metric that
