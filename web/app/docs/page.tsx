@@ -43,9 +43,9 @@ export default function docs() {
 						around zero and additivity over time.
 					</P>
 					<P>
-						To determine the Z-Score for a specific financial asset's recent
-						return (from the day before yesterday to yesterday), we follow these
-						steps:
+						To determine the Z-Score for a specific financial asset&apos;s
+						recent return (from the day before yesterday to yesterday), we
+						follow these steps:
 						<OL>
 							<LI>
 								Calculate the daily logarithmic return for the last two years.

@@ -13,9 +13,9 @@ export function ExplainingTitle() {
 						popoverText={
 							<>
 								<p>
-									By combining the asset's average closing price and volatility,
-									we can estimate the likelihood of the most recent closing
-									price{' '}
+									By combining the asset&apos;s average closing price and
+									volatility, we can estimate the likelihood of the most recent
+									closing price{' '}
 									<span className="opacity-75"> (measured by sigma, σ)</span>.
 								</p>
 								<p className="mt-2">

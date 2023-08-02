@@ -1,4 +1,4 @@
-import { tendenzApiSigmaYesterday, getStocksURL } from "./sharedApi"
+import { getStocksURL, tendenzApiSigmaYesterday } from './sharedApi'
 
 async function getData<T>(url: string) {
 	try {
@@ -11,7 +11,6 @@ async function getData<T>(url: string) {
 		return []
 	}
 }
-
 
 export async function getFallback(minMarketCaps: number[], page: number = 0) {
 	let fallback: { [key: string]: tendenzApiSigmaYesterday[] } = {}
