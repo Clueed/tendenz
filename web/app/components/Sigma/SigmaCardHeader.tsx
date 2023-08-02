@@ -62,7 +62,7 @@ export function SigmaCardHeader({
 				{'  '}
 
 				<span className="text-slate-12">{formattedName}</span>
-				<Tag className="hidden @lg:inline">
+				<Tag>
 					<MarketCap marketCap={marketCap} />
 				</Tag>
 				<AnimatePresence>
