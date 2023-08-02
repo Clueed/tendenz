@@ -7,10 +7,12 @@ const colors = {
 	indigo: {
 		popClassNames: 'bg-gradient-to-br from-indigo-11 to-indigo-12',
 		arrowClassNames: 'fill-indigo-11',
+		contentClassNames: 'text-indigo-1',
 	},
 	slate: {
-		popClassNames: 'bg-gradient-to-br from-slate-10 to-slate-11',
+		popClassNames: 'bg-gradient-to-br from-slate-11 to-slate-12',
 		arrowClassNames: 'fill-slate-11',
+		contentClassNames: 'text-slate-1',
 	},
 } as const
 
@@ -61,7 +63,12 @@ export default function Pop({
 								)}
 							>
 								<div className="noise2 absolute -z-10 h-full w-full rounded-lg opacity-30" />
-								<div className="rounded-lg px-5 py-4 text-slate-1 shadow-lg">
+								<div
+									className={classNames(
+										'rounded-lg px-5 py-4 text-slate-1 shadow-lg',
+										colors[popoverColor].contentClassNames,
+									)}
+								>
 									{popoverContent}
 								</div>
 								<Popover.Arrow
