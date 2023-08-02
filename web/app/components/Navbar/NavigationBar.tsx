@@ -3,10 +3,10 @@ import { Logo } from './Logo'
 
 export default function NavigationBar() {
 	return (
-		<nav className="sticky top-0 z-50 flex w-full items-center justify-start pt-5 lg:justify-center">
+		<nav className="flex w-full items-center justify-start pt-[4vh] lg:justify-center">
 			<Link
 				href="/"
-				className="w-[8.1rem] rounded-r-xl bg-slate-a12 py-4 pl-6 pr-7 text-slate-1 shadow-2xl lg:rounded-l-xl"
+				className="w-[6.6rem] rounded-r-xl text-slate-12 transition-all hover:text-indigo-11"
 			>
 				<Logo />
 			</Link>
