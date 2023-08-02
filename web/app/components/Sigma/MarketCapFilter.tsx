@@ -1,3 +1,4 @@
+import * as motion from '@/app/lib/motionWrapper'
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import classNames from 'classnames'
 import { Dispatch, SetStateAction } from 'react'
@@ -22,25 +23,28 @@ export default function MarketCapFilter<T extends string[]>({
 			}}
 			asChild
 		>
-			<div className="inline-flex overflow-clip rounded-md bg-slate-a2 text-xs text-slate-11">
+			<motion.div
+				layout="size"
+				className="inline-flex overflow-clip rounded-md bg-slate-a2 text-xs text-slate-11"
+			>
 				{allKeys.map(key => (
 					<ToggleGroup.Item
 						key={key}
 						value={key}
 						className={classNames(
-							'px-2 py-1  transition-all',
+							'px-2 py-1 tracking-wider transition-all',
 							{
 								'hover:bg-slate-a5 hover:text-slate-12': key !== selectedKey,
 							},
 							{
-								'bg-slate-a8 font-semibold text-slate-1': key === selectedKey,
+								'bg-slate-a8 text-slate-1': key === selectedKey,
 							},
 						)}
 					>
 						{key}
 					</ToggleGroup.Item>
 				))}
-			</div>
+			</motion.div>
 		</ToggleGroup.Root>
 	)
 }

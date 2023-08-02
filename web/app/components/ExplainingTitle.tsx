@@ -10,6 +10,7 @@ export function ExplainingTitle() {
 			<div className="col-start-2 text-lg leading-10 text-slate-11 ">
 				<span className="text-xl">
 					<ExplainingTitlePopover
+						learnMore="/docs#statistical-significants"
 						popoverText={
 							<>
 								<p>
@@ -31,6 +32,7 @@ export function ExplainingTitle() {
 				<br />
 				based on{' '}
 				<ExplainingTitlePopover
+					learnMore="/docs#statistical-significants"
 					popoverText="We use the daily returns of each assets over the past two years."
 					triggerText="historical returns"
 				/>
@@ -42,9 +44,11 @@ export function ExplainingTitle() {
 export function ExplainingTitlePopover({
 	popoverText,
 	triggerText,
+	learnMore,
 }: {
 	popoverText: string | ReactNode
 	triggerText: string | ReactNode
+	learnMore?: false | string
 }) {
 	const color = 'indigo'
 	return (
@@ -55,7 +59,7 @@ export function ExplainingTitlePopover({
 				<div className="w-[calc(var(--radix-popover-trigger-width)*1.5)] text-base leading-relaxed">
 					{popoverText}
 					<div className="flex justify-end">
-						<PopLearnMore color={color} href="/docs" />
+						{learnMore && <PopLearnMore color={color} href={learnMore} />}
 					</div>
 				</div>
 			}

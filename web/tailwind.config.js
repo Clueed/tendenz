@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: "media",
+  future: {
+      hoverOnlyWhenSupported: true,
+  },
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -40,9 +43,6 @@ module.exports = {
       ]),
       black: generateScale("black", true),
       white: generateScale("white", true),
-    },
-    future: {
-      hoverOnlyWhenSupported: true,
     },
     extend: {
       fontSize: {
