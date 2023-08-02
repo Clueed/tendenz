@@ -14,8 +14,7 @@ export function MarketCap({
 }) {
 	const [expanded, setExpanded] = useState<Boolean>(false)
 	const label = getMarketCapCategory(marketCap)
-	const formattedMarketCap = marketCap > 1e6 ? label + '+' : '>' + label
-
+	const formattedMarketCap = label
 	return (
 		<>
 			<motion.div
