@@ -1,25 +1,76 @@
-import { B, H2, H3, LI, P, UL } from './TextStyles'
+import { B, H2, H3, LI, OL, P, UL } from './TextStyles'
 
 export default function docs() {
 	return (
 		<>
 			<>
 				<section className="grid grid-cols-default pt-10">
+					<H2>statistical significants: z-score</H2>
+					<P>
+						When we talk about statistical significance, we are referring to the
+						concept of the z-score. The z-score indicates how many standard
+						deviations (σ) a particular data point is away from the mean of the
+						data set. This means it not only considers the distance from the
+						mean, which reflects the central tendency, but also takes into
+						account the average deviation or volatility, which characterizes the
+						spread or dispersion of the data.
+					</P>
+					<P>
+						Suppose we look at a typically volatile stock like Tesla (TSLA) and
+						typically very stable stock like Pfizer (PFE). Both their share
+						prices increase by 10% from yesterday to today. For Pfizer, that
+						would be exciting, but it wouldn&apos;t be as surprising for Tesla.
+					</P>
+					<P>
+						The z-score is like a special way to tell how extraordinary
+						something is. If we use the z-score for Tesla&apos;s jump, it might
+						not be that high because it consideres to those big swings in the
+						past. But if we use it for Pfizer&apos;s jump, it might be much
+						higher because it doesn&apos;t usually move so much.
+					</P>
+					<P>
+						So, the z-score helps us see how different a stock&apos;s movement
+						is compared to its usual ups and downs. By applying it to a whole
+						market and calculating it for each individual asset, it provides a
+						simple way to distill the most interesting price movements, taking
+						into account the typical ups and downs of each stock, in contrast to
+						looking at just the biggest winners or losers.
+					</P>
+					<H3>our calculation method</H3>
+					<P>
+						To calculate the Z-Score, we use logarithmic returns. Logarithmic
+						returns have useful qualities in this context, including symmetry
+						around zero and additivity over time.
+					</P>
+					<P>
+						To determine the Z-Score for a specific financial asset's recent
+						return (from the day before yesterday to yesterday), we follow these
+						steps:
+						<OL>
+							<LI>
+								Calculate the daily logarithmic return for the last two years.
+							</LI>
+							<LI>Find the average and standard deviation of these returns.</LI>
+							<LI>Plug the most recent return into the Z-Score formula.</LI>
+						</OL>
+					</P>
+					<P>
+						z-score formula:
+						<div className="my-1 flex justify-center">
+							Z-Score = (X - Mean) / Standard Deviation
+						</div>
+					</P>
+				</section>
+				<section className="grid grid-cols-default pt-10">
 					<H2>market capitalization</H2>
 					<P>
 						Market capitalization (market cap) is a financial metric that
 						represents the total value of a publicly traded company. It is
 						calculated by multiplying the current market price of one share of
-						the company&apos;s stock by the total number of outstanding shares.
-						Market cap is a crucial indicator used by investors and analysts to
-						assess a company&apos;s size and relative value in the market.
-						Companies are often categorized based on their market cap into
-						different classes, such as large-cap, mid-cap, small-cap, and
-						micro-cap.
+						the company&apos;s stock by the total number of shares.
 					</P>
 					<H3>our calculation method</H3>
 					<P>
-						{''}
 						<UL>
 							<LI>
 								<B>weighted shares outstanding:</B> When available, we use

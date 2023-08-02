@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { ReactNode } from 'react'
 import { Balancer } from 'react-wrap-balancer'
 
@@ -23,8 +24,32 @@ export function P({ children }: { children: ReactNode }) {
 	)
 }
 
-export function UL({ children }: { children: ReactNode }) {
-	return <ul className="list-inside list-disc">{children}</ul>
+export function UL({
+	children,
+	className,
+}: {
+	children: ReactNode
+	className?: string
+}) {
+	return (
+		<ul className={classNames('ml-8 mt-2 list-inside list-disc', className)}>
+			{children}
+		</ul>
+	)
+}
+
+export function OL({
+	children,
+	className,
+}: {
+	children: ReactNode
+	className?: string
+}) {
+	return (
+		<ol className={classNames('ml-8 mt-2 list-inside list-decimal', className)}>
+			{children}
+		</ol>
+	)
 }
 
 export function LI({ children }: { children: ReactNode }) {
