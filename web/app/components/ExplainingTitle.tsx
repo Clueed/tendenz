@@ -1,6 +1,7 @@
 'use client'
 import classNames from 'classnames'
 import Pop from './Pop'
+import { PopLearnMore } from './Sigma/PopLearnMore'
 
 export function ExplainingTitle() {
 	return (
@@ -29,13 +30,17 @@ export function ExplainingTitlePopover({
 	popoverText: string
 	triggerText: string
 }) {
+	const color = 'indigo'
 	return (
 		<Pop
 			offset={4}
-			popoverColor="indigo"
+			popoverColor={color}
 			popoverContent={
-				<div className="w-[calc(var(--radix-popover-trigger-width)*1.5)] text-base leading-relaxed text-indigo-12">
+				<div className="w-[calc(var(--radix-popover-trigger-width)*1.5)] text-base leading-relaxed">
 					{popoverText}
+					<div className="flex justify-end">
+						<PopLearnMore color={color} href="/docs" />
+					</div>
 				</div>
 			}
 		>

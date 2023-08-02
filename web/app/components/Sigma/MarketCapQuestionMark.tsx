@@ -1,17 +1,16 @@
 import classNames from 'classnames'
-import Link from 'next/link'
 import Pop from '../Pop'
-import ChevronRight from './ChevronRight'
+import { PopLearnMore } from './PopLearnMore'
 
 type Props = {}
 
 export default function MarketCapFilterLabel({}: Props) {
 	return (
 		<Pop
-			popoverColor="indigo"
+			popoverColor="slate"
 			offset={0}
 			popoverContent={
-				<div className="relative w-[calc(var(--radix-popover-trigger-width)*2)] text-base text-indigo-1">
+				<div className="relative w-[calc(var(--radix-popover-trigger-width)*2)] text-base">
 					<p>
 						Market Cap stands for <i>Market Capitalization</i> and measures a
 						company&apos;s total value in the stock market.
@@ -20,14 +19,7 @@ export default function MarketCapFilterLabel({}: Props) {
 						Change the minimum value to see smaller/larger companies.
 					</p>
 					<div className="flex justify-end">
-						<Link href="/docs">
-							<div className="-mb-1 -mr-1 mt-2 flex items-center gap-2 rounded-md bg-slate-a3 px-3 py-1 text-sm text-indigo-4 transition-all hover:bg-indigo-a6 hover:shadow-xl">
-								learn more{' '}
-								<span className="mt-[0.175rem]">
-									<ChevronRight strokeWidth={15} height="0.6rem" />
-								</span>
-							</div>
-						</Link>
+						<PopLearnMore href="/docs" color="slate" />
 					</div>
 				</div>
 			}

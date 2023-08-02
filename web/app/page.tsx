@@ -1,7 +1,7 @@
 import { ComingSoon } from './components/ComingSoon'
 import { ExplainingTitle } from './components/ExplainingTitle'
 import Hero from './components/Hero'
-import SigmaList from './components/Sigma/SigmaList'
+import SigmaList from './components/Sigma/SigmaRoot'
 import { MARKET_CAP_BUCKETS } from './lib/MARKET_CAP_BUCKETS'
 import SWRConfigProvider from './lib/api/SWRConfigProvider'
 import { getFallback } from './lib/api/serverApi'
