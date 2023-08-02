@@ -1,10 +1,9 @@
 'use client'
-
-import { MARKET_CAP_BUCKETS } from '@/app/misc/MARKET_CAP_BUCKETS'
-import { npl } from '@/app/misc/naturalLanguageProcessing'
+import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
+import { npl } from '@/app/lib/naturalLanguageProcessing'
 import { useState } from 'react'
+import { useSigmaYesterday } from '../../lib/api/clientApi'
 import Timer from '../Timer'
-import { useSigmaYesterday } from '../api/clientApi'
 import MarketCapFilter from './MarketCapFilter'
 import MarketCapFilterLabel from './MarketCapQuestionMark'
 import { SigmaAccordion } from './SigmaAccordion'

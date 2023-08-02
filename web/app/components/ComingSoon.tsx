@@ -1,5 +1,4 @@
-'use client'
-import { AnimatePresence, motion } from 'framer-motion'
+import * as motion from '@/app/lib/motionWrapper'
 
 export function ComingSoon() {
 	const items = [
@@ -18,10 +17,13 @@ export function ComingSoon() {
 
 	const container = {
 		hidden: { opacity: 0 },
-		visible: (i = Math.ceil(Math.random() * 50) / 25) => ({
-			opacity: 1,
-			transition: { staggerChildren: 0.05, delayChildren: i },
-		}),
+		visible:
+			//i = Math.ceil(Math.random() * 50) / 25) =>
+
+			{
+				opacity: 1,
+				transition: { staggerChildren: 0.05, delayChildren: 0.1 },
+			},
 	}
 
 	const child = {
@@ -74,7 +76,7 @@ export function ComingSoon() {
 						duration: 10,
 					}}
 				>
-					<AnimatePresence>
+					<motion.animatePresence>
 						{items.map((v, ii) => {
 							return (
 								<motion.div
@@ -94,7 +96,7 @@ export function ComingSoon() {
 								</motion.div>
 							)
 						})}
-					</AnimatePresence>
+					</motion.animatePresence>
 				</motion.div>
 			</div>
 		</div>

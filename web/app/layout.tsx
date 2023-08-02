@@ -70,6 +70,7 @@ export default function RootLayout({
 				<NavigationBar />
 				<div className="flex min-h-full flex-col content-between justify-between">
 					<main>{children}</main>
+
 					<Footer />
 				</div>
 				<div className="noise2 absolute left-0 top-0 -z-30 h-full w-full opacity-5" />

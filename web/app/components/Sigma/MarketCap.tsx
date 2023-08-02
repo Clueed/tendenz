@@ -1,9 +1,7 @@
-'use client'
-
+import * as motion from '@/app/lib/motionWrapper'
 import classNames from 'classnames'
-import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
-import { getMarketCapCategory } from '../../misc/getMarketCapCategory'
+import { getMarketCapCategory } from '../../lib/getMarketCapCategory'
 
 export function MarketCap({
 	marketCap,
@@ -41,7 +39,7 @@ export function MarketCap({
 				>
 					{formattedMarketCap}
 				</motion.div>
-				<AnimatePresence mode="wait" presenceAffectsLayout>
+				<motion.animatePresence mode="wait" presenceAffectsLayout>
 					{expanded && (
 						<motion.span
 							layout="size"
@@ -57,7 +55,7 @@ export function MarketCap({
 							market cap
 						</motion.span>
 					)}
-				</AnimatePresence>
+				</motion.animatePresence>
 			</motion.div>
 		</>
 	)

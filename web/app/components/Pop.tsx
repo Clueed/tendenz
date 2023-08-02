@@ -3,7 +3,16 @@ import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
-type BgColors = 'indigo' | 'slate'
+const colors = {
+	indigo: {
+		popClassNames: 'bg-gradient-to-br from-indigo-11 to-indigo-12',
+		arrowClassNames: 'fill-indigo-11',
+	},
+	slate: {
+		popClassNames: 'bg-gradient-to-br from-slate-10 to-slate-11',
+		arrowClassNames: 'fill-slate-11',
+	},
+} as const
 
 export default function Pop({
 	children,
@@ -13,7 +22,7 @@ export default function Pop({
 }: {
 	children: (open: boolean) => JSX.Element
 	popoverContent: JSX.Element
-	popoverColor: BgColors
+	popoverColor: keyof typeof colors
 	popoverContainerClassNames?: string
 	offset: number
 }) {
@@ -21,22 +30,6 @@ export default function Pop({
 
 	type colors<K extends string | number | symbol> = {
 		[k in K]: string
-	}
-
-	const colors: {
-		[key in BgColors]: {
-			popClassNames: string
-			arrowClassNames: string
-		}
-	} = {
-		indigo: {
-			popClassNames: 'bg-gradient-to-br from-indigo-11 to-indigo-12',
-			arrowClassNames: 'fill-indigo-3',
-		},
-		slate: {
-			popClassNames: 'bg-gradient-to-br from-slate-10 to-slate-11',
-			arrowClassNames: 'fill-slate-11',
-		},
 	}
 
 	return (

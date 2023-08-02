@@ -1,5 +1,5 @@
+import * as motion from '@/app/lib/motionWrapper'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
-import { motion } from 'framer-motion'
 import ChevronRight from './ChevronRight'
 
 export function YahooButton({ ticker }: { ticker: string }) {

@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { hoursUntilNextWeekdayHour } from '../misc/hoursUntilNextWeekdayHour'
+import { hoursUntilNextWeekdayHour } from '../lib/hoursUntilNextWeekdayHour'
 import IconClock from './IconClock'
 import Pop from './Pop'
 
