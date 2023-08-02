@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { hoursUntilNextWeekdayHour } from '../misc/hoursUntilNextWeekdayHour'
+import { hoursUntilNextWeekdayHour } from '../lib/hoursUntilNextWeekdayHour'
 import IconClock from './IconClock'
 import Pop from './Pop'
 
@@ -8,11 +8,13 @@ export default function Timer() {
 
 	return (
 		<Pop
-			offset={0}
+			offset={5}
 			popoverContent={
-				<div className="w-40 text-slate-12">
-					{timeTill} hours until the next update. Data is available after
-					trading days with a 24 hour delay.
+				<div className="w-40">
+					<p>{timeTill} hours left until the next market update.</p>
+					<p className="mt-2">
+						Data is available on market close with a ~6 hour delay.
+					</p>
 				</div>
 			}
 			popoverColor="slate"
@@ -25,7 +27,7 @@ export default function Timer() {
 							'bg-slate-a2 text-slate-a11 group-hover/popover:bg-slate-a5 group-hover/popover:shadow-sm':
 								!open,
 						},
-						{ 'bg-slate-a8 text-slate-2 shadow-md': open },
+						{ 'bg-slate-a11 text-slate-2 shadow-md': open },
 					)}
 				>
 					<IconClock animationTrigger={open} />

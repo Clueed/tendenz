@@ -1,23 +1,20 @@
-'use client'
-
+import * as motion from '@/app/lib/motionWrapper'
 import classNames from 'classnames'
-import { AnimatePresence, motion } from 'framer-motion'
-import { getMarketCapCategory } from '../../misc/getMarketCapCategory'
+import { useState } from 'react'
+import { getMarketCapCategory } from '../../lib/getMarketCapCategory'
 
 export function MarketCap({
 	marketCap,
-	expanded,
 	className,
-	expandDirection,
+	expandDirection = 'right',
 }: {
 	marketCap: number
-	expanded: boolean
-	expandDirection: 'right' | 'left'
+	expandDirection?: 'right' | 'left'
 	className?: string
 }) {
+	const [expanded, setExpanded] = useState<Boolean>(false)
 	const label = getMarketCapCategory(marketCap)
-	const formattedMarketCap = marketCap > 1e6 ? label + '+' : '>' + label
-
+	const formattedMarketCap = label
 	return (
 		<>
 			<motion.div
@@ -26,6 +23,10 @@ export function MarketCap({
 					'inline-flex flex-wrap items-center gap-x-2 leading-none',
 					className,
 				)}
+				onClick={event => {
+					event?.preventDefault()
+					setExpanded(!expanded)
+				}}
 			>
 				<motion.div
 					layout="preserve-aspect"
@@ -37,7 +38,7 @@ export function MarketCap({
 				>
 					{formattedMarketCap}
 				</motion.div>
-				<AnimatePresence mode="wait" presenceAffectsLayout>
+				<motion.animatePresence mode="wait" presenceAffectsLayout>
 					{expanded && (
 						<motion.span
 							layout="size"
@@ -53,7 +54,7 @@ export function MarketCap({
 							market cap
 						</motion.span>
 					)}
-				</AnimatePresence>
+				</motion.animatePresence>
 			</motion.div>
 		</>
 	)

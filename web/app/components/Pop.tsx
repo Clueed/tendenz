@@ -3,7 +3,18 @@ import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
-type BgColors = 'indigo' | 'slate'
+const colors = {
+	indigo: {
+		popClassNames: 'bg-gradient-to-br from-indigo-11 to-indigo-12',
+		arrowClassNames: 'fill-indigo-11',
+		contentClassNames: 'text-indigo-1',
+	},
+	slate: {
+		popClassNames: 'bg-gradient-to-br from-slate-11 to-slate-12',
+		arrowClassNames: 'fill-slate-11',
+		contentClassNames: 'text-slate-1',
+	},
+} as const
 
 export default function Pop({
 	children,
@@ -13,31 +24,11 @@ export default function Pop({
 }: {
 	children: (open: boolean) => JSX.Element
 	popoverContent: JSX.Element
-	popoverColor: BgColors
+	popoverColor: keyof typeof colors
 	popoverContainerClassNames?: string
 	offset: number
 }) {
 	const [open, setOpen] = useState<boolean>(false)
-
-	type colors<K extends string | number | symbol> = {
-		[k in K]: string
-	}
-
-	const colors: {
-		[key in BgColors]: {
-			popClassNames: string
-			arrowClassNames: string
-		}
-	} = {
-		indigo: {
-			popClassNames: 'bg-gradient-to-br from-indigo-a2 to-indigo-a3',
-			arrowClassNames: 'fill-indigo-5',
-		},
-		slate: {
-			popClassNames: 'bg-gradient-to-br from-slate-a2 to-slate-a3',
-			arrowClassNames: 'fill-slate-6',
-		},
-	}
 
 	return (
 		<Popover.Root onOpenChange={o => setOpen(o)} open={open}>
@@ -63,11 +54,19 @@ export default function Pop({
 								}}
 								exit={{ y: '-10%', opacity: 0 }}
 								className={classNames(
-									'z-50 rounded-md border-none px-5 py-4 shadow-md backdrop-blur-2xl',
+									'z-50 rounded-lg',
 									colors[popoverColor].popClassNames,
 								)}
 							>
-								{popoverContent}
+								<div className="noise2 absolute -z-10 h-full w-full rounded-lg opacity-30" />
+								<div
+									className={classNames(
+										'rounded-lg px-5 py-4 text-slate-1 shadow-lg',
+										colors[popoverColor].contentClassNames,
+									)}
+								>
+									{popoverContent}
+								</div>
 								<Popover.Arrow
 									className={classNames(
 										colors[popoverColor].arrowClassNames,

@@ -1,9 +1,9 @@
 'use client'
 
 import { Variants, motion } from 'framer-motion'
+import { useSigmaYesterday } from '../../lib/api/clientApi'
 import { NextPageButton } from './NextPageButton'
 import SigmaCard from './SigmaCard'
-import { useSigmaYesterday } from '../api/clientApi'
 
 const transition = {
 	type: 'spring',

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import * as motion from '@/app/lib/motionWrapper'
 
 type Props = {
 	animationTrigger: boolean

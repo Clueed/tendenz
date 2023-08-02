@@ -1,10 +1,12 @@
+import { ReactNode } from 'react'
+
 export default function Disclaimers() {
 	return (
-		<section className="mx-auto w-[60ch] max-w-[85vw] pt-10">
-			<h1 className="relative mb-5 text-4xl font-normal text-indigo-11">
+		<section className="grid grid-cols-default">
+			<h1 className="col-start-2 mb-5 text-center text-4xl font-normal text-indigo-11">
 				disclaimers
 			</h1>
-			<p className="leading-loose text-slate-12">
+			<P>
 				All data and information is provided “as is” for informational purposes
 				only, and is not intended for trading purposes or financial, investment,
 				tax, legal, accounting or other advice. Please consult your broker or
@@ -15,8 +17,8 @@ export default function Disclaimers() {
 				or hold any security or financial product, and Tendenz makes no
 				representation (and has no opinion) regarding the advisability or
 				suitability of any investment.
-			</p>
-			<p className="leading-loose text-slate-12">
+			</P>
+			<P>
 				None of the data and information constitutes investment advice (whether
 				general or customized). The financial products or operations referred to
 				in such data and information may not be suitable for your investment
@@ -28,14 +30,14 @@ export default function Disclaimers() {
 				products referred to within. Tendenz does not recommend using the data
 				and information provided as the only basis for making any investment
 				decision.
-			</p>
-			<p className="leading-loose text-slate-12">
+			</P>
+			<P>
 				Data is provided by financial exchanges and other content providers and
 				may be delayed as specified by financial exchanges or other data
 				providers. Tendenz does not verify any data and disclaims any obligation
 				to do so.
-			</p>
-			<p className="leading-loose text-slate-12">
+			</P>
+			<P>
 				Tendenz, its data or content providers, the financial exchanges and each
 				of their affiliates and business partners (A) expressly disclaim the
 				accuracy, adequacy, or completeness of any data and (B) shall not be
@@ -46,17 +48,23 @@ export default function Disclaimers() {
 				herein. As used here, “business partners” does not refer to an agency,
 				partnership, or joint venture relationship between Tendenz and any such
 				parties.
-			</p>
-			<p className="leading-loose text-slate-12">
+			</P>
+			<P>
 				You agree not to copy, modify, reformat, download, store, reproduce,
 				reprocess, transmit or redistribute any data or information found herein
 				or use any such data or information in a commercial enterprise without
 				obtaining prior written consent.
-			</p>
-			<p className="leading-loose text-slate-12">
+			</P>
+			<P>
 				Either Tendenz or its third party data or content providers have
 				exclusive proprietary rights in the data and information provided.
-			</p>
+			</P>
 		</section>
+	)
+}
+
+function P({ children }: { children: ReactNode }) {
+	return (
+		<p className="col-start-2 mt-4 leading-loose text-slate-12">{children}</p>
 	)
 }

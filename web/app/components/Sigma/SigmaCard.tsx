@@ -1,7 +1,7 @@
 import * as Accordion from '@radix-ui/react-accordion'
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { tendenzApiSigmaYesterday } from '../api/sharedApi'
+import { tendenzApiSigmaYesterday } from '../../lib/api/sharedApi'
 import { SigmaCardBody } from './SigmaCardBody'
 import { SigmaCardHeader } from './SigmaCardHeader'
 

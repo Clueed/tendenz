@@ -1,9 +1,7 @@
-'use client'
-
 import classNames from 'classnames'
 import { useMemo } from 'react'
-import { npl } from '../../misc/naturalLanguageProcessing'
-import { tendenzApiSigmaYesterdayDay } from '../api/sharedApi'
+import { tendenzApiSigmaYesterdayDay } from '../../lib/api/sharedApi'
+import { npl } from '../../lib/naturalLanguageProcessing'
 import { YahooButton } from './YahooButton'
 
 export function SigmaCardBody({

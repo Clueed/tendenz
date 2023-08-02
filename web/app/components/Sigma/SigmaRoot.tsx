@@ -1,12 +1,12 @@
 'use client'
-
-import { MARKET_CAP_BUCKETS } from '@/app/misc/MARKET_CAP_BUCKETS'
-import { npl } from '@/app/misc/naturalLanguageProcessing'
+import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
+import { npl } from '@/app/lib/naturalLanguageProcessing'
 import { useState } from 'react'
+import { useSigmaYesterday } from '../../lib/api/clientApi'
 import Timer from '../Timer'
 import MarketCapFilter from './MarketCapFilter'
+import MarketCapFilterLabel from './MarketCapQuestionMark'
 import { SigmaAccordion } from './SigmaAccordion'
-import { useSigmaYesterday } from '../api/clientApi'
 
 type MarketCapBucketLabel = (typeof MARKET_CAP_BUCKETS)[number]['label']
 
@@ -38,7 +38,7 @@ export default function SigmaList({
 					<h2 className="text-3xl font-normal leading-none text-slate-12">
 						stocks
 					</h2>
-					<div>
+					<div className="flex gap-1">
 						<MarketCapFilter
 							selectedKey={bucketKey}
 							selectKey={setBucketKey}
@@ -50,7 +50,8 @@ export default function SigmaList({
 					<h3 className="text-base leading-none text-slate-11">
 						United States
 					</h3>
-					<div className="mr-1 text-xxs text-slate-a10">minimum market cap</div>
+
+					<MarketCapFilterLabel />
 				</div>
 			</div>
 

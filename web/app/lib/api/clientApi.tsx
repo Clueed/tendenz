@@ -1,6 +1,6 @@
-"use client";
+'use client'
 import useSWR, { SWRResponse } from 'swr'
-import { getStocksURL, tendenzApiSigmaYesterday } from './sharedApi';
+import { getStocksURL, tendenzApiSigmaYesterday } from './sharedApi'
 
 export function useSigmaYesterday(
 	minMarketCap: number,

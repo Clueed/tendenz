@@ -1,5 +1,3 @@
-'use client'
-
 import * as Accordion from '@radix-ui/react-accordion'
 import { AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
