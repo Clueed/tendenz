@@ -13,7 +13,7 @@ export default async function Home() {
 
 	return (
 		<>
-			<header className="my-[5vh] flex flex-col gap-[2vh]">
+			<header className="mb-[5vh] flex flex-col gap-[2vh]">
 				<Hero />
 				<ExplainingTitle />
 			</header>
