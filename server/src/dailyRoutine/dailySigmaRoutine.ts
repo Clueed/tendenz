@@ -51,18 +51,27 @@ async function detectSigmaStaleness(): Promise<boolean> {
   return false;
 }
 
-export async function dailySigmaRoutine(dry: boolean = false) {
-  //const stale = await detectSigmaStaleness();
-  const stale = true;
+import { PrismaClient } from "@prisma/client";
 
-  if (stale) {
-    console.info(`Sigma staleness detected.`);
-    console.info(`Initiating sigma recalculation...`);
-    await prisma.sigmaUsStocksYesterday.deleteMany({});
-    await calcSigmas(dry);
-    console.info(`Sigma recalculation complete...`);
-  } else {
-    console.info(`No sigma staleness detected. Skipping...`);
+export async function dailySigmaRoutine(dry: boolean = false) {
+  const prisma = new PrismaClient();
+  try {
+    //const stale = await detectSigmaStaleness();
+    const stale = true;
+
+    if (stale) {
+      console.info(`Sigma staleness detected.`);
+      console.info(`Initiating sigma recalculation...`);
+      await prisma.sigmaUsStocksYesterday.deleteMany({});
+      await calcSigmas(prisma, dry);
+      console.info(`Sigma recalculation complete...`);
+    } else {
+      console.info(`No sigma staleness detected. Skipping...`);
+    }
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await prisma.$disconnect();
   }
   console.groupEnd();
 }
