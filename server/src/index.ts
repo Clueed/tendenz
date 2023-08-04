@@ -83,16 +83,40 @@ fastify.get("/:page", async (request, reply) => {
   return response;
 });
 
+import { PrismaClient } from "@prisma/client";
+
 const bree = new Bree({
   root: path.join(path.dirname(fileURLToPath(import.meta.url)), "jobs"),
   jobs: [
     {
       name: "updateMarket",
       cron: "5 * * * *",
+      job: async (dry: boolean = false) => {
+        const prisma = new PrismaClient();
+        try {
+          // Call the updateMarket function with the Prisma instance and the dry run flag.
+          await updateMarket(prisma, dry);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          await prisma.$disconnect();
+        }
+      },
     },
     {
       name: "updateSupplements",
       cron: "0 4 * * *",
+      job: async (dry: boolean = false) => {
+        const prisma = new PrismaClient();
+        try {
+          // Call the updateSupplements function with the Prisma instance and the dry run flag.
+          await updateSupplements(prisma, dry);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          await prisma.$disconnect();
+        }
+      },
     },
   ],
 });
