@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client'
 import { prisma } from '../globals.js'
 import { AssertionError, ok } from 'node:assert'
 
-export async function calcSigmas(dry: Boolean = false) {
+export async function calcSigmas(dry: boolean = false) {
 	const mostRecentDate = await getMostRecentDate()
 	ok(mostRecentDate)
 	console.info(`Most recent date is ${mostRecentDate}`)
@@ -173,7 +173,7 @@ async function getStocksOnDate(targetDate: Date) {
 }
 
 async function getDailyOfStock(ticker: string) {
-	let date = new Date()
+	const date = new Date()
 	date.setUTCFullYear(date.getUTCFullYear() - 2)
 
 	return await prisma.usStockDaily.findMany({
@@ -212,7 +212,7 @@ function calcLogReturns<T extends Partial<Record<keyof T, any>>>(
 		return a[sortKey].getTime() - b[sortKey].getTime()
 	})
 
-	let dataPointsWithLogReturn: (T & { logReturn: number })[] = []
+	const dataPointsWithLogReturn: (T & { logReturn: number })[] = []
 
 	for (let i = 1; i < dataPoints.length; i++) {
 		const curr = dataPoints[i]

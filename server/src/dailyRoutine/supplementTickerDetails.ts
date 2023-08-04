@@ -55,7 +55,7 @@ async function updateName(
  *
  */
 export async function supplementTickerDetails() {
-	let date = new Date()
+	const date = new Date()
 	date.setDate(date.getDate() - 7)
 
 	const stocksWithoutMarketCap = await prisma.usStocks.findMany({

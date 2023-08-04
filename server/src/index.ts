@@ -23,7 +23,7 @@ fastify.get('/:page', async (request, reply) => {
 	const query = request.query as Query
 	const minMarketCap = Number(query?.minMarketCap)
 
-	let where: Prisma.SigmaUsStocksYesterdayWhereInput = {}
+	const where: Prisma.SigmaUsStocksYesterdayWhereInput = {}
 	if (minMarketCap) {
 		where.marketCap = {
 			gt: minMarketCap,

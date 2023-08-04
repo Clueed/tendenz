@@ -26,7 +26,7 @@ export async function reverseIncrementDailyUpdate(
 	endOnNoUpdates: boolean = true,
 	startingDate: Date = new Date(),
 ): Promise<UpdateStatus[]> {
-	let stats: UpdateStatus[] = []
+	const stats: UpdateStatus[] = []
 
 	let daysPast: number = 0
 
