@@ -2,12 +2,12 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "../globals.js";
 import { AssertionError, ok } from "node:assert";
 
-export async function calcSigmas(dry: Boolean = false) {
-  const mostRecentDate = await getMostRecentDate();
+export async function calcSigmas(prisma: PrismaClient, dry: Boolean = false) {
+  const mostRecentDate = await getMostRecentDate(prisma);
   ok(mostRecentDate);
   console.info(`Most recent date is ${mostRecentDate}`);
 
-  const stocks = await getStocksOnDate(mostRecentDate);
+  const stocks = await getStocksOnDate(prisma, mostRecentDate);
   console.info(
     `Found ${stocks.length} that traded on ${mostRecentDate} and have market caps.`
   );
@@ -28,7 +28,7 @@ export async function calcSigmas(dry: Boolean = false) {
   for (const { ticker, name } of stocks) {
     let sigmaRow: Prisma.SigmaUsStocksYesterdayCreateInput | false;
     try {
-      sigmaRow = await handleStock(ticker, marketSize, name);
+  sigmaRow = await handleStock(prisma, ticker, marketSize, name);
 
       if (sigmaRow === false) {
         continue;
@@ -43,14 +43,17 @@ export async function calcSigmas(dry: Boolean = false) {
       }
     }
     if (!dry) {
-      await prisma.sigmaUsStocksYesterday.create({
-        data: sigmaRow,
-      });
+  if (!dry) {
+    console.log(`Creating sigma for stock ${sigmaRow.ticker}`);
+    await prisma.sigmaUsStocksYesterday.create({
+      data: sigmaRow,
+    });
+  }
     }
   }
 }
 
-async function getMostRecentDate(): Promise<Date | undefined> {
+async function getMostRecentDate(prisma: PrismaClient): Promise<Date | undefined> {
   const stock = await prisma.usStockDaily.findFirst({
     orderBy: {
       date: "desc",
@@ -64,13 +67,14 @@ async function getMostRecentDate(): Promise<Date | undefined> {
 }
 
 async function handleStock(
+  prisma: PrismaClient,
   ticker: string,
   marketSize: number,
   name: string | null
 ): Promise<Prisma.SigmaUsStocksYesterdayCreateInput | false> {
   console.debug(`Calculating sigma for ${ticker}`);
 
-  const dailys = await getDailyOfStock(ticker);
+  const dailys = await getDailyOfStock(prisma, ticker);
 
   const minPopulation = 30;
 
@@ -137,7 +141,7 @@ async function handleStock(
   };
 }
 
-async function getStocksOnDate(targetDate: Date) {
+async function getStocksOnDate(prisma: PrismaClient, targetDate: Date) {
   return await prisma.usStocks.findMany({
     where: {
       AND: [
@@ -174,7 +178,7 @@ async function getStocksOnDate(targetDate: Date) {
   });
 }
 
-async function getDailyOfStock(ticker: string) {
+async function getDailyOfStock(prisma: PrismaClient, ticker: string) {
   let date = new Date();
   date.setUTCFullYear(date.getUTCFullYear() - 2);
 
