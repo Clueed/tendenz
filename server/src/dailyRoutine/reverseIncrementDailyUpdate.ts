@@ -1,6 +1,6 @@
-import { updateDaily } from './updateDaily.js'
 import { formatDateString } from '../misc.js'
 import { aggregatesGroupedDaily } from '../polygonApi/aggregatesGroupedDaily.js'
+import { updateDaily } from './updateDaily.js'
 
 interface UpdateStatus {
 	updated: number

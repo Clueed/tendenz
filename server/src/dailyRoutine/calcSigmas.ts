@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
-import { prisma } from '../globals.js'
 import { AssertionError, ok } from 'node:assert'
+import { prisma } from '../globals.js'
 
 export async function calcSigmas(dry: boolean = false) {
 	const mostRecentDate = await getMostRecentDate()

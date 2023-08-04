@@ -1,6 +1,6 @@
-import { calcSigmas } from './calcSigmas.js'
-import { formatDateString } from '../misc.js'
 import { prisma } from '../globals.js'
+import { formatDateString } from '../misc.js'
+import { calcSigmas } from './calcSigmas.js'
 
 async function detectSigmaStaleness(): Promise<boolean> {
 	console.group('Initiating calcSigma job...')

@@ -1,10 +1,10 @@
+import cors from '@fastify/cors'
+import { Prisma } from '@prisma/client'
 import Bree from 'bree'
 import Fastify from 'fastify'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import prismaPlugin from './plugins/prisma.js'
-import { Prisma } from '@prisma/client'
-import cors from '@fastify/cors'
 
 if (process.env.NODE_ENV === 'production') {
 	console.debug = function () {}

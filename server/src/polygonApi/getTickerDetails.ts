@@ -1,5 +1,4 @@
 import { AxiosError, AxiosResponse } from 'axios'
-import { PolygonApi } from './polygonApi.js'
 import { polygon } from '../globals.js'
 
 export interface ITickerDetailsResults {

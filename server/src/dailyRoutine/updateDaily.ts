@@ -1,6 +1,6 @@
-import { IAggsResults } from '../polygonApi/aggregatesGroupedDaily.js'
-import { allDailysOnDate, formatDateString } from '../misc.js'
 import { prisma } from '../globals.js'
+import { allDailysOnDate, formatDateString } from '../misc.js'
+import { IAggsResults } from '../polygonApi/aggregatesGroupedDaily.js'
 
 export async function updateDaily(results: IAggsResults[]): Promise<number> {
 	// picking frist because all dates are the same
