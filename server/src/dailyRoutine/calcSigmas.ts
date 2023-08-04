@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "../globals.js";
 import { AssertionError, ok } from "node:assert";
 
-export async function calcSigmas(dry: Boolean = false) {
+export async function calcSigmas(prisma: PrismaClient, dry: Boolean = false) {
   const mostRecentDate = await getMostRecentDate();
   ok(mostRecentDate);
   console.info(`Most recent date is ${mostRecentDate}`);
@@ -43,9 +43,13 @@ export async function calcSigmas(dry: Boolean = false) {
       }
     }
     if (!dry) {
-      await prisma.sigmaUsStocksYesterday.create({
-        data: sigmaRow,
-      });
+  if (!dry) {
+    console.log(`Would write to database: ${JSON.stringify(sigmaRow)}`);
+  } else {
+    await prisma.sigmaUsStocksYesterday.create({
+      data: sigmaRow,
+    });
+  }
     }
   }
 }
