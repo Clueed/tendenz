@@ -6,7 +6,13 @@ if (process.env.NODE_ENV === 'production') {
 	console.debug = function () {}
 }
 
-export const prisma = new PrismaClient()
+const prisma = new PrismaClient()
 
-await reverseIncrementDailyUpdate()
-await dailySigmaRoutine()
+try {
+	await reverseIncrementDailyUpdate()
+	await dailySigmaRoutine()
+} catch (e) {
+	console.error(e)
+}
+
+await prisma.$disconnect()
