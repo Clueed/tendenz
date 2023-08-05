@@ -1,23 +1,12 @@
 import { AxiosError, AxiosResponse } from 'axios'
 import { polygon } from '../globals.js'
-
-export interface IAggsResults {
-	T: string
-	t: number
-	c: number
-	o: number
-	h: number
-	l: number
-	v: number
-	n?: number
-	vw?: number
-}
+import { IAggsResults } from './polygonTypes.js'
 
 /**
  * Retrieves aggregated daily market data for a specific date.
  *
  * @param {string} date - The date for which to retrieve the data in the format "YYYY-MM-DD".
- * @return {Promise<false | IAggsResults[]>} - A promise that resolves to an array of aggregated results or false if an error occurred.
+ * @return {Promise<IAggsResults[]>} - A promise that resolves to an array of aggregated results or false if an error occurred.
  */
 export async function aggregatesGroupedDaily(
 	date: string,
