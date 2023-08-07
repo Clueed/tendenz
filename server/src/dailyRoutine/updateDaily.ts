@@ -1,8 +1,8 @@
 import { prisma } from '../globals.js'
+import { IAggsDayResults } from '../lib/polygonApi/polygonTypes.js'
 import { allDailysOnDate, formatDateString } from '../misc.js'
-import { IAggsResults } from '../polygonApi/polygonTypes.js'
 
-export async function updateDaily(results: IAggsResults[]): Promise<number> {
+export async function updateDaily(results: IAggsDayResults[]): Promise<number> {
 	// picking frist because all dates are the same
 	const allTickersAtDate = await allDailysOnDate(results[0].t)
 

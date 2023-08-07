@@ -1,6 +1,6 @@
 import { prisma } from '../globals.js'
+import { tickerDetails } from '../lib/polygonApi/getTickerDetails.js'
 import { formatDateString } from '../misc.js'
-import { tickerDetails } from '../polygonApi/getTickerDetails.js'
 
 export function calculateMarketCap(
 	marketCap: number | undefined,

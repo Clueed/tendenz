@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { PolygonApi } from './polygonApi/polygonApi.js'
+import { PolygonRequestHandler } from './lib/polygonApi/polygonRequestHandler.js'
 
 export const prisma = new PrismaClient()
-export const polygon = new PolygonApi()
+export const polygon = new PolygonRequestHandler()

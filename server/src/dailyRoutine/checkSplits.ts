@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
+import { getRecentSplits } from '../lib/polygonApi/getSplits.js'
 import { formatDateString } from '../misc.js'
-import { getRecentSplits } from '../polygonApi/getSplits.js'
 
 export async function checkSplits(prisma: PrismaClient) {
 	const today = new Date()
