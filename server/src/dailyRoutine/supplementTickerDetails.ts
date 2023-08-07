@@ -1,151 +1,127 @@
-import { prisma } from '../globals.js'
+import { ok } from 'assert'
+import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { formatDateString } from '../lib/misc.js'
-import { tickerDetails } from '../lib/polygonApi/getTickerDetails.js'
+import { StocksApi } from '../lib/polygonApi/stocksApi.js'
 
-export function calculateMarketCap(
-	marketCap: number | undefined,
-	weightedSharesOutstanding: number | undefined,
-	shareClassSharesOutstanding: number | undefined,
-	dailyClose: number,
-): number {
-	if (marketCap) {
-		return marketCap
-	}
-
-	let mc = 0
-
-	if (weightedSharesOutstanding) {
-		mc = weightedSharesOutstanding * dailyClose
-	} else if (shareClassSharesOutstanding) {
-		mc = shareClassSharesOutstanding * dailyClose
-	}
-
-	return mc
-}
-
-async function updateName(
-	dbName: string | null,
-	apiName: string | undefined,
-	ticker: string,
-): Promise<void> {
-	if (!apiName) {
-		console.debug(`Receive no name from API. Skipping...`)
-		return
-	}
-
-	if (apiName === dbName) {
-		console.debug(`Ticker already has name. Skipping...`)
-		return
-	}
-
-	console.debug(`Updating name to "${apiName}"...`)
-	await prisma.usStocks.update({
-		where: {
-			ticker,
-		},
-		data: {
-			name: apiName,
-		},
-	})
-}
-
-/**
- * Mainly supplements stocks with marketcap data but also with name and other ticker details.
- * Looks at which stocks do not have a market cap in the last 7 days and updates the most recent marketcap available with an api call each.
- *
- */
-export async function supplementTickerDetails() {
+export async function supplementTickerDetails(
+	db: DatabaseApi,
+	stocksApi: StocksApi,
+) {
 	const date = new Date()
 	date.setDate(date.getDate() - 7)
+	const dateString = formatDateString(date)
+	const tickersWithoutMarketCap = await db.getStocksWithoutMcOnGtDate(
+		dateString,
+	)
+	ok(tickersWithoutMarketCap)
 
-	const stocksWithoutMarketCap = await prisma.usStocks.findMany({
-		where: {
-			dailys: {
-				none: {
-					marketCap: { not: null },
-					date: {
-						gt: date,
-					},
-				},
-			},
-		},
-	})
-
-	if (stocksWithoutMarketCap.length === 0) {
+	if (tickersWithoutMarketCap.length === 0) {
 		console.info('No stocks without market cap. Skipping...')
 		return false
 	}
 
-	for (const stock of stocksWithoutMarketCap) {
-		const mostRecentDaily = await prisma.usStockDaily.findMany({
-			where: {
-				ticker: stock.ticker,
-			},
-			orderBy: { date: 'desc' },
-			take: 1,
-		})
-
-		const { date, ticker, close } = mostRecentDaily[0]
-		const dateString = formatDateString(date)
-
-		console.group(`Updating ${ticker} on ${dateString}`)
-		const details = await tickerDetails(ticker, dateString)
-
-		if (!details) {
-			console.warn(`No details available. Skipping...`)
-			continue
-		}
-
-		const {
-			name,
-			market_cap,
-			weighted_shares_outstanding,
-			share_class_shares_outstanding,
-		} = details
-
-		await updateName(stock.name, name, ticker)
-
-		if (
-			!(
-				market_cap ||
-				weighted_shares_outstanding ||
-				share_class_shares_outstanding
-			)
-		) {
-			console.warn(`No market cap data available. Skipping...`)
-			console.groupEnd()
-			continue
-		}
-
-		const marketCap = calculateMarketCap(
-			market_cap,
-			weighted_shares_outstanding,
-			share_class_shares_outstanding,
-			close,
-		)
-
-		// Probably could be more elegant.
-		// If calculateMarketCap is called that
-		// means that atleast one of the values is available
-		// and there doesn't need to be the following check.
-		if (marketCap === 0 || marketCap < 0) {
-			console.error(`Could not calculate market cap...(This shouldn't happen!)`)
-			console.groupEnd()
-			continue
-		}
-
-		console.debug(`Updating market cap: ${marketCap}`)
-		await prisma.usStockDaily.update({
-			where: {
-				ticker_date: {
-					ticker,
-					date,
-				},
-			},
-			data: {
-				marketCap,
-			},
-		})
-		console.groupEnd()
+	for (const { ticker } of tickersWithoutMarketCap) {
+		await processTicker(db, stocksApi, ticker)
 	}
+}
+
+async function processTicker(
+	db: DatabaseApi,
+	stocksApi: StocksApi,
+	ticker: string,
+) {
+	const mostRecentDaily = await db.getMostRecentDaily(ticker)
+	ok(mostRecentDaily)
+
+	const { date, close } = mostRecentDaily
+	const dateString = formatDateString(date)
+
+	console.group(`Updating ${ticker} on ${dateString}`)
+	const rawDetails = await stocksApi.getTickerDetails(ticker, dateString)
+	ok(rawDetails)
+
+	const {
+		market_cap,
+		weighted_shares_outstanding,
+		share_class_shares_outstanding,
+		name,
+		active,
+		cik,
+		description,
+		locale,
+		market,
+		type,
+		sic_code: sicCode,
+		sic_description: sicDescription,
+		composite_figi: compositeFigi,
+		share_class_figi: shareClassFigi,
+		currency_name: currencyName,
+		primary_exchange: primaryExchange,
+		ticker_root: tickerRoot,
+		source_feed: sourceFeed,
+	} = rawDetails
+
+	await db.updateStocks(ticker, {
+		name,
+		active,
+		cik,
+		description,
+		locale,
+		market,
+		type,
+		sicCode,
+		sicDescription,
+		compositeFigi,
+		shareClassFigi,
+		currencyName,
+		primaryExchange,
+		tickerRoot,
+		sourceFeed,
+	})
+
+	if (
+		market_cap ||
+		weighted_shares_outstanding ||
+		share_class_shares_outstanding
+	) {
+		await updateMarketCap(
+			db,
+			ticker,
+			date,
+			close,
+			market_cap,
+			weighted_shares_outstanding,
+			share_class_shares_outstanding,
+		)
+	}
+
+	console.groupEnd()
+}
+
+async function updateMarketCap(
+	db: DatabaseApi,
+	ticker: string,
+	date: Date,
+	close: number,
+	market_cap?: number,
+	weighted_shares_outstanding?: number,
+	share_class_shares_outstanding?: number,
+) {
+	let marketCap: number | undefined = undefined
+
+	if (weighted_shares_outstanding) {
+		marketCap = weighted_shares_outstanding * close
+	} else if (share_class_shares_outstanding) {
+		marketCap = share_class_shares_outstanding * close
+	} else if (market_cap) {
+		marketCap = market_cap
+	}
+
+	if (!marketCap) return
+
+	console.debug(`Updating market cap: ${marketCap}`)
+
+	await db.updateDaily(ticker, date, {
+		marketCap,
+	})
 }

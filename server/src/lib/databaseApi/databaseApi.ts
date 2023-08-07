@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-
+import { Prisma, PrismaClient } from '@prisma/client'
 export class DatabaseApi {
 	prisma: PrismaClient
 
@@ -52,6 +51,58 @@ export class DatabaseApi {
 					},
 				},
 			},
+		})
+	}
+
+	async getStocksWithoutMcOnGtDate(date: string) {
+		return await this.prisma.usStocks.findMany({
+			where: {
+				dailys: {
+					none: {
+						marketCap: { not: null },
+						date: {
+							gt: date,
+						},
+					},
+				},
+			},
+			select: {
+				ticker: true,
+			},
+		})
+	}
+
+	async getMostRecentDaily(ticker: string) {
+		return await this.prisma.usStockDaily.findFirst({
+			where: {
+				ticker: ticker,
+			},
+			orderBy: { date: 'desc' },
+		})
+	}
+
+	async updateDaily(
+		ticker: string,
+		date: Date,
+		data: Prisma.UsStockDailyUpdateInput,
+	) {
+		return await this.prisma.usStockDaily.update({
+			where: {
+				ticker_date: {
+					ticker,
+					date,
+				},
+			},
+			data,
+		})
+	}
+
+	async updateStocks(ticker: string, data: Prisma.UsStocksUpdateInput) {
+		return await this.prisma.usStocks.update({
+			where: {
+				ticker,
+			},
+			data,
 		})
 	}
 }
