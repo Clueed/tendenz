@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { formatDateString } from '../../misc.js'
+import { formatDateString } from '../misc.js'
 import {
 	IAggsMultiple,
 	IAggsResultsSingle,

@@ -1,5 +1,5 @@
 import { prisma } from '../globals.js'
-import { formatDateString } from '../misc.js'
+import { formatDateString } from '../lib/misc.js'
 import { calcSigmas } from './calcSigmas.js'
 
 async function detectSigmaStaleness(): Promise<boolean> {

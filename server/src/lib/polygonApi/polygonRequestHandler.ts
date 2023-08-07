@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
-import { timeout } from '../../misc.js'
+import { timeout } from '../misc.js'
 import { RequestHandler } from './stocksApi.js'
 
 // TODO: handle retry on error - especially rate limit

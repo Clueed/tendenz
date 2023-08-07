@@ -1,5 +1,6 @@
-import { aggregatesGroupedDaily } from '../lib/polygonApi/aggregatesGroupedDaily.js'
-import { formatDateString } from '../misc.js'
+import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
+import { formatDateString } from '../lib/misc.js'
+import { StocksApi } from '../lib/polygonApi/stocksApi.js'
 import { updateDaily } from './updateDaily.js'
 
 interface UpdateStatus {
@@ -23,6 +24,8 @@ function consecutiveZeros(array: number[]) {
 }
 
 export async function reverseIncrementDailyUpdate(
+	db: DatabaseApi,
+	stocksApi: StocksApi,
 	endOnNoUpdates: boolean = true,
 	startingDate: Date = new Date(),
 ): Promise<UpdateStatus[]> {
@@ -35,12 +38,12 @@ export async function reverseIncrementDailyUpdate(
 		const dateString = formatDateString(targetDate)
 		console.group(`Updating ${dateString}`)
 
-		const results = await aggregatesGroupedDaily(dateString)
+		const results = await stocksApi.getMarketDay(dateString)
 
 		let updateCount: number = 0
 
 		if (results.length > 0) {
-			updateCount = await updateDaily(results)
+			updateCount = await updateDaily(db, results)
 		} else {
 			console.info('No data available.')
 			updateCount = 0
