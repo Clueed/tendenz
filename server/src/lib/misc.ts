@@ -1,7 +1,3 @@
-export function DateStringToDate(dateString: string): Date {
-	return new Date(Date.parse(dateString))
-}
-
 export function formatDateString(inputDate: Date | number): string {
 	let date: Date
 
