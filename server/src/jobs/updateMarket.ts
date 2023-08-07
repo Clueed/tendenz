@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { dailySigmaRoutine } from '../dailyRoutine/dailySigmaRoutine.js'
 import { reverseIncrementDailyUpdate } from '../dailyRoutine/reverseIncrementDailyUpdate.js'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { PolygonRequestHandler } from '../lib/polygonApi/polygonRequestHandler.js'
@@ -15,7 +14,7 @@ const stocksApi = new PolygonStocksApi(requestHandler)
 
 try {
 	await reverseIncrementDailyUpdate(db, stocksApi)
-	await dailySigmaRoutine()
+	//await dailySigmaRoutine()
 } catch (e) {
 	console.error(e)
 }

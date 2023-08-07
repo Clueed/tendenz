@@ -54,7 +54,7 @@ export class DatabaseApi {
 		})
 	}
 
-	async getStocksWithoutMcOnGtDate(date: string) {
+	async getStocksWithoutMcOnGtDate(date: Date) {
 		return await this.prisma.usStocks.findMany({
 			where: {
 				dailys: {

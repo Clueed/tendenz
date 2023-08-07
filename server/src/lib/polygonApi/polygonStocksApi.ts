@@ -53,8 +53,8 @@ export class PolygonStocksApi implements StocksApi {
 	}
 
 	async getTickerDetails(
-		date: string,
 		ticker: string,
+		date: string,
 	): Promise<ITickerDetailsResults | undefined> {
 		console.debug(`Requesting ticker details for ${ticker} on ${date}`)
 

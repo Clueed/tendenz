@@ -1,6 +1,7 @@
 import { ok } from 'assert'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { formatDateString } from '../lib/misc.js'
+import { ITickerDetailsResults } from '../lib/polygonApi/polygonTypes.js'
 import { StocksApi } from '../lib/polygonApi/stocksApi.js'
 
 export async function supplementTickerDetails(
@@ -9,10 +10,7 @@ export async function supplementTickerDetails(
 ) {
 	const date = new Date()
 	date.setDate(date.getDate() - 7)
-	const dateString = formatDateString(date)
-	const tickersWithoutMarketCap = await db.getStocksWithoutMcOnGtDate(
-		dateString,
-	)
+	const tickersWithoutMarketCap = await db.getStocksWithoutMcOnGtDate(date)
 	ok(tickersWithoutMarketCap)
 
 	if (tickersWithoutMarketCap.length === 0) {
@@ -21,7 +19,11 @@ export async function supplementTickerDetails(
 	}
 
 	for (const { ticker } of tickersWithoutMarketCap) {
-		await processTicker(db, stocksApi, ticker)
+		try {
+			await processTicker(db, stocksApi, ticker)
+		} catch (e) {
+			console.error(e)
+		}
 	}
 }
 
@@ -40,10 +42,24 @@ async function processTicker(
 	const rawDetails = await stocksApi.getTickerDetails(ticker, dateString)
 	ok(rawDetails)
 
+	const { marketCapData, detailsRest } = parseDetails(rawDetails)
+
+	await db.updateStocks(ticker, {
+		...detailsRest,
+	})
+
+	if (Object.keys(marketCapData).length > 0) {
+		await updateMarketCap(db, ticker, date, close, marketCapData)
+	}
+
+	console.groupEnd()
+}
+
+function parseDetails(rawDetails: ITickerDetailsResults) {
 	const {
-		market_cap,
-		weighted_shares_outstanding,
-		share_class_shares_outstanding,
+		market_cap: marketCap,
+		weighted_shares_outstanding: weightedSharesOutstanding,
+		share_class_shares_outstanding: shareClassSharesOutstanding,
 		name,
 		active,
 		cik,
@@ -61,7 +77,13 @@ async function processTicker(
 		source_feed: sourceFeed,
 	} = rawDetails
 
-	await db.updateStocks(ticker, {
+	const marketCapData = {
+		marketCap,
+		weightedSharesOutstanding,
+		shareClassSharesOutstanding,
+	}
+
+	const detailsRest = {
 		name,
 		active,
 		cik,
@@ -77,25 +99,12 @@ async function processTicker(
 		primaryExchange,
 		tickerRoot,
 		sourceFeed,
-	})
-
-	if (
-		market_cap ||
-		weighted_shares_outstanding ||
-		share_class_shares_outstanding
-	) {
-		await updateMarketCap(
-			db,
-			ticker,
-			date,
-			close,
-			market_cap,
-			weighted_shares_outstanding,
-			share_class_shares_outstanding,
-		)
 	}
 
-	console.groupEnd()
+	detailsRest.sicCode = Number(sicCode)
+	detailsRest.cik = Number(cik)
+
+	return { marketCapData, detailsRest }
 }
 
 async function updateMarketCap(
@@ -103,18 +112,20 @@ async function updateMarketCap(
 	ticker: string,
 	date: Date,
 	close: number,
-	market_cap?: number,
-	weighted_shares_outstanding?: number,
-	share_class_shares_outstanding?: number,
+	marketCapData: {
+		marketCap?: number
+		weightedSharesOutstanding?: number
+		shareClassSharesOutstanding?: number
+	},
 ) {
 	let marketCap: number | undefined = undefined
 
-	if (weighted_shares_outstanding) {
-		marketCap = weighted_shares_outstanding * close
-	} else if (share_class_shares_outstanding) {
-		marketCap = share_class_shares_outstanding * close
-	} else if (market_cap) {
-		marketCap = market_cap
+	if (marketCapData.weightedSharesOutstanding) {
+		marketCap = marketCapData.weightedSharesOutstanding * close
+	} else if (marketCapData.shareClassSharesOutstanding) {
+		marketCap = marketCapData.shareClassSharesOutstanding * close
+	} else if (marketCapData.marketCap) {
+		marketCap = marketCapData.marketCap
 	}
 
 	if (!marketCap) return

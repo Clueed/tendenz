@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import { dailySigmaRoutine } from '../dailyRoutine/dailySigmaRoutine.js'
 import { supplementTickerDetails } from '../dailyRoutine/supplementTickerDetails.js'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { PolygonRequestHandler } from '../lib/polygonApi/polygonRequestHandler.js'
@@ -13,5 +12,11 @@ const db = new DatabaseApi(new PrismaClient())
 const requestHandler = new PolygonRequestHandler(process.env.POLYGON_API_KEY2)
 const stocksApi = new PolygonStocksApi(requestHandler)
 
-await supplementTickerDetails(db, stocksApi)
-await dailySigmaRoutine()
+try {
+	await supplementTickerDetails(db, stocksApi)
+	//await dailySigmaRoutine()
+} catch (e) {
+	console.error(e)
+}
+
+await db.disconnect()
