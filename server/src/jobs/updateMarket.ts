@@ -19,7 +19,7 @@ if (!apiKey) {
 
 const requestHandler = new PolygonRequestHandler(apiKey)
 const stocksApi = new PolygonStocksApi(requestHandler)
-const splitDetector = new SplitDetector(db, stocksApi, Infinity)
+const splitDetector = new SplitDetector(db, stocksApi)
 
 try {
 	await reverseIncrementDailyUpdate(db, stocksApi)
