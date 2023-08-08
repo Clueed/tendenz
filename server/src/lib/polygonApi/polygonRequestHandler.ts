@@ -7,10 +7,10 @@ import { RequestHandler } from './stocksApi.js'
 export class PolygonRequestHandler implements RequestHandler {
 	private readonly axiosInstance: AxiosInstance
 	private readonly requestPerMillisecond: number
-	private readonly apiKey: string | undefined
+	private readonly apiKey: string
 	private lastRequest: number | false = false
 
-	constructor(apiKey: string | undefined, requestPerMinute: number = 5) {
+	constructor(apiKey: string, requestPerMinute: number = 5) {
 		this.axiosInstance = axios.create({
 			baseURL: 'https://api.polygon.io/',
 			timeout: 10000,

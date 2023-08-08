@@ -9,12 +9,17 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const db = new DatabaseApi(new PrismaClient())
-const requestHandler = new PolygonRequestHandler(process.env.POLYGON_API_KEY2)
+const apiKey = process.env.POLYGON_API_KEY2
+
+if (!apiKey) {
+	throw Error('No API KEY')
+}
+
+const requestHandler = new PolygonRequestHandler(apiKey)
 const stocksApi = new PolygonStocksApi(requestHandler)
 
 try {
 	await supplementTickerDetails(db, stocksApi)
-	//await dailySigmaRoutine()
 } catch (e) {
 	console.error(e)
 }

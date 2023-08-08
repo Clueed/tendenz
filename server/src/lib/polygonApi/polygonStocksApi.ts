@@ -79,7 +79,7 @@ export class PolygonStocksApi implements StocksApi {
 
 		try {
 			const response = await this.requestHandler.get<IStockSplits>(
-				`https://api.polygon.io/v3/reference/splits?execution_date.lte=${date}reverse_split=true&order=desc&limit=1000`,
+				`https://api.polygon.io/v3/reference/splits?execution_date.lte=${date}&reverse_split=true&order=desc&limit=1000`,
 			)
 			return response.data.results || []
 		} catch (e) {

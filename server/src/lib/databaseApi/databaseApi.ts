@@ -97,6 +97,36 @@ export class DatabaseApi {
 		})
 	}
 
+	async getDailyInDateRange(ticker: string, startdate: Date, enddate: Date) {
+		return await this.prisma.usStockDaily.findMany({
+			where: {
+				ticker,
+				date: {
+					gte: startdate,
+					lte: enddate,
+				},
+			},
+		})
+	}
+
+	async updateDailyInDateRange(
+		ticker: string,
+		startdate: Date,
+		enddate: Date,
+		data: Prisma.UsStockDailyUpdateInput,
+	) {
+		return await this.prisma.usStockDaily.updateMany({
+			where: {
+				ticker,
+				date: {
+					gte: startdate,
+					lte: enddate,
+				},
+			},
+			data,
+		})
+	}
+
 	async updateStocks(ticker: string, data: Prisma.UsStocksUpdateInput) {
 		return await this.prisma.usStocks.update({
 			where: {
