@@ -1,10 +1,14 @@
-import { IAggsResults } from '../polygonApi/aggregatesGroupedDaily.js'
-import { allDailysOnDate, formatDateString } from '../misc.js'
-import { prisma } from '../globals.js'
+import { IAggsResultsMultiple } from '../lib/polygonApi/polygonTypes.js'
 
-export async function updateDaily(results: IAggsResults[]): Promise<number> {
+import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
+import { formatDateString } from '../lib/misc.js'
+
+export async function updateDaily(
+	db: DatabaseApi,
+	results: IAggsResultsMultiple[],
+): Promise<number> {
 	// picking frist because all dates are the same
-	const allTickersAtDate = await allDailysOnDate(results[0].t)
+	const allTickersAtDate = await db.getTickersOnDate(results[0].t)
 
 	let counter: number = 0
 
@@ -31,23 +35,16 @@ export async function updateDaily(results: IAggsResults[]): Promise<number> {
 			continue
 		}
 
-		await prisma.usStockDaily.create({
-			data: {
-				date,
-				volume,
-				open,
-				close,
-				high,
-				low,
-				volumeWeighted,
-				nTransactions,
-				UsStocks: {
-					connectOrCreate: {
-						where: { ticker: ticker },
-						create: { ticker: ticker },
-					},
-				},
-			},
+		await db.writeDailyValues({
+			date,
+			volume,
+			open,
+			close,
+			high,
+			low,
+			volumeWeighted,
+			nTransactions,
+			ticker,
 		})
 
 		console.debug(`Added ${ticker} on ${dateString} to db`)

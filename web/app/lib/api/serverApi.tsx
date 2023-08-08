@@ -1,4 +1,5 @@
-import { getStocksURL, tendenzApiSigmaYesterday } from './sharedApi'
+import type { tendenzApiSigmaYesterday } from '@tendenz/types'
+import { getStocksURL } from './sharedApi'
 
 async function getData<T>(url: string) {
 	try {

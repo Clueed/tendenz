@@ -1,6 +1,6 @@
+import { tendenzApiSigmaYesterdayDay } from '@tendenz/types'
 import classNames from 'classnames'
 import { useMemo } from 'react'
-import { tendenzApiSigmaYesterdayDay } from '../../lib/api/sharedApi'
 import { npl } from '../../lib/naturalLanguageProcessing'
 import { YahooButton } from './YahooButton'
 

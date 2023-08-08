@@ -1,13 +1,14 @@
 {
-  "name": "tendenz-web",
+  "name": "@tendenz/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "format": "prettier --write ."
+    "dev": "dev",
+    "build": "build",
+    "start": "start",
+    "lint": "lint",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/colors": "^1.0.1",
@@ -27,6 +28,7 @@
     "tailwindcss-radix": "^2.8.0"
   },
   "devDependencies": {
+    "@tendenz/types": "*",
     "@next/bundle-analyzer": "^13.4.12",
     "@types/node": "^20.4.2",
     "@types/react": "^18.2.15",

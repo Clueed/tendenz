@@ -1,10 +1,11 @@
+import cors from '@fastify/cors'
+import { Prisma } from '@prisma/client'
+import type { tendenzApiSigmaYesterday } from '@tendenz/types'
 import Bree from 'bree'
 import Fastify from 'fastify'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import prismaPlugin from './plugins/prisma.js'
-import { Prisma } from '@prisma/client'
-import cors from '@fastify/cors'
 
 if (process.env.NODE_ENV === 'production') {
 	console.debug = function () {}
@@ -19,6 +20,7 @@ fastify.register(cors, {
 })
 fastify.register(prismaPlugin)
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 fastify.get('/:page', async (request, reply) => {
 	const query = request.query as Query
 	const minMarketCap = Number(query?.minMarketCap)
@@ -71,11 +73,15 @@ fastify.get('/:page', async (request, reply) => {
 			stdLogReturn,
 			meanLogReturn,
 			sampleSize,
-			last: { close: lastClose, logReturn: lastLogReturn, date: lastDate },
+			last: {
+				close: lastClose,
+				logReturn: lastLogReturn,
+				date: lastDate.toISOString(),
+			},
 			secondLast: {
 				close: secondLastClose,
 				logReturn: secondLastLogReturn,
-				date: secondLastDate,
+				date: secondLastDate.toISOString(),
 			},
 		}),
 	)
@@ -114,24 +120,4 @@ export interface Query {
 }
 export interface Params {
 	page?: string
-}
-
-export interface tendenzApiSigmaYesterdayDay {
-	close: number
-	logReturn: number
-	date: Date
-}
-
-export interface tendenzApiSigmaYesterday {
-	ticker: string
-	name: string | null
-	sigma: number
-	absSigma: number
-	weight: number
-	marketCap: number
-	stdLogReturn: number
-	meanLogReturn: number
-	sampleSize: number
-	last: tendenzApiSigmaYesterdayDay
-	secondLast: tendenzApiSigmaYesterdayDay
 }

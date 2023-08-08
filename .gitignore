@@ -1,1 +1,4 @@
 server/prisma/dev.db-journal
+
+**/node_modules
+**/tsconfig.tsbuildinfo
