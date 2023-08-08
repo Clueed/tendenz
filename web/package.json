@@ -28,8 +28,9 @@
     "tailwindcss-radix": "^2.8.0"
   },
   "devDependencies": {
-    "@tendenz/types": "*",
     "@next/bundle-analyzer": "^13.4.12",
+    "@tendenz/prettier-config": "^1.0.0",
+    "@tendenz/types": "*",
     "@types/node": "^20.4.2",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
