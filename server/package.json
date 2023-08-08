@@ -1,5 +1,5 @@
 {
-  "name": "tendenz-server",
+  "name": "@tendenz/server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,8 +7,10 @@
     "dev": "node --watch --loader ts-node/esm --inspect --trace-uncaught ./src/index.ts",
     "dev-prisma-migrate": "prisma migrate dev --name init",
     "typecheck": "tsc --noEmit",
-    "build": "tsc --sourceMap false",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint ./src --fix",
+    "build": "tsc --sourceMap false"
   },
   "keywords": [],
   "author": "",
@@ -21,16 +23,18 @@
     "bree": "^9.1.3",
     "dotenv": "^16.3.1",
     "fastify": "^4.19.2",
-    "fastify-plugin": "^4.5.1",
-    "prettier": "^3.0.1"
+    "fastify-plugin": "^4.5.1"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.3.3",
+    "@tendenz/prettier-config": "^1.0.0",
+    "@tendenz/types": "^1.0.0",
     "@types/node": "^20.4.2",
     "@typescript-eslint/eslint-plugin": "^6.2.1",
     "@typescript-eslint/parser": "^6.2.1",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^8.10.0",
+    "prettier": "^3.0.1",
     "prettier-plugin-organize-imports": "^3.2.3",
     "prisma": "^5.0.0",
     "ts-node": "^10.9.1",
