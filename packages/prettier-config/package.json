@@ -9,10 +9,6 @@
     "prettier-plugin-organize-imports": "^3.2.3",
     "prettier": "^3.0.1"
   },
-  "scripts": {
-    "typecheck": "tsc --noEmit",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
   "license": "ISC"
 }
