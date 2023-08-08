@@ -1,9 +1,3 @@
-import { prisma } from './globals.js'
-
-export function DateStringToDate(dateString: string): Date {
-	return new Date(Date.parse(dateString))
-}
-
 export function formatDateString(inputDate: Date | number): string {
 	let date: Date
 
@@ -24,26 +18,6 @@ export function formatDateString(inputDate: Date | number): string {
 	else dateString = yyyy + '-' + mm + '-' + dd
 
 	return dateString
-}
-
-export async function allDailysOnDate(
-	input_date: number | Date,
-): Promise<string[]> {
-	let date: Date
-
-	if (input_date instanceof Date) {
-		date = input_date
-	} else {
-		date = new Date(input_date)
-	}
-
-	const allDailysAtDate = await prisma.usStockDaily.findMany({
-		where: {
-			date,
-		},
-	})
-
-	return allDailysAtDate.map(daily => daily.ticker)
 }
 
 export function timeout(ms: number) {
