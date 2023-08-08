@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "paths": {
+      "@tendenz/server": ["./server/"],
+      "@tendenz/web": ["./web/"],
+      "@tendenz/types": ["./types/"]
+    }
+  },
+  "exclude": ["**/*.test.ts", "**/*.stub.ts", "node_modules", "dist"]
+}
