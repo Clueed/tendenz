@@ -5,20 +5,13 @@ import { IAggsResultsSingle } from '../lib/polygonApi/polygonTypes.js'
 import { StocksApi } from '../lib/polygonApi/stocksApi.js'
 
 export class SplitDetector {
-	private db: DatabaseApi
-	private stocksApi: StocksApi
 	private updateStatus: { ticker: string; updated: boolean }[] = []
-	private stopAfterNUpdates: number
 
 	constructor(
-		db: DatabaseApi,
-		stocksApi: StocksApi,
-		stopAfterNUpdates: number = 10,
-	) {
-		this.db = db
-		this.stocksApi = stocksApi
-		this.stopAfterNUpdates = stopAfterNUpdates
-	}
+		private db: DatabaseApi,
+		private stocksApi: StocksApi,
+		private stopAfterNUpdates: number = 10,
+	) {}
 
 	async run() {
 		console.group(`Initiating split detector...`)
@@ -165,13 +158,4 @@ export class SplitDetector {
 
 		return true
 	}
-}
-
-function getStartAndEndOfDay(date: Date) {
-	const startOfDay = new Date(date)
-	startOfDay.setHours(0, 0, 0, 0)
-	const endOfDay = new Date(date)
-	endOfDay.setHours(23, 59, 59, 999)
-
-	return { startOfDay, endOfDay }
 }
