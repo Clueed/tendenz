@@ -57,7 +57,7 @@ export function ComingSoon() {
 					initial="hidden"
 					whileInView="visible"
 					viewport={{ once: true }}
-					className="mb-10 text-center text-3xl font-normal text-indigo-12 sm:mb-20 sm:text-5xl"
+					className="mb-16 text-center text-4xl font-normal text-indigo-12 sm:mb-20 sm:text-5xl"
 				>
 					{'coming soon...'.split('').map((c, i) => {
 						return (
