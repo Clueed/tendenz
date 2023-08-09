@@ -6,6 +6,10 @@ export class DatabaseApi {
 		return await this.prisma.$disconnect()
 	}
 
+	async clearSigma() {
+		await this.prisma.sigmaUsStocksYesterday.deleteMany({})
+	}
+
 	private async getAllDailysOnDate(
 		input_date: number | Date,
 		select: Prisma.UsStockDailySelect,
