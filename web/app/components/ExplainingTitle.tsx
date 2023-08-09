@@ -68,7 +68,8 @@ export function ExplainingTitlePopover({
 			{open => (
 				<span
 					className={classNames('border-b-2 transition-colors', {
-						'border-slate-a7': !open,
+						'border-slate-a7 duration-500 hover:border-slate-a9 hover:text-slate-a12':
+							!open,
 						'border-indigo-a8 text-indigo-12': open,
 					})}
 				>
