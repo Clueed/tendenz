@@ -104,6 +104,9 @@
 @import url('@radix-ui/colors/purple-dark.css') (prefers-color-scheme: dark);
 @import url('@radix-ui/colors/purple-dark-alpha.css')
 (prefers-color-scheme: dark);
+@import url('@radix-ui/colors/violet-dark.css') (prefers-color-scheme: dark);
+@import url('@radix-ui/colors/violet-dark-alpha.css')
+(prefers-color-scheme: dark);
 @import url('@radix-ui/colors/indigo-dark.css') (prefers-color-scheme: dark);
 @import url('@radix-ui/colors/indigo-dark-alpha.css')
 (prefers-color-scheme: dark);
