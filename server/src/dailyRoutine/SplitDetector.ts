@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
-import { formatDateString } from '../lib/misc.js'
+import { formatDateString, getStartAndEndOfDay } from '../lib/misc.js'
 import { IAggsResultsSingle } from '../lib/polygonApi/polygonTypes.js'
 import { StocksApi } from '../lib/polygonApi/stocksApi.js'
 
