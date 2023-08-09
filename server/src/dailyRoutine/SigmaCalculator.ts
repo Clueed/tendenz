@@ -49,10 +49,10 @@ export class SigmaCalculator {
 
 		const mostRecentMarketCap = dailys.find(daily => daily.marketCap)?.marketCap
 
-		const sortedDailys = SigmaMath.sortByDateDesc(dailys)
+		const sortedDailys = SigmaMath.sortByDateAsc(dailys)
 		const LogReturns = SigmaMath.calcLogReturnsAsc(sortedDailys)
 
-		const sortedLogReturns = SigmaMath.sortByDateDesc(LogReturns)
+		const sortedLogReturns = SigmaMath.sortByDateAsc(LogReturns)
 		const [lastLogReturn, secondLastLogReturn, ...logReturnPopulation] =
 			sortedLogReturns
 

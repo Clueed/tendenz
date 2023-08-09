@@ -1,10 +1,10 @@
-interface getDailyStockReturn {
+export interface getDailyStockReturn {
 	marketCap: number | null
 	close: number
 	date: Date
 }
 
-interface LogReturns extends getDailyStockReturn {
+export interface LogReturns extends getDailyStockReturn {
 	logReturn: number
 }
 
@@ -52,9 +52,14 @@ export class SigmaMath {
 		return dataPointsWithLogReturn
 	}
 
-	static sortByDateDesc<T extends getDailyStockReturn>(dataPoints: T[]): T[] {
+	static sortByDate<T extends getDailyStockReturn>(
+		dataPoints: T[],
+		direction: 'asc' | 'desc',
+	): T[] {
 		return [...dataPoints].sort((a, b) => {
-			return a.date.getTime() - b.date.getTime()
+			return direction === 'asc'
+				? a.date.getTime() - b.date.getTime()
+				: b.date.getTime() - a.date.getTime()
 		})
 	}
 }
