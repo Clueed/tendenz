@@ -13,7 +13,7 @@ export default function Timer() {
 				<div className="w-40">
 					<p>{timeTill} hours left until the next market update.</p>
 					<p className="mt-2">
-						Data is available on market close with a ~6 hour delay.
+						Data is available on market close with a ~12 hour delay.
 					</p>
 				</div>
 			}
@@ -22,17 +22,17 @@ export default function Timer() {
 			{open => (
 				<div
 					className={classNames(
-						'flex items-center gap-1 rounded-md stroke-2 px-2 py-1 text-sm transition-all',
+						'flex items-center gap-2 rounded-md stroke-2 px-2 py-1 text-sm transition-all',
 						{
-							'bg-slate-a2 text-slate-a11 group-hover/popover:bg-slate-a5 group-hover/popover:shadow-sm':
+							'bg-slate-a2 text-slate-a11 duration-500 hover:bg-slate-a4 hover:shadow-lg group-hover:bg-slate-a4':
 								!open,
 						},
-						{ 'bg-slate-a11 text-slate-2 shadow-md': open },
+						{ 'bg-slate-a11 text-slate-2': open },
 					)}
 				>
 					<IconClock animationTrigger={open} />
-					<div className="leading-none"></div>
-					{timeTill}h
+
+					<span>{timeTill}h</span>
 				</div>
 			)}
 		</Pop>

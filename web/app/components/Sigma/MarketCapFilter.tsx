@@ -25,19 +25,16 @@ export default function MarketCapFilter<T extends string[]>({
 		>
 			<motion.div
 				layout="size"
-				className="inline-flex overflow-clip rounded-md bg-slate-a2 text-xs text-slate-11"
+				className="group inline-flex overflow-clip rounded-md bg-slate-a2 text-xs transition-all duration-1000 hover:shadow-lg hover:backdrop-blur-3xl"
 			>
 				{allKeys.map(key => (
 					<ToggleGroup.Item
 						key={key}
 						value={key}
 						className={classNames(
-							'px-2 py-1 tracking-wider transition-all',
+							'px-2 py-1 tracking-wider text-slate-11 transition-all duration-500 hover:!bg-slate-a6 hover:shadow group-hover:bg-slate-a1 group-hover:text-slate-12',
 							{
-								'hover:bg-slate-a5 hover:text-slate-12': key !== selectedKey,
-							},
-							{
-								'bg-slate-a8 text-slate-1': key === selectedKey,
+								'bg-slate-a6 text-slate-12 ': key === selectedKey,
 							},
 						)}
 					>
