@@ -79,13 +79,15 @@ export default function RootLayout({
 					{
 						// Top
 					}
-					<div className="absolute -left-48 -top-48 h-96 w-96 rounded-full bg-indigo-a12 opacity-30 lg:hidden" />
+					<div className="absolute left-0 top-0 grid w-full grid-cols-default">
+						<div className="left-0 top-0 col-start-2 h-96 w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-a12 opacity-30 lg:hidden" />
+					</div>
 					<div className="absolute left-1/2 top-0 hidden h-80 w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-a11 opacity-30 lg:block" />
 					{
 						// Middle
 					}
-					<div className="absolute -left-48 top-96 h-96 w-96 rounded-full bg-sky-a3" />
-					<div className="absolute -right-48 top-[48rem] h-96 w-96 rounded-full bg-indigo-a4" />
+					<div className="absolute -right-48 top-[62rem] h-96 w-96 rounded-full bg-sky-a3" />
+					<div className="absolute -left-48 top-[40rem] h-96 w-96 rounded-full bg-indigo-a4" />
 				</div>
 			</body>
 		</html>
