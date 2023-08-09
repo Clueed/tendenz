@@ -62,10 +62,8 @@ export function SigmaCardBody({
 				</div>
 			</div>
 
-			<div className="col-start-5 row-start-2">
-				<div className="flex items-center justify-center">
-					<YahooButton ticker={ticker} />
-				</div>
+			<div className="col-start-5 row-span-2 row-start-1 py-1">
+				<YahooButton ticker={ticker} />
 			</div>
 		</div>
 	)

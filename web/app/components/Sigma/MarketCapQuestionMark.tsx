@@ -28,7 +28,9 @@ export default function MarketCapFilterLabel({}: Props) {
 				<div
 					className={classNames(
 						'flex gap-0.5 text-xxs transition-colors',
-						{ 'text-slate-a10': !open },
+						{
+							'text-slate-a10 duration-500 hover:text-slate-a12': !open,
+						},
 						{ 'text-slate-12': open },
 					)}
 				>

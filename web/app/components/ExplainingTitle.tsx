@@ -7,8 +7,8 @@ import { PopLearnMore } from './Sigma/PopLearnMore'
 export function ExplainingTitle() {
 	return (
 		<div className="grid grid-cols-default lg:text-center">
-			<div className="col-start-2 text-lg leading-10 text-slate-11 ">
-				<span className="text-xl">
+			<div className="col-start-2 text-slate-11 ">
+				<span className="text-xl leading-9">
 					<ExplainingTitlePopover
 						learnMore="/docs#statistical-significants"
 						popoverText={
@@ -27,15 +27,16 @@ export function ExplainingTitle() {
 						}
 						triggerText="statistical probabilities"
 					/>{' '}
-					of market close prices{' '}
+					of market close prices <br />
 				</span>
-				<br />
-				based on{' '}
-				<ExplainingTitlePopover
-					learnMore="/docs#statistical-significants"
-					popoverText="We use the daily returns of each assets over the past two years."
-					triggerText="historical returns"
-				/>
+				<span className="text-lg leading-9">
+					based on{' '}
+					<ExplainingTitlePopover
+						learnMore={false}
+						popoverText="We use the daily returns of each assets over the past two years."
+						triggerText="historical returns"
+					/>
+				</span>
 			</div>
 		</div>
 	)
@@ -53,7 +54,7 @@ export function ExplainingTitlePopover({
 	const color = 'indigo'
 	return (
 		<Pop
-			offset={4}
+			offset={0}
 			popoverColor={color}
 			popoverContent={
 				<div className="w-[calc(var(--radix-popover-trigger-width)*1.5)] text-base leading-relaxed">
@@ -66,8 +67,10 @@ export function ExplainingTitlePopover({
 		>
 			{open => (
 				<span
-					className={classNames('border-b-2 border-slate-8 transition-colors', {
-						'border-indigo-12 text-indigo-12': open,
+					className={classNames('border-b-2 transition-colors', {
+						'border-slate-a7 duration-500 hover:border-slate-a9 hover:text-slate-a12':
+							!open,
+						'border-indigo-a8 text-indigo-12': open,
 					})}
 				>
 					{triggerText}

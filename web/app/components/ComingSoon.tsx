@@ -56,7 +56,8 @@ export function ComingSoon() {
 					variants={container}
 					initial="hidden"
 					whileInView="visible"
-					className="my-10 text-center text-3xl font-normal text-indigo-12 sm:text-4xl"
+					viewport={{ once: true }}
+					className="mb-16 text-center text-4xl font-normal text-indigo-12 sm:mb-20 sm:text-5xl"
 				>
 					{'coming soon...'.split('').map((c, i) => {
 						return (
@@ -66,16 +67,7 @@ export function ComingSoon() {
 						)
 					})}
 				</motion.h2>
-				<motion.div
-					className="mb-10 flex flex-wrap justify-around gap-x-4 gap-y-6 bg-gradient-to-br from-indigo-11 via-violet-11 to-sky-11 bg-clip-text text-xl text-black-a1 sm:gap-x-6 sm:text-2xl"
-					initial={{ backgroundSize: '100%' }}
-					animate={{ backgroundSize: '500%' }}
-					transition={{
-						repeat: Infinity,
-						repeatType: 'reverse',
-						duration: 10,
-					}}
-				>
+				<motion.div className="flex animate-text-gradient-15s flex-wrap justify-around gap-x-4 gap-y-6 bg-gradient-to-r from-sky-11 via-violet-11 to-sky-11 bg-[200%_auto] bg-clip-text text-2xl text-black-a1 sm:mb-[10vh] sm:gap-x-10 sm:gap-y-10 sm:text-4xl">
 					<motion.animatePresence>
 						{items.map((v, ii) => {
 							return (
@@ -84,6 +76,7 @@ export function ComingSoon() {
 									variants={container}
 									initial="hidden"
 									whileInView="visible"
+									viewport={{ once: true }}
 									transition={{ delay: 1 }}
 								>
 									{v.split('').map((c, i) => {
