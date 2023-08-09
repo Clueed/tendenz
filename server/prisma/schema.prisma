@@ -52,7 +52,7 @@ model SigmaUsStocksYesterday {
   sigma               Float
   absSigma            Float
   weight              Float
-  marketCap           Float
+  marketCap           Float?
   stdLogReturn        Float
   meanLogReturn       Float
   sampleSize          Int
