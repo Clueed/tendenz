@@ -27,42 +27,39 @@ export function SigmaCardHeader({
 	return (
 		<div
 			className={
-				'w-100 grid cursor-pointer grid-cols-[7.5rem_auto] items-start gap-x-4'
+				'w-100 grid cursor-pointer grid-cols-[6.5rem_auto] items-baseline gap-x-4'
 			}
 		>
 			<div className="grid grid-cols-[_auto_min-content] items-center">
-				<div className="text-right text-3xl leading-tight text-indigo-12">
+				<div className="text-right text-2xl text-indigo-12">
 					{formattedSigma}
 				</div>
 				<div className="ml-1 flex flex-col text-xl">
 					<div
-						className={classNames('-my-1 text-xs opacity-90', {
+						className={classNames('-my-1 text-xxs opacity-90', {
 							'text-red-a11': sigma < 0,
 							'text-green-a11': sigma > 0,
 						})}
 					>
 						{sigma < 0 ? '↓' : '↑'}
 					</div>
-					<div className="-my-1 text-slate-10">σ</div>
+					<div className="-my-1 text-sm text-slate-10">σ</div>
 				</div>
 			</div>
 
 			<motion.div
-				initial={{ height: 'calc(1.425*1.125rem*2)' }}
+				initial={{ height: 'calc(1.75rem)' }}
 				animate={{
-					height: expanded ? 'auto' : 'calc(1.425*1.125rem*2)',
+					height: expanded ? 'auto' : 'calc(1.75rem)',
 					transition: {
 						type: 'spring',
 						duration: 0.75,
 					},
 				}}
-				className={'overflow-clip text-left text-lg leading-[1.425]'}
+				className={'overflow-clip pr-5 text-left text-xl'}
 			>
 				<span className="mr-1 text-slate-11">{ticker}</span>
-				{'  '}
-
 				<span className="text-slate-12">{formattedName}</span>
-
 				<AnimatePresence>
 					{expanded && (
 						<>
