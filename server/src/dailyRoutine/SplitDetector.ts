@@ -51,6 +51,7 @@ export class SplitDetector {
 
 		for (const daily of dailys) {
 			// no await here on purpose
+			// this can be done async because is only depends on db
 			this.updateEntries(ticker, daily)
 			this.updateStatus.push({ ticker, updated: true })
 		}
@@ -78,7 +79,7 @@ export class SplitDetector {
 		)
 
 		console.debug(`Updated entry on ${formatDateString(t)}`)
-		if (count !== 1) {
+		if (count > 1) {
 			throw new Error(
 				`${count} entries have been updated for ${ticker} on ${formatDateString(
 					t,
