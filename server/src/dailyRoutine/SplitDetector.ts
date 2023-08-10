@@ -27,12 +27,17 @@ export class SplitDetector {
 			const splits = await this.stocksApi.getSplits(dates)
 
 			for (const { ticker, execution_date } of splits) {
-				if (!this.cont()) {
-					break
+				if (this.cont()) {
+					await this.handleSplit(ticker, execution_date)
 				}
-				await this.handleSplit(ticker, execution_date)
 			}
-			console.info(`Detected and handled ${this.updateStatus.length} splits.`)
+			const detected = this.updateStatus.length
+			const updated = this.updateStatus.filter(
+				({ updated }) => updated === true,
+			)
+			console.info(
+				`Detected ${detected} splits and adjusted data for ${updated.length}.`,
+			)
 		} catch (error) {
 			console.error(
 				`An error occurred while running the split detector: ${error}`,
@@ -153,10 +158,10 @@ export class SplitDetector {
 
 		for (const key of Object.keys(oldDaily) as Array<keyof typeof oldDaily>) {
 			if (oldDaily[key] !== newDaily[key]) {
-				return true
+				return false
 			}
 		}
-		return false
+		return true
 	}
 
 	private cont(): boolean {
@@ -173,10 +178,10 @@ export class SplitDetector {
 		}
 
 		if (consecutiveNoUpdates > this.stopAfterNUpdates) {
-			return true
+			return false
 		}
 
-		return false
+		return true
 	}
 }
 
