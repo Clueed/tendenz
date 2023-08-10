@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { configDotenv } from 'dotenv'
 import { SplitDetector } from '../dailyRoutine/SplitDetector.js'
 import { dailySigmaRoutine } from '../dailyRoutine/dailySigmaRoutine.js'
 import { reverseIncrementDailyUpdate } from '../dailyRoutine/reverseIncrementDailyUpdate.js'
@@ -8,6 +9,8 @@ import { PolygonStocksApi } from '../lib/polygonApi/polygonStocksApi.js'
 
 if (process.env.NODE_ENV === 'production') {
 	console.debug = function () {}
+} else {
+	configDotenv({ path: '../../.env' })
 }
 
 const db = new DatabaseApi(new PrismaClient())
