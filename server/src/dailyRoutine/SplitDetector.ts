@@ -22,16 +22,27 @@ export class SplitDetector {
 
 	async run() {
 		console.group(`Initiating split detector...`)
-		const dates = formatDateString(new Date())
-		const splits = await this.stocksApi.getSplits(dates)
+		try {
+			const dates = formatDateString(new Date())
+			const splits = await this.stocksApi.getSplits(dates)
 
-		for (const { ticker, execution_date } of splits) {
-			if (!this.cont()) {
-				break
+			for (const { ticker, execution_date } of splits) {
+				if (this.cont()) {
+					await this.handleSplit(ticker, execution_date)
+				}
 			}
-			await this.handleSplit(ticker, execution_date)
+			const detected = this.updateStatus.length
+			const updated = this.updateStatus.filter(
+				({ updated }) => updated === true,
+			)
+			console.info(
+				`Detected ${detected} splits and adjusted data for ${updated.length}.`,
+			)
+		} catch (error) {
+			console.error(
+				`An error occurred while running the split detector: ${error}`,
+			)
 		}
-		console.info(`Detected and handled ${this.updateStatus.length} splits.`)
 		console.groupEnd()
 	}
 
@@ -39,25 +50,32 @@ export class SplitDetector {
 		console.group(`Handling split for ${ticker} on ${execution_date}`)
 		const dailys = await this.stocksApi.getAllDailysByTicker(ticker)
 
-		const staleFirst = await this.checkValues(ticker, dailys[0])
-		const staleLast = await this.checkValues(ticker, dailys[dailys.length - 1])
+		const firstMatches = await this.checkIfMatch(ticker, dailys[0])
+		const lastMatches = await this.checkIfMatch(
+			ticker,
+			dailys[dailys.length - 1],
+		)
 
-		if (!staleFirst && !staleLast) {
+		if (firstMatches && lastMatches) {
 			this.updateStatus.push({ ticker, updated: false })
 			console.debug(`${ticker} is already split-adjusted.`)
 			console.groupEnd()
 			return
 		}
 
-		for (const daily of dailys) {
-			// no await here on purpose
-			this.updateEntries(ticker, daily)
-			this.updateStatus.push({ ticker, updated: true })
-		}
+		await Promise.all(
+			dailys.map(async daily => {
+				await this.updateEntries(ticker, daily)
+				this.updateStatus.push({ ticker, updated: true })
+			}),
+		)
 		console.groupEnd()
 	}
 
-	private async updateEntries(ticker: string, daily: IAggsResultsSingle) {
+	private async updateEntries(
+		ticker: string,
+		daily: IAggsResultsSingle,
+	): Promise<void> {
 		const { t, c, o, h, l, v, n, vw } = daily
 		const { startOfDay, endOfDay } = getStartAndEndOfDay(new Date(t))
 		const updateData: Prisma.UsStockDailyUpdateInput = {
@@ -78,7 +96,7 @@ export class SplitDetector {
 		)
 
 		console.debug(`Updated entry on ${formatDateString(t)}`)
-		if (count !== 1) {
+		if (count > 1) {
 			throw new Error(
 				`${count} entries have been updated for ${ticker} on ${formatDateString(
 					t,
@@ -87,7 +105,7 @@ export class SplitDetector {
 		}
 	}
 
-	private async checkValues(
+	private async checkIfMatch(
 		ticker: string,
 		newDaily: IAggsResultsSingle,
 	): Promise<boolean> {
@@ -140,10 +158,10 @@ export class SplitDetector {
 
 		for (const key of Object.keys(oldDaily) as Array<keyof typeof oldDaily>) {
 			if (oldDaily[key] !== newDaily[key]) {
-				return true
+				return false
 			}
 		}
-		return false
+		return true
 	}
 
 	private cont(): boolean {
@@ -167,7 +185,13 @@ export class SplitDetector {
 	}
 }
 
-function getStartAndEndOfDay(date: Date) {
+/**
+ * Returns the start and end timestamps of a given day.
+ * The start timestamp is set to 00:00:00.000 and the end timestamp is set to 23:59:59.999.
+ * @param {Date} date - The input date.
+ * @returns {Object} An object with the startOfDay and endOfDay properties set to the calculated timestamps.
+ */
+function getStartAndEndOfDay(date: Date): { startOfDay: Date; endOfDay: Date } {
 	const startOfDay = new Date(date)
 	startOfDay.setHours(0, 0, 0, 0)
 	const endOfDay = new Date(date)
