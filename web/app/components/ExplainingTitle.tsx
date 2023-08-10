@@ -16,12 +16,11 @@ export function ExplainingTitle() {
 								<p>
 									By combining the asset&apos;s average closing price and
 									volatility, we can estimate the likelihood of the most recent
-									closing price{' '}
-									<span className="opacity-75"> (measured by sigma, σ)</span>.
+									closing price (measured by sigma σ) .
 								</p>
 								<p className="mt-2">
-									A high σ signifies indicates an unusual or extraordinary
-									change in price.
+									A high σ indicates an unusual or extraordinary change in
+									price.
 								</p>
 							</>
 						}

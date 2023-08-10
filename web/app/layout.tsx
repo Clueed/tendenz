@@ -82,7 +82,7 @@ export default function RootLayout({
 					<div className="absolute left-0 top-0 grid w-full grid-cols-default">
 						<div className="left-0 top-0 col-start-2 h-96 w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-a12 opacity-30 lg:hidden" />
 					</div>
-					<div className="absolute left-1/2 top-0 hidden h-80 w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-a11 opacity-30 lg:block" />
+					<div className="absolute left-1/2 top-0 hidden h-80 w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-a11 opacity-30 lg:block" />
 					{
 						// Middle
 					}
