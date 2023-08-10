@@ -50,9 +50,7 @@ export function ComingSoon() {
 	}
 
 	return (
-		<div className="relative grid grid-cols-default overflow-x-clip">
-			<div className="absolute bottom-0 right-0 h-96 w-96 translate-x-1/2 translate-y-1/2  rounded-full bg-violet-a3 blur-3xl" />
-			<div className="absolute left-0 top-0 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-a3 blur-3xl" />
+		<div className="grid grid-cols-default">
 			<div className="col-start-2">
 				<motion.h2
 					variants={container}

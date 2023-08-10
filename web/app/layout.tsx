@@ -86,8 +86,13 @@ export default function RootLayout({
 					{
 						// Middle
 					}
-					<div className="absolute -right-48 top-[62rem] h-96 w-96 rounded-full bg-sky-a3" />
-					<div className="absolute -left-48 top-[40rem] h-96 w-96 rounded-full bg-indigo-a4" />
+					<div className="absolute -right-48 top-[62rem] h-[50vw] w-[50vw] rounded-full bg-sky-a3 dark:opacity-30" />
+					<div className="absolute -left-48 top-[40rem] h-[50vw] w-[50vw] rounded-full bg-indigo-a4 dark:opacity-30" />
+					{
+						// Middle 2 (coming soon)
+					}
+					<div className="absolute bottom-[30rem] right-0 h-[50vw] w-[50vw] translate-x-1/2 translate-y-1/2 rounded-full bg-violet-a3  dark:opacity-30  sm:bottom-[44rem]" />
+					<div className="absolute bottom-[20rem] left-0 h-[50vw] w-[50vw] -translate-x-1/2 translate-y-1/2 rounded-full bg-blue-a3 dark:opacity-30  sm:bottom-[34rem]" />
 					{
 						// Bot
 					}
