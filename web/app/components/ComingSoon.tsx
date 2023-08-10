@@ -50,7 +50,9 @@ export function ComingSoon() {
 	}
 
 	return (
-		<div className="grid grid-cols-default">
+		<div className="relative grid grid-cols-default overflow-x-clip">
+			<div className="absolute bottom-0 right-0 h-96 w-96 translate-x-1/2 translate-y-1/2  rounded-full bg-violet-a3 blur-3xl" />
+			<div className="absolute left-0 top-0 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-a3 blur-3xl" />
 			<div className="col-start-2">
 				<motion.h2
 					variants={container}
@@ -67,7 +69,7 @@ export function ComingSoon() {
 						)
 					})}
 				</motion.h2>
-				<motion.div className="flex animate-text-gradient-15s flex-wrap justify-around gap-x-4 gap-y-6 bg-gradient-to-r from-sky-11 via-violet-11 to-sky-11 bg-[200%_auto] bg-clip-text text-2xl text-black-a1 sm:mb-[10vh] sm:gap-x-10 sm:gap-y-10 sm:text-4xl">
+				<motion.div className="flex animate-text-gradient-15s flex-wrap justify-around gap-x-4 gap-y-6 bg-gradient-to-r from-sky-11 via-violet-11 to-sky-11 bg-[200%_auto] bg-clip-text text-2xl text-black-a1 sm:gap-x-10 sm:gap-y-[5vh] sm:text-4xl">
 					<motion.animatePresence>
 						{items.map((v, ii) => {
 							return (

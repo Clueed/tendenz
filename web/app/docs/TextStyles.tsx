@@ -4,7 +4,7 @@ import { Balancer } from 'react-wrap-balancer'
 
 export function H2({ children }: { children: ReactNode }) {
 	return (
-		<h2 className="col-start-2 mt-5 text-3xl font-normal text-indigo-11 lg:text-center">
+		<h2 className="col-start-2 mt-10 text-4xl font-normal text-indigo-11 sm:mb-[2vh] sm:mt-[4vh] lg:text-center">
 			<Balancer>{children}</Balancer>
 		</h2>
 	)
@@ -12,16 +12,14 @@ export function H2({ children }: { children: ReactNode }) {
 
 export function H3({ children }: { children: ReactNode }) {
 	return (
-		<h3 className="col-start-2 mt-4 text-2xl font-normal text-indigo-11 lg:text-center">
+		<h3 className="col-start-2 mt-10 text-3xl font-normal text-indigo-11 sm:mb-[1vh] sm:mt-[6vh] lg:text-center">
 			<Balancer>{children}</Balancer>
 		</h3>
 	)
 }
 
 export function P({ children }: { children: ReactNode }) {
-	return (
-		<p className="col-start-2 mt-2 leading-loose text-slate-12">{children}</p>
-	)
+	return <p className="col-start-2 mt-5 text-slate-12">{children}</p>
 }
 
 export function UL({
@@ -32,7 +30,12 @@ export function UL({
 	className?: string
 }) {
 	return (
-		<ul className={classNames('ml-8 mt-2 list-inside list-disc', className)}>
+		<ul
+			className={classNames(
+				'col-start-2 ml-8 mt-2 list-inside list-disc text-slate-12',
+				className,
+			)}
+		>
 			{children}
 		</ul>
 	)
@@ -46,7 +49,12 @@ export function OL({
 	className?: string
 }) {
 	return (
-		<ol className={classNames('ml-8 mt-2 list-inside list-decimal', className)}>
+		<ol
+			className={classNames(
+				'col-start-2 ml-8 mt-2 list-inside list-decimal text-slate-12',
+				className,
+			)}
+		>
 			{children}
 		</ol>
 	)

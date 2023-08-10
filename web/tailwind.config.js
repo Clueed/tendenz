@@ -58,6 +58,7 @@ module.exports = {
 			},
 			gridTemplateColumns: {
 				default: '1fr min(640px, 90vw) 1fr',
+				'default-prosa': '1fr min(45ch, 90vw) 1fr',
 			},
 			animation: {
 				'text-gradient-15s': 'text-gradient 15s linear infinite',
