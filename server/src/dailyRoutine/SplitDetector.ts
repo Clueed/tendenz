@@ -58,12 +58,12 @@ export class SplitDetector {
 			return
 		}
 
-		for (const daily of dailys) {
-			// no await here on purpose
-			// this can be done async because is only depends on db
-			await this.updateEntries(ticker, daily)
-			this.updateStatus.push({ ticker, updated: true })
-		}
+		await Promise.all(
+			dailys.map(async daily => {
+				await this.updateEntries(ticker, daily)
+				this.updateStatus.push({ ticker, updated: true })
+			}),
+		)
 		console.groupEnd()
 	}
 
