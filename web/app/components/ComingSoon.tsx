@@ -1,4 +1,7 @@
+'use client'
 import * as motion from '@/app/lib/motionWrapper'
+import classNames from 'classnames'
+import { useEffect, useState } from 'react'
 
 export function ComingSoon() {
 	const items = [
@@ -6,13 +9,12 @@ export function ComingSoon() {
 		'global equities',
 		'commodities',
 		'foreign exchange',
-		'equity indexes',
+		'indexes',
 		'bonds',
 		'cryptocurrencies',
 		'notes',
 		'derivatives',
 		'interest rates',
-		'economic indicators',
 	]
 
 	const container = {
@@ -51,47 +53,78 @@ export function ComingSoon() {
 
 	return (
 		<div className="grid grid-cols-default">
-			<div className="col-start-2">
-				<motion.h2
-					variants={container}
-					initial="hidden"
-					whileInView="visible"
-					viewport={{ once: true }}
-					className="mb-16 text-center text-4xl font-normal text-indigo-12 sm:mb-20 sm:text-5xl"
-				>
-					{'coming soon...'.split('').map((c, i) => {
-						return (
-							<motion.span key={i} variants={child}>
-								{c === ' ' ? '\u00A0' : c}
-							</motion.span>
-						)
-					})}
-				</motion.h2>
-				<motion.div className="flex animate-text-gradient-15s flex-wrap justify-around gap-x-4 gap-y-6 bg-gradient-to-r from-sky-11 via-violet-11 to-sky-11 bg-[200%_auto] bg-clip-text text-2xl text-black-a1 sm:gap-x-10 sm:gap-y-[5vh] sm:text-4xl">
-					<motion.animatePresence>
-						{items.map((v, ii) => {
-							return (
-								<motion.div
-									key={v}
-									variants={container}
-									initial="hidden"
-									whileInView="visible"
-									viewport={{ once: true }}
-									transition={{ delay: 1 }}
-								>
-									{v.split('').map((c, i) => {
-										return (
-											<motion.span key={ii + i} variants={child}>
-												{c === ' ' ? '\u00A0' : c}
-											</motion.span>
-										)
-									})}
-								</motion.div>
-							)
-						})}
-					</motion.animatePresence>
-				</motion.div>
+			<div className="col-start-2 my-10 text-center text-5xl text-slate-a10">
+				coming soon...
 			</div>
+			<div className="col-start-2 flex flex-wrap items-start gap-5">
+				<div className="flex-shrink-0 flex-grow basis-72">
+					<h2 className="w-full">
+						<div className="text-right text-4xl">
+							aggregate across <br />
+						</div>
+
+						<Test01
+							items={items}
+							className="right-0 h-[2.5rem] w-full text-right text-4xl text-violet-11"
+						/>
+					</h2>
+				</div>
+				<div className="basis-80 text-lg">
+					<p>
+						Our method can seamlessly encompass a variety of markets delivering
+						only key movements at a glance.
+					</p>
+				</div>
+			</div>
+			<div className="col-start-2 mt-10 flex flex-wrap items-start gap-5">
+				<div className="basis-80 text-lg">
+					<p>
+						Spot changes over time by comparing with weekly and monthly data.
+					</p>
+				</div>
+				<div className="flex-shrink-0 flex-grow basis-72">
+					<h2 className="w-full">
+						<div className="text-left text-5xl text-sky-11">trends</div>
+					</h2>
+				</div>
+			</div>
+		</div>
+	)
+}
+
+const Test01 = ({
+	items,
+	className,
+}: {
+	items: string[]
+	className?: string
+}) => {
+	const [index, setIndex] = useState(0)
+
+	useEffect(() => {
+		const id = setInterval(() => {
+			setIndex(state => {
+				if (state >= items.length - 1) return 0
+				return state + 1
+			})
+		}, 3000)
+		return () => clearInterval(id)
+	}, [])
+
+	return (
+		<div className={classNames('relative', className)}>
+			<motion.animatePresence>
+				<motion.div
+					key={items[index]}
+					initial={{ x: 20, opacity: 0 }}
+					animate={{ x: 0, opacity: 1 }}
+					exit={{ x: -20, opacity: 0 }}
+					transition={{ ease: 'easeInOut' }}
+					className="absolute right-0"
+				>
+					{items[index]}
+				</motion.div>
+			</motion.animatePresence>
 		</div>
 	)
 }
