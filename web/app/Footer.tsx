@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export function Footer() {
 	return (
-		<footer className="grid grid-cols-default pb-5 pt-10">
+		<footer className="grid grid-cols-default pb-5 pt-10 sm:pt-[10vh]">
 			<div className="col-start-2 flex flex-col items-stretch gap-5">
 				<div className="flex justify-around text-slate-9">
 					<Link
