@@ -88,6 +88,10 @@ export default function RootLayout({
 					}
 					<div className="absolute -right-48 top-[62rem] h-96 w-96 rounded-full bg-sky-a3" />
 					<div className="absolute -left-48 top-[40rem] h-96 w-96 rounded-full bg-indigo-a4" />
+					{
+						// Bot
+					}
+					<div className="absolute bottom-0 left-1/2 h-80 w-[40rem] -translate-x-1/2 translate-y-1/2 rounded-full bg-slate-a3" />
 				</div>
 			</body>
 		</html>
