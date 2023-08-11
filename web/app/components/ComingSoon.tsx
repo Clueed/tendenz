@@ -52,7 +52,7 @@ export function ComingSoon() {
 	}
 
 	return (
-		<div className="grid grid-cols-default">
+		<div className="grid grid-cols-default lg:text-center">
 			<div className="col-start-2 my-5 text-4xl text-slate-a10">
 				coming soon...
 			</div>
@@ -106,7 +106,7 @@ const Test01 = ({
 				if (state >= items.length - 1) return 0
 				return state + 1
 			})
-		}, 3000)
+		}, 2000)
 		return () => clearInterval(id)
 	}, [])
 
@@ -119,10 +119,12 @@ const Test01 = ({
 					animate={{ x: 0, opacity: 1 }}
 					exit={{ x: -20, opacity: 0 }}
 					transition={{ ease: 'easeInOut' }}
-					className="absolute"
+					className="absolute inset-0 text-center"
 				>
-					<div className="absolute -inset-x-8 inset-y-0 -z-10 rounded-full bg-violet-a6 blur-xl" />
-					{items[index]}
+					<span className="relative">
+						<div className="absolute -inset-x-8 inset-y-0 -z-10 rounded-full bg-violet-a6 blur-xl" />
+						{items[index]}
+					</span>
 				</motion.div>
 			</motion.animatePresence>
 		</div>
