@@ -53,33 +53,35 @@ export function ComingSoon() {
 
 	return (
 		<div className="grid grid-cols-default">
-			<div className="col-start-2 my-10 text-5xl text-slate-a10">
+			<div className="col-start-2 my-5 text-4xl text-slate-a10">
 				coming soon...
 			</div>
 			<div className="col-start-2">
-				<h2 className="w-full">
-					<div className="text-4xl">
+				<h2 className="text-5xl">
+					<div className="text-slate-12">
 						aggregate across <br />
 					</div>
 
-					<Test01
-						items={items}
-						className=" h-[2.5rem] text-4xl text-violet-11"
-					/>
+					<Test01 items={items} className="h-[3rem] text-violet-11" />
 				</h2>
 
-				<div className="basis-80 text-lg">
+				<div className="mt-2 text-2xl text-slate-11">
 					<p>
 						Our method can seamlessly encompass a variety of markets delivering
 						only key movements at a glance.
 					</p>
 				</div>
 			</div>
-			<div className="col-start-2 mt-10">
-				<h2 className="w-full">
-					<div className="text-left text-4xl text-sky-11">trends</div>
+			<div className="col-start-2 mt-16">
+				<h2 className="text-5xl text-slate-a12">
+					discover{' '}
+					<span className="relative text-sky-11">
+						{' '}
+						<div className="absolute -inset-x-8 inset-y-0 -z-10 rounded-full bg-sky-a5 blur-xl" />
+						trends
+					</span>
 				</h2>
-				<div className="text-lg">
+				<div className="mt-2 text-2xl text-slate-11">
 					<p>
 						Spot changes over time by comparing with weekly and monthly data.
 					</p>
@@ -119,6 +121,7 @@ const Test01 = ({
 					transition={{ ease: 'easeInOut' }}
 					className="absolute"
 				>
+					<div className="absolute -inset-x-8 inset-y-0 -z-10 rounded-full bg-violet-a6 blur-xl" />
 					{items[index]}
 				</motion.div>
 			</motion.animatePresence>
