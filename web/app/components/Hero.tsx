@@ -34,7 +34,7 @@ export default function Hero() {
 								of market close prices <br />
 							</Balancer>
 						</div>
-						<div className="my-1 text-lg sm:text-xl">
+						<div className="my-1 sm:text-xl">
 							based on{' '}
 							<HeroPopOver
 								learnMore={false}

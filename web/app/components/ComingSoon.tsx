@@ -5,7 +5,7 @@ const items = [
 	'options',
 	'global equities',
 	'commodities',
-	'foreign exchange',
+	'forex',
 	'indexes',
 	'bonds',
 	'cryptocurrencies',
@@ -17,7 +17,7 @@ const items = [
 export function ComingSoon() {
 	return (
 		<div className="grid grid-cols-default lg:text-center">
-			<div className="col-start-2 text-4xl text-slate-a10">coming soon...</div>
+			<div className="col-start-2 text-3xl text-slate-a10">coming soon...</div>
 			<div className="col-start-2 mt-12">
 				<h2 className="text-5xl">
 					<div className="text-slate-12">
