@@ -15,7 +15,7 @@ export function HeroPopOver({
 	const color = 'indigo'
 	return (
 		<Pop
-			offset={0}
+			offset={2}
 			popoverColor={color}
 			popoverContent={
 				<div className="w-[calc(var(--radix-popover-trigger-width)*1.5)] text-base leading-relaxed">
