@@ -1,98 +1,56 @@
-import * as motion from '@/app/lib/motionWrapper'
+import { Balancer } from 'react-wrap-balancer'
+import { RotatingText } from './RotatingText'
+
+const items = [
+	'options',
+	'global equities',
+	'commodities',
+	'forex',
+	'indexes',
+	'bonds',
+	'cryptocurrencies',
+	'notes',
+	'derivatives',
+	'interest rates',
+]
 
 export function ComingSoon() {
-	const items = [
-		'options',
-		'global equities',
-		'commodities',
-		'foreign exchange',
-		'equity indexes',
-		'bonds',
-		'cryptocurrencies',
-		'notes',
-		'derivatives',
-		'interest rates',
-		'economic indicators',
-	]
-
-	const container = {
-		hidden: { opacity: 0 },
-		visible:
-			//i = Math.ceil(Math.random() * 50) / 25) =>
-
-			{
-				opacity: 1,
-				transition: { staggerChildren: 0.05, delayChildren: 0.1 },
-			},
-	}
-
-	const child = {
-		visible: {
-			opacity: 1,
-			x: 0,
-			y: 0,
-			transition: {
-				type: 'spring',
-				damping: 12,
-				stiffness: 100,
-			},
-		},
-		hidden: {
-			opacity: 0,
-			x: -20,
-			y: 10,
-			transition: {
-				type: 'spring',
-				damping: 12,
-				stiffness: 100,
-			},
-		},
-	}
-
 	return (
-		<div className="relative grid grid-cols-default overflow-x-clip">
-			<div className="absolute bottom-0 right-0 h-96 w-96 translate-x-1/2 translate-y-1/2  rounded-full bg-violet-a3 blur-3xl" />
-			<div className="absolute left-0 top-0 h-96 w-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-a3 blur-3xl" />
-			<div className="col-start-2">
-				<motion.h2
-					variants={container}
-					initial="hidden"
-					whileInView="visible"
-					viewport={{ once: true }}
-					className="mb-16 text-center text-4xl font-normal text-indigo-12 sm:mb-20 sm:text-5xl"
-				>
-					{'coming soon...'.split('').map((c, i) => {
-						return (
-							<motion.span key={i} variants={child}>
-								{c === ' ' ? '\u00A0' : c}
-							</motion.span>
-						)
-					})}
-				</motion.h2>
-				<motion.div className="flex animate-text-gradient-15s flex-wrap justify-around gap-x-4 gap-y-6 bg-gradient-to-r from-sky-11 via-violet-11 to-sky-11 bg-[200%_auto] bg-clip-text text-2xl text-black-a1 sm:gap-x-10 sm:gap-y-[5vh] sm:text-4xl">
-					<motion.animatePresence>
-						{items.map((v, ii) => {
-							return (
-								<motion.div
-									key={v}
-									variants={container}
-									initial="hidden"
-									whileInView="visible"
-									viewport={{ once: true }}
-									transition={{ delay: 1 }}
-								>
-									{v.split('').map((c, i) => {
-										return (
-											<motion.span key={ii + i} variants={child}>
-												{c === ' ' ? '\u00A0' : c}
-											</motion.span>
-										)
-									})}
-								</motion.div>
-							)
-						})}
-					</motion.animatePresence>
-				</motion.div>
+		<div className="grid grid-cols-default lg:text-center">
+			<div className="col-start-2 text-3xl text-slate-a10">coming soon...</div>
+			<div className="col-start-2 mt-12">
+				<h2 className="text-5xl">
+					<div className="text-slate-12">
+						aggregate across <br />
+					</div>
+
+					<RotatingText items={items} className="h-[3rem] text-violet-11" />
+				</h2>
+
+				<div className="mt-4 text-xl text-slate-11 sm:text-2xl">
+					<p>
+						<Balancer>
+							explore more markets effortlessly, catching key trends at a glance
+						</Balancer>
+					</p>
+				</div>
+			</div>
+			<div className="col-start-2 mt-24">
+				<h2 className="text-5xl text-slate-a12">
+					discover{' '}
+					<span className="relative text-sky-11">
+						{' '}
+						<div className="absolute -inset-x-8 inset-y-0 -z-10 rounded-full bg-sky-a5 blur-xl" />
+						trends
+					</span>
+				</h2>
+				<div className="mt-4 text-xl text-slate-11 sm:text-2xl">
+					<p>
+						<Balancer>
+							spot changes over time by comparing with weekly and monthly data
+						</Balancer>
+					</p>
+				</div>
 			</div>
 		</div>
 	)

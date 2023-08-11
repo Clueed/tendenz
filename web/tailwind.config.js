@@ -62,12 +62,20 @@ module.exports = {
 			},
 			animation: {
 				'text-gradient-15s': 'text-gradient 15s linear infinite',
+				slide: 'slide 4s linear infinite',
 			},
 			keyframes: {
 				'text-gradient': {
 					to: {
 						backgroundPosition: '200% center',
 					},
+				},
+				slide: {
+					'0%': { transform: 'translateY(100%)', opacity: 0.1 },
+					'15%': { transform: 'translateY(0)', opacity: 1 },
+					'30%': { transform: 'translateY(0)', opacity: 1 },
+					'45%': { transform: 'translateY(-100%)', opacity: 1 },
+					'100%': { transform: 'translateY(-100%)', opacity: 0.1 },
 				},
 			},
 		},
