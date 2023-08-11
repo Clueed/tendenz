@@ -31,7 +31,7 @@ export function SigmaCardHeader({
 			}
 		>
 			<div className="grid grid-cols-[_auto_min-content] items-center">
-				<div className="text-right text-2xl text-indigo-12">
+				<div className="text-right text-2xl leading-none text-indigo-12">
 					{formattedSigma}
 				</div>
 				<div className="ml-1 flex flex-col text-xl">
