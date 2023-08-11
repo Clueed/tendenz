@@ -73,7 +73,7 @@ export default function RootLayout({
 
 					<Footer />
 				</div>
-				<div className="noise2 absolute left-0 top-0 -z-30 h-full w-full opacity-5" />
+				<div className="noise2 absolute inset-0 -z-30 opacity-5" />
 				<div className="absolute top-0 -z-40 h-full w-full backdrop-blur-3xl"></div>
 				<div className="absolute top-0 -z-50 h-full w-full overflow-clip">
 					{
@@ -86,8 +86,8 @@ export default function RootLayout({
 					{
 						// Middle
 					}
-					<div className="absolute -right-48 top-[62rem] h-[50vw] w-[50vw] rounded-full bg-sky-a3 dark:opacity-30" />
-					<div className="absolute -left-48 top-[40rem] h-[50vw] w-[50vw] rounded-full bg-indigo-a4 dark:opacity-30" />
+					<div className="absolute right-0 top-[62rem] h-[50vw] w-[50vw] translate-x-1/2 rounded-full bg-sky-a3 dark:opacity-30" />
+					<div className="absolute left-0 top-[40rem] h-[50vw] w-[50vw] -translate-x-1/2 rounded-full bg-indigo-a4 dark:opacity-30" />
 					{
 						// Middle 2 (coming soon)
 					}
