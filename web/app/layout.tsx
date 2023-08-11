@@ -73,8 +73,8 @@ export default function RootLayout({
 
 					<Footer />
 				</div>
-				<div className="noise2 absolute inset-0 -z-30 opacity-5" />
-				<div className="absolute top-0 -z-40 h-full w-full backdrop-blur-3xl"></div>
+				<div className="noise2 absolute inset-0 -z-30 transform-gpu opacity-5" />
+				<div className="absolute top-0 -z-40 h-full w-full transform-gpu backdrop-blur-3xl"></div>
 				<div className="absolute top-0 -z-50 h-full w-full overflow-clip">
 					{
 						// Top

@@ -40,7 +40,7 @@ export function ComingSoon() {
 					discover{' '}
 					<span className="relative text-sky-11">
 						{' '}
-						<div className="absolute -inset-x-8 inset-y-0 -z-10 rounded-full bg-sky-a5 blur-xl" />
+						<div className="absolute -inset-x-8 inset-y-0 -z-10 transform-gpu rounded-full bg-sky-a5 blur-xl" />
 						trends
 					</span>
 				</h2>

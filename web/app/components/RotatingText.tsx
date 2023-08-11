@@ -41,7 +41,7 @@ export function RotatingText({
 					className="absolute inset-0 lg:text-center"
 				>
 					<span className="relative">
-						<div className="absolute -inset-x-8 inset-y-0 -z-10 rounded-full bg-violet-a6 blur-xl" />
+						<div className="absolute -inset-x-8 inset-y-0 -z-10 transform-gpu rounded-full bg-violet-a6 blur-xl" />
 						{items[index]}
 					</span>
 				</motion.div>
