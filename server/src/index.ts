@@ -128,7 +128,7 @@ export interface tendenzApiSigmaYesterday {
 	sigma: number
 	absSigma: number
 	weight: number
-	marketCap: number
+	marketCap: number | null
 	stdLogReturn: number
 	meanLogReturn: number
 	sampleSize: number
