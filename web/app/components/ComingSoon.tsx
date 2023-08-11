@@ -1,78 +1,46 @@
 'use client'
 import * as motion from '@/app/lib/motionWrapper'
 import classNames from 'classnames'
-import { useEffect, useState } from 'react'
+import { useInView } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { Balancer } from 'react-wrap-balancer'
+
+const items = [
+	'options',
+	'global equities',
+	'commodities',
+	'foreign exchange',
+	'indexes',
+	'bonds',
+	'cryptocurrencies',
+	'notes',
+	'derivatives',
+	'interest rates',
+]
 
 export function ComingSoon() {
-	const items = [
-		'options',
-		'global equities',
-		'commodities',
-		'foreign exchange',
-		'indexes',
-		'bonds',
-		'cryptocurrencies',
-		'notes',
-		'derivatives',
-		'interest rates',
-	]
-
-	const container = {
-		hidden: { opacity: 0 },
-		visible:
-			//i = Math.ceil(Math.random() * 50) / 25) =>
-
-			{
-				opacity: 1,
-				transition: { staggerChildren: 0.05, delayChildren: 0.1 },
-			},
-	}
-
-	const child = {
-		visible: {
-			opacity: 1,
-			x: 0,
-			y: 0,
-			transition: {
-				type: 'spring',
-				damping: 12,
-				stiffness: 100,
-			},
-		},
-		hidden: {
-			opacity: 0,
-			x: -20,
-			y: 10,
-			transition: {
-				type: 'spring',
-				damping: 12,
-				stiffness: 100,
-			},
-		},
-	}
-
 	return (
 		<div className="grid grid-cols-default lg:text-center">
-			<div className="col-start-2 my-5 text-4xl text-slate-a10">
-				coming soon...
-			</div>
-			<div className="col-start-2">
+			<div className="col-start-2 text-4xl text-slate-a10">coming soon...</div>
+			<div className="col-start-2 mt-12">
 				<h2 className="text-5xl">
 					<div className="text-slate-12">
 						aggregate across <br />
 					</div>
 
-					<Test01 items={items} className="h-[3rem] text-violet-11" />
+					<RotatingText items={items} className="h-[3rem] text-violet-11" />
 				</h2>
 
-				<div className="mt-2 text-2xl text-slate-11">
+				<div className="mt-4 text-xl text-slate-11 sm:text-2xl">
 					<p>
-						Our method can seamlessly encompass a variety of markets delivering
-						only key movements at a glance.
+						<Balancer>
+							Our method can seamlessly encompass a variety of markets
+							delivering only key movements at a glance.
+						</Balancer>
 					</p>
 				</div>
 			</div>
-			<div className="col-start-2 mt-16">
+			<div className="col-start-2 mt-24">
 				<h2 className="text-5xl text-slate-a12">
 					discover{' '}
 					<span className="relative text-sky-11">
@@ -81,9 +49,11 @@ export function ComingSoon() {
 						trends
 					</span>
 				</h2>
-				<div className="mt-2 text-2xl text-slate-11">
+				<div className="mt-4 text-xl text-slate-11 sm:text-2xl">
 					<p>
-						Spot changes over time by comparing with weekly and monthly data.
+						<Balancer>
+							Spot changes over time by comparing with weekly and monthly data.
+						</Balancer>
 					</p>
 				</div>
 			</div>
@@ -91,16 +61,22 @@ export function ComingSoon() {
 	)
 }
 
-const Test01 = ({
+function RotatingText({
 	items,
 	className,
 }: {
 	items: string[]
 	className?: string
-}) => {
+}) {
 	const [index, setIndex] = useState(0)
 
+	const ref = useRef(null)
+	const isInView = useInView(ref)
+
 	useEffect(() => {
+		if (!isInView) {
+			return
+		}
 		const id = setInterval(() => {
 			setIndex(state => {
 				if (state >= items.length - 1) return 0
@@ -108,10 +84,10 @@ const Test01 = ({
 			})
 		}, 2000)
 		return () => clearInterval(id)
-	}, [])
+	}, [isInView, items.length])
 
 	return (
-		<div className={classNames('relative', className)}>
+		<div className={classNames('relative', className)} ref={ref}>
 			<motion.animatePresence>
 				<motion.div
 					key={items[index]}
@@ -119,7 +95,7 @@ const Test01 = ({
 					animate={{ x: 0, opacity: 1 }}
 					exit={{ x: -20, opacity: 0 }}
 					transition={{ ease: 'easeInOut' }}
-					className="absolute inset-0 text-center"
+					className="absolute inset-0 lg:text-center"
 				>
 					<span className="relative">
 						<div className="absolute -inset-x-8 inset-y-0 -z-10 rounded-full bg-violet-a6 blur-xl" />
