@@ -30,7 +30,7 @@ export function ComingSoon() {
 				<div className="mt-4 text-xl text-slate-11 sm:text-2xl">
 					<p>
 						<Balancer>
-							scale to more markets delivering only key movements at a glance.
+							explore more markets effortlessly, catching key trends at a glance
 						</Balancer>
 					</p>
 				</div>
@@ -47,7 +47,7 @@ export function ComingSoon() {
 				<div className="mt-4 text-xl text-slate-11 sm:text-2xl">
 					<p>
 						<Balancer>
-							spot changes over time by comparing with weekly and monthly data.
+							spot changes over time by comparing with weekly and monthly data
 						</Balancer>
 					</p>
 				</div>
