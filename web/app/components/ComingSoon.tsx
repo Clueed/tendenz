@@ -53,22 +53,21 @@ export function ComingSoon() {
 
 	return (
 		<div className="grid grid-cols-default">
-			<div className="col-start-2 my-10 text-center text-5xl text-slate-a10">
+			<div className="col-start-2 my-10 text-5xl text-slate-a10">
 				coming soon...
 			</div>
-			<div className="col-start-2 flex flex-wrap items-start gap-5">
-				<div className="flex-shrink-0 flex-grow basis-72">
-					<h2 className="w-full">
-						<div className="text-right text-4xl">
-							aggregate across <br />
-						</div>
+			<div className="col-start-2">
+				<h2 className="w-full">
+					<div className="text-4xl">
+						aggregate across <br />
+					</div>
 
-						<Test01
-							items={items}
-							className="right-0 h-[2.5rem] w-full text-right text-4xl text-violet-11"
-						/>
-					</h2>
-				</div>
+					<Test01
+						items={items}
+						className=" h-[2.5rem] text-4xl text-violet-11"
+					/>
+				</h2>
+
 				<div className="basis-80 text-lg">
 					<p>
 						Our method can seamlessly encompass a variety of markets delivering
@@ -76,16 +75,14 @@ export function ComingSoon() {
 					</p>
 				</div>
 			</div>
-			<div className="col-start-2 mt-10 flex flex-wrap items-start gap-5">
-				<div className="basis-80 text-lg">
+			<div className="col-start-2 mt-10">
+				<h2 className="w-full">
+					<div className="text-left text-4xl text-sky-11">trends</div>
+				</h2>
+				<div className="text-lg">
 					<p>
 						Spot changes over time by comparing with weekly and monthly data.
 					</p>
-				</div>
-				<div className="flex-shrink-0 flex-grow basis-72">
-					<h2 className="w-full">
-						<div className="text-left text-5xl text-sky-11">trends</div>
-					</h2>
 				</div>
 			</div>
 		</div>
@@ -120,7 +117,7 @@ const Test01 = ({
 					animate={{ x: 0, opacity: 1 }}
 					exit={{ x: -20, opacity: 0 }}
 					transition={{ ease: 'easeInOut' }}
-					className="absolute right-0"
+					className="absolute"
 				>
 					{items[index]}
 				</motion.div>
