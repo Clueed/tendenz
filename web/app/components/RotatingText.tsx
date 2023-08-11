@@ -13,7 +13,7 @@ export function RotatingText({
 }) {
 	const [index, setIndex] = useState(0)
 
-	const ref = useRef(null)
+	const ref = useRef<HTMLDivElement>(null)
 	const isInView = useInView(ref)
 
 	useEffect(() => {
