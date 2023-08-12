@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client'
-import { AssertionError } from 'assert'
 import { DateTime } from 'luxon'
+import { match } from 'ts-pattern'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { SigmaMath } from './SigmaMath.js'
 
@@ -12,42 +12,43 @@ export class SigmaCalculator {
 		const dailys = await this.db.getTickersWithNameOnDate(mostRecentDate)
 
 		for (const { ticker, name } of dailys) {
-			let sigmaRow: Prisma.SigmaUsStocksYesterdayCreateInput
-			try {
-				sigmaRow = await this.constructSigmaRow(ticker, name)
-			} catch (e) {
-				if (e instanceof AssertionError) {
-					console.warn(e.message)
-					continue
-				} else {
-					console.error(e)
-					continue
-				}
-			}
-			this.db.createSigmaYesterday(sigmaRow)
+			const result = await this.constructSigmaRow(ticker, name)
+
+			match(result)
+				.with({ success: true }, ({ data: sigmaRow }) =>
+					this.db.createSigmaYesterday(sigmaRow),
+				)
+				.with({ success: false }, ({ errorCode }) =>
+					console.log('errorCode :>> ', errorCode),
+				)
+				.exhaustive()
 		}
 	}
 
 	private async constructSigmaRow(
 		ticker: string,
 		name: string | undefined,
-	): Promise<Prisma.SigmaUsStocksYesterdayCreateInput> {
+	): Promise<
+		| { success: false; errorCode: 'NotEnoughDataPoints' | 'NoMarketCap' }
+		| { success: true; data: Prisma.SigmaUsStocksYesterdayCreateInput }
+	> {
 		const now = DateTime.now()
 		const earliestDate = now.minus({ year: 2 })
 		const dailys = await this.db.getDailyInDateRange(
 			ticker,
-			now.toJSDate(),
 			earliestDate.toJSDate(),
+			now.toJSDate(),
 		)
 
 		const minPopulation = 30
 		if (dailys.length < minPopulation) {
-			throw new Error(
-				`${ticker} does not have enough data points (${dailys.length} < ${minPopulation}). Skipping...`,
-			)
+			return { success: false, errorCode: 'NotEnoughDataPoints' }
 		}
 
 		const mostRecentMarketCap = dailys.find(daily => daily.marketCap)?.marketCap
+		if (!mostRecentMarketCap) {
+			return { success: false, errorCode: 'NoMarketCap' }
+		}
 
 		const sortedDailys = SigmaMath.sortByDate(dailys, 'asc')
 		const LogReturns = SigmaMath.calcLogReturnsAsc(sortedDailys)
@@ -62,21 +63,24 @@ export class SigmaCalculator {
 		)
 
 		return {
-			ticker,
-			name,
-			sigma,
-			absSigma: Math.abs(sigma),
-			stdLogReturn: stdev,
-			meanLogReturn: mean,
-			sampleSize: n,
-			weight: 0,
-			lastLogReturn: lastLogReturn.logReturn,
-			lastClose: lastLogReturn.close,
-			lastDate: lastLogReturn.date,
-			secondLastLogReturn: secondLastLogReturn.logReturn,
-			secondLastClose: secondLastLogReturn.close,
-			secondLastDate: secondLastLogReturn.date,
-			marketCap: mostRecentMarketCap,
+			success: true,
+			data: {
+				ticker,
+				name,
+				sigma,
+				absSigma: Math.abs(sigma),
+				stdLogReturn: stdev,
+				meanLogReturn: mean,
+				sampleSize: n,
+				weight: 0,
+				lastLogReturn: lastLogReturn.logReturn,
+				lastClose: lastLogReturn.close,
+				lastDate: lastLogReturn.date,
+				secondLastLogReturn: secondLastLogReturn.logReturn,
+				secondLastClose: secondLastLogReturn.close,
+				secondLastDate: secondLastLogReturn.date,
+				marketCap: mostRecentMarketCap,
+			},
 		}
 	}
 }

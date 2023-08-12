@@ -10,7 +10,9 @@
 
     "strict": true /* Enable all strict type-checking options. */,
     "skipLibCheck": true,
-    "sourceMap": true
-  }, 
-  "include": ["**/*.ts"]
+    "sourceMap": true,
+    "strictNullChecks": true
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["**/*.config.ts"]
 }
