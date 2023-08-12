@@ -11,18 +11,47 @@ export class SigmaCalculator {
 		const mostRecentDate = await this.db.getMostRecentDate()
 		const dailys = await this.db.getTickersWithNameOnDate(mostRecentDate)
 
-		for (const { ticker, name } of dailys) {
+		const results: (
+			| { ticker: string; success: true }
+			| { ticker: string; success: false; errorCode: string }
+		)[] = []
+		for (const { ticker, name } of dailys.slice(0, 50)) {
 			const result = await this.constructSigmaRow(ticker, name)
 
 			match(result)
-				.with({ success: true }, ({ data: sigmaRow }) =>
-					this.db.createSigmaYesterday(sigmaRow),
-				)
-				.with({ success: false }, ({ errorCode }) =>
-					console.log('errorCode :>> ', errorCode),
-				)
+				.with({ success: true }, async ({ success, data: sigmaRow }) => {
+					//await this.db.createSigmaYesterday(sigmaRow)
+					results.push({ ticker, success })
+				})
+				.with({ success: false }, ({ success, errorCode }) => {
+					results.push({ ticker, success, errorCode })
+				})
 				.exhaustive()
 		}
+
+		const successResults = results.filter(({ success }) => success === true)
+		const failResults = results.filter(({ success }) => success === false) as {
+			ticker: string
+			success: false
+			errorCode: string
+		}[]
+
+		const groupedByErrorCode = failResults.reduce(
+			(group, result) => {
+				const { errorCode } = result
+				group[errorCode] = group[errorCode] ?? []
+				group[errorCode].push(result)
+				return group
+			},
+			<Record<string, (typeof results)[number][]>>{},
+		)
+
+		console.info(
+			`Calcuted sigma for ${successResults.length} out of ${dailys.length} tickers`,
+		)
+		Object.keys(groupedByErrorCode).map(key => {
+			console.info(`Errors: ${groupedByErrorCode[key].length}x ${key}`)
+		})
 	}
 
 	private async constructSigmaRow(

@@ -30,7 +30,7 @@ const sigmaCalculator = new SigmaCalculator(db)
 try {
 	//await reverseIncrementDailyUpdate(db, stocksApi)
 	//await splitDetector.run()
-	await db.clearSigma()
+	//await db.clearSigma()
 	await sigmaCalculator.run()
 } catch (e) {
 	console.error(e)
