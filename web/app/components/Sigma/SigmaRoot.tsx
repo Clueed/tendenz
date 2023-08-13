@@ -50,11 +50,9 @@ export default function SigmaList({
 					<h3 className="text-base leading-none text-slate-11">
 						United States
 					</h3>
-
 					<MarketCapFilterLabel />
 				</div>
 			</div>
-
 			<SigmaAccordion minMarketCap={minMarketCap} />
 		</div>
 	)

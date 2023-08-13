@@ -48,7 +48,7 @@ export default function docs() {
 					<LI>Plug the most recent return X into the Z-Score formula.</LI>
 				</OL>
 
-				<div className="col-start-2 flex justify-center rounded-lg bg-slate-a3 px-5 py-1 leading-normal">
+				<div className="col-start-2 my-1 flex justify-center rounded-lg bg-slate-a3 px-5 py-1 leading-normal">
 					z-score = (X - mean) / standard deviation
 				</div>
 			</section>
@@ -70,15 +70,19 @@ export default function docs() {
 						<B>weighted shares outstanding:</B> When available, we use weighted
 						shares outstanding as the primary basis for calculating market
 						capitalization. Weighted shares outstanding consider different share
-						classes and their respective ownership percentages, providing a more
-						comprehensive and realistic market cap figure.
+						classes and their respective ownership percentages and provide,
+						thus, a more comprehensive and realistic market cap figure.
 					</LI>
 					<LI>
 						<B>share class shares outstanding:</B> If weighted shares
 						outstanding data is not available, we use the share class shares
-						outstanding of the respective share class. This approach helps us
-						account for the differences in market values and voting rights that
-						may exist between various share classes.
+						outstanding of the respective share class. This metric exclusively
+						represents the number of shares belonging to the specific share
+						class under consideration and does not take into account shares from
+						other share classes associated with the same company or asset. In
+						cases where there are no other types of share classes, the share
+						class shares outstanding will align with the weighted shares
+						outstanding figure.
 					</LI>
 					<LI>
 						<B>&quot;as-is&quot; market capitalization:</B> In situations where
@@ -96,10 +100,8 @@ export default function docs() {
 					capitalization figures may become stale or outdated over time. Market
 					cap values can fluctuate frequently based on changes in stock prices
 					and the number of outstanding shares. While we strive to maintain
-					accurate and up-to-date data, users should be aware that market cap
-					figures may not always reflect real-time market conditions. It&apos;s
-					advisable to verify the currency of the data when making investment
-					decisions or conducting financial analysis.
+					accurate and up-to-date data, you should be aware that market cap
+					figures may not always reflect real-time market conditions.
 				</P>
 			</section>
 		</>
