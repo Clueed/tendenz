@@ -1,8 +1,8 @@
-import { Prisma } from '@prisma/client'
+import { Prisma, UsStockDaily } from '@prisma/client'
 import { DateTime } from 'luxon'
 import { match } from 'ts-pattern'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
-import { SigmaMath } from './SigmaMath.js'
+import { DataPoints, SigmaMath } from './SigmaMath.js'
 
 export class SigmaCalculator {
 	constructor(private db: DatabaseApi) {}
@@ -17,7 +17,7 @@ export class SigmaCalculator {
 
 				return match(result)
 					.with({ success: true }, async ({ success, data: sigmaRow }) => {
-						//await this.db.createSigmaYesterday(sigmaRow)
+						await this.db.createSigmaYesterday(sigmaRow)
 						return { ticker, success }
 					})
 					.with({ success: false }, ({ success, errorCode }) => {
@@ -33,10 +33,10 @@ export class SigmaCalculator {
 	private async constructSigmaRow(
 		ticker: string,
 		name: string | undefined,
+		now = DateTime.now(),
 	): Promise<SigmaCalcResult> {
-		const now = DateTime.now()
 		const earliestDate = now.minus({ year: 2 })
-		const dailys = await this.db.getDailyInDateRange(
+		const dailys: UsStockDaily[] = await this.db.getDailyInDateRange(
 			ticker,
 			earliestDate.toJSDate(),
 			now.toJSDate(),
@@ -52,17 +52,14 @@ export class SigmaCalculator {
 			return { success: false, errorCode: 'NoMarketCap' }
 		}
 
-		const sortedDailys = SigmaMath.sortByDate(dailys, 'asc')
-		const LogReturns = SigmaMath.calcLogReturnsAsc(sortedDailys)
-
-		const sortedLogReturns = SigmaMath.sortByDate(LogReturns, 'desc')
-		const [lastLogReturn, secondLastLogReturn, ...logReturnPopulation] =
-			sortedLogReturns
-
-		const { sigma, n, stdev, mean } = SigmaMath.calcSigma(
-			logReturnPopulation.map(r => r.logReturn),
-			lastLogReturn.logReturn,
-		)
+		const dataPoints: DataPoints[] = dailys.map(({ close, date }) => {
+			return {
+				close,
+				date,
+			}
+		})
+		const { sigma, n, stdev, mean, last, secondLast } =
+			SigmaCalculator.calculate(dataPoints)
 
 		return {
 			success: true,
@@ -75,16 +72,41 @@ export class SigmaCalculator {
 				meanLogReturn: mean,
 				sampleSize: n,
 				weight: 0,
-				lastLogReturn: lastLogReturn.logReturn,
-				lastClose: lastLogReturn.close,
-				lastDate: lastLogReturn.date,
-				secondLastLogReturn: secondLastLogReturn.logReturn,
-				secondLastClose: secondLastLogReturn.close,
-				secondLastDate: secondLastLogReturn.date,
+				lastLogReturn: last.logReturn,
+				lastClose: last.close,
+				lastDate: last.date,
+				secondLastLogReturn: secondLast.logReturn,
+				secondLastClose: secondLast.close,
+				secondLastDate: secondLast.date,
 				marketCap: mostRecentMarketCap,
 			},
 		}
 	}
+
+	static calculate(dataPoints: DataPoints[]) {
+		const sortedDailys = SigmaMath.sortByDate(dataPoints, 'asc')
+		const LogReturns = SigmaMath.calcLogReturnsAsc(sortedDailys)
+
+		const sortedLogReturns = SigmaMath.sortByDate(LogReturns, 'desc')
+		const [lastLogReturn, ...logReturnPopulation] = sortedLogReturns
+
+		const { sigma, n, stdev, mean } = SigmaMath.calcSigma(
+			logReturnPopulation.map(r => r.logReturn),
+			lastLogReturn.logReturn,
+		)
+
+		const secondLastLogReturn = sortedLogReturns[0]
+
+		return {
+			sigma,
+			n,
+			stdev,
+			mean,
+			last: lastLogReturn,
+			secondLast: secondLastLogReturn,
+		}
+	}
+
 	private static logResults(
 		results: (
 			| {
