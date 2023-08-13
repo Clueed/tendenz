@@ -1,22 +1,19 @@
 import { describe, expect, it } from '@jest/globals'
-import { SigmaMath, getDailyStockReturn } from '../dailyRoutine/SigmaMath.js'
+import { DataPoints, SigmaMath } from '../dailyRoutine/SigmaMath.js'
 
 describe('SigmaMath', () => {
 	describe('sortByDateDesc', () => {
 		it('should sort data points by date in descending order', () => {
-			const dataPoints: getDailyStockReturn[] = [
+			const dataPoints: DataPoints[] = [
 				{
-					marketCap: 1000000,
 					close: 50,
 					date: new Date('2023-08-01'),
 				},
 				{
-					marketCap: 1100000,
 					close: 48,
 					date: new Date('2023-08-03'),
 				},
 				{
-					marketCap: 900000,
 					close: 55,
 					date: new Date('2023-08-02'),
 				},
@@ -26,17 +23,14 @@ describe('SigmaMath', () => {
 
 			expect(sortedData).toEqual([
 				{
-					marketCap: 1100000,
 					close: 48,
 					date: new Date('2023-08-03'),
 				},
 				{
-					marketCap: 900000,
 					close: 55,
 					date: new Date('2023-08-02'),
 				},
 				{
-					marketCap: 1000000,
 					close: 50,
 					date: new Date('2023-08-01'),
 				},
@@ -44,19 +38,16 @@ describe('SigmaMath', () => {
 		})
 
 		it('should sort data points by date in ascending order', () => {
-			const dataPoints: getDailyStockReturn[] = [
+			const dataPoints: DataPoints[] = [
 				{
-					marketCap: 1100000,
 					close: 48,
 					date: new Date('2023-08-03'),
 				},
 				{
-					marketCap: 1000000,
 					close: 50,
 					date: new Date('2023-08-01'),
 				},
 				{
-					marketCap: 900000,
 					close: 55,
 					date: new Date('2023-08-02'),
 				},
@@ -66,17 +57,14 @@ describe('SigmaMath', () => {
 
 			expect(sortedData).toEqual([
 				{
-					marketCap: 1000000,
 					close: 50,
 					date: new Date('2023-08-01'),
 				},
 				{
-					marketCap: 900000,
 					close: 55,
 					date: new Date('2023-08-02'),
 				},
 				{
-					marketCap: 1100000,
 					close: 48,
 					date: new Date('2023-08-03'),
 				},
@@ -84,7 +72,7 @@ describe('SigmaMath', () => {
 		})
 
 		it('should handle an empty array', () => {
-			const emptyArray: getDailyStockReturn[] = []
+			const emptyArray: DataPoints[] = []
 
 			const sortedDataAsc = SigmaMath.sortByDate(emptyArray, 'desc')
 			const sortedDataDesc = SigmaMath.sortByDate(emptyArray, 'asc')
@@ -96,21 +84,19 @@ describe('SigmaMath', () => {
 
 	describe('calcLogReturnsAsc', () => {
 		it('calculates log returns correctly', () => {
-			const dataPoints: getDailyStockReturn[] = [
-				{ marketCap: 100, close: 10, date: new Date('2023-08-01') },
-				{ marketCap: 120, close: 12, date: new Date('2023-08-02') },
-				{ marketCap: 130, close: 11, date: new Date('2023-08-03') },
+			const dataPoints = [
+				{ close: 10, date: new Date('2023-08-01') },
+				{ close: 12, date: new Date('2023-08-02') },
+				{ close: 11, date: new Date('2023-08-03') },
 			]
 
 			const expectedLogReturns = [
 				{
-					marketCap: 120,
 					close: 12,
 					date: new Date('2023-08-02'),
 					logReturn: Math.log(12 / 10),
 				},
 				{
-					marketCap: 130,
 					close: 11,
 					date: new Date('2023-08-03'),
 					logReturn: Math.log(11 / 12),

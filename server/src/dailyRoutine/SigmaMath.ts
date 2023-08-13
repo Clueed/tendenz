@@ -1,10 +1,9 @@
-export interface getDailyStockReturn {
-	marketCap: number | null
+export interface DataPoints {
 	close: number
 	date: Date
 }
 
-export interface LogReturns extends getDailyStockReturn {
+export interface LogReturns extends DataPoints {
 	logReturn: number
 }
 
@@ -34,9 +33,7 @@ export class SigmaMath {
 		return Math.sqrt(sumOfSquaredDifferences / data.length)
 	}
 
-	static calcLogReturnsAsc(
-		sortedDataPoints: getDailyStockReturn[],
-	): LogReturns[] {
+	static calcLogReturnsAsc(sortedDataPoints: DataPoints[]): LogReturns[] {
 		const dataPointsWithLogReturn: LogReturns[] = []
 
 		for (let i = 1; i < sortedDataPoints.length; i++) {
@@ -52,7 +49,7 @@ export class SigmaMath {
 		return dataPointsWithLogReturn
 	}
 
-	static sortByDate<T extends getDailyStockReturn>(
+	static sortByDate<T extends DataPoints>(
 		dataPoints: T[],
 		direction: 'asc' | 'desc',
 	): T[] {
