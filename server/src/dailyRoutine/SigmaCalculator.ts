@@ -12,26 +12,28 @@ export class SigmaCalculator {
 		const dailys = await this.db.getTickersWithNameOnDate(mostRecentDate)
 
 		const limit = pLimit(2)
-
-		const promises = dailys.slice(0, 500).map(({ ticker, name }) =>
-			limit(async () => {
-				const result = await this.constructSigmaRow(ticker, name)
-
-				return match(result)
-					.with({ success: true }, async ({ success, data: sigmaRow }) => {
-						//await this.db.createSigmaYesterday(sigmaRow)
-						return { ticker, success }
-					})
-					.with({ success: false }, ({ success, errorCode }) => {
-						return { ticker, success, errorCode }
-					})
-					.exhaustive()
-			}),
+		const results = await Promise.all(
+			dailys.map(({ ticker, name }) =>
+				limit(async () => {
+					const result = await this.constructSigmaRow(ticker, name)
+					return await this.handleSigmaResult(result, ticker)
+				}),
+			),
 		)
 
-		const results = await Promise.all(promises)
-
 		SigmaCalculator.logResults(results, dailys.length)
+	}
+
+	private async handleSigmaResult(result: SigmaCalcResult, ticker: string) {
+		return match(result)
+			.with({ success: true }, async ({ success, data: sigmaRow }) => {
+				//await this.db.createSigmaYesterday(sigmaRow)
+				return { ticker, success }
+			})
+			.with({ success: false }, ({ success, errorCode }) => {
+				return { ticker, success, errorCode }
+			})
+			.exhaustive()
 	}
 
 	private async constructSigmaRow(

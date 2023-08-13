@@ -2,14 +2,14 @@
   "name": "tendenz-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "exports": "./src/index.js",
   "scripts": {
     "dev": "node --watch --loader ts-node/esm --inspect --trace-uncaught ./src/index.ts",
     "dev-prisma-migrate": "prisma migrate dev --name init",
     "typecheck": "tsc --noEmit",
     "build": "tsc --sourceMap false",
     "format": "prettier --write .",
-    "test": "jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "keywords": [],
   "author": "",
