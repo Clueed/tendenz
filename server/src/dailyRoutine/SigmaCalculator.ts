@@ -13,7 +13,7 @@ export class SigmaCalculator {
 
 		const results: (
 			| { ticker: string; success: true }
-			| { ticker: string; success: false; errorCode: string }
+			| { ticker: string; success: false; errorCode: errorCodes }
 		)[] = []
 		for (const { ticker, name } of dailys.slice(0, 50)) {
 			const result = await this.constructSigmaRow(ticker, name)
@@ -33,7 +33,7 @@ export class SigmaCalculator {
 		const failResults = results.filter(({ success }) => success === false) as {
 			ticker: string
 			success: false
-			errorCode: string
+			errorCode: errorCodes
 		}[]
 
 		const groupedByErrorCode = failResults.reduce(
@@ -57,10 +57,7 @@ export class SigmaCalculator {
 	private async constructSigmaRow(
 		ticker: string,
 		name: string | undefined,
-	): Promise<
-		| { success: false; errorCode: 'NotEnoughDataPoints' | 'NoMarketCap' }
-		| { success: true; data: Prisma.SigmaUsStocksYesterdayCreateInput }
-	> {
+	): Promise<SigmaRowResult> {
 		const now = DateTime.now()
 		const earliestDate = now.minus({ year: 2 })
 		const dailys = await this.db.getDailyInDateRange(
@@ -71,12 +68,12 @@ export class SigmaCalculator {
 
 		const minPopulation = 30
 		if (dailys.length < minPopulation) {
-			return { success: false, errorCode: 'NotEnoughDataPoints' }
+			return { success: false, errorCode: errorCodes.NotEnoughDataPoints }
 		}
 
 		const mostRecentMarketCap = dailys.find(daily => daily.marketCap)?.marketCap
 		if (!mostRecentMarketCap) {
-			return { success: false, errorCode: 'NoMarketCap' }
+			return { success: false, errorCode: errorCodes.NoMarketCap }
 		}
 
 		const sortedDailys = SigmaMath.sortByDate(dailys, 'asc')
@@ -113,3 +110,9 @@ export class SigmaCalculator {
 		}
 	}
 }
+
+type errorCodes = 'NotEnoughDataPoints' | 'NoMarketCap'
+
+type SigmaRowResult =
+	| { success: false; errorCode: errorCodes }
+	| { success: true; data: Prisma.SigmaUsStocksYesterdayCreateInput }
