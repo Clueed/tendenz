@@ -4,12 +4,12 @@ import { HeroPopOver } from './HeroPopOver'
 export default function Hero() {
 	return (
 		<div className="grid grid-cols-default">
-			<div className="col-start-2 lg:text-center ">
-				<h1 className="text-4xl text-indigo-a12 sm:text-6xl">
+			<div className="col-start-2 lg:text-center">
+				<h1 className="text-5xl text-indigo-a12 sm:text-6xl">
 					objective insight into financial markets
 				</h1>
 
-				<div className="my-2 text-xl sm:text-2xl">
+				<div className="my-2 text-xl text-slate-11 sm:text-2xl">
 					<Balancer>
 						<HeroPopOver
 							learnMore="/docs#statistical-significants"
@@ -31,7 +31,7 @@ export default function Hero() {
 						of market close prices <br />
 					</Balancer>
 				</div>
-				<div className="my-1 sm:text-xl">
+				<div className="my-1 text-slate-11 sm:text-xl">
 					based on{' '}
 					<HeroPopOver
 						learnMore={false}
