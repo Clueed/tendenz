@@ -1,9 +1,9 @@
 import { Prisma, UsStockDaily } from '@prisma/client'
 import { DateTime } from 'luxon'
+import pLimit from 'p-limit'
 import { match } from 'ts-pattern'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { DataPoints, SigmaMath } from './SigmaMath.js'
-
 export class SigmaCalculator {
 	constructor(private db: DatabaseApi) {}
 
@@ -11,13 +11,15 @@ export class SigmaCalculator {
 		const mostRecentDate = await this.db.getMostRecentDate()
 		const dailys = await this.db.getTickersWithNameOnDate(mostRecentDate)
 
-		const results = await Promise.all(
-			dailys.map(async ({ ticker, name }) => {
+		const limit = pLimit(2)
+
+		const promises = dailys.slice(0, 500).map(({ ticker, name }) =>
+			limit(async () => {
 				const result = await this.constructSigmaRow(ticker, name)
 
 				return match(result)
 					.with({ success: true }, async ({ success, data: sigmaRow }) => {
-						await this.db.createSigmaYesterday(sigmaRow)
+						//await this.db.createSigmaYesterday(sigmaRow)
 						return { ticker, success }
 					})
 					.with({ success: false }, ({ success, errorCode }) => {
@@ -26,6 +28,8 @@ export class SigmaCalculator {
 					.exhaustive()
 			}),
 		)
+
+		const results = await Promise.all(promises)
 
 		SigmaCalculator.logResults(results, dailys.length)
 	}
