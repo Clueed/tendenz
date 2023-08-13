@@ -5,11 +5,11 @@ export default function Hero() {
 	return (
 		<div className="grid grid-cols-default">
 			<div className="col-start-2 col-end-2">
-				<h1 className="text-left text-6xl text-indigo-a12 lg:text-center">
+				<h1 className="text-4xl text-indigo-a12 sm:text-6xl lg:text-center">
 					objective insight into financial markets
 				</h1>
 				<div className="grid grid-cols-default lg:text-center">
-					<div className="col-start-2 text-slate-11 ">
+					<div className="col-start-2 text-slate-11">
 						<div className="my-2 text-xl sm:text-2xl">
 							<Balancer>
 								<HeroPopOver
