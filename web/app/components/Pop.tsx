@@ -21,18 +21,20 @@ export default function Pop({
 	popoverContent,
 	popoverColor,
 	offset,
+	rootClassName,
 }: {
 	children: (open: boolean) => JSX.Element
 	popoverContent: JSX.Element
 	popoverColor: keyof typeof colors
 	popoverContainerClassNames?: string
 	offset: number
+	rootClassName?: string
 }) {
 	const [open, setOpen] = useState<boolean>(false)
 
 	return (
 		<Popover.Root onOpenChange={o => setOpen(o)} open={open}>
-			<Popover.Trigger className="group/popover">
+			<Popover.Trigger className={classNames('group/popover', rootClassName)}>
 				{children(open)}
 			</Popover.Trigger>
 

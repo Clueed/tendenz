@@ -1,13 +1,5 @@
 import { Balancer } from 'react-wrap-balancer'
 
-const items = [
-	'indexes',
-	'bonds',
-	'cryptocurrencies',
-	'notes',
-	'interest rates',
-]
-
 export function ComingSoon() {
 	return (
 		<div className="grid grid-cols-default lg:text-center">
