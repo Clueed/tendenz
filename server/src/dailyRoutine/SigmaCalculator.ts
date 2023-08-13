@@ -11,20 +11,21 @@ export class SigmaCalculator {
 		const mostRecentDate = await this.db.getMostRecentDate()
 		const dailys = await this.db.getTickersWithNameOnDate(mostRecentDate)
 
-		const results: ({ ticker: string } & Omit<SigmaCalcResult, 'data'>)[] = []
-		for (const { ticker, name } of dailys.slice(0, 50)) {
-			const result = await this.constructSigmaRow(ticker, name)
+		const results = await Promise.all(
+			dailys.map(async ({ ticker, name }) => {
+				const result = await this.constructSigmaRow(ticker, name)
 
-			match(result)
-				.with({ success: true }, async ({ success, data: sigmaRow }) => {
-					//await this.db.createSigmaYesterday(sigmaRow)
-					results.push({ ticker, success })
-				})
-				.with({ success: false }, ({ success, errorCode }) => {
-					results.push({ ticker, success, errorCode })
-				})
-				.exhaustive()
-		}
+				return match(result)
+					.with({ success: true }, async ({ success, data: sigmaRow }) => {
+						//await this.db.createSigmaYesterday(sigmaRow)
+						return { ticker, success }
+					})
+					.with({ success: false }, ({ success, errorCode }) => {
+						return { ticker, success, errorCode }
+					})
+					.exhaustive()
+			}),
+		)
 
 		SigmaCalculator.logResults(results, dailys.length)
 	}
@@ -84,7 +85,20 @@ export class SigmaCalculator {
 			},
 		}
 	}
-	private static logResults(results: SigmaCalcResult[], dailysLength: number) {
+	private static logResults(
+		results: (
+			| {
+					ticker: string
+					success: true
+			  }
+			| {
+					ticker: string
+					success: false
+					errorCode: errorCodes
+			  }
+		)[],
+		dailysLength: number,
+	) {
 		const successResults = results.filter(({ success }) => success === true)
 		const failResults = results.filter(({ success }) => success === false) as {
 			ticker: string
