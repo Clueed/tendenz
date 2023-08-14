@@ -1,70 +1,87 @@
+import classNames from 'classnames'
+import { ReactNode } from 'react'
 import { Balancer } from 'react-wrap-balancer'
 
 export function ComingSoon() {
+	const content = [
+		{
+			head: (
+				<>
+					navigate
+					<Highlight color="blue">market</Highlight>
+					dynamics
+				</>
+			),
+			subtitle:
+				'explore financial assets across derivatives, foreign exchange, commodities, and indexes',
+		},
+		{
+			head: (
+				<>
+					discover <Highlight color="violet">trends</Highlight>
+				</>
+			),
+			subtitle:
+				'spot changes over time by comparing with weekly and monthly data',
+		},
+		{
+			head: (
+				<>
+					stay ahead of <Highlight color="sky">regional</Highlight>
+					shifts
+				</>
+			),
+
+			subtitle:
+				'unravel the changing landscapes of europe, asia, south america, and the middle east',
+		},
+	]
+
 	return (
 		<div className="grid grid-cols-default lg:text-center">
-			<div className="col-start-2 mb-6 text-3xl text-slate-a10">
-				coming soon...
+			<div className="col-start-2 @container">
+				<h2 className="text-2xl text-slate-a10 @md:text-3xl">coming soon...</h2>
 			</div>
-			<div className="col-start-2">
-				<h2 className="text-4xl text-slate-12 sm:text-5xl">
-					<Balancer>
-						navigate
-						<span className="relative text-violet-11">
-							{' '}
-							<div className="absolute -inset-x-8 inset-y-0 -z-10 transform-gpu rounded-full bg-violet-a5 blur-xl" />
-							market{' '}
-						</span>
-						dynamics
-					</Balancer>
-				</h2>
 
-				<div className="mt-4 text-lg text-slate-11 sm:text-2xl">
-					<p>
-						<Balancer>
-							seamlessly explore financial assets across foreign exchange,
-							derivatives, commodities, and indexes
-						</Balancer>
+			{content.map(({ head, subtitle }, i) => (
+				<div className="col-start-2 @container" key={i}>
+					<h3 className="mt-12 text-4xl text-slate-a12 @md:mt-20 @md:text-5xl">
+						{head}
+					</h3>
+					<p className="mt-4 text-lg text-slate-11 @md:text-2xl">
+						<Balancer>{subtitle}</Balancer>
 					</p>
 				</div>
-			</div>
-			<div className="col-start-2 mt-12 sm:mt-24">
-				<h2 className="text-4xl text-slate-a12 sm:text-5xl">
-					discover{' '}
-					<span className="relative text-indigo-11">
-						{' '}
-						<div className="absolute -inset-x-8 inset-y-0 -z-10 transform-gpu rounded-full bg-indigo-a5 blur-xl" />
-						trends
-					</span>
-				</h2>
-				<div className="mt-4 text-lg text-slate-11 sm:text-2xl">
-					<p>
-						<Balancer>
-							spot changes over time by comparing with weekly and monthly data
-						</Balancer>
-					</p>
-				</div>
-			</div>
-			<div className="col-start-2 mt-12 sm:mt-24">
-				<h2 className="text-4xl text-slate-a12 sm:text-5xl">
-					<Balancer>
-						stay ahead of{' '}
-						<span className="relative text-sky-11">
-							<div className="absolute -inset-x-8 inset-y-0 -z-10 transform-gpu rounded-full bg-sky-a5 blur-xl" />
-							regional
-						</span>{' '}
-						shifts
-					</Balancer>
-				</h2>
-				<div className="mt-4 text-lg text-slate-11 sm:text-2xl">
-					<p>
-						<Balancer>
-							unravel the changing landscapes of europe, asia, south america,
-							and the middle east
-						</Balancer>
-					</p>
-				</div>
-			</div>
+			))}
 		</div>
+	)
+}
+
+const colors = {
+	sky: { text: 'text-sky-11', bg: 'bg-sky-a4' },
+	violet: { text: 'text-violet-11', bg: 'bg-violet-a5' },
+	blue: { text: 'text-blue-11', bg: 'bg-blue-a5' },
+} as const
+
+const Highlight = ({
+	children,
+	color,
+}: {
+	children: ReactNode
+	color: keyof typeof colors
+}) => {
+	return (
+		<>
+			{' '}
+			<span className={classNames('relative', colors[color].text)}>
+				<div
+					className={classNames(
+						'absolute -inset-x-8 inset-y-0 -z-10 transform-gpu rounded-full blur-xl',
+						colors[color].bg,
+					)}
+				/>
+				{children}
+			</span>{' '}
+		</>
 	)
 }
