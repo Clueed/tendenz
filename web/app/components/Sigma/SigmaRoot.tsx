@@ -27,17 +27,17 @@ export default function SigmaList({
 		<div className="relative">
 			<div className="my-[2.5vh] grid grid-cols-default">
 				<div className="col-start-2 mb-[1.5vh] flex items-end justify-between gap-5">
-					<h1 className="text-4xl font-normal text-indigo-11">
+					<h2 className="text-4xl font-normal text-indigo-11">
 						{lastDate ? npl(lastDate) : 'yesterday'}
 						&apos;s anomalies
-					</h1>
+					</h2>
 
 					<Timer />
 				</div>
 				<div className="col-start-2 mb-2 flex items-end justify-between align-bottom">
-					<h2 className="text-3xl font-normal leading-none text-slate-12">
+					<h3 className="text-3xl font-normal leading-none text-slate-12">
 						stocks
-					</h2>
+					</h3>
 					<div className="flex gap-1">
 						<MarketCapFilter
 							selectedKey={bucketKey}

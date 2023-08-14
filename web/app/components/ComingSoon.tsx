@@ -39,18 +39,18 @@ export function ComingSoon() {
 
 	return (
 		<div className="grid grid-cols-default lg:text-center">
-			<div className="col-start-2 mb-6 text-3xl text-slate-a10">
-				coming soon...
+			<div className="col-start-2 @container">
+				<h2 className="text-2xl text-slate-a10 @md:text-3xl">coming soon...</h2>
 			</div>
 
 			{content.map(({ head, subtitle }, i) => (
-				<div className="col-start-2 mt-12 sm:mt-24" key={i}>
-					<h2 className="text-4xl text-slate-a12 sm:text-5xl">{head}</h2>
-					<div className="">
-						<p className="mt-4 text-lg text-slate-11 sm:text-2xl">
-							<Balancer>{subtitle}</Balancer>
-						</p>
-					</div>
+				<div className="col-start-2 @container" key={i}>
+					<h3 className="mt-12 text-4xl text-slate-a12 @md:mt-20 @md:text-5xl">
+						{head}
+					</h3>
+					<p className="mt-4 text-lg text-slate-11 @md:text-2xl">
+						<Balancer>{subtitle}</Balancer>
+					</p>
 				</div>
 			))}
 		</div>
