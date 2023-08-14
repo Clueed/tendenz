@@ -119,11 +119,9 @@ describe('SigmaMath', () => {
 				sigma: -0.35355339059327373,
 				stdev: 14.142135623730951,
 				mean: 30,
-				n: 5,
 			}
 
 			expect(result.mean).toEqual(expected.mean)
-			expect(result.n).toEqual(expected.n)
 			expect(result.sigma).toBeCloseTo(expected.sigma)
 			expect(result.stdev).toBeCloseTo(expected.stdev)
 		})

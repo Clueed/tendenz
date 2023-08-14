@@ -9,11 +9,10 @@ export interface LogReturns extends DataPoints {
 
 export class SigmaMath {
 	static calcSigma(population: number[], sample: number) {
-		const n = population.length
 		const mean = this.calculateMean(population)
 		const stdev = this.calculateStandardDeviation(population, mean)
 		const lastSigma = (sample - mean) / stdev
-		return { sigma: lastSigma, stdev, mean, n }
+		return { sigma: lastSigma, stdev, mean }
 	}
 
 	private static calculateMean(data: number[]): number {
