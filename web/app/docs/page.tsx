@@ -1,9 +1,10 @@
+import classNames from 'classnames'
 import Link from 'next/link'
 import ChevronRight from '../components/Sigma/ChevronRight'
 
 export default function Docs() {
 	return (
-		<div className="flex flex-col gap-[5vh]">
+		<div className="flex flex-col gap-[3vh]">
 			<MainDocsLink
 				href="/docs/statistical-significants"
 				text={'statistical significants'}
@@ -14,15 +15,31 @@ export default function Docs() {
 }
 
 function MainDocsLink({ href, text }: { href: string; text: string }) {
+	const bgClassName =
+		'absolute inset-0 -z-10 col-span-1 -mx-8 px-8 transition-all duration-1000 sm:col-start-2 sm:rounded-lg bg-gradient-to-br'
+
 	return (
 		<Link
 			href={href}
-			className="group relative grid grid-cols-default gap-y-[5vh] @container sm:grid-cols-[1fr_min(30rem,_90vw)_1fr]"
+			className="group relative grid grid-cols-default gap-y-[5vh] @container sm:grid-cols-[1fr_min(30rem,_90vw)_1fr] "
 		>
-			<div className="absolute inset-0 -z-10 col-span-1 -mx-5 bg-gradient-to-br from-slate-a2 to-slate-a3 px-5 transition-all duration-1000 hover:from-sky-a4 hover:to-indigo-a5 hover:shadow-xl sm:col-start-2 sm:rounded-lg" />
+			<div
+				className={classNames(
+					bgClassName,
+					'from-slate-a1 to-slate-a3',
+					'group-hover:opacity-0',
+				)}
+			/>
+			<div
+				className={classNames(
+					bgClassName,
+					'from-sky-a4 to-indigo-a5 shadow-xl',
+					'opacity-0 group-hover:opacity-100',
+				)}
+			/>
 			<div className="col-start-2 flex items-center justify-between py-8 text-3xl text-slate-12">
 				<div>{text}</div>
-				<div className="px-3 transition-all duration-1000 group-hover:translate-x-3">
+				<div className="transition-all duration-1000 group-hover:translate-x-3">
 					<ChevronRight height="0.5em" strokeWidth={1} />
 				</div>
 			</div>
