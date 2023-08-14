@@ -12,7 +12,7 @@ export default async function Home() {
 
 	return (
 		<>
-			<header className="my-[6vh] flex flex-col sm:my-[12.5vh]">
+			<header className="my-[6vh] sm:my-[12.5vh]">
 				<Hero />
 			</header>
 
