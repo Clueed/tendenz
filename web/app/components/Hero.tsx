@@ -12,7 +12,7 @@ export default function Hero() {
 				<div className="my-2 text-xl text-slate-11 sm:text-2xl">
 					<Balancer>
 						<HeroPopOver
-							learnMore="/docs#statistical-significants"
+							learnMore="/docs/statistical-significants"
 							popoverText={
 								<>
 									<p>
