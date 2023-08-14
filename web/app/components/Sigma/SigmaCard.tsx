@@ -12,6 +12,8 @@ export default function SigmaCard({
 	entry: tendenzApiSigmaYesterday
 	expanded: boolean
 }) {
+	const positive = entry.sigma > 0
+
 	return (
 		<Accordion.Item
 			value={entry.ticker}
@@ -23,7 +25,14 @@ export default function SigmaCard({
 					{
 						'group-hover/card:bg-slate-a3': !expanded,
 					},
-					{ 'bg-gradient-to-br from-sky-a4 to-indigo-a5 shadow': expanded },
+					{
+						'bg-gradient-to-br from-lime-a3 to-teal-a4 shadow':
+							expanded && positive,
+					},
+					{
+						'bg-gradient-to-br from-orange-a3 to-purple-a4 shadow':
+							expanded && !positive,
+					},
 				)}
 			/>
 			<div className="col-start-2 col-end-2 @container">
