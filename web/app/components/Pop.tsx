@@ -23,7 +23,7 @@ export default function Pop({
 	offset,
 	rootClassName,
 }: {
-	children: (open: boolean) => JSX.Element
+	children: JSX.Element | ((open: boolean) => JSX.Element)
 	popoverContent: JSX.Element
 	popoverColor: keyof typeof colors
 	popoverContainerClassNames?: string
@@ -34,8 +34,14 @@ export default function Pop({
 
 	return (
 		<Popover.Root onOpenChange={o => setOpen(o)} open={open}>
-			<Popover.Trigger className={classNames('group/popover', rootClassName)}>
-				{children(open)}
+			<Popover.Trigger
+				onClick={e => {
+					setOpen(!open)
+					e.preventDefault()
+				}}
+				className={classNames('group', rootClassName)}
+			>
+				{typeof children === 'function' ? children(open) : children}
 			</Popover.Trigger>
 
 			<AnimatePresence>
