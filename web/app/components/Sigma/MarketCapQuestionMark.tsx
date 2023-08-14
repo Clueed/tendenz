@@ -19,7 +19,7 @@ export default function MarketCapFilterLabel({}: Props) {
 						Change the minimum value to see smaller/larger companies.
 					</p>
 					<div className="flex justify-end">
-						<PopLearnMore href="/docs#market-capitalization" color="slate" />
+						<PopLearnMore href="/docs/market-cap" color="slate" />
 					</div>
 				</div>
 			}

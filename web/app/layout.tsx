@@ -64,15 +64,12 @@ export default function RootLayout({
 			<body
 				className={
 					dmSans.variable +
-					' relative min-h-screen bg-slate-1 font-sans text-slate-12'
+					' relative flex h-full min-h-screen flex-col bg-slate-1 font-sans text-slate-12'
 				}
 			>
 				<NavigationBar />
-				<div className="flex min-h-full flex-col content-between justify-between">
-					<main>{children}</main>
-
-					<Footer />
-				</div>
+				<main className="flex-1">{children}</main>
+				<Footer />
 				<div className="noise2 absolute inset-0 -z-30 transform-gpu opacity-5" />
 				<div className="absolute top-0 -z-40 h-full w-full transform-gpu backdrop-blur-3xl"></div>
 				<div className="absolute top-0 -z-50 h-full w-full overflow-clip">
@@ -80,9 +77,9 @@ export default function RootLayout({
 						// Top
 					}
 					<div className="absolute left-0 top-0 grid w-full grid-cols-default">
-						<div className="left-0 top-0 col-start-2 h-96 w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-a12 opacity-30 lg:hidden" />
+						<div className="left-0 top-0 col-start-2 h-96 w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-a12 opacity-30 sm:hidden" />
 					</div>
-					<div className="absolute left-1/2 top-0 hidden h-80 w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-a11 opacity-30 lg:block" />
+					<div className="absolute left-1/2 top-0 hidden h-80 w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-a11 opacity-30 sm:block" />
 					{
 						// Middle
 					}

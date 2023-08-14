@@ -63,9 +63,8 @@ export function SigmaCardHeader({
 				<AnimatePresence>
 					{expanded && (
 						<>
-							<Tag>
-								<MarketCap marketCap={marketCap} />
-							</Tag>
+							{' '}
+							<MarketCap marketCap={marketCap} ticker={ticker} />
 							{shareTypes.map(type => (
 								<Tag key={type}>
 									{' '}
