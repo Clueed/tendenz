@@ -19,7 +19,7 @@ export default function SigmaCard({
 		>
 			<div
 				className={classNames(
-					'absolute right-0 top-0 -z-10 col-span-full h-full w-full transition-all sm:col-start-2 sm:col-end-2 sm:rounded-xl',
+					'absolute inset-0 -z-10 col-span-full transition-all sm:col-start-2 sm:col-end-2 sm:rounded-xl',
 					{
 						'group-hover:bg-slate-a3': !expanded,
 					},

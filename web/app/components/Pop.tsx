@@ -60,7 +60,7 @@ export default function Pop({
 									colors[popoverColor].popClassNames,
 								)}
 							>
-								<div className="noise2 absolute -z-10 h-full w-full rounded-lg opacity-30" />
+								<div className="noise2 absolute inset-0 -z-10 rounded-lg opacity-30" />
 								<div
 									className={classNames(
 										'rounded-lg px-5 py-4 text-slate-1 shadow-lg',
