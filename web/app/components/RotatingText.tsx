@@ -38,7 +38,7 @@ export function RotatingText({
 					animate={{ x: 0, opacity: 1 }}
 					exit={{ x: -20, opacity: 0 }}
 					transition={{ ease: 'easeInOut' }}
-					className="absolute inset-0 lg:text-center"
+					className="absolute inset-0 sm:text-center"
 				>
 					<span className="relative">
 						<div className="absolute -inset-x-8 inset-y-0 -z-10 transform-gpu rounded-full bg-violet-a6 blur-xl" />

@@ -38,7 +38,7 @@ export function ComingSoon() {
 	]
 
 	return (
-		<div className="grid grid-cols-default lg:text-center">
+		<div className="grid grid-cols-default sm:text-center">
 			<div className="col-start-2 @container">
 				<h2 className="text-2xl text-slate-a10 @md:text-3xl">coming soon...</h2>
 			</div>

@@ -4,7 +4,7 @@ import { HeroPopOver } from './HeroPopOver'
 export default function Hero() {
 	return (
 		<div className="grid grid-cols-default">
-			<div className="col-start-2 lg:text-center">
+			<div className="col-start-2 sm:text-center">
 				<h1 className="text-5xl text-indigo-a12 sm:text-6xl">
 					objective insight into financial markets
 				</h1>
