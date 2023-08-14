@@ -2,8 +2,8 @@ import { ReactNode } from 'react'
 
 export default function Disclaimers() {
 	return (
-		<section className="grid grid-cols-default">
-			<h1 className="col-start-2 mb-5 text-center text-4xl font-normal text-indigo-11">
+		<section className="mb-[8vh] grid grid-cols-default">
+			<h1 className="col-start-2 mb-[4vh] mt-[8vh] text-5xl font-normal text-slate-11 sm:mb-[6vh] sm:mt-[12vh] sm:text-center">
 				disclaimers
 			</h1>
 			<P>
