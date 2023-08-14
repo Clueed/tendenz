@@ -7,9 +7,9 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
 			<header className="grid grid-cols-default">
 				<Link
 					href={'/docs'}
-					className="col-start-2 mb-[3vh] mt-[6vh] sm:mb-[6vh] sm:mt-[12vh]"
+					className="col-start-2 mb-[4vh] mt-[8vh] sm:mb-[6vh] sm:mt-[12vh]"
 				>
-					<h1 className="text-5xl font-normal text-indigo-12  lg:text-center">
+					<h1 className="text-5xl font-normal text-slate-11 lg:text-center">
 						docs
 					</h1>
 				</Link>
