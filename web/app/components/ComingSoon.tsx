@@ -8,7 +8,7 @@ export function ComingSoon() {
 			head: (
 				<>
 					navigate
-					<Highlight color="indigo">market</Highlight>
+					<Highlight color="blue">market</Highlight>
 					dynamics
 				</>
 			),
@@ -60,7 +60,7 @@ export function ComingSoon() {
 const colors = {
 	sky: { text: 'text-sky-11', bg: 'bg-sky-a4' },
 	violet: { text: 'text-violet-11', bg: 'bg-violet-a5' },
-	indigo: { text: 'text-blue-11', bg: 'bg-blue-a5' },
+	blue: { text: 'text-blue-11', bg: 'bg-blue-a5' },
 } as const
 
 const Highlight = ({
