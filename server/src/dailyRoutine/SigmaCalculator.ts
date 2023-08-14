@@ -64,7 +64,7 @@ export class SigmaCalculator {
 				date,
 			}
 		})
-		const { sigma, n, stdev, mean, last, secondLast } =
+		const { sigma, stdev, mean, last, secondLast } =
 			SigmaCalculator.calculate(dataPoints)
 
 		return {
@@ -76,7 +76,7 @@ export class SigmaCalculator {
 				absSigma: Math.abs(sigma),
 				stdLogReturn: stdev,
 				meanLogReturn: mean,
-				sampleSize: n,
+				sampleSize: 0,
 				weight: 0,
 				lastLogReturn: last.logReturn,
 				lastClose: last.close,
@@ -96,16 +96,15 @@ export class SigmaCalculator {
 		const sortedLogReturns = SigmaMath.sortByDate(LogReturns, 'desc')
 		const [lastLogReturn, ...logReturnPopulation] = sortedLogReturns
 
-		const { sigma, n, stdev, mean } = SigmaMath.calcSigma(
+		const { sigma, stdev, mean } = SigmaMath.calcSigma(
 			logReturnPopulation.map(r => r.logReturn),
 			lastLogReturn.logReturn,
 		)
 
-		const secondLastLogReturn = sortedLogReturns[0]
+		const secondLastLogReturn = logReturnPopulation[0]
 
 		return {
 			sigma,
-			n,
 			stdev,
 			mean,
 			last: lastLogReturn,
