@@ -64,15 +64,12 @@ export default function RootLayout({
 			<body
 				className={
 					dmSans.variable +
-					' relative min-h-screen bg-slate-1 font-sans text-slate-12'
+					' relative flex h-full min-h-screen flex-col bg-slate-1 font-sans text-slate-12'
 				}
 			>
 				<NavigationBar />
-				<div className="flex min-h-full flex-col content-between justify-between">
-					<main>{children}</main>
-
-					<Footer />
-				</div>
+				<main className="flex-1">{children}</main>
+				<Footer />
 				<div className="noise2 absolute inset-0 -z-30 transform-gpu opacity-5" />
 				<div className="absolute top-0 -z-40 h-full w-full transform-gpu backdrop-blur-3xl"></div>
 				<div className="absolute top-0 -z-50 h-full w-full overflow-clip">

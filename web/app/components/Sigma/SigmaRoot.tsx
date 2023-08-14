@@ -24,8 +24,8 @@ export default function SigmaList({
 	const lastDate = useSigmaYesterday(minMarketCap, 0)?.data?.[0].last.date
 
 	return (
-		<div className="relative">
-			<div className="my-[2.5vh] grid grid-cols-default">
+		<>
+			<div className="mb-[2.5vh] grid grid-cols-default">
 				<div className="col-start-2 mb-[1.5vh] flex items-end justify-between gap-5">
 					<h2 className="text-4xl font-normal text-indigo-11">
 						{lastDate ? npl(lastDate) : 'yesterday'}
@@ -54,6 +54,6 @@ export default function SigmaList({
 				</div>
 			</div>
 			<SigmaAccordion minMarketCap={minMarketCap} />
-		</div>
+		</>
 	)
 }
