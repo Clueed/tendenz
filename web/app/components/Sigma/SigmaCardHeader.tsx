@@ -80,6 +80,7 @@ export function SigmaCardHeader({
 			>
 				<div className={classNames({ truncate: expanded ? false : trunc })}>
 					<span className="mr-1 text-slate-11">{ticker}</span>
+					{'  '}
 					<span className="text-slate-12">{nameWithoutTypesAndParan}</span>
 					<AnimatePresence>
 						{expanded && (
