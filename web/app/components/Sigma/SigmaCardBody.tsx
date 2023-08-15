@@ -22,8 +22,6 @@ export function SigmaCardBody({
 
 	const dailyReturnString = dailyReturn.toFixed(2) + '%'
 
-	//const dailyReturnColor = dailyReturn > 0 ? "text-indigo-a9" : "text-red-a9";
-
 	return (
 		<div className="mt-4 grid grid-cols-[1fr_7rem_repeat(content_fit,_2)_1fr] justify-between text-right">
 			<div className="col-start-2 row-start-1 text-xl">
