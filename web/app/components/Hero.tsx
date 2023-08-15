@@ -16,9 +16,9 @@ export default function Hero() {
 							popoverText={
 								<>
 									<p>
-										By combining the asset&apos;s average closing price and
+										By combining an asset&apos;s average prices with its average
 										volatility, we can estimate the likelihood of the most
-										recent closing price (measured by sigma σ) .
+										recent closing price (measured by sigma σ).
 									</p>
 									<p className="mt-2">
 										A high σ indicates an unusual or extraordinary change in
