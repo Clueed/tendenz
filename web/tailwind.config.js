@@ -55,6 +55,7 @@ module.exports = {
 			},
 			fontFamily: {
 				sans: ['var(--font-dmsans)'],
+				mono: ['var(--font-dmmono)'],
 			},
 			gridTemplateColumns: {
 				default: '1fr min(640px, 90vw) 1fr',
