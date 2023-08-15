@@ -28,7 +28,7 @@ export default function MarketCapFilter<T extends string[]>({
 						key={key}
 						value={key}
 						className={classNames(
-							'px-2 py-1 tracking-wider text-slate-11 transition-all duration-500 hover:!bg-slate-a6 hover:shadow group-hover:bg-slate-a1 group-hover:text-slate-12',
+							'px-2 py-1 tracking-widest text-slate-11 transition-all duration-500 hover:!bg-slate-a6 hover:shadow group-hover:bg-slate-a1 group-hover:text-slate-12',
 							{
 								'bg-slate-a6 text-slate-12 ': key === selectedKey,
 							},

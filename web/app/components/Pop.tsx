@@ -1,7 +1,7 @@
 import * as Popover from '@radix-ui/react-popover'
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 
 const colors = {
 	indigo: {
@@ -23,8 +23,11 @@ export default function Pop({
 	offset,
 	rootClassName,
 }: {
-	children: JSX.Element | ((open: boolean) => JSX.Element)
-	popoverContent: JSX.Element
+	children:
+		| ReactNode
+		| ReactNode[]
+		| ((open: boolean) => ReactNode | ReactNode[])
+	popoverContent: ReactNode | ReactNode[]
 	popoverColor: keyof typeof colors
 	popoverContainerClassNames?: string
 	offset: number

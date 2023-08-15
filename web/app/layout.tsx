@@ -1,3 +1,5 @@
+import classNames from 'classnames'
+import { DM_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Footer } from './Footer'
 import NavigationBar from './components/Navbar/NavigationBar'
@@ -13,6 +15,13 @@ const dmSans = localFont({
 	],
 	display: 'swap',
 	variable: '--font-dmsans',
+})
+
+const dmMono = DM_Mono({
+	weight: ['300', '400', '500', '300', '400', '500'],
+	subsets: ['latin'],
+	display: 'swap',
+	variable: '--font-dmmono',
 })
 
 export default function RootLayout({
@@ -62,10 +71,11 @@ export default function RootLayout({
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</head>
 			<body
-				className={
-					dmSans.variable +
-					' relative flex h-full min-h-screen flex-col bg-slate-1 font-sans text-slate-12'
-				}
+				className={classNames(
+					dmSans.variable,
+					dmMono.variable,
+					'relative flex h-full min-h-screen flex-col bg-slate-1 font-sans text-slate-12',
+				)}
 			>
 				<NavigationBar />
 				<main className="flex-1">{children}</main>
