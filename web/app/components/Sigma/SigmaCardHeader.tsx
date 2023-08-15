@@ -27,8 +27,16 @@ export function SigmaCardHeader({
 	const { cleanInput: nameWithoutTypesAndParan, content: parantheses } =
 		extractContentInParentheses(nameWithoutTypes)
 
-	const [trunc, setTrunc] = useState<Boolean>(expanded ? false : true)
+	// All of truncation stuff here addresses the issue that
+	// on the close animation if truncation happens during/before
+	// there are animation artifacts.
+	// This setup delays truncation until after the animation has completed
+	// but keeps the immidiate 'untrucation' on expansion
+	// (there a delay is not tollerable and produces no artifacts).
+	// It's still not ideal because the truncation is delay so much that I causes seemingly random movement
+	// when the user has moved on.
 
+	const [trunc, setTrunc] = useState<Boolean>(expanded ? false : true)
 	useEffect(() => {
 		if (expanded) setTrunc(false)
 	}, [expanded])
