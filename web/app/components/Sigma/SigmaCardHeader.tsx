@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import Pop from '../Pop'
 import { MarketCap } from './MarketCap'
 import { Tag } from './Tag'
@@ -27,6 +27,12 @@ export function SigmaCardHeader({
 	const { cleanInput: nameWithoutTypesAndParan, content: parantheses } =
 		extractContentInParentheses(nameWithoutTypes)
 
+	const [trunc, setTrunc] = useState<Boolean>(expanded ? false : true)
+
+	useEffect(() => {
+		if (expanded) setTrunc(false)
+	}, [expanded])
+
 	return (
 		<div
 			className={
@@ -51,17 +57,20 @@ export function SigmaCardHeader({
 			</div>
 
 			<motion.div
+				onAnimationComplete={() => {
+					if (!expanded) setTrunc(true)
+				}}
 				initial={{ height: 'calc(1.75rem)' }}
 				animate={{
 					height: expanded ? 'auto' : 'calc(1.75rem)',
 					transition: {
-						type: 'spring',
+						ease: 'easeInOut',
 						duration: 0.75,
 					},
 				}}
 				className={'overflow-hidden pr-5 text-left text-xl'}
 			>
-				<div className={classNames({ truncate: !expanded })}>
+				<div className={classNames({ truncate: expanded ? false : trunc })}>
 					<span className="mr-1 text-slate-11">{ticker}</span>
 					<span className="text-slate-12">{nameWithoutTypesAndParan}</span>
 					<AnimatePresence>
