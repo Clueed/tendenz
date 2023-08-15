@@ -33,7 +33,7 @@ export function SigmaCardHeader({
 				'w-100 grid cursor-pointer grid-cols-[6.5rem_auto] items-baseline gap-x-4'
 			}
 		>
-			<div className="grid grid-cols-[_auto_min-content] items-center">
+			<div className="flex items-center justify-end">
 				<div className="text-right text-2xl leading-none text-indigo-12">
 					{formattedSigma}
 				</div>
@@ -59,37 +59,39 @@ export function SigmaCardHeader({
 						duration: 0.75,
 					},
 				}}
-				className={'overflow-clip pr-5 text-left text-xl'}
+				className={'overflow-hidden pr-5 text-left text-xl'}
 			>
-				<span className="mr-1 text-slate-11">{ticker}</span>
-				<span className="text-slate-12">{nameWithoutTypesAndParan}</span>
-				<AnimatePresence>
-					{expanded && (
-						<>
-							{' '}
-							<MarketCap marketCap={marketCap} ticker={ticker} />
-							{shareTypes.map(type =>
-								parantheses ? (
-									<>
-										{' '}
-										<StockTypePopover key={type} text={parantheses}>
-											<Tag
-												className={classNames(
-													'hover:bg-slate-a5 hover:text-slate-12',
-													'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
-												)}
-											>
-												{type}
-											</Tag>
-										</StockTypePopover>
-									</>
-								) : (
-									<Tag key={type}> {type}</Tag>
-								),
-							)}
-						</>
-					)}
-				</AnimatePresence>
+				<div className={classNames({ truncate: !expanded })}>
+					<span className="mr-1 text-slate-11">{ticker}</span>
+					<span className="text-slate-12">{nameWithoutTypesAndParan}</span>
+					<AnimatePresence>
+						{expanded && (
+							<>
+								{' '}
+								<MarketCap marketCap={marketCap} ticker={ticker} />
+								{shareTypes.map(type =>
+									parantheses ? (
+										<>
+											{' '}
+											<StockTypePopover key={type} text={parantheses}>
+												<Tag
+													className={classNames(
+														'hover:bg-slate-a5 hover:text-slate-12',
+														'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
+													)}
+												>
+													{type}
+												</Tag>
+											</StockTypePopover>
+										</>
+									) : (
+										<Tag key={type}> {type}</Tag>
+									),
+								)}
+							</>
+						)}
+					</AnimatePresence>
+				</div>
 			</motion.div>
 		</div>
 	)
