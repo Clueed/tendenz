@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from '@prisma/client'
 export class DatabaseApi {
-	constructor(private prisma: PrismaClient) {}
+	constructor(public prisma: PrismaClient) {}
 
 	async disconnect() {
 		return await this.prisma.$disconnect()
