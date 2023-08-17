@@ -22,6 +22,9 @@ model UsStockDaily {
   volumeWeighted Float?
   nTransactions  Int?
   marketCap      Float?
+  sigma          Float?
+  sigmaAbs       Float?
+  logReturn      Float?
 
   @@id([ticker, date])
 }
@@ -52,7 +55,7 @@ model SigmaUsStocksYesterday {
   sigma               Float
   absSigma            Float
   weight              Float
-  marketCap           Float
+  marketCap           Float?
   stdLogReturn        Float
   meanLogReturn       Float
   sampleSize          Int

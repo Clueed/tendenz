@@ -1,16 +1,19 @@
 import { Prisma, PrismaClient } from '@prisma/client'
 export class DatabaseApi {
-	prisma: PrismaClient
-
-	constructor(prisma: PrismaClient) {
-		this.prisma = prisma
-	}
+	constructor(public prisma: PrismaClient) {}
 
 	async disconnect() {
 		return await this.prisma.$disconnect()
 	}
 
-	async getTickersOnDate(input_date: number | Date): Promise<string[]> {
+	async clearSigma() {
+		await this.prisma.sigmaUsStocksYesterday.deleteMany({})
+	}
+
+	private async getAllDailysOnDate(
+		input_date: number | Date,
+		select: Prisma.UsStockDailySelect,
+	) {
 		let date: Date
 
 		if (input_date instanceof Date) {
@@ -19,13 +22,40 @@ export class DatabaseApi {
 			date = new Date(input_date)
 		}
 
-		const allDailysAtDate = await this.prisma.usStockDaily.findMany({
+		const dailys = await this.prisma.usStockDaily.findMany({
 			where: {
 				date,
 			},
+			select,
 		})
 
-		return allDailysAtDate.map(daily => daily.ticker)
+		if (!dailys) {
+			return []
+		}
+
+		return dailys
+	}
+
+	async getTickersOnDate(input_date: number | Date): Promise<string[]> {
+		const dailys = await this.getAllDailysOnDate(input_date, { ticker: true })
+
+		return dailys.map(daily => daily.ticker as string)
+	}
+
+	async getTickersWithNameOnDate(
+		input_date: number | Date,
+	): Promise<{ ticker: string; name: string | undefined }[]> {
+		const dailys = await this.getAllDailysOnDate(input_date, {
+			ticker: true,
+			UsStocks: { select: { name: true } },
+		})
+
+		return dailys.map(daily => {
+			return {
+				ticker: daily.ticker as string,
+				name: daily.UsStocks?.name as string | undefined,
+			}
+		})
 	}
 
 	async writeDailyValues(dailyValues: {
@@ -132,6 +162,30 @@ export class DatabaseApi {
 			where: {
 				ticker,
 			},
+			data,
+		})
+	}
+
+	async getMostRecentDate() {
+		const daily = await this.prisma.usStockDaily.findFirst({
+			orderBy: {
+				date: 'desc',
+			},
+			take: 1,
+			select: {
+				date: true,
+			},
+		})
+
+		if (!daily) {
+			throw new Error('Database empty or inaccessible')
+		}
+
+		return daily.date
+	}
+
+	async createSigmaYesterday(data: Prisma.SigmaUsStocksYesterdayCreateInput) {
+		return await this.prisma.sigmaUsStocksYesterday.create({
 			data,
 		})
 	}
