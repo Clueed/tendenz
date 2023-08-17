@@ -22,8 +22,8 @@ export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
 	for (let i = 0; i < pageIndex; i++) {
 		pages.push(
 			<PageOfSigmaCards
-				key={i}
 				page={i}
+				key={i}
 				minMarketCap={minMarketCap}
 				expandedKey={expandedKey}
 				last={i === pageIndex - 1}

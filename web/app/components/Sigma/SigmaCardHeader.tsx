@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useMemo } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import Pop from '../Pop'
 import { MarketCap } from './MarketCap'
 import { Tag } from './Tag'
 
@@ -20,17 +21,33 @@ export function SigmaCardHeader({
 	marketCap,
 }: Props) {
 	const formattedSigma = Math.abs(sigma).toFixed(2)
-	const { formattedName, shareTypes } = useMemo(
-		() => handleTickerTypes(name),
-		[name],
-	)
+
+	const { formattedName: nameWithoutTypes, shareTypes } =
+		handleTickerTypes(name)
+	const { cleanInput: nameWithoutTypesAndParan, content: parantheses } =
+		extractContentInParentheses(nameWithoutTypes)
+
+	// All of truncation stuff here addresses the issue that
+	// on the close animation if truncation happens during/before
+	// there are animation artifacts.
+	// This setup delays truncation until after the animation has completed
+	// but keeps the immidiate 'untrucation' on expansion
+	// (there a delay is not tollerable and produces no artifacts).
+	// It's still not ideal because the truncation is delay so much that I causes seemingly random movement
+	// when the user has moved on.
+
+	const [trunc, setTrunc] = useState<Boolean>(expanded ? false : true)
+	useEffect(() => {
+		if (expanded) setTrunc(false)
+	}, [expanded])
+
 	return (
 		<div
 			className={
 				'w-100 grid cursor-pointer grid-cols-[6.5rem_auto] items-baseline gap-x-4'
 			}
 		>
-			<div className="grid grid-cols-[_auto_min-content] items-center">
+			<div className="flex items-center justify-end">
 				<div className="text-right text-2xl leading-none text-indigo-12">
 					{formattedSigma}
 				</div>
@@ -48,50 +65,75 @@ export function SigmaCardHeader({
 			</div>
 
 			<motion.div
+				onAnimationComplete={() => {
+					if (!expanded) setTrunc(true)
+				}}
 				initial={{ height: 'calc(1.75rem)' }}
 				animate={{
 					height: expanded ? 'auto' : 'calc(1.75rem)',
 					transition: {
-						type: 'spring',
+						ease: 'easeInOut',
 						duration: 0.75,
 					},
 				}}
-				className={'overflow-clip pr-5 text-left text-xl'}
+				className={'overflow-hidden pr-5 text-left text-xl'}
 			>
-				<span className="mr-1 text-slate-11">{ticker}</span>
-				<span className="text-slate-12">{formattedName}</span>
-				<AnimatePresence>
-					{expanded && (
-						<>
-							<Tag>
-								<MarketCap marketCap={marketCap} />
-							</Tag>
-							{shareTypes.map(type => (
-								<Tag key={type}>
-									{' '}
-									<motion.span
-										initial={{ opacity: 0 }}
-										animate={{
-											opacity: expanded ? 1 : 0,
-											transition: {
-												type: 'spring',
-												duration: 0.5,
-											},
-										}}
-									>
-										{type}
-									</motion.span>
-								</Tag>
-							))}
-						</>
-					)}
-				</AnimatePresence>
+				<div className={classNames({ truncate: expanded ? false : trunc })}>
+					<span className="mr-1 text-slate-11">{ticker}</span>
+					{'  '}
+					<span className="text-slate-12">{nameWithoutTypesAndParan}</span>
+					<AnimatePresence>
+						{expanded && (
+							<>
+								{' '}
+								<MarketCap marketCap={marketCap} ticker={ticker} />
+								{shareTypes.map(type =>
+									parantheses ? (
+										<>
+											{' '}
+											<StockTypePopover key={type} text={parantheses}>
+												<Tag
+													className={classNames(
+														'hover:bg-slate-a5 hover:text-slate-12',
+														'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
+													)}
+												>
+													{type}
+												</Tag>
+											</StockTypePopover>
+										</>
+									) : (
+										<Tag key={type}> {type}</Tag>
+									),
+								)}
+							</>
+						)}
+					</AnimatePresence>
+				</div>
 			</motion.div>
 		</div>
 	)
 }
 
-function handleTickerTypes(name: string | null) {
+function StockTypePopover({
+	children,
+	text,
+}: {
+	children: ReactNode | ReactNode[]
+	text: string
+}) {
+	return (
+		<Pop
+			offset={1}
+			popoverColor="slate"
+			popoverContent={<div className="w-36">{text}</div>}
+		>
+			{children}
+		</Pop>
+	)
+}
+
+function handleTickerTypes(name: string) {
 	let formattedName = name
 	let shareTypes: string[] = []
 
@@ -99,7 +141,12 @@ function handleTickerTypes(name: string | null) {
 		return { formattedName, shareTypes }
 	}
 
-	for (const type of ['Common Stock', 'Ordinary Shares', 'Class A']) {
+	for (const type of [
+		'Common Stock',
+		'Ordinary Shares',
+		'Class A',
+		'Depositary Shares',
+	]) {
 		if (formattedName!.search(type) !== -1) {
 			formattedName = formattedName!.replace(type, '')
 			shareTypes.push(type)
@@ -111,4 +158,16 @@ function handleTickerTypes(name: string | null) {
 	)
 
 	return { formattedName, shareTypes }
+}
+
+function extractContentInParentheses(input: string) {
+	const openingIndex = input.indexOf('(')
+	const closingIndex = input.lastIndexOf(')')
+
+	const substring = input.substring(openingIndex, closingIndex + 1)
+	const cleanInput = input.replace(substring, '')
+
+	const content = substring.slice(1, -1)
+
+	return { cleanInput, content }
 }

@@ -63,11 +63,7 @@ export function PageOfSigmaCards({
 						animate="animate"
 						exit="exit"
 					>
-						<SigmaCard
-							entry={entry}
-							key={entry.ticker}
-							expanded={expandedKey === entry.ticker}
-						/>
+						<SigmaCard entry={entry} expanded={expandedKey === entry.ticker} />
 					</motion.div>
 				))}
 			{last && (

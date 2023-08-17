@@ -1,61 +1,41 @@
-import * as motion from '@/app/lib/motionWrapper'
 import classNames from 'classnames'
-import { useState } from 'react'
 import { getMarketCapCategory } from '../../lib/getMarketCapCategory'
+import Pop from '../Pop'
+import { PopLearnMore } from './PopLearnMore'
+import { Tag } from './Tag'
 
 export function MarketCap({
 	marketCap,
-	className,
-	expandDirection = 'right',
+	ticker,
 }: {
 	marketCap: number
-	expandDirection?: 'right' | 'left'
-	className?: string
+	ticker: string
 }) {
-	const [expanded, setExpanded] = useState<Boolean>(false)
-	const label = getMarketCapCategory(marketCap)
-	const formattedMarketCap = label
+	const { rounded, unit, bucket, formatted } = getMarketCapCategory(marketCap)
 	return (
-		<>
-			<motion.div
-				layout="preserve-aspect"
+		<Pop
+			offset={1}
+			popoverColor="slate"
+			popoverContent={
+				<div className="w-36">
+					<div>
+						{ticker} has a market capitalization of ~${rounded} {unit}.
+					</div>
+					<div className="flex justify-end">
+						<PopLearnMore color="slate" href="/docs/market-cap" />
+					</div>
+				</div>
+			}
+		>
+			<Tag
 				className={classNames(
-					'inline-flex flex-wrap items-center gap-x-2 leading-none',
-					className,
+					'tracking-widest',
+					'hover:bg-slate-a5 hover:text-slate-12',
+					'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
 				)}
-				onClick={event => {
-					event?.preventDefault()
-					setExpanded(!expanded)
-				}}
 			>
-				<motion.div
-					layout="preserve-aspect"
-					className={classNames('text-xs', {
-						'text-slate-12': expanded,
-						'text-slate-11': !expanded,
-						'order-2': expandDirection === 'left',
-					})}
-				>
-					{formattedMarketCap}
-				</motion.div>
-				<motion.animatePresence mode="wait" presenceAffectsLayout>
-					{expanded && (
-						<motion.span
-							layout="size"
-							initial={{ width: 0 }}
-							animate={{ width: 'auto' }}
-							exit={{ width: 0 }}
-							transition={{ duration: 1 }}
-							className={classNames(
-								'line-clamp-1 truncate text-[0.6rem] text-slate-a11',
-								{ 'order-1': expandDirection === 'left' },
-							)}
-						>
-							market cap
-						</motion.span>
-					)}
-				</motion.animatePresence>
-			</motion.div>
-		</>
+				{formatted}
+			</Tag>
+		</Pop>
 	)
 }

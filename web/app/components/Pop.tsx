@@ -1,7 +1,7 @@
 import * as Popover from '@radix-ui/react-popover'
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 
 const colors = {
 	indigo: {
@@ -21,19 +21,30 @@ export default function Pop({
 	popoverContent,
 	popoverColor,
 	offset,
+	rootClassName,
 }: {
-	children: (open: boolean) => JSX.Element
-	popoverContent: JSX.Element
+	children:
+		| ReactNode
+		| ReactNode[]
+		| ((open: boolean) => ReactNode | ReactNode[])
+	popoverContent: ReactNode | ReactNode[]
 	popoverColor: keyof typeof colors
 	popoverContainerClassNames?: string
 	offset: number
+	rootClassName?: string
 }) {
 	const [open, setOpen] = useState<boolean>(false)
 
 	return (
 		<Popover.Root onOpenChange={o => setOpen(o)} open={open}>
-			<Popover.Trigger className="group/popover">
-				{children(open)}
+			<Popover.Trigger
+				onClick={e => {
+					setOpen(!open)
+					e.preventDefault()
+				}}
+				className={classNames('group', rootClassName)}
+			>
+				{typeof children === 'function' ? children(open) : children}
 			</Popover.Trigger>
 
 			<AnimatePresence>
@@ -58,7 +69,7 @@ export default function Pop({
 									colors[popoverColor].popClassNames,
 								)}
 							>
-								<div className="noise2 absolute -z-10 h-full w-full rounded-lg opacity-30" />
+								<div className="noise2 absolute inset-0 -z-10 rounded-lg opacity-30" />
 								<div
 									className={classNames(
 										'rounded-lg px-5 py-4 text-slate-1 shadow-lg',

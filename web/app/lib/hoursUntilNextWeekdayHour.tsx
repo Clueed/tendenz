@@ -1,6 +1,7 @@
-'use client'
-export function hoursUntilNextWeekdayHour(hour: number): number {
-	const currentDate = new Date()
+export function hoursUntilNextWeekdayHour(
+	hour: number,
+	currentDate = new Date(),
+): number {
 	const currentDay = currentDate.getUTCDay()
 
 	let hoursRemaining = 0

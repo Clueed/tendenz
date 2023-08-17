@@ -12,17 +12,17 @@ export default async function Home() {
 
 	return (
 		<>
-			<header className="mb-[9vh] mt-[4.5vh] flex flex-col sm:mb-[17.5vh] sm:mt-[12.5vh]">
+			<header className="my-[6vh] sm:my-[12.5vh]">
 				<Hero />
 			</header>
 
-			<section className="my-[9vh] sm:my-[15vh]">
+			<section className="mb-[9vh] sm:mb-[15vh]">
 				<SWRConfigProvider fallback={fallback}>
 					<SigmaList marketCapBuckets={MARKET_CAP_BUCKETS} />
 				</SWRConfigProvider>
 			</section>
 
-			<section className="my-[25vh]">
+			<section className="my-[10vh]">
 				<ComingSoon />
 			</section>
 		</>

@@ -4,7 +4,7 @@ import { Balancer } from 'react-wrap-balancer'
 
 export function H2({ children }: { children: ReactNode }) {
 	return (
-		<h2 className="col-start-2 mt-10 text-4xl font-normal text-indigo-11 sm:mb-[2vh] sm:mt-[4vh] lg:text-center">
+		<h2 className="col-start-2 text-5xl font-normal text-indigo-11 sm:mb-[2vh] sm:text-center">
 			<Balancer>{children}</Balancer>
 		</h2>
 	)
@@ -12,7 +12,7 @@ export function H2({ children }: { children: ReactNode }) {
 
 export function H3({ children }: { children: ReactNode }) {
 	return (
-		<h3 className="col-start-2 mt-10 text-3xl font-normal text-indigo-11 sm:mb-[1vh] sm:mt-[6vh] lg:text-center">
+		<h3 className="col-start-2 mt-10 text-3xl font-normal text-indigo-11 sm:mb-[1vh] sm:mt-[6vh] sm:text-center">
 			<Balancer>{children}</Balancer>
 		</h3>
 	)

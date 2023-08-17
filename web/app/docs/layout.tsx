@@ -1,13 +1,19 @@
+import Link from 'next/link'
 import { ReactNode } from 'react'
 
-export default function docs({ children }: { children: ReactNode }) {
+export default function DocsLayout({ children }: { children: ReactNode }) {
 	return (
 		<>
-			<div className="grid grid-cols-default">
-				<h1 className="col-start-2 mb-[9vh] mt-[4.5vh] text-5xl font-normal text-indigo-12 lg:text-center">
-					docs
-				</h1>
-			</div>
+			<header className="grid grid-cols-default">
+				<Link
+					href={'/docs'}
+					className="col-start-2 mb-[4vh] mt-[8vh] sm:mb-[6vh] sm:mt-[12vh]"
+				>
+					<h1 className="text-5xl font-normal text-slate-11 hover:text-indigo-11 sm:text-center">
+						docs
+					</h1>
+				</Link>
+			</header>
 			{children}
 		</>
 	)

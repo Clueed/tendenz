@@ -1,4 +1,3 @@
-'use client'
 import classNames from 'classnames'
 import { ReactNode } from 'react'
 
