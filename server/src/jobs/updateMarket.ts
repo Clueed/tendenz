@@ -3,6 +3,7 @@ import dotenv, { configDotenv } from 'dotenv'
 import 'dotenv/config'
 import { SigmaCalculator } from '../dailyRoutine/SigmaCalculator.js'
 import { SplitDetector } from '../dailyRoutine/SplitDetector.js'
+import { reverseIncrementDailyUpdate } from '../dailyRoutine/reverseIncrementDailyUpdate.js'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { PolygonRequestHandler } from '../lib/polygonApi/polygonRequestHandler.js'
 import { PolygonStocksApi } from '../lib/polygonApi/polygonStocksApi.js'
@@ -28,9 +29,8 @@ const splitDetector = new SplitDetector(db, stocksApi)
 const sigmaCalculator = new SigmaCalculator(db)
 
 try {
-	//await reverseIncrementDailyUpdate(db, stocksApi)
-	//await splitDetector.run()
-	//await db.clearSigma()
+	await reverseIncrementDailyUpdate(db, stocksApi)
+	await splitDetector.run()
 	await sigmaCalculator.run()
 } catch (e) {
 	console.error(e)

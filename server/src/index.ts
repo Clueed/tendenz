@@ -17,6 +17,7 @@ const fastify = Fastify({
 fastify.register(cors, {
 	origin: '*',
 })
+
 fastify.register(prismaPlugin)
 
 fastify.get('/:page', async (request, reply) => {
@@ -93,6 +94,12 @@ const bree = new Bree({
 		{
 			name: 'updateSupplements',
 			cron: '0 4 * * *',
+		},
+		{
+			name: 'updateMarket',
+		},
+		{
+			name: 'updateSupplements',
 		},
 	],
 })
