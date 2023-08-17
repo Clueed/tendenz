@@ -3,7 +3,7 @@ import { match } from 'ts-pattern'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { formatDateString } from '../lib/misc.js'
 
-class MarketCapCalculator {
+export class MarketCapCalculator {
 	constructor(private db: DatabaseApi) {}
 
 	async run() {

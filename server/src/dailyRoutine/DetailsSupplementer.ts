@@ -6,7 +6,7 @@ import { formatDateString } from '../lib/misc.js'
 import { PolygonStocksApi } from '../lib/polygonApi/polygonStocksApi.js'
 import { ITickerDetailsResults } from '../lib/polygonApi/polygonTypes.js'
 
-class DetailsSupplementer {
+export class DetailsSupplementer {
 	constructor(
 		private db: DatabaseApi,
 		private stocksApi: PolygonStocksApi,
