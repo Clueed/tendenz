@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { describe, expect, it, jest } from '@jest/globals'
 import { SigmaCalculator } from '../dailyRoutine/SigmaCalculator.js'
 
