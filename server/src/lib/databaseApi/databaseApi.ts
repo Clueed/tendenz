@@ -200,4 +200,28 @@ export class DatabaseApi {
 			},
 		})
 	}
+
+	async getTickerWithoutDetails() {
+		return await this.prisma.usStocks.findMany({
+			where: {
+				OR: [
+					{
+						AND: {
+							weightedSharesOutstanding: null,
+							shareClassSharesOutstanding: null,
+						},
+					},
+					{
+						name: null,
+					},
+					{
+						type: null,
+					},
+				],
+			},
+			select: {
+				ticker: true,
+			},
+		})
+	}
 }
