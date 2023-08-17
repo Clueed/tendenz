@@ -196,6 +196,7 @@ export class DatabaseApi {
 			select: {
 				ticker: true,
 				close: true,
+				date: true,
 			},
 		})
 	}

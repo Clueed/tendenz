@@ -7,40 +7,33 @@ class MarketCapCalculator {
 	constructor(private db: DatabaseApi) {}
 
 	async run() {
-		this.recalcMarketCaps()
-	}
-
-	async recalcMarketCaps() {
 		const mostRecentDate = await this.db.getMostRecentDate()
-		const tickers = await this.db.getDailysByDateWithoutMarketCap(
-			mostRecentDate,
-		)
+		const tickers = await this.getTickers(mostRecentDate)
+		const results = await this.recalcMarketCaps(tickers)
+		this.printResults(results, tickers.length)
+	}
+	async getTickers(date: Date) {
+		const tickers = await this.db.getDailysByDateWithoutMarketCap(date)
 		console.info(
 			`Found ${
 				tickers.length
-			} tickers without market cap for ${formatDateString(mostRecentDate)}`,
+			} tickers without market cap for ${formatDateString(date)}`,
 		)
+		return tickers
+	}
 
-		if (tickers.length === 0) {
-			console.info('Skipping...')
-			return []
-		}
-
+	async recalcMarketCaps(
+		dailys: { ticker: string; close: number; date: Date }[],
+	) {
 		const limit = pLimit(5)
 		const results = await Promise.all(
-			tickers.map(({ ticker, close }) =>
+			dailys.map(({ ticker, close, date }) =>
 				limit(async () => {
 					const result = await this.calcMarketCapOfTicker(ticker, close)
-					return await this.handleCalcMarketCapResult(
-						result,
-						ticker,
-						mostRecentDate,
-					)
+					return await this.handleCalcMarketCapResult(result, ticker, date)
 				}),
 			),
 		)
-
-		this.printResults(results, tickers.length)
 		return results
 	}
 
@@ -130,9 +123,10 @@ class MarketCapCalculator {
 		console.info(
 			`Calcuted market cap for ${successResults.length} out of ${dailysLength}`,
 		)
-		Object.keys(groupedByErrorCode).map(key => {
-			console.info(`Errors: ${groupedByErrorCode[key].length}x ${key}`)
-		})
+		if (groupedByErrorCode)
+			Object.keys(groupedByErrorCode).map(key => {
+				console.info(`Errors: ${groupedByErrorCode[key].length}x ${key}`)
+			})
 	}
 }
 
