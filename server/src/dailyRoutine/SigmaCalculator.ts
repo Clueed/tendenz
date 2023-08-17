@@ -21,7 +21,7 @@ export class SigmaCalculator {
 
 		const limit = pLimit(2)
 		const results = await Promise.all(
-			dailys.slice(0, 500).map(({ ticker }) =>
+			dailys.map(({ ticker }) =>
 				limit(async () => {
 					const result = await this.constructSigmaRow(ticker)
 					return await this.handleSigmaResult(result, ticker)
