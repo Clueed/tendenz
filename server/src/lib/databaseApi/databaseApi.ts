@@ -189,4 +189,39 @@ export class DatabaseApi {
 			data,
 		})
 	}
+
+	async getDailysByDateWithoutMarketCap(date: Date) {
+		return await this.prisma.usStockDaily.findMany({
+			where: { date, marketCap: null },
+			select: {
+				ticker: true,
+				close: true,
+				date: true,
+			},
+		})
+	}
+
+	async getTickerWithoutDetails() {
+		return await this.prisma.usStocks.findMany({
+			where: {
+				OR: [
+					{
+						AND: {
+							weightedSharesOutstanding: null,
+							shareClassSharesOutstanding: null,
+						},
+					},
+					{
+						name: null,
+					},
+					{
+						type: null,
+					},
+				],
+			},
+			select: {
+				ticker: true,
+			},
+		})
+	}
 }

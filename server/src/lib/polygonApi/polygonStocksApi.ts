@@ -65,7 +65,7 @@ export class PolygonStocksApi implements StocksApi {
 			return response.data.results
 		} catch (e) {
 			if (e instanceof AxiosError) {
-				if (e.response?.status === 403) {
+				if (e.response?.status === 403 || e.response?.status === 404) {
 					return undefined
 				}
 			}
