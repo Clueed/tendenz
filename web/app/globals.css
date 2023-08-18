@@ -161,47 +161,12 @@
 @import url('@radix-ui/colors/sand-dark.css') (prefers-color-scheme: dark);
 @import url('@radix-ui/colors/sand-dark-alpha.css') (prefers-color-scheme: dark);
 
-.grain1 {
-	/* resulting css */
-	filter: contrast(70%) brightness(100%) invert(100%);
+.noise-bg {
+	background-image: 
+	url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4.22' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+	filter: contrast(100%) brightness(100%);
 	@media (prefers-color-scheme: dark) {
-		filter: contrast(70%) brightness(100%);
-	}
-	background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(255, 255, 255, 0)),
-		url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
-
-.noise2 {
-	background-image: url(./noise.png);
-	filter: contrast(100%) brightness(100%) invert(100%);
-	@media (prefers-color-scheme: dark) {
-		filter: contrast(100%) brightness(100%);
+		filter: contrast(100%) brightness(80%) invert(0%);
 	}
 }
 
-.mask-linear-gradient-tt {
-	-webkit-mask-image: linear-gradient(
-		to top,
-		transparent 0%,
-		black 25%,
-		black 75%,
-		transparent 100%
-	);
-	mask-image: linear-gradient(
-		to top,
-		transparent 0%,
-		black 25%,
-		50%,
-		black 60%,
-		transparent 100%
-	);
-}
-
-.mask-linear-radial {
-	-webkit-mask-image: radial-gradient(
-		circle at center,
-		black 0%,
-		transparent 100%
-	);
-	mask-image: radial-gradient(circle at center, black 0%, transparent 100%);
-}

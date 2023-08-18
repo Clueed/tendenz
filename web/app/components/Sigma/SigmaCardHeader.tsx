@@ -5,27 +5,26 @@ import Pop from '../Pop'
 import { MarketCap } from './MarketCap'
 import { Tag } from './Tag'
 
-interface Props {
-	expanded: boolean
-	sigma: number
-	ticker: string
-	name: string
-	marketCap: number
-}
-
 export function SigmaCardHeader({
 	expanded,
 	sigma,
 	ticker,
 	name,
 	marketCap,
-}: Props) {
+}: {
+	expanded: boolean
+	sigma: number
+	ticker: string
+	name: string
+	marketCap: number
+}) {
 	const formattedSigma = Math.abs(sigma).toFixed(2)
 
-	const { formattedName: nameWithoutTypes, shareTypes } =
-		handleTickerTypes(name)
-	const { cleanInput: nameWithoutTypesAndParan, content: parantheses } =
-		extractContentInParentheses(nameWithoutTypes)
+	//const { formattedName: nameWithoutTypes, shareTypes } = handleTickerTypes(name)
+	//const { cleanInput: nameWithoutTypesAndParan, content: parantheses } = extractContentInParentheses(nameWithoutTypes)
+
+	const nameWithoutTypesAndParan = name
+	const shareTypes: any[] = []
 
 	// All of truncation stuff here addresses the issue that
 	// on the close animation if truncation happens during/before
