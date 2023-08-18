@@ -13,7 +13,7 @@ export class SigmaCalculator {
 		const mostRecentDate = await this.db.getMostRecentDate()
 		const tickers = await this.db.getTickersWithoutSigma(mostRecentDate)
 		console.info(
-			`Updating ${
+			`Found ${
 				tickers.length
 			} entries without sigma value on ${formatDateString(mostRecentDate)}`,
 		)
@@ -36,7 +36,7 @@ export class SigmaCalculator {
 			tickers.map(({ ticker }) =>
 				limit(async () => {
 					const result = await this.constructSigmaRow(ticker)
-					return await this.handleSigmaResult(result, ticker)
+					return await this.handleSigmaResult(result)
 				}),
 			),
 		)
@@ -84,18 +84,13 @@ export class SigmaCalculator {
 
 	private async handleSigmaResult(
 		result: SigmaCalcResult,
-		ticker: string,
 	): Promise<Omit<SigmaCalcResult, 'data'>> {
 		return match(result)
 			.with(
 				{ success: true },
-				async ({ data: { updateData, date }, ...result }) => {
-					await this.db.updateDaily(ticker, date, {
-						sigma: updateData.sigma,
-						sigmaAbs: updateData.sigmaAbs,
-						logReturn: updateData.logReturn,
-					})
-					return result
+				async ({ ticker, data: { updateData, date }, ...result }) => {
+					await this.db.updateDaily(ticker, date, updateData)
+					return { ticker, ...result }
 				},
 			)
 			.with({ success: false }, result => result)
@@ -121,8 +116,8 @@ export class SigmaCalculator {
 	}
 
 	private static structureResults(results: Omit<SigmaCalcResult, 'data'>[]) {
-		const successResults = results.filter(({ success }) => success === true)
-		const failResults = results.filter(isFailed)
+		const successResults = results.filter(SigmaCalcResultIsSuccess)
+		const failResults = results.filter(SigmaCalcResultIsFailed)
 
 		const groupedByErrorCode = failResults.reduce(
 			(group, result) => {
@@ -131,7 +126,7 @@ export class SigmaCalculator {
 				group[errorCode].push(result.ticker)
 				return group
 			},
-			<Record<errorCode, string[]>>{},
+			<Record<SigmaCalcErrorCode, string[]>>{},
 		)
 
 		return {
@@ -142,18 +137,26 @@ export class SigmaCalculator {
 	}
 }
 
-const isFailed = (
+const SigmaCalcResultIsSuccess = (
 	result: { success: true } | { success: false },
-): result is ResultFailed => result.success === false
+): result is SigmaCalcResultSuccess => result.success === true
 
-type errorCode = 'NotEnoughDataPoints'
+const SigmaCalcResultIsFailed = (
+	result: { success: true } | { success: false },
+): result is SigmaCalcResultFailed => result.success === false
 
-type ResultSucess = {
+type SigmaCalcErrorCode = 'NotEnoughDataPoints'
+
+type SigmaCalcResultSuccess = {
 	ticker: string
 	success: true
 	data: { updateData: Prisma.UsStockDailyUpdateInput; date: Date }
 }
 
-type ResultFailed = { ticker: string; success: false; errorCode: errorCode }
+type SigmaCalcResultFailed = {
+	ticker: string
+	success: false
+	errorCode: SigmaCalcErrorCode
+}
 
-type SigmaCalcResult = ResultSucess | ResultFailed
+type SigmaCalcResult = SigmaCalcResultSuccess | SigmaCalcResultFailed

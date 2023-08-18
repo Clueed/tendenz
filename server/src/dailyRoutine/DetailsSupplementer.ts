@@ -13,7 +13,9 @@ export class DetailsSupplementer {
 	) {}
 
 	async run() {
+		console.group('Initiating detail supplementation...')
 		const tickers = await this.getTickers()
+		console.info(`Found ${tickers.length} entries without details`)
 
 		const mostRecentDate = await this.db.getMostRecentDate()
 		const mostRecentDateString = formatDateString(mostRecentDate)
@@ -39,24 +41,30 @@ export class DetailsSupplementer {
 		const results = await Promise.all(
 			tickers.map(ticker =>
 				limit(async () => {
-					const result = await this.handleTicker(ticker, mostRecentDateString)
-					return match(result)
-						.with(
-							{ success: true },
-							async ({ data: { updateData }, ...result }) => {
-								await this.updateStock(ticker, updateData)
-								return result
-							},
-						)
-						.with({ success: false }, result => result)
-						.exhaustive()
+					const result = await this.constructDetails(
+						ticker,
+						mostRecentDateString,
+					)
+					return this.handleDetailsResult(result)
 				}),
 			),
 		)
 		return results
 	}
 
-	async handleTicker(
+	private async handleDetailsResult(
+		result: DetailUpdateResult,
+	): Promise<Omit<DetailUpdateResult, 'data'>> {
+		return match(result)
+			.with({ success: true }, async ({ data: { updateData }, ...result }) => {
+				await this.updateStock(result.ticker, updateData)
+				return { ...result }
+			})
+			.with({ success: false }, result => result)
+			.exhaustive()
+	}
+
+	async constructDetails(
 		ticker: string,
 		dateString: string,
 	): Promise<DetailUpdateResult> {
@@ -140,8 +148,8 @@ export class DetailsSupplementer {
 	}
 
 	private static structureResults(results: Omit<DetailUpdateResult, 'data'>[]) {
-		const successResults = results.filter(({ success }) => success === true)
-		const failResults = results.filter(isFailed)
+		const successResults = results.filter(DetailUpdateResultIsSuccess)
+		const failResults = results.filter(DetailUpdateResultIsFailed)
 
 		const groupedByErrorCode = failResults.reduce(
 			(group, result) => {
@@ -150,7 +158,7 @@ export class DetailsSupplementer {
 				group[errorCode].push(result.ticker)
 				return group
 			},
-			<Record<errorCode, string[]>>{},
+			<Record<DetailUpdateErrorCode, string[]>>{},
 		)
 
 		return {
@@ -161,18 +169,26 @@ export class DetailsSupplementer {
 	}
 }
 
-const isFailed = (
+const DetailUpdateResultIsSuccess = (
 	result: { success: true } | { success: false },
-): result is ResultFailed => result.success === false
+): result is DetailUpdateResultSuccess => result.success === true
 
-type errorCode = 'NoDataAvailable'
+const DetailUpdateResultIsFailed = (
+	result: { success: true } | { success: false },
+): result is DetailUpdateResultFailed => result.success === false
 
-type ResultSucess = {
+type DetailUpdateErrorCode = 'NoDataAvailable'
+
+type DetailUpdateResultSuccess = {
 	ticker: string
 	success: true
 	data: { updateData: Prisma.UsStocksUpdateInput }
 }
 
-type ResultFailed = { ticker: string; success: false; errorCode: errorCode }
+type DetailUpdateResultFailed = {
+	ticker: string
+	success: false
+	errorCode: DetailUpdateErrorCode
+}
 
-type DetailUpdateResult = ResultSucess | ResultFailed
+type DetailUpdateResult = DetailUpdateResultSuccess | DetailUpdateResultFailed
