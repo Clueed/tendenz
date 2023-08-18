@@ -80,7 +80,7 @@ export default function RootLayout({
 				<NavigationBar />
 				<main className="flex-1">{children}</main>
 				<Footer />
-				<div className="noise2 absolute inset-0 -z-30 transform-gpu opacity-5" />
+				<div className="noise-bg absolute inset-0 -z-30 transform-gpu opacity-25" />
 				<div className="absolute top-0 -z-40 h-full w-full transform-gpu backdrop-blur-3xl"></div>
 				<div className="absolute top-0 -z-50 h-full w-full overflow-clip">
 					{
