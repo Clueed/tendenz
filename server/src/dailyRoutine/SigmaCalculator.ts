@@ -25,7 +25,7 @@ export class SigmaCalculator {
 			`Calcuted sigma for ${successResults.length} out of ${tickers} tickers`,
 		)
 		Object.keys(groupedByErrorCode).map(key => {
-			console.info(`Errors: ${groupedByErrorCode[key].length}x ${key}`)
+			console.warn(`Errors: ${groupedByErrorCode[key].length}x ${key}`)
 		})
 		console.groupEnd()
 	}

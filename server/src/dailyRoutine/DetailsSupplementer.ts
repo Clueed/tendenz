@@ -18,6 +18,15 @@ export class DetailsSupplementer {
 		const mostRecentDate = await this.db.getMostRecentDate()
 		const mostRecentDateString = formatDateString(mostRecentDate)
 
+		const results = await this.supplementTickers(tickers, mostRecentDateString)
+
+		this.printResults(results, tickers.length)
+	}
+
+	private async supplementTickers(
+		tickers: string[],
+		mostRecentDateString: string,
+	) {
 		const limit = pLimit(2)
 		const results = await Promise.all(
 			tickers.map(ticker =>
@@ -36,8 +45,7 @@ export class DetailsSupplementer {
 				}),
 			),
 		)
-
-		this.printResults(results, tickers.length)
+		return results
 	}
 
 	async handleTicker(
