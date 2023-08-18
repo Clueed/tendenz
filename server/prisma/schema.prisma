@@ -22,28 +22,33 @@ model UsStockDaily {
   volumeWeighted Float?
   nTransactions  Int?
   marketCap      Float?
+  sigma          Float?
+  sigmaAbs       Float?
+  logReturn      Float?
 
   @@id([ticker, date])
 }
 
 model UsStocks {
-  ticker          String         @id
-  dailys          UsStockDaily[]
-  name            String?
-  active          Boolean?
-  cik             Int?
-  compositeFigi   String?
-  currencyName    String?
-  description     String?
-  locale          String?
-  market          String?
-  primaryExchange String?
-  shareClassFigi  String?
-  sicCode         Int?
-  sicDescription  String?
-  tickerRoot      String?
-  type            String?
-  sourceFeed      String?
+  ticker                      String         @id
+  dailys                      UsStockDaily[]
+  name                        String?
+  active                      Boolean?
+  cik                         Int?
+  compositeFigi               String?
+  currencyName                String?
+  description                 String?
+  locale                      String?
+  market                      String?
+  primaryExchange             String?
+  shareClassFigi              String?
+  sicCode                     Int?
+  sicDescription              String?
+  tickerRoot                  String?
+  type                        String?
+  sourceFeed                  String?
+  weightedSharesOutstanding   Float?
+  shareClassSharesOutstanding Float?
 }
 
 model SigmaUsStocksYesterday {
@@ -52,7 +57,7 @@ model SigmaUsStocksYesterday {
   sigma               Float
   absSigma            Float
   weight              Float
-  marketCap           Float
+  marketCap           Float?
   stdLogReturn        Float
   meanLogReturn       Float
   sampleSize          Int

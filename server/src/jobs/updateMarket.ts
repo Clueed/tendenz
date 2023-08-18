@@ -1,11 +1,15 @@
 import { PrismaClient } from '@prisma/client'
-import { configDotenv } from 'dotenv'
+import dotenv, { configDotenv } from 'dotenv'
+import 'dotenv/config'
+import { SigmaCalculator } from '../dailyRoutine/SigmaCalculator.js'
 import { SplitDetector } from '../dailyRoutine/SplitDetector.js'
 import { dailySigmaRoutine } from '../dailyRoutine/dailySigmaRoutine.js'
 import { reverseIncrementDailyUpdate } from '../dailyRoutine/reverseIncrementDailyUpdate.js'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { PolygonRequestHandler } from '../lib/polygonApi/polygonRequestHandler.js'
 import { PolygonStocksApi } from '../lib/polygonApi/polygonStocksApi.js'
+
+dotenv.config()
 
 if (process.env.NODE_ENV === 'production') {
 	console.debug = function () {}
@@ -23,13 +27,18 @@ if (!apiKey) {
 const requestHandler = new PolygonRequestHandler(apiKey)
 const stocksApi = new PolygonStocksApi(requestHandler)
 const splitDetector = new SplitDetector(db, stocksApi)
+const sigmaCalculator = new SigmaCalculator(db)
 
 try {
 	await reverseIncrementDailyUpdate(db, stocksApi)
 	await splitDetector.run()
+	await db.clearSigma()
 	await dailySigmaRoutine()
+	await sigmaCalculator.run()
 } catch (e) {
 	console.error(e)
+	process.exit(1)
 }
 
 await db.disconnect()
+process.exit(0)

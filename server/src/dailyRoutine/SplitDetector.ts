@@ -1,24 +1,17 @@
 import { Prisma } from '@prisma/client'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
-import { formatDateString } from '../lib/misc.js'
+import { formatDateString, getStartAndEndOfDay } from '../lib/misc.js'
 import { IAggsResultsSingle } from '../lib/polygonApi/polygonTypes.js'
 import { StocksApi } from '../lib/polygonApi/stocksApi.js'
 
 export class SplitDetector {
-	private db: DatabaseApi
-	private stocksApi: StocksApi
 	private updateStatus: { ticker: string; updated: boolean }[] = []
-	private stopAfterNUpdates: number
 
 	constructor(
-		db: DatabaseApi,
-		stocksApi: StocksApi,
-		stopAfterNUpdates: number = 10,
-	) {
-		this.db = db
-		this.stocksApi = stocksApi
-		this.stopAfterNUpdates = stopAfterNUpdates
-	}
+		private db: DatabaseApi,
+		private stocksApi: StocksApi,
+		private stopAfterNUpdates: number = 10,
+	) {}
 
 	async run() {
 		console.group(`Initiating split detector...`)
@@ -183,19 +176,4 @@ export class SplitDetector {
 
 		return true
 	}
-}
-
-/**
- * Returns the start and end timestamps of a given day.
- * The start timestamp is set to 00:00:00.000 and the end timestamp is set to 23:59:59.999.
- * @param {Date} date - The input date.
- * @returns {Object} An object with the startOfDay and endOfDay properties set to the calculated timestamps.
- */
-function getStartAndEndOfDay(date: Date): { startOfDay: Date; endOfDay: Date } {
-	const startOfDay = new Date(date)
-	startOfDay.setHours(0, 0, 0, 0)
-	const endOfDay = new Date(date)
-	endOfDay.setHours(23, 59, 59, 999)
-
-	return { startOfDay, endOfDay }
 }
