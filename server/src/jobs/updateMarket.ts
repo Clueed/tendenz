@@ -37,6 +37,8 @@ try {
 	await sigmaCalculator.run()
 } catch (e) {
 	console.error(e)
+	process.exit(1)
 }
 
 await db.disconnect()
+process.exit(0)
