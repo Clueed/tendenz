@@ -32,7 +32,7 @@ export default function RootLayout({
 	return (
 		<html lang="en" className="dark-theme">
 			<head>
-				<title>Tendenz - skip past the noise</title>
+				<title>Tendenz - Skip past the noise</title>
 				<link
 					rel="apple-touch-icon"
 					sizes="180x180"

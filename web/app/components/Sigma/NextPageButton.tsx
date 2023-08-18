@@ -22,6 +22,7 @@ export function NextPageButton({
 			className="flex items-center justify-center"
 		>
 			<button
+				aria-label="load more"
 				onClick={handleNextPage}
 				className={classNames(
 					'rounded-md bg-slate-a2 p-3 text-slate-12 transition-all',
