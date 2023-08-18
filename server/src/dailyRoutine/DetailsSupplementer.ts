@@ -20,7 +20,15 @@ export class DetailsSupplementer {
 
 		const results = await this.supplementTickers(tickers, mostRecentDateString)
 
-		this.printResults(results, tickers.length)
+		const { successResults, groupedByErrorCode } =
+			DetailsSupplementer.structureResults(results)
+		console.info(
+			`Updated details for ${successResults.length} out of ${tickers} tickers`,
+		)
+		Object.keys(groupedByErrorCode).map(key => {
+			console.warn(`Errors: ${groupedByErrorCode[key].length}x ${key}`)
+		})
+		console.groupEnd()
 	}
 
 	private async supplementTickers(
@@ -32,15 +40,15 @@ export class DetailsSupplementer {
 			tickers.map(ticker =>
 				limit(async () => {
 					const result = await this.handleTicker(ticker, mostRecentDateString)
-
 					return match(result)
-						.with({ success: true }, async ({ data }) => {
-							await this.updateStock(ticker, data.updateData)
-							return { success: true as const, ticker }
-						})
-						.with({ success: false }, ({ errorCode }) => {
-							return { success: false as const, ticker, errorCode }
-						})
+						.with(
+							{ success: true },
+							async ({ data: { updateData }, ...result }) => {
+								await this.updateStock(ticker, updateData)
+								return result
+							},
+						)
+						.with({ success: false }, result => result)
 						.exhaustive()
 				}),
 			),
@@ -55,54 +63,12 @@ export class DetailsSupplementer {
 		const details = await this.getTickerDetails(ticker, dateString)
 
 		if (!details) {
-			return {
-				success: false,
-				errorCode: 'NoDataAvailable',
-			}
+			return { ticker, success: false, errorCode: 'NoDataAvailable' }
 		}
 
 		const parsedDetails = this.parseDetails(details)
 
-		return { success: true, data: { updateData: parsedDetails } }
-	}
-
-	private printResults(
-		results: (
-			| {
-					ticker: string
-					success: true
-			  }
-			| {
-					ticker: string
-					success: false
-					errorCode: errorCodes
-			  }
-		)[],
-		dailysLength: number,
-	) {
-		const successResults = results.filter(({ success }) => success === true)
-		const failResults = results.filter(({ success }) => success === false) as {
-			ticker: string
-			success: false
-			errorCode: errorCodes
-		}[]
-
-		const groupedByErrorCode = failResults.reduce(
-			(group, result) => {
-				const { errorCode } = result
-				group[errorCode] = group[errorCode] ?? []
-				group[errorCode].push(result.ticker)
-				return group
-			},
-			<Record<string, string[]>>{},
-		)
-
-		console.info(
-			`Calcuted sigma for ${successResults.length} out of ${dailysLength} tickers`,
-		)
-		Object.keys(groupedByErrorCode).map(key => {
-			console.info(`Errors: ${groupedByErrorCode[key].length}x ${key}`)
-		})
+		return { ticker, success: true, data: { updateData: parsedDetails } }
 	}
 
 	async updateStock(ticker: string, data: Prisma.UsStocksUpdateInput) {
@@ -172,13 +138,41 @@ export class DetailsSupplementer {
 
 		return parsedDetails
 	}
+
+	private static structureResults(results: Omit<DetailUpdateResult, 'data'>[]) {
+		const successResults = results.filter(({ success }) => success === true)
+		const failResults = results.filter(isFailed)
+
+		const groupedByErrorCode = failResults.reduce(
+			(group, result) => {
+				const { errorCode } = result
+				group[errorCode] = group[errorCode] ?? []
+				group[errorCode].push(result.ticker)
+				return group
+			},
+			<Record<errorCode, string[]>>{},
+		)
+
+		return {
+			successResults,
+			failResults,
+			groupedByErrorCode,
+		}
+	}
 }
 
-type errorCodes = 'NoDataAvailable'
+const isFailed = (
+	result: { success: true } | { success: false },
+): result is ResultFailed => result.success === false
 
-type DetailUpdateResult =
-	| { success: false; errorCode: errorCodes }
-	| {
-			success: true
-			data: { updateData: Prisma.UsStocksUpdateInput }
-	  }
+type errorCode = 'NoDataAvailable'
+
+type ResultSucess = {
+	ticker: string
+	success: true
+	data: { updateData: Prisma.UsStocksUpdateInput }
+}
+
+type ResultFailed = { ticker: string; success: false; errorCode: errorCode }
+
+type DetailUpdateResult = ResultSucess | ResultFailed

@@ -20,7 +20,7 @@ export class SigmaCalculator {
 		const results = await this.updateTickers(tickers)
 
 		const { successResults, groupedByErrorCode } =
-			SigmaCalculator.printResults(results)
+			SigmaCalculator.structureResults(results)
 		console.info(
 			`Calcuted sigma for ${successResults.length} out of ${tickers} tickers`,
 		)
@@ -120,7 +120,7 @@ export class SigmaCalculator {
 		}
 	}
 
-	private static printResults(results: Omit<SigmaCalcResult, 'data'>[]) {
+	private static structureResults(results: Omit<SigmaCalcResult, 'data'>[]) {
 		const successResults = results.filter(({ success }) => success === true)
 		const failResults = results.filter(isFailed)
 
