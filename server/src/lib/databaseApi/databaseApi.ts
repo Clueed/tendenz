@@ -224,4 +224,16 @@ export class DatabaseApi {
 			},
 		})
 	}
+
+	async getTickersWithoutSigma(date: Date) {
+		return this.prisma.usStockDaily.findMany({
+			where: {
+				date: date,
+				sigma: null,
+			},
+			select: {
+				ticker: true,
+			},
+		})
+	}
 }
