@@ -2,10 +2,10 @@
 import React from 'react'
 import { SWRConfig } from 'swr'
 
-const fetcher = async (url: string) => {
+export const fetcher = async (url: string) => {
 	const res = await fetch(url)
 
-	console.warn('res :>> ', res)
+	//console.info('res :>> ', res)
 
 	// If the status code is not in the range 199-299,
 	// we still try to parse and throw it.
