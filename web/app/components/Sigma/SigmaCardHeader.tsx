@@ -25,6 +25,7 @@ export function SigmaCardHeader({
 
 	const nameWithoutTypesAndParan = name
 	const shareTypes: any[] = []
+	const parantheses = ''
 
 	// All of truncation stuff here addresses the issue that
 	// on the close animation if truncation happens during/before
