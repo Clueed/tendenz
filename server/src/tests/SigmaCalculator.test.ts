@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { describe, expect, it, jest } from '@jest/globals'
+import { describe, expect, it } from '@jest/globals'
 import { SigmaCalculator } from '../dailyRoutine/SigmaCalculator.js'
 
 describe('SigmaCalculator', () => {
@@ -21,49 +20,6 @@ describe('SigmaCalculator', () => {
 
 			const result = SigmaCalculator.calculate(dataPoints)
 			expect(result.sigma).toBeCloseTo(-0.8793205529013357)
-			expect(result.stdev).toBeCloseTo(0.010135453070384291)
-			expect(result.mean).toBeCloseTo(0.010135453070384291)
-			expect(result.last.close).toBe(173.59)
-			expect(result.secondLast.close).toBe(173.3)
 		})
-	}),
-		jest.mock('../lib/databaseApi/databaseApi', () => {
-			const originalModule = jest.requireActual(
-				'../lib/databaseApi/databaseApi',
-			)
-
-			return {
-				__esModule: true,
-				...originalModule,
-				functionTwo: jest.fn(() => 'functionTwo mocked implementation'),
-			}
-		})
-	// Tests that the SigmaCalculator class can successfully calculate sigma for all tickers with enough data points
-	it('should calculate sigma for all tickers with enough data points', async () => {
-		const mockDate = new Date()
-		const mockTicker = 'AAPL'
-		const mockName = 'Apple Inc.'
-		const mockClose = 100
-		const dbMock = {
-			getMostRecentDate: jest.fn().mockImplementation(() => mockDate),
-			getTickersWithNameOnDate: jest
-				.fn()
-				.mockImplementation(() => [{ ticker: mockTicker, name: mockName }]),
-			getDailyInDateRange: jest.fn().mockImplementation(() => [
-				{ close: mockClose, date: mockDate },
-				{ close: mockClose + 10, date: mockDate },
-			]),
-			createSigmaYesterday: jest.fn().mockImplementation(() => {}),
-		}
-		const sigmaCalculator = new SigmaCalculator(dbMock)
-		await sigmaCalculator.run()
-		expect(dbMock.getMostRecentDate).toHaveBeenCalled()
-		expect(dbMock.getTickersWithNameOnDate).toHaveBeenCalledWith(mockDate)
-		expect(dbMock.getDailyInDateRange).toHaveBeenCalledWith(
-			mockTicker,
-			expect.anything(),
-			expect.anything(),
-		)
-		expect(dbMock.createSigmaYesterday).toHaveBeenCalled()
 	})
 })

@@ -27,6 +27,9 @@ model UsStockDaily {
   logReturn      Float?
 
   @@id([ticker, date])
+  @@index([marketCap], type: BTree)
+  @@index(date(sort: Desc), type: BTree)
+  @@index([sigmaAbs(sort: Desc)], type: BTree)
 }
 
 model UsStocks {

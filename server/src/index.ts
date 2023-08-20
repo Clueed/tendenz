@@ -4,6 +4,7 @@ import Bree from 'bree'
 import Fastify from 'fastify'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { DatabaseApi } from './lib/databaseApi/databaseApi.js'
 import prismaPlugin from './plugins/prisma.js'
 
 if (process.env.NODE_ENV === 'production') {
@@ -14,13 +15,95 @@ const fastify = Fastify({
 	logger: true,
 })
 
+process.on('SIGINT', async () => await fastify.close()) // CTRL+C
+process.on('SIGQUIT', async () => await fastify.close()) // Keyboard quit
+process.on('SIGTERM', async () => await fastify.close()) // `kill` command
+
 fastify.register(cors, {
 	origin: '*',
 })
 
 fastify.register(prismaPlugin)
+const db = new DatabaseApi(fastify.prisma)
 
-fastify.get('/:page', async (request, reply) => {
+fastify.get('/us-stocks/daily/:page', async request => {
+	const query = request.query as Query
+	const minMarketCap = Number(query?.minMarketCap) || undefined
+
+	const PAGE_SIZE = 10
+	const params = request.params as Params
+	const page = Number(params?.page) || 0
+	const skip = page * PAGE_SIZE
+
+	const mostRecentDates = await db.getMostRecentDates(2)
+
+	const today = await fastify.prisma.usStockDaily.findMany({
+		orderBy: {
+			sigmaAbs: 'desc',
+		},
+		where: {
+			marketCap: { gte: minMarketCap } || { not: null },
+			date: mostRecentDates[0],
+			UsStocks: {
+				name: { not: null },
+			},
+			sigmaAbs: { not: null },
+		},
+		take: PAGE_SIZE,
+		skip,
+		select: {
+			close: true,
+			ticker: true,
+			sigma: true,
+			date: true,
+			marketCap: true,
+			UsStocks: {
+				select: {
+					name: true,
+				},
+			},
+		},
+	})
+
+	const tickers = today.map(value => value.ticker)
+
+	const yesterday = await fastify.prisma.usStockDaily.findMany({
+		where: {
+			date: mostRecentDates[1],
+			ticker: { in: tickers },
+		},
+		select: {
+			close: true,
+			ticker: true,
+			date: true,
+		},
+	})
+
+	const response = today.map(
+		({ ticker, close, date, UsStocks: { name }, ...rest }) => {
+			const previous = yesterday.findLast(prev => prev.ticker === ticker)
+
+			if (!previous) {
+				throw new Error(`${ticker} has no yesterday value`)
+			}
+
+			return {
+				...rest,
+				ticker,
+				name,
+				last: {
+					close: close,
+					date: date,
+				},
+				secondLast: { close: previous.close, date: previous.date },
+			}
+		},
+	)
+
+	return response
+})
+
+fastify.get('/:page', async request => {
 	const query = request.query as Query
 	const minMarketCap = Number(query?.minMarketCap)
 
@@ -99,9 +182,9 @@ const bree = new Bree({
 })
 
 const start = async () => {
-	bree.start()
+	//bree.start()
 	try {
-		await fastify.listen({ port: 3000, host: '0.0.0.0' })
+		await fastify.listen({ port: 3001, host: '0.0.0.0' })
 	} catch (err) {
 		fastify.log.error(err)
 		process.exit(1)

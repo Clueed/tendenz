@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import dotenv, { configDotenv } from 'dotenv'
 import 'dotenv/config'
+import { MarketCapCalculator } from '../dailyRoutine/MarketCapCalculator.js'
 import { SigmaCalculator } from '../dailyRoutine/SigmaCalculator.js'
 import { SplitDetector } from '../dailyRoutine/SplitDetector.js'
 import { dailySigmaRoutine } from '../dailyRoutine/dailySigmaRoutine.js'
@@ -28,6 +29,7 @@ const requestHandler = new PolygonRequestHandler(apiKey)
 const stocksApi = new PolygonStocksApi(requestHandler)
 const splitDetector = new SplitDetector(db, stocksApi)
 const sigmaCalculator = new SigmaCalculator(db)
+const marketCapCalculator = new MarketCapCalculator(db)
 
 try {
 	await reverseIncrementDailyUpdate(db, stocksApi)
@@ -35,6 +37,7 @@ try {
 	await db.clearSigma()
 	await dailySigmaRoutine()
 	await sigmaCalculator.run()
+	await marketCapCalculator.run()
 } catch (e) {
 	console.error(e)
 	process.exit(1)
