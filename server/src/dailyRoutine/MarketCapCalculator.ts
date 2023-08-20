@@ -7,10 +7,23 @@ export class MarketCapCalculator {
 	constructor(private db: DatabaseApi) {}
 
 	async run() {
+		console.group('Initiating Market Cap Calculation...')
 		const mostRecentDate = await this.db.getMostRecentDate()
 		const tickers = await this.getTickers(mostRecentDate)
 		const results = await this.recalcMarketCaps(tickers)
-		this.printResults(results, tickers.length)
+		const { successResults, groupedByErrorCode } =
+			MarketCapCalculator.structureResults(results)
+		console.info(
+			`Calcuted sigma for ${successResults.length} out of ${tickers} tickers`,
+		)
+		Object.keys(groupedByErrorCode).map(key => {
+			console.warn(
+				`Errors: ${
+					groupedByErrorCode[key as MarketCapCalcErrorCodes].length
+				}x ${key}`,
+			)
+		})
+		console.groupEnd()
 	}
 	async getTickers(date: Date) {
 		const tickers = await this.db.getDailysByDateWithoutMarketCap(date)
@@ -48,6 +61,7 @@ export class MarketCapCalculator {
 			return {
 				success: true,
 				data: { marketCap: weightedSharesOutstanding * close },
+				ticker,
 			}
 		}
 
@@ -55,10 +69,11 @@ export class MarketCapCalculator {
 			return {
 				success: true,
 				data: { marketCap: shareClassSharesOutstanding * close },
+				ticker,
 			}
 		}
 
-		return { success: false, errorCode: 'NoSharesOutstandingData' }
+		return { success: false, errorCode: 'NoSharesOutstandingData', ticker }
 	}
 
 	async getWsoAndScso(ticker: string) {
@@ -128,13 +143,50 @@ export class MarketCapCalculator {
 				console.info(`Errors: ${groupedByErrorCode[key].length}x ${key}`)
 			})
 	}
+	private static structureResults(
+		results: Omit<MarketCapCalcResult, 'data'>[],
+	) {
+		const successResults = results.filter(MarketCapCalcIsSuccess)
+		const failResults = results.filter(MarketCapCalcIsFailed)
+
+		const groupedByErrorCode = failResults.reduce(
+			(group, result) => {
+				const { errorCode } = result
+				group[errorCode] = group[errorCode] ?? []
+				group[errorCode].push(result.ticker)
+				return group
+			},
+			<Record<MarketCapCalcErrorCodes, string[]>>{},
+		)
+
+		return {
+			successResults,
+			failResults,
+			groupedByErrorCode,
+		}
+	}
 }
 
-type errorCodes = 'NoSharesOutstandingData'
+type MarketCapCalcErrorCodes = 'NoSharesOutstandingData'
 
-type MarketCapCalcResult =
-	| { success: false; errorCode: errorCodes }
-	| {
-			success: true
-			data: { marketCap: number }
-	  }
+const MarketCapCalcIsSuccess = (
+	result: { success: true } | { success: false },
+): result is MarketCapCalcSuccess => result.success === true
+
+const MarketCapCalcIsFailed = (
+	result: { success: true } | { success: false },
+): result is MarketCapCalcFailed => result.success === false
+
+type MarketCapCalcSuccess = {
+	ticker: string
+	success: true
+	data: { marketCap: number }
+}
+
+type MarketCapCalcFailed = {
+	ticker: string
+	success: false
+	errorCode: MarketCapCalcErrorCodes
+}
+
+type MarketCapCalcResult = MarketCapCalcSuccess | MarketCapCalcFailed
