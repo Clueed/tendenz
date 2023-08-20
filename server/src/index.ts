@@ -24,12 +24,11 @@ fastify.register(cors, {
 })
 
 fastify.register(prismaPlugin)
+const db = new DatabaseApi(fastify.prisma)
 
 fastify.get('/us-stocks/daily/:page', async request => {
 	const query = request.query as Query
 	const minMarketCap = Number(query?.minMarketCap) || undefined
-
-	const db = new DatabaseApi(fastify.prisma)
 
 	const PAGE_SIZE = 10
 	const params = request.params as Params
@@ -38,7 +37,7 @@ fastify.get('/us-stocks/daily/:page', async request => {
 
 	const mostRecentDates = await db.getMostRecentDates(2)
 
-	const dailyGroups = await fastify.prisma.usStockDaily.findMany({
+	const today = await fastify.prisma.usStockDaily.findMany({
 		orderBy: {
 			sigmaAbs: 'desc',
 		},
@@ -66,9 +65,9 @@ fastify.get('/us-stocks/daily/:page', async request => {
 		},
 	})
 
-	const tickers = dailyGroups.map(value => value.ticker)
+	const tickers = today.map(value => value.ticker)
 
-	const secondLasts = await fastify.prisma.usStockDaily.findMany({
+	const yesterday = await fastify.prisma.usStockDaily.findMany({
 		where: {
 			date: mostRecentDates[1],
 			ticker: { in: tickers },
@@ -80,31 +79,28 @@ fastify.get('/us-stocks/daily/:page', async request => {
 		},
 	})
 
-	const grouped = dailyGroups.map(
-		({ close, date, UsStocks: { name }, ...rest }) => {
+	const response = today.map(
+		({ ticker, close, date, UsStocks: { name }, ...rest }) => {
+			const previous = yesterday.findLast(prev => prev.ticker === ticker)
+
+			if (!previous) {
+				throw new Error(`${ticker} has no yesterday value`)
+			}
+
 			return {
 				...rest,
+				ticker,
 				name,
 				last: {
 					close: close,
 					date: date,
 				},
+				secondLast: { close: previous.close, date: previous.date },
 			}
 		},
 	)
 
-	const mergeGrouped = secondLasts.map(curr => {
-		const index = grouped.findIndex(value => value.ticker === curr.ticker)
-
-		return {
-			...grouped[index],
-			secondLast: { close: curr.close, date: curr.date },
-		}
-	})
-
-	//console.log('groupedByTicker :>> ', mergeGrouped)
-
-	return mergeGrouped
+	return response
 })
 
 fastify.get('/:page', async request => {
