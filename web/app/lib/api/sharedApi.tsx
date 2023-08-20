@@ -19,4 +19,4 @@ export interface tendenzApiSigmaYesterday {
 }
 
 export const getStocksURL = (page: number, minMarketCap: number) =>
-	`http://0.0.0.0:3001/us-stocks/daily/${page}?minMarketCap=${minMarketCap}`
+	`https://tendenz-server.fly.dev/${page}?minMarketCap=${minMarketCap}`
