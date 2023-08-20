@@ -113,7 +113,7 @@ export class MarketCapCalculator {
 			| {
 					ticker: string
 					success: false
-					errorCode: errorCodes
+					errorCode: MarketCapCalcErrorCodes
 			  }
 		)[],
 		dailysLength: number,
@@ -122,7 +122,7 @@ export class MarketCapCalculator {
 		const failResults = results.filter(({ success }) => success === false) as {
 			ticker: string
 			success: false
-			errorCode: errorCodes
+			errorCode: MarketCapCalcErrorCodes
 		}[]
 
 		const groupedByErrorCode = failResults.reduce(
