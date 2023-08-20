@@ -15,6 +15,10 @@ const fastify = Fastify({
 	logger: true,
 })
 
+process.on('SIGINT', async () => await fastify.close()) // CTRL+C
+process.on('SIGQUIT', async () => await fastify.close()) // Keyboard quit
+process.on('SIGTERM', async () => await fastify.close()) // `kill` command
+
 fastify.register(cors, {
 	origin: '*',
 })
@@ -98,7 +102,7 @@ fastify.get('/us-stocks/daily/:page', async request => {
 		}
 	})
 
-	console.log('groupedByTicker :>> ', mergeGrouped)
+	//console.log('groupedByTicker :>> ', mergeGrouped)
 
 	return mergeGrouped
 })
