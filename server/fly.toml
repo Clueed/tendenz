@@ -7,9 +7,9 @@ app = "tendenz-server"
 primary_region = "ams"
 
 [http_service]
-  internal_port = 3000
+  internal_port = 3001
   force_https = true
   auto_stop_machines = false
   auto_start_machines = false
-  min_machines_running = 0
+  min_machines_running = 1
   processes = ["app"]
