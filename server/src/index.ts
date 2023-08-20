@@ -83,7 +83,7 @@ fastify.get('/us-stocks/daily/:page', async request => {
 		({ ticker, close, date, UsStocks: { name }, ...rest }) => {
 			const previous = yesterday.find(prev => prev.ticker === ticker)
 
-			if (previous) {
+			if (!previous) {
 				throw new Error(`${ticker} has no yesterday value`)
 			}
 
