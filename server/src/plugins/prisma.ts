@@ -10,13 +10,18 @@ declare module 'fastify' {
 
 const prismaPlugin: FastifyPluginAsync = fp(async (server, options) => {
 	const prisma = new PrismaClient({
-		log: ['error', 'warn'],
+		log: ['error', 'warn', 
+		// { emit: 'event', level: 'query' }],
 	})
 
 	await prisma.$connect()
 	server.log.info('Connecting Prsima to db')
 
 	server.decorate('prisma', prisma)
+
+	// prisma.$on('query', async e => {
+	// 	server.log.info(`${e.query} ${e.params}`)
+	// })
 
 	server.addHook('onClose', async server => {
 		server.log.info('disconnecting Prisma from DB')

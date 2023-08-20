@@ -48,7 +48,7 @@ fastify.get('/us-stocks/daily/:page', async request => {
 			UsStocks: {
 				name: { not: null },
 			},
-			sigma: { not: null },
+			sigmaAbs: { not: null },
 		},
 		take: PAGE_SIZE,
 		skip,
