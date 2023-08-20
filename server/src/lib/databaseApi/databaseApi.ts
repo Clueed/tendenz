@@ -180,18 +180,6 @@ export class DatabaseApi {
 		return daily.date
 	}
 
-	async getMostRecentDates(daysMinus: number = 1) {
-		const dailys = await this.prisma.usStockDaily.groupBy({
-			by: ['date'],
-			orderBy: { date: 'desc' },
-			take: daysMinus,
-		})
-
-		const dates = dailys.map(daily => daily.date)
-
-		return dates
-	}
-
 	async createSigmaYesterday(data: Prisma.SigmaUsStocksYesterdayCreateInput) {
 		return await this.prisma.sigmaUsStocksYesterday.create({
 			data,
