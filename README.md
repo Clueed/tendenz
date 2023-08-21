@@ -39,49 +39,15 @@ For those without the time budget for manual research and lacking interest in th
 
 ## Stack
 - [Typescript](https://www.typescriptlang.org/) 
-- Frontend
-    - [React](https://reactjs.org/)
-    - [Next.js](https://nextjs.org/)
-    - [Radix UI Primitives](https://www.radix-ui.com/primitives)
-    - [Tailwind CSS](https://tailwindcss.com/)
-    - [SWR](https://swr.vercel.app/)
-    - [Framer Motion](https://www.framer.com/motion/)
-    - [Font Awesome](https://fontawesome.com/)
-- Backend
-    - [Node.js](https://nodejs.org/)
-    - [Fastify](https://www.fastify.io/)
-    - [Prisma](https://www.prisma.io/)
-    - [Axios](https://axios-http.com/)
-    - [Bree](https://github.com/breejs/bree)
-    - [Luxon](https://moment.github.io/luxon/)
-    - [p-limit](https://github.com/sindresorhus/p-limit)
-- Hosting
-    - [Vercel](https://vercel.com/)
-    - [Fly.io](https://fly.io/)
-        - [Fly Postgres](https://fly.io/docs/postgres/)
-- Data
-    - [Polygon.io](https://polygon.io/)
+- __Frontend:__ [Next.js](https://nextjs.org/), [Radix UI Primitives](https://www.radix-ui.com/primitives), [Tailwind CSS](https://tailwindcss.com/), [SWR](https://swr.vercel.app/), [Framer Motion](https://www.framer.com/motion/), [Font Awesome](https://fontawesome.com/)
+- __Backend:__ [Node.js](https://nodejs.org/), [Fastify](https://www.fastify.io/), [Prisma](https://www.prisma.io/), [Axios](https://axios-http.com/), [Bree](https://github.com/breejs/bree), [Luxon](https://moment.github.io/luxon/), [p-limit](https://github.com/sindresorhus/p-limit)
+- __Hosting:__ [Vercel](https://vercel.com/), [Fly.io](https://fly.io/), [Fly Postgres](https://fly.io/docs/postgres/)
+- __Data:__ [Polygon.io](https://polygon.io/)
 
 
 ## Dev environment
 
 ### Backend
-#### Environment
-
-```env
-DATABASE_URL="postgres://{username}:{password}@localhost:5432/tendenz_server?connection_limit=5"
-```
-
-- `/tendenz_server` specifies the database of the backend server
-- `connection_limit=5` fixes an issue with high CPU count machines. The default setting sometimes opens more connections than postgres can handle.
-
-```env
-POLYGON_API_KEY1="XXXX"
-POLYGON_API_KEY2="XXXX"
-```
-(Can be identical as long as multiple jobs don't run concurrently.)
-
-#### Local
 ```sh
 fly proxy 5432 -a tendenz-db
 ```
@@ -97,6 +63,23 @@ npm run dev
 - Jobs are not scheduled unless `NODE_ENV === 'production'`
     - For testing, they should be run manually with
     - `npm run build && node ./dist/jobs/...js` 
+
+
+#### Backend .env
+
+```env
+DATABASE_URL="postgres://{username}:{password}@localhost:5432/tendenz_server?connection_limit=5"
+```
+
+- `/tendenz_server` specifies the database of the backend server
+- `connection_limit=5` fixes an issue with high CPU count machines. The default setting sometimes opens more connections than postgres can handle.
+
+```env
+POLYGON_API_KEY1="XXXX"
+POLYGON_API_KEY2="XXXX"
+```
+(Can be identical as long as multiple jobs don't run concurrently.)
+
 
 ### Frontend
 In `web/`
