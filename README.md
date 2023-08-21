@@ -1,3 +1,6 @@
+![tendenz logo](https://github.com/Clueed/tendenz/assets/7318830/21e1849e-290b-4467-b0ef-88c503013343#gh-light-mode-only)
+![tendenz logo](https://github.com/Clueed/tendenz/assets/7318830/080c9e2e-da2e-46f2-982c-9bf4fba90300#gh-dark-mode-only)
+
 # Tendenz
 
 This project aims to assist you in staying informed about financial markets by utilizing the [z-score](https://tendenz.vercel.app/docs/statistical-significants) to assess the significance of price movements relative to an asset's historical patterns. By applying this methodology across an entire market (currently focusing on US equities), we can rapidly identify assets undergoing highly unusual events.
