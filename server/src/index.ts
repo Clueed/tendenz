@@ -187,7 +187,7 @@ const bree = new Bree({
 		},
 		{
 			name: 'updateSupplements',
-			cron: '0 4 * * *',
+			//cron: '0 4 * * *',
 		},
 	],
 })
