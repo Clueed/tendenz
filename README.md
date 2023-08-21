@@ -5,7 +5,7 @@ https://tendenz.vercel.app
 ---
 
 
-This project emerged from a personal need to stay updated about financial markets without the influence of biased viewpoints or the time-consuming nature of manual research. It aims to provide a starting point for further investigation.
+This project emerged from a personal need to stay updated about financial markets without the influence of biased viewpoints or the time-consuming nature of manual research. Tendenz aims to be a starting point for further investigation.
 
 This is accomplished by improving upon _the biggest winners/losers_ by considering historical volatility in combination with the most recent price movements. Specifically, Tendenz aims to rank the price movements of financial assets by their statistical significance as measured by the [z-score](https://tendenz.vercel.app/docs/statistical-significants).
 
