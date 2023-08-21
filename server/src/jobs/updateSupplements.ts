@@ -6,6 +6,8 @@ import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { PolygonRequestHandler } from '../lib/polygonApi/polygonRequestHandler.js'
 import { PolygonStocksApi } from '../lib/polygonApi/polygonStocksApi.js'
 
+const newDetails = true
+
 if (process.env.NODE_ENV === 'production') {
 	console.debug = function () {}
 }
@@ -23,9 +25,12 @@ const detailsSupplementer = new DetailsSupplementer(db, stocksApi)
 const marketCapCalculator = new MarketCapCalculator(db)
 
 try {
-	await supplementTickerDetails(db, stocksApi)
-	await detailsSupplementer.run()
-	await marketCapCalculator.run()
+	if (newDetails) {
+		await detailsSupplementer.run()
+		await marketCapCalculator.run()
+	} else {
+		await supplementTickerDetails(db, stocksApi)
+	}
 } catch (e) {
 	console.error(e)
 	process.exit(1)
