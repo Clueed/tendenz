@@ -3,13 +3,18 @@ import { match } from 'ts-pattern'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { formatDateString } from '../lib/misc.js'
 
+// TODO: drop error. it's redundant.
+// Query already returns also entries which have either wso or scso.
+// Not sure whether all the pattern matching/error handling should be dropped or if it'll be needed later.
+// It also makes all the functions cohesive.
+
 export class MarketCapCalculator {
 	constructor(private db: DatabaseApi) {}
 
 	async run() {
 		console.group('Initiating Market Cap Calculation...')
 		const mostRecentDate = await this.db.getMostRecentDate()
-		const tickers = await this.getTickers(mostRecentDate)
+		const tickers = await this.getDailys(mostRecentDate)
 		const results = await this.recalcMarketCaps(tickers)
 		const { successResults, groupedByErrorCode } =
 			MarketCapCalculator.structureResults(results)
@@ -25,12 +30,14 @@ export class MarketCapCalculator {
 		})
 		console.groupEnd()
 	}
-	async getTickers(date: Date) {
-		const tickers = await this.db.getDailysByDateWithoutMarketCap(date)
+	async getDailys(date: Date) {
+		const tickers = await this.db.getDailysForMarketCapCalc(date)
 		console.info(
 			`Found ${
 				tickers.length
-			} tickers without market cap for ${formatDateString(date)}`,
+			} tickers which qualify for market cap calculation ${formatDateString(
+				date,
+			)}`,
 		)
 		return tickers
 	}
@@ -104,45 +111,6 @@ export class MarketCapCalculator {
 			.exhaustive()
 	}
 
-	private printResults(
-		results: (
-			| {
-					ticker: string
-					success: true
-			  }
-			| {
-					ticker: string
-					success: false
-					errorCode: MarketCapCalcErrorCodes
-			  }
-		)[],
-		dailysLength: number,
-	) {
-		const successResults = results.filter(({ success }) => success === true)
-		const failResults = results.filter(({ success }) => success === false) as {
-			ticker: string
-			success: false
-			errorCode: MarketCapCalcErrorCodes
-		}[]
-
-		const groupedByErrorCode = failResults.reduce(
-			(group, result) => {
-				const { errorCode } = result
-				group[errorCode] = group[errorCode] ?? []
-				group[errorCode].push(result.ticker)
-				return group
-			},
-			<Record<string, string[]>>{},
-		)
-
-		console.info(
-			`Calcuted market cap for ${successResults.length} out of ${dailysLength}`,
-		)
-		if (groupedByErrorCode)
-			Object.keys(groupedByErrorCode).map(key => {
-				console.info(`Errors: ${groupedByErrorCode[key].length}x ${key}`)
-			})
-	}
 	private static structureResults(
 		results: Omit<MarketCapCalcResult, 'data'>[],
 	) {

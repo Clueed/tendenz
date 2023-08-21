@@ -186,9 +186,26 @@ export class DatabaseApi {
 		})
 	}
 
-	async getDailysByDateWithoutMarketCap(date: Date) {
+	/**
+	 * Retrieves a list of daily stock data for a specific date where the marketCap value is null.
+	 * Filters the data based on two conditions: either the weightedSharesOutstanding or the shareClassSharesOutstanding value is not null.
+	 * Returns the ticker, close price, and date for each matching record.
+	 *
+	 * @param {Date} date - The specific date for which to retrieve the daily stock data.
+	 * @returns {Array<Object>} - An array of objects representing the daily stock records. Each object contains the ticker (string), close price (number), and date (Date) properties.
+	 */
+	async getDailysForMarketCapCalc(date: Date) {
 		return await this.prisma.usStockDaily.findMany({
-			where: { date, marketCap: null },
+			where: {
+				date,
+				marketCap: null,
+				UsStocks: {
+					OR: [
+						{ weightedSharesOutstanding: { not: null } },
+						{ shareClassSharesOutstanding: { not: null } },
+					],
+				},
+			},
 			select: {
 				ticker: true,
 				close: true,
