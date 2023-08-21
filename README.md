@@ -75,7 +75,7 @@ DATABASE_URL="postgres://{username}:{password}@localhost:5432/tendenz_server?con
 - `/tendenz_server` specifies the database of the backend server
 - `connection_limit=5` fixes an issue with high CPU count machines. The default setting sometimes opens more connections than postgres can handle.
 
-```
+```env
 POLYGON_API_KEY1=XXXX
 POLYGON_API_KEY2=XXXX
 ```
