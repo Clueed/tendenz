@@ -24,8 +24,35 @@ For those without the time budget for manual research and lacking interesting in
 - Provide weekly and monthly data.
 - Incorporate market trends and sector movements.
 
-## Dev environment
+Sure, here are the markdown links for the technologies and tools you've listed:
 
+## Stack
+- [Typescript](https://www.typescriptlang.org/) 
+### Frontend
+- [React](https://reactjs.org/)
+- [Next.js](https://nextjs.org/)
+- [Radix UI Primitives](https://www.radix-ui.com/primitives)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [SWR](https://swr.vercel.app/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [Font Awesome](https://fontawesome.com/)
+
+### Backend
+- [Node.js](https://nodejs.org/)
+- [Fastify](https://www.fastify.io/)
+- [Prisma](https://www.prisma.io/)
+- [Axios](https://axios-http.com/)
+- [Bree](https://github.com/breejs/bree)
+- [Luxon](https://moment.github.io/luxon/)
+- [p-limit](https://github.com/sindresorhus/p-limit)
+
+### Hosting
+- [Vercel](https://vercel.com/)
+- [Fly.io](https://fly.io/)
+    - [Fly Postgres](https://fly.io/docs/postgresql/)
+
+
+## Dev environment
 ```sh
 fly proxy 5432 -a tendenz-db
 ```
