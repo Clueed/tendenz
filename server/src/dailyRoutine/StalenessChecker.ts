@@ -1,7 +1,16 @@
-import { Prisma } from '@prisma/client'
-import { formatDateString, getStartAndEndOfDay } from '../lib/misc.js'
+import { UsStockDaily } from '@prisma/client'
+import {
+	SingleAggsMapping,
+	formatDateString,
+	getStartAndEndOfDay,
+} from '../lib/misc.js'
 
-const keys = {
+export const staleResult = new Result<
+	{ match: boolean; date: string },
+	{ date: string; errorCode: 'MoreThenOneEntryForDate' | 'NoEntriesForDate' }
+>()
+
+const keysToCheck = {
 	date: true,
 	volume: true,
 	open: true,
@@ -11,10 +20,6 @@ const keys = {
 	volumeWeighted: true,
 	nTransactions: true,
 } as const
-
-type UsStockDaily = Prisma.UsStockDailyGetPayload<{
-	select: typeof keys
-}>
 
 interface IDatabaseApi {
 	getDailyInDateRange(
@@ -27,7 +32,7 @@ interface IDatabaseApi {
 export class StalenessChecker {
 	constructor(private db: IDatabaseApi) {}
 
-	async check(ticker: string, dailys: UsStockDaily[]) {
+	async check(ticker: string, dailys: SingleAggsMapping[]) {
 		const dailysToCheck = [
 			dailys[0],
 			dailys[Math.floor(dailys.length / 2)],
@@ -39,10 +44,7 @@ export class StalenessChecker {
 		)
 	}
 
-	private async checkIfMatch(
-		ticker: string,
-		newDaily: UsStockDaily,
-	): Promise<StalenessCheckResult> {
+	private async checkIfMatch(ticker: string, newDaily: SingleAggsMapping) {
 		const date = new Date(newDaily.date)
 		const { startOfDay, endOfDay } = getStartAndEndOfDay(date)
 		const oldDailys = await this.db.getDailyInDateRange(
@@ -53,54 +55,29 @@ export class StalenessChecker {
 
 		const entryCount = oldDailys.length
 		if (entryCount !== 1) {
-			return {
-				success: false,
+			return staleResult.failure({
 				errorCode:
 					entryCount > 1 ? 'MoreThenOneEntryForDate' : 'NoEntriesForDate',
 				date: formatDateString(date),
-			}
+			})
 		}
 
 		const oldDaily = oldDailys[0]
 
-		for (const key of Object.keys(keys) as Array<keyof typeof keys>) {
+		for (const key of Object.keys(keysToCheck) as Array<
+			keyof typeof keysToCheck
+		>) {
 			if (oldDaily[key] !== newDaily[key]) {
-				return {
-					success: true,
+				return staleResult.success({
 					match: false,
 					date: formatDateString(date),
-				}
+				})
 			}
 		}
 
-		return {
-			success: true,
+		return staleResult.success({
 			match: true,
 			date: formatDateString(date),
-		}
+		})
 	}
 }
-
-const StalenessCheckIsSuccess = (
-	result: { success: true } | { success: false },
-): result is StalenessCheckSuccess => result.success === true
-
-const StalenessCheckIsFailed = (
-	result: { success: true } | { success: false },
-): result is StalenessCheckFailed => result.success === false
-
-type SplitErrorCode = 'MoreThenOneEntryForDate' | 'NoEntriesForDate'
-
-type StalenessCheckSuccess = {
-	success: true
-	match: boolean
-	date: string
-}
-
-type StalenessCheckFailed = {
-	success: false
-	date: string
-	errorCode: SplitErrorCode
-}
-
-type StalenessCheckResult = StalenessCheckSuccess | StalenessCheckFailed

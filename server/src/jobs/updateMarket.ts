@@ -32,12 +32,14 @@ const sigmaCalculator = new SigmaCalculator(db)
 const marketCapCalculator = new MarketCapCalculator(db)
 
 try {
-	await reverseIncrementDailyUpdate(db, stocksApi)
 	await splitDetector.run()
-	await db.clearSigma()
-	await dailySigmaRoutine()
-	await sigmaCalculator.run()
-	await marketCapCalculator.run()
+	if (false) {
+		await reverseIncrementDailyUpdate(db, stocksApi)
+		await db.clearSigma()
+		await dailySigmaRoutine()
+		await sigmaCalculator.run()
+		await marketCapCalculator.run()
+	}
 } catch (e) {
 	console.error(e)
 	process.exit(1)

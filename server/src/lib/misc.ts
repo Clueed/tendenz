@@ -47,9 +47,7 @@ export function getStartAndEndOfDay(date: Date) {
 	return { startOfDay, endOfDay }
 }
 
-export function mapIAggsSingleToTable(
-	iAggs: IAggsResultsSingle,
-): Prisma.UsStockDailyGetPayload<{
+export type SingleAggsMapping = Prisma.UsStockDailyGetPayload<{
 	select: {
 		date: true
 		volume: true
@@ -60,7 +58,11 @@ export function mapIAggsSingleToTable(
 		volumeWeighted: true
 		nTransactions: true
 	}
-}> {
+}>
+
+export function mapIAggsSingleToTable(
+	iAggs: IAggsResultsSingle,
+): SingleAggsMapping {
 	const {
 		t: date,
 		v: volume,

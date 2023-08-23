@@ -1,179 +1,116 @@
 import { Prisma } from '@prisma/client'
+import pLimit from 'p-limit'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
-import { formatDateString, getStartAndEndOfDay } from '../lib/misc.js'
-import { IAggsResultsSingle } from '../lib/polygonApi/polygonTypes.js'
+import {
+	SingleAggsMapping,
+	formatDateString,
+	getStartAndEndOfDay,
+	mapIAggsSingleToTable,
+} from '../lib/misc.js'
 import { StocksApi } from '../lib/polygonApi/stocksApi.js'
 
 export class SplitDetector {
-	private updateStatus: { ticker: string; updated: boolean }[] = []
-
 	constructor(
 		private db: DatabaseApi,
 		private stocksApi: StocksApi,
+		private stalenessChecker: StalenessChecker,
 		private stopAfterNUpdates: number = 10,
 	) {}
 
 	async run() {
 		console.group(`Initiating split detector...`)
-		try {
-			const dates = formatDateString(new Date())
-			const splits = await this.stocksApi.getSplits(dates)
 
-			for (const { ticker, execution_date } of splits) {
-				if (this.cont()) {
-					await this.handleSplit(ticker, execution_date)
-				}
-			}
-			const detected = this.updateStatus.length
-			const updated = this.updateStatus.filter(
-				({ updated }) => updated === true,
-			)
-			console.info(
-				`Detected ${detected} splits and adjusted data for ${updated.length}.`,
-			)
-		} catch (error) {
-			console.error(
-				`An error occurred while running the split detector: ${error}`,
-			)
-		}
+		const today = formatDateString(new Date())
+		const splits = await this.stocksApi.getSplits(today)
+
+		const limit = pLimit(2)
+		const results = await Promise.all(
+			splits.map(async ({ ticker }) =>
+				limit(async () => {
+					const dailys = (
+						await this.stocksApi.getAllDailysByTicker(ticker)
+					).map(mapIAggsSingleToTable)
+
+					const staleResults = await this.stalenessChecker.check(ticker, dailys)
+
+					const allSuccess = staleResults.every(StalenessCheckIsSuccess)
+					if (!allSuccess) {
+						return {
+							success: false,
+							staleResults: staleResults,
+						}
+					}
+
+					const allMatch = staleResults.every(result => result.match === true)
+					if (allMatch) {
+						return {
+							success: true,
+							updated: false,
+						}
+					}
+
+					const limit = pLimit(5)
+					const updateResult = await Promise.all(
+						dailys.map(async daily =>
+							limit(async () => await this.updateEntries(ticker, daily)),
+						),
+					)
+
+					return { updateResult, ticker }
+				}),
+			),
+		)
+
 		console.groupEnd()
 	}
 
-	private async handleSplit(ticker: string, execution_date: string) {
-		console.group(`Handling split for ${ticker} on ${execution_date}`)
-		const dailys = await this.stocksApi.getAllDailysByTicker(ticker)
-
-		const firstMatches = await this.checkIfMatch(ticker, dailys[0])
-		const lastMatches = await this.checkIfMatch(
-			ticker,
-			dailys[dailys.length - 1],
-		)
-
-		if (firstMatches && lastMatches) {
-			this.updateStatus.push({ ticker, updated: false })
-			console.debug(`${ticker} is already split-adjusted.`)
-			console.groupEnd()
-			return
-		}
-
-		await Promise.all(
-			dailys.map(async daily => {
-				await this.updateEntries(ticker, daily)
-				this.updateStatus.push({ ticker, updated: true })
-			}),
-		)
-		console.groupEnd()
-	}
-
-	private async updateEntries(
-		ticker: string,
-		daily: IAggsResultsSingle,
-	): Promise<void> {
-		const { t, c, o, h, l, v, n, vw } = daily
-		const { startOfDay, endOfDay } = getStartAndEndOfDay(new Date(t))
-		const updateData: Prisma.UsStockDailyUpdateInput = {
-			volume: v,
-			open: o,
-			close: c,
-			high: h,
-			low: l,
-			volumeWeighted: vw,
-			nTransactions: n,
-		}
+	private async updateEntries(ticker: string, daily: SingleAggsMapping) {
+		const { startOfDay, endOfDay } = getStartAndEndOfDay(daily.date)
 
 		const { count } = await this.db.updateDailyInDateRange(
 			ticker,
 			startOfDay,
 			endOfDay,
-			updateData,
+			daily,
 		)
 
-		console.debug(`Updated entry on ${formatDateString(t)}`)
-		if (count > 1) {
-			throw new Error(
-				`${count} entries have been updated for ${ticker} on ${formatDateString(
-					t,
-				)}.`,
-			)
-		}
-	}
+		if (count === 1)
+			return {
+				success: true,
+				updated: true,
+			} as const
 
-	private async checkIfMatch(
-		ticker: string,
-		newDaily: IAggsResultsSingle,
-	): Promise<boolean> {
-		const { startOfDay, endOfDay } = getStartAndEndOfDay(new Date(newDaily.t))
-		const oldDailys = await this.db.getDailyInDateRange(
-			ticker,
-			startOfDay,
-			endOfDay,
-		)
-
-		if (oldDailys.length < 1) {
-			console.warn(
-				`${
-					oldDailys.length
-				} entries have been found for ${ticker} on ${formatDateString(
-					newDaily.t,
-				)}. Skipping...`,
-			)
-			return false
-		}
-
-		if (oldDailys.length > 1) {
-			console.info(
-				`${oldDailys.length} entries for ${ticker} on ${formatDateString(
-					newDaily.t,
-				)}. Updating all...`,
-			)
-			return true
-		}
-
-		const {
-			volume: v,
-			open: o,
-			close: c,
-			high: h,
-			low: l,
-			volumeWeighted: vw,
-			nTransactions: n,
-		} = oldDailys[0]
-
-		const oldDaily = {
-			v,
-			o,
-			c,
-			h,
-			l,
-			vw,
-			n,
+		return {
+			success: false,
+			date: formatDateString(daily.date),
+			...(count > 1
+				? { errorCode: 'UpdatedMoreThenOneEntryPerDay', updated: true }
+				: { errorCode: 'UpdatedLessThenOneEntryPerDay', updated: false }),
 		} as const
-
-		for (const key of Object.keys(oldDaily) as Array<keyof typeof oldDaily>) {
-			if (oldDaily[key] !== newDaily[key]) {
-				return false
-			}
-		}
-		return true
-	}
-
-	private cont(): boolean {
-		const statuses = this.updateStatus.reverse()
-
-		let consecutiveNoUpdates = 0
-
-		for (const stat of statuses) {
-			if (stat.updated === false) {
-				consecutiveNoUpdates++
-			} else {
-				break
-			}
-		}
-
-		if (consecutiveNoUpdates > this.stopAfterNUpdates) {
-			return false
-		}
-
-		return true
 	}
 }
+
+const SplitResultIsSuccess = (
+	result: { success: true } | { success: false },
+): result is SplitResultSuccess => result.success === true
+
+const SplitResultIsFailed = (
+	result: { success: true } | { success: false },
+): result is SplitResultFailed => result.success === false
+
+type SplitErrorCode = 'NotEnoughDataPoints'
+
+type SplitResultSuccess = {
+	ticker: string
+	success: true
+	adjusted: true | false
+	data: { updateData: Prisma.UsStockDailyUpdateInput; date: Date }
+}
+
+type SplitResultFailed = {
+	ticker: string
+	success: false
+	errorCode: SplitErrorCode
+}
+
+type SplitResult = SplitResultSuccess | SplitResultFailed
