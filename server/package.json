@@ -24,6 +24,7 @@
     "fastify": "^4.19.2",
     "fastify-plugin": "^4.5.1",
     "luxon": "^3.4.0",
+    "neverthrow": "^6.0.0",
     "p-limit": "^4.0.0",
     "prettier": "^3.0.1",
     "ts-pattern": "^5.0.5"

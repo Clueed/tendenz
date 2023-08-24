@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client'
+import { Result, err, ok } from 'neverthrow'
 import pLimit from 'p-limit'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import {
@@ -8,6 +8,7 @@ import {
 	mapIAggsSingleToTable,
 } from '../lib/misc.js'
 import { StocksApi } from '../lib/polygonApi/stocksApi.js'
+import { StalenessChecker } from './StalenessChecker.js'
 
 export class SplitDetector {
 	constructor(
@@ -31,40 +32,58 @@ export class SplitDetector {
 						await this.stocksApi.getAllDailysByTicker(ticker)
 					).map(mapIAggsSingleToTable)
 
-					const staleResults = await this.stalenessChecker.check(ticker, dailys)
-
-					const allSuccess = staleResults.every(StalenessCheckIsSuccess)
-					if (!allSuccess) {
-						return {
-							success: false,
-							staleResults: staleResults,
-						}
+					const staleResult = await this.stalenessChecker.check(ticker, dailys)
+					if (staleResult.isErr()) {
+						return staleResult.mapErr(error => ({
+							error,
+							ticker,
+						}))
 					}
 
-					const allMatch = staleResults.every(result => result.match === true)
-					if (allMatch) {
-						return {
-							success: true,
-							updated: false,
-						}
-					}
-
-					const limit = pLimit(5)
-					const updateResult = await Promise.all(
-						dailys.map(async daily =>
-							limit(async () => await this.updateEntries(ticker, daily)),
-						),
+					const allMatch = staleResult.value.every(
+						({ match }) => match === true,
 					)
+					if (allMatch) {
+						return ok({
+							ticker,
+							updated: false,
+						})
+					}
 
-					return { updateResult, ticker }
+					const updateResult = await this.updateTicker(dailys, ticker)
+
+					if (updateResult.isErr())
+						return updateResult.mapErr(results => ({
+							updateResults: results,
+							ticker,
+						}))
+
+					return ok({ ticker, updated: true })
 				}),
 			),
+		)
+
+		const result = Result.combineWithAllErrors(results)
+
+		result.match(
+			success => console.info(success),
+			error => console.log(error),
 		)
 
 		console.groupEnd()
 	}
 
-	private async updateEntries(ticker: string, daily: SingleAggsMapping) {
+	private async updateTicker(dailys: SingleAggsMapping[], ticker: string) {
+		const limit = pLimit(5)
+		const updateResults = await Promise.all(
+			dailys.map(async daily =>
+				limit(async () => this.updateDailyWithRange(ticker, daily)),
+			),
+		)
+		return Result.combineWithAllErrors(updateResults)
+	}
+
+	private async updateDailyWithRange(ticker: string, daily: SingleAggsMapping) {
 		const { startOfDay, endOfDay } = getStartAndEndOfDay(daily.date)
 
 		const { count } = await this.db.updateDailyInDateRange(
@@ -74,43 +93,13 @@ export class SplitDetector {
 			daily,
 		)
 
-		if (count === 1)
-			return {
-				success: true,
-				updated: true,
-			} as const
+		if (count === 1) return ok({ updated: true })
 
-		return {
-			success: false,
+		return err({
 			date: formatDateString(daily.date),
 			...(count > 1
 				? { errorCode: 'UpdatedMoreThenOneEntryPerDay', updated: true }
 				: { errorCode: 'UpdatedLessThenOneEntryPerDay', updated: false }),
-		} as const
+		})
 	}
 }
-
-const SplitResultIsSuccess = (
-	result: { success: true } | { success: false },
-): result is SplitResultSuccess => result.success === true
-
-const SplitResultIsFailed = (
-	result: { success: true } | { success: false },
-): result is SplitResultFailed => result.success === false
-
-type SplitErrorCode = 'NotEnoughDataPoints'
-
-type SplitResultSuccess = {
-	ticker: string
-	success: true
-	adjusted: true | false
-	data: { updateData: Prisma.UsStockDailyUpdateInput; date: Date }
-}
-
-type SplitResultFailed = {
-	ticker: string
-	success: false
-	errorCode: SplitErrorCode
-}
-
-type SplitResult = SplitResultSuccess | SplitResultFailed

@@ -1,14 +1,10 @@
 import { UsStockDaily } from '@prisma/client'
+import { Result, err, ok } from 'neverthrow'
 import {
 	SingleAggsMapping,
 	formatDateString,
 	getStartAndEndOfDay,
 } from '../lib/misc.js'
-
-export const staleResult = new Result<
-	{ match: boolean; date: string },
-	{ date: string; errorCode: 'MoreThenOneEntryForDate' | 'NoEntriesForDate' }
->()
 
 const keysToCheck = {
 	date: true,
@@ -39,9 +35,11 @@ export class StalenessChecker {
 			dailys[dailys.length - 1],
 		]
 
-		return await Promise.all(
+		const results = await Promise.all(
 			dailysToCheck.map(async daily => await this.checkIfMatch(ticker, daily)),
 		)
+
+		return Result.combineWithAllErrors(results)
 	}
 
 	private async checkIfMatch(ticker: string, newDaily: SingleAggsMapping) {
@@ -55,7 +53,7 @@ export class StalenessChecker {
 
 		const entryCount = oldDailys.length
 		if (entryCount !== 1) {
-			return staleResult.failure({
+			return err({
 				errorCode:
 					entryCount > 1 ? 'MoreThenOneEntryForDate' : 'NoEntriesForDate',
 				date: formatDateString(date),
@@ -68,14 +66,14 @@ export class StalenessChecker {
 			keyof typeof keysToCheck
 		>) {
 			if (oldDaily[key] !== newDaily[key]) {
-				return staleResult.success({
+				return ok({
 					match: false,
 					date: formatDateString(date),
 				})
 			}
 		}
 
-		return staleResult.success({
+		return ok({
 			match: true,
 			date: formatDateString(date),
 		})
