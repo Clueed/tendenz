@@ -1,3 +1,6 @@
+import { Prisma } from '@prisma/client'
+import { IAggsResultsSingle } from './polygonApi/polygonTypes.js'
+
 export function formatDateString(inputDate: Date | number): string {
 	let date: Date
 
@@ -42,4 +45,42 @@ export function getStartAndEndOfDay(date: Date) {
 	endOfDay.setHours(23, 59, 59, 999)
 
 	return { startOfDay, endOfDay }
+}
+
+export type SingleAggsMapping = Prisma.UsStockDailyGetPayload<{
+	select: {
+		date: true
+		volume: true
+		open: true
+		close: true
+		high: true
+		low: true
+		volumeWeighted: true
+		nTransactions: true
+	}
+}>
+
+export function mapIAggsSingleToTable(
+	iAggs: IAggsResultsSingle,
+): SingleAggsMapping {
+	const {
+		t: date,
+		v: volume,
+		o: open,
+		c: close,
+		h: high,
+		l: low,
+		vw: volumeWeighted,
+		n: nTransactions,
+	} = iAggs
+	return {
+		date: new Date(date),
+		volume,
+		open,
+		close,
+		high,
+		low,
+		volumeWeighted: volumeWeighted || null,
+		nTransactions: nTransactions || null,
+	}
 }

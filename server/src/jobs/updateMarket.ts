@@ -4,6 +4,7 @@ import 'dotenv/config'
 import { MarketCapCalculator } from '../dailyRoutine/MarketCapCalculator.js'
 import { SigmaCalculator } from '../dailyRoutine/SigmaCalculator.js'
 import { SplitDetector } from '../dailyRoutine/SplitDetector.js'
+import { StalenessChecker } from '../dailyRoutine/StalenessChecker.js'
 import { dailySigmaRoutine } from '../dailyRoutine/dailySigmaRoutine.js'
 import { reverseIncrementDailyUpdate } from '../dailyRoutine/reverseIncrementDailyUpdate.js'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
@@ -29,7 +30,8 @@ if (!apiKey) {
 
 const requestHandler = new PolygonRequestHandler(apiKey)
 const stocksApi = new PolygonStocksApi(requestHandler)
-const splitDetector = new SplitDetector(db, stocksApi)
+const stalenessChecker = new StalenessChecker(db)
+const splitDetector = new SplitDetector(db, stocksApi, stalenessChecker)
 const sigmaCalculator = new SigmaCalculator(db)
 const marketCapCalculator = new MarketCapCalculator(db)
 
