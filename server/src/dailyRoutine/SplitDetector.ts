@@ -7,6 +7,7 @@ import {
 	getStartAndEndOfDay,
 	mapIAggsSingleToTable,
 } from '../lib/misc.js'
+import { IStockSplitResults } from '../lib/polygonApi/polygonTypes.js'
 import { StocksApi } from '../lib/polygonApi/stocksApi.js'
 import { StaleError, StalenessChecker } from './StalenessChecker.js'
 
@@ -24,6 +25,49 @@ export class SplitDetector {
 		const today = formatDateString(new Date())
 		const splits = await this.stocksApi.getSplits(today)
 
+		const results = []
+
+		for (let i = 0; i < splits.length; i += 10) {
+			const binResult = await this.handleSplits(splits.slice(i, i + 10))
+			results.push(...binResult)
+
+			const comb = Result.combineWithAllErrors(binResult)
+			if (comb.isErr()) {
+				break
+			}
+
+			const updated = binResult.filter(
+				s => s.isOk() && s.value.updated === true,
+			)
+			if (updated.length === 0) {
+				break
+			}
+		}
+
+		const success = results.filter(s => s.isOk())
+		const updated = results.filter(s => s.isOk() && s.value.updated === true)
+
+		console.info(`Checked ${success.length} splits`)
+		console.info(`Updated ${updated.length}`)
+
+		const errors: (UpdateError | StaleError)[] = []
+
+		for (const r of results) {
+			if (r.isErr()) {
+				errors.push(...r.error)
+			}
+		}
+
+		const groupedByError = groupBy(errors, ['errorCode'])
+
+		Object.keys(groupedByError).forEach(key =>
+			console.info(`${groupedByError[key].length}x ${key}`),
+		)
+
+		console.groupEnd()
+	}
+
+	private async handleSplits(splits: IStockSplitResults[]) {
 		const limit = pLimit(2)
 		const results = await Promise.all(
 			splits.map(async ({ ticker }) =>
@@ -60,28 +104,7 @@ export class SplitDetector {
 				}),
 			),
 		)
-
-		const success = results.filter(s => s.isOk())
-		const updated = results.filter(s => s.isOk() && s.value.updated === true)
-
-		console.info(`Checked ${success.length} splits`)
-		console.info(`Updated ${updated.length}`)
-
-		const errors: (UpdateError | StaleError)[] = []
-
-		for (const r of results) {
-			if (r.isErr()) {
-				errors.push(...r.error)
-			}
-		}
-
-		const groupedByError = groupBy(errors, ['errorCode'])
-
-		Object.keys(groupedByError).forEach(key =>
-			console.info(`${groupedByError[key].length}x ${key}`),
-		)
-
-		console.groupEnd()
+		return results
 	}
 
 	private async updateTicker(dailys: SingleAggsMapping[], ticker: string) {
