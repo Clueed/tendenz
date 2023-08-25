@@ -6,7 +6,7 @@ import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { PolygonRequestHandler } from '../lib/polygonApi/polygonRequestHandler.js'
 import { PolygonStocksApi } from '../lib/polygonApi/polygonStocksApi.js'
 
-const newDetails = true
+const newDetails = false
 
 if (process.env.NODE_ENV === 'production') {
 	console.debug = function () {}

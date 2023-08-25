@@ -11,6 +11,8 @@ import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { PolygonRequestHandler } from '../lib/polygonApi/polygonRequestHandler.js'
 import { PolygonStocksApi } from '../lib/polygonApi/polygonStocksApi.js'
 
+const newTable = false
+
 dotenv.config()
 
 if (process.env.NODE_ENV === 'production') {
@@ -34,11 +36,11 @@ const sigmaCalculator = new SigmaCalculator(db)
 const marketCapCalculator = new MarketCapCalculator(db)
 
 try {
-	await splitDetector.run()
-	if (false) {
-		await reverseIncrementDailyUpdate(db, stocksApi)
-		await db.clearSigma()
-		await dailySigmaRoutine()
+	await reverseIncrementDailyUpdate(db, stocksApi)
+	await db.clearSigma()
+	await dailySigmaRoutine()
+	if (newTable) {
+		await splitDetector.run()
 		await sigmaCalculator.run()
 		await marketCapCalculator.run()
 	}
