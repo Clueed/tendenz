@@ -53,10 +53,11 @@ export class StalenessChecker {
 
 		const entryCount = oldDailys.length
 		if (entryCount !== 1) {
-			return err({
+			return err(<StaleError>{
 				errorCode:
 					entryCount > 1 ? 'MoreThenOneEntryForDate' : 'NoEntriesForDate',
 				date: formatDateString(date),
+				ticker,
 			})
 		}
 
@@ -66,16 +67,29 @@ export class StalenessChecker {
 			keyof typeof keysToCheck
 		>) {
 			if (oldDaily[key] !== newDaily[key]) {
-				return ok({
+				return ok(<StaleOk>{
 					match: false,
 					date: formatDateString(date),
+					ticker,
 				})
 			}
 		}
 
-		return ok({
+		return ok(<StaleOk>{
 			match: true,
 			date: formatDateString(date),
+			ticker,
 		})
 	}
+}
+
+export type StaleError = {
+	date: string
+	errorCode: 'MoreThenOneEntryForDate' | 'NoEntriesForDate'
+	ticker: string
+}
+type StaleOk = {
+	date: string
+	match: boolean
+	ticker: string
 }

@@ -8,7 +8,7 @@ import {
 	mapIAggsSingleToTable,
 } from '../lib/misc.js'
 import { StocksApi } from '../lib/polygonApi/stocksApi.js'
-import { StalenessChecker } from './StalenessChecker.js'
+import { StaleError, StalenessChecker } from './StalenessChecker.js'
 
 export class SplitDetector {
 	constructor(
@@ -34,40 +34,51 @@ export class SplitDetector {
 
 					const staleResult = await this.stalenessChecker.check(ticker, dailys)
 					if (staleResult.isErr()) {
-						return staleResult.mapErr(error => ({
-							error,
-							ticker,
-						}))
+						return staleResult
 					}
 
 					const allMatch = staleResult.value.every(
 						({ match }) => match === true,
 					)
-					if (allMatch) {
-						return ok({
+					if (!allMatch) {
+						return ok(<SplitOk>{
 							ticker,
 							updated: false,
 						})
 					}
 
-					const updateResult = await this.updateTicker(dailys, ticker)
+					const updateResults = await this.updateTicker(dailys, ticker)
 
-					if (updateResult.isErr())
-						return updateResult.mapErr(results => ({
-							updateResults: results,
-							ticker,
-						}))
+					if (updateResults.isErr()) {
+						return updateResults
+					}
 
-					return ok({ ticker, updated: true })
+					return ok(<SplitOk>{
+						ticker,
+						updated: true,
+					})
 				}),
 			),
 		)
 
-		const result = Result.combineWithAllErrors(results)
+		const success = results.filter(s => s.isOk())
+		const updated = results.filter(s => s.isOk() && s.value.updated === true)
 
-		result.match(
-			success => console.info(success),
-			error => console.log(error),
+		console.info(`Checked ${success.length} splits`)
+		console.info(`Updated ${updated.length}`)
+
+		const errors: (UpdateError | StaleError)[] = []
+
+		for (const r of results) {
+			if (r.isErr()) {
+				errors.push(...r.error)
+			}
+		}
+
+		const groupedByError = groupBy(errors, ['errorCode'])
+
+		Object.keys(groupedByError).forEach(key =>
+			console.info(`${groupedByError[key].length}x ${key}`),
 		)
 
 		console.groupEnd()
@@ -93,13 +104,58 @@ export class SplitDetector {
 			daily,
 		)
 
-		if (count === 1) return ok({ updated: true })
+		if (count === 1)
+			return ok(<UpdateOk>{
+				updated: true,
+				ticker,
+				date: formatDateString(daily.date),
+			})
 
-		return err({
+		return err(<UpdateError>{
+			ticker,
 			date: formatDateString(daily.date),
 			...(count > 1
-				? { errorCode: 'UpdatedMoreThenOneEntryPerDay', updated: true }
-				: { errorCode: 'UpdatedLessThenOneEntryPerDay', updated: false }),
+				? {
+						errorCode: 'UpdatedMoreThenOneEntryPerDay',
+						updated: true,
+				  }
+				: {
+						errorCode: 'UpdatedLessThenOneEntryPerDay',
+						updated: false,
+				  }),
 		})
 	}
+}
+
+type SplitOk = {
+	ticker: string
+	updated: boolean
+}
+
+type UpdateOk = {
+	date: string
+	ticker: string
+	updated: true
+}
+
+type UpdateError = {
+	date: string
+	errorCode: 'UpdatedMoreThenOneEntryPerDay' | 'UpdatedLessThenOneEntryPerDay'
+	updated: boolean
+	ticker: string
+}
+
+const groupBy = <T>(arr: T[], keys: (keyof T)[]): { [key: string]: T[] } => {
+	return arr.reduce(
+		(storage, item) => {
+			const objKey = keys.map(key => `${item[key]}`).join(':')
+			if (storage[objKey]) {
+				storage[objKey].push(item)
+			} else {
+				storage[objKey] = [item]
+			}
+			return storage
+		},
+		{} as { [key: string]: T[] },
+	)
 }
