@@ -41,17 +41,13 @@ const sigmaCalculator = new SigmaCalculator(db)
 const marketCapCalculator = new MarketCapCalculator(db)
 
 try {
-	if (STRATEGY === Strategy.MultiTable) {
 		await reverseIncrementDailyUpdate(db, stocksApi)
 		await db.clearSigma()
 		await dailySigmaRoutine()
-	}
-	if (STRATEGY === Strategy.SingleTable) {
-		await reverseIncrementDailyUpdate(db, stocksApi)
 		await splitDetector.run()
+		await reverseIncrementDailyUpdate(db, stocksApi)
 		await marketCapCalculator.run()
 		await sigmaCalculator.run()
-	}
 } catch (e) {
 	console.error(e)
 	process.exit(1)
