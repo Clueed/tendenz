@@ -1,9 +1,10 @@
 import cors from '@fastify/cors'
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import Bree from 'bree'
 import Fastify from 'fastify'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { DatabaseApi } from './lib/databaseApi/databaseApi.js'
 import prismaPlugin from './plugins/prisma.js'
 
 if (process.env.NODE_ENV === 'production') {
@@ -26,23 +27,12 @@ fastify.register(prismaPlugin)
 
 const PAGE_SIZE = 10
 
-async function getMostRecentDates(prisma: PrismaClient, daysMinus: number = 1) {
-	const dailys = await prisma.usStockDaily.groupBy({
-		by: ['date'],
-		orderBy: { date: 'desc' },
-		take: daysMinus,
-	})
-
-	const dates = dailys.map(daily => daily.date)
-
-	return dates
-}
-
 fastify.get('/us-stocks/daily/:page', async request => {
+	const db = new DatabaseApi(fastify.prisma)
 	const query = request.query as Query
 	const minMarketCap = Number(query?.minMarketCap) || undefined
 
-	const mostRecentDates = await getMostRecentDates(fastify.prisma, 2)
+	const mostRecentDates = await db.getMostRecentDates(2)
 
 	const params = request.params as Params
 	const page = Number(params?.page) || 0

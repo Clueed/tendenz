@@ -42,38 +42,37 @@ export function PageOfSigmaCards({
 	last: boolean
 	handleNextPage: () => void
 }) {
-	const { data, error, isLoading, isValidating } = useSigmaYesterday(
+	const { data, isLoading, isValidating, error } = useSigmaYesterday(
 		minMarketCap,
 		page,
 	)
 
-	if (error) {
-		return <span>error</span>
+	console.log('data :>> ', data)
+
+	if (data && data.length > 0) {
+		return data.map(entry => (
+			<motion.div
+				layout
+				key={entry.ticker}
+				variants={variants}
+				initial="initial"
+				animate="animate"
+				exit="exit"
+			>
+				<SigmaCard entry={entry} expanded={expandedKey === entry.ticker} />
+			</motion.div>
+		))
 	}
 
-	return (
-		<>
-			{data &&
-				data.map(entry => (
-					<motion.div
-						layout
-						key={entry.ticker}
-						variants={variants}
-						initial="initial"
-						animate="animate"
-						exit="exit"
-					>
-						<SigmaCard entry={entry} expanded={expandedKey === entry.ticker} />
-					</motion.div>
-				))}
-			{last && (
-				<div className="mt-10">
-					<NextPageButton
-						handleNextPage={handleNextPage}
-						isLoading={isLoading}
-					/>
-				</div>
-			)}
-		</>
-	)
+	if (last) {
+		return (
+			<div className="mt-10">
+				<NextPageButton
+					handleNextPage={handleNextPage}
+					isLoading={isLoading}
+					error={error}
+				/>
+			</div>
+		)
+	}
 }

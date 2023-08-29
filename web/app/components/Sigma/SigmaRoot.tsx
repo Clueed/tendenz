@@ -21,14 +21,15 @@ export default function SigmaList({
 		bucket => bucket.label === bucketKey,
 	)[0].minMarketCap
 
-	const lastDate = useSigmaYesterday(minMarketCap, 0)?.data?.[0].last.date
+	const { data } = useSigmaYesterday(minMarketCap, 0)
+	const lastDate = data?.[0] ? npl(data[0].last.date) : 'yesterday'
 
 	return (
 		<>
 			<div className="mb-[2.5vh] grid grid-cols-default">
 				<div className="col-start-2 mb-[1.5vh] flex items-end justify-between gap-5">
 					<h2 className="text-4xl font-normal text-indigo-11">
-						{lastDate ? npl(lastDate) : 'yesterday'}
+						{lastDate}
 						&apos;s anomalies
 					</h2>
 
@@ -53,6 +54,7 @@ export default function SigmaList({
 					<MarketCapFilterLabel />
 				</div>
 			</div>
+
 			<SigmaAccordion minMarketCap={minMarketCap} />
 		</>
 	)
