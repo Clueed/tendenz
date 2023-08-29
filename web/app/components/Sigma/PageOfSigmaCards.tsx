@@ -49,34 +49,31 @@ export function PageOfSigmaCards({
 	)
 
 	if (data && data.length > 0) {
-		return data.map(entry => (
-			<motion.div
-				layout
-				key={entry.ticker}
-				variants={variants}
-				initial="initial"
-				animate="animate"
-				exit="exit"
-			>
-				<SigmaCard entry={entry} expanded={expandedKey === entry.ticker} />
-			</motion.div>
-		))
-	}
-
-	if (error) {
 		return (
-			<LoadingError
-				error={error}
-				isValidating={isValidating}
-			/>
+			<>
+				{data.map(entry => (
+					<motion.div
+						layout
+						key={entry.ticker}
+						variants={variants}
+						initial="initial"
+						animate="animate"
+						exit="exit"
+					>
+						<SigmaCard entry={entry} expanded={expandedKey === entry.ticker} />
+					</motion.div>
+				))}
+				{last && (
+					<div className="mt-10">
+						<NextPageButton
+							handleNextPage={handleNextPage}
+							isLoading={isLoading}
+						/>
+					</div>
+				)}
+			</>
 		)
 	}
 
-	if (last && data?.length !== 0) {
-		return (
-			<div className="mt-10">
-				<NextPageButton handleNextPage={handleNextPage} isLoading={isLoading} />
-			</div>
-		)
-	}
+	return <LoadingError error={error} isValidating={isValidating} />
 }
