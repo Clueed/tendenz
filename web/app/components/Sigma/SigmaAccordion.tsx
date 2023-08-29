@@ -39,6 +39,7 @@ export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
 			collapsible
 			type="single"
 			onValueChange={o => setExpandedKey(o)}
+			className="overflow-x-hidden"
 		>
 			<AnimatePresence initial={false}>{pages}</AnimatePresence>
 		</Accordion.Root>
