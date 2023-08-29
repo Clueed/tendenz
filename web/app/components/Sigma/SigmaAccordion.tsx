@@ -18,6 +18,8 @@ export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
 		setPageIndex(nextPage)
 	}
 
+	console.log('pageIndex :>> ', pageIndex)
+
 	const pages = []
 	for (let i = 0; i < pageIndex; i++) {
 		pages.push(
@@ -37,6 +39,7 @@ export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
 			collapsible
 			type="single"
 			onValueChange={o => setExpandedKey(o)}
+			className="overflow-x-hidden"
 		>
 			<AnimatePresence initial={false}>{pages}</AnimatePresence>
 		</Accordion.Root>

@@ -238,15 +238,32 @@ export class DatabaseApi {
 		})
 	}
 
-	async getTickersWithoutSigma(date: Date) {
-		return this.prisma.usStockDaily.findMany({
+	async getTickersWithoutSigma(dates: Date[]) {
+		// considere doing the check for wso and scso with market cap instead
+
+		return this.prisma.usStocks.findMany({
 			where: {
-				date: date,
-				sigma: null,
-			},
-			select: {
-				ticker: true,
+				AND: [
+					{ dailys: { some: { date: dates[0], sigma: null } } },
+					{ dailys: { some: { date: dates[1] } } },
+				],
+				OR: [
+					{ weightedSharesOutstanding: { not: null } },
+					{ shareClassSharesOutstanding: { not: null } },
+				],
 			},
 		})
+	}
+
+	async getMostRecentDates(daysMinus: number = 1) {
+		const dailys = await this.prisma.usStockDaily.groupBy({
+			by: ['date'],
+			orderBy: { date: 'desc' },
+			take: daysMinus,
+		})
+
+		const dates = dailys.map(daily => daily.date)
+
+		return dates
 	}
 }

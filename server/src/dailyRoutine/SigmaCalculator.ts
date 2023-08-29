@@ -5,17 +5,26 @@ import { match } from 'ts-pattern'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { formatDateString } from '../lib/misc.js'
 import { DataPoints, SigmaMath } from './SigmaMath.js'
+
+interface ISigmaCalcDB {
+	getDailyInDateRange(
+		ticker: string,
+		startdate: Date,
+		enddate: Date,
+	): Promise<UsStockDaily[]>
+}
+
 export class SigmaCalculator {
 	constructor(private db: DatabaseApi) {}
 
 	async run() {
 		console.group('Initiating sigma calculation...')
-		const mostRecentDate = await this.db.getMostRecentDate()
-		const tickers = await this.db.getTickersWithoutSigma(mostRecentDate)
+		const mostRecentDates = await this.db.getMostRecentDates(2)
+		const tickers = await this.db.getTickersWithoutSigma(mostRecentDates)
 		console.info(
 			`Found ${
 				tickers.length
-			} entries without sigma value on ${formatDateString(mostRecentDate)}`,
+			} entries without sigma value on ${formatDateString(mostRecentDates[0])}`,
 		)
 		const results = await this.updateTickers(tickers)
 
@@ -35,7 +44,7 @@ export class SigmaCalculator {
 	}
 
 	private async updateTickers(tickers: { ticker: string }[]) {
-		const limit = pLimit(2)
+		const limit = pLimit(10)
 		const results = await Promise.all(
 			tickers.map(({ ticker }) =>
 				limit(async () => {
@@ -53,7 +62,7 @@ export class SigmaCalculator {
 		timeRangeInYears = 2,
 	): Promise<SigmaCalcResult> {
 		const earliestDate = now.minus({ year: timeRangeInYears })
-		const dailys: UsStockDaily[] = await this.db.getDailyInDateRange(
+		const dailys = await this.db.getDailyInDateRange(
 			ticker,
 			earliestDate.toJSDate(),
 			now.toJSDate(),
@@ -149,7 +158,7 @@ const SigmaCalcResultIsFailed = (
 	result: { success: true } | { success: false },
 ): result is SigmaCalcResultFailed => result.success === false
 
-type SigmaCalcErrorCode = 'NotEnoughDataPoints'
+type SigmaCalcErrorCode = 'NotEnoughDataPoints' | 'NotRecent'
 
 type SigmaCalcResultSuccess = {
 	ticker: string
