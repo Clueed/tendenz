@@ -2,6 +2,7 @@
 
 import { Variants, motion } from 'framer-motion'
 import { useSigmaYesterday } from '../../lib/api/clientApi'
+import { LoadingError } from './LoadingError'
 import { NextPageButton } from './NextPageButton'
 import SigmaCard from './SigmaCard'
 
@@ -42,12 +43,10 @@ export function PageOfSigmaCards({
 	last: boolean
 	handleNextPage: () => void
 }) {
-	const { data, isLoading, isValidating, error } = useSigmaYesterday(
+	const { data, isLoading, error, isValidating } = useSigmaYesterday(
 		minMarketCap,
 		page,
 	)
-
-	console.log('data :>> ', data)
 
 	if (data && data.length > 0) {
 		return data.map(entry => (
@@ -64,14 +63,19 @@ export function PageOfSigmaCards({
 		))
 	}
 
-	if (last) {
+	if (error) {
+		return (
+			<LoadingError
+				error={error}
+				isValidating={isValidating}
+			/>
+		)
+	}
+
+	if (last && data?.length !== 0) {
 		return (
 			<div className="mt-10">
-				<NextPageButton
-					handleNextPage={handleNextPage}
-					isLoading={isLoading}
-					error={error}
-				/>
+				<NextPageButton handleNextPage={handleNextPage} isLoading={isLoading} />
 			</div>
 		)
 	}
