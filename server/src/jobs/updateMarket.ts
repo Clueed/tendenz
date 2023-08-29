@@ -12,12 +12,7 @@ import { PolygonRequestHandler } from '../lib/polygonApi/polygonRequestHandler.j
 import { PolygonStocksApi } from '../lib/polygonApi/polygonStocksApi.js'
 dotenv.config()
 
-enum Strategy {
-	'SingleTable',
-	'MultiTable',
-}
 
-const STRATEGY = Strategy.SingleTable as Strategy
 
 if (process.env.NODE_ENV === 'production') {
 	console.debug = function () {}
@@ -41,13 +36,12 @@ const sigmaCalculator = new SigmaCalculator(db)
 const marketCapCalculator = new MarketCapCalculator(db)
 
 try {
-		await reverseIncrementDailyUpdate(db, stocksApi)
-		await db.clearSigma()
-		await dailySigmaRoutine()
-		await splitDetector.run()
-		await reverseIncrementDailyUpdate(db, stocksApi)
-		await marketCapCalculator.run()
-		await sigmaCalculator.run()
+	await reverseIncrementDailyUpdate(db, stocksApi)
+	await splitDetector.run()
+	await db.clearSigma()
+	await dailySigmaRoutine()
+	await marketCapCalculator.run()
+	await sigmaCalculator.run()
 } catch (e) {
 	console.error(e)
 	process.exit(1)
