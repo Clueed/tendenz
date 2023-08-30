@@ -36,6 +36,7 @@ const marketCapCalculator = new MarketCapCalculator(db)
 
 try {
 	await reverseIncrementDailyUpdate(db, stocksApi)
+	await splitDetector.run()
 	await db.clearSigma()
 	await dailySigmaRoutine()
 	await marketCapCalculator.run()
