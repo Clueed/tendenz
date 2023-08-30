@@ -16,7 +16,7 @@ export async function getFallback(minMarketCaps: number[], page: number = 0) {
 			try {
 				fallback[url] = await getData<tendenzApiSigmaYesterday[]>(url)
 			} catch (e) {
-				//console.error(e)
+				console.error(e)
 			}
 		}),
 	)
