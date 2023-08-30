@@ -6,7 +6,7 @@ export default function Hero() {
 		<div className="grid grid-cols-default">
 			<div className="col-start-2 sm:text-center">
 				<h1 className="text-5xl text-indigo-a12 sm:text-6xl">
-					objective insight into financial markets
+					objective insight across financial markets
 				</h1>
 
 				<div className="my-2 text-xl text-slate-11 sm:text-2xl">
