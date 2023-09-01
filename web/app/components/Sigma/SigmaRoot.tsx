@@ -22,7 +22,7 @@ export default function SigmaList({
 	)[0].minMarketCap
 
 	const { data } = useSigmaYesterday(minMarketCap, 0)
-	const lastDate = data?.[0] ? npl(data[0].last.date) : 'yesterday'
+	const lastDate = data?.[0] ? npl(data[0].last.date as string) : 'yesterday'
 
 	return (
 		<>

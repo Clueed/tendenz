@@ -1,5 +1,6 @@
 import cors from '@fastify/cors'
 import { Prisma } from '@prisma/client'
+import { tendenzApiSigmaYesterday } from '@tendenz/types'
 import Bree from 'bree'
 import Fastify from 'fastify'
 import path from 'node:path'
@@ -201,24 +202,4 @@ export interface Query {
 }
 export interface Params {
 	page?: string
-}
-
-export interface tendenzApiSigmaYesterdayDay {
-	close: number
-	logReturn: number
-	date: Date
-}
-
-export interface tendenzApiSigmaYesterday {
-	ticker: string
-	name: string | null
-	sigma: number
-	absSigma: number
-	weight: number
-	marketCap: number | null
-	stdLogReturn: number
-	meanLogReturn: number
-	sampleSize: number
-	last: tendenzApiSigmaYesterdayDay
-	secondLast: tendenzApiSigmaYesterdayDay
 }

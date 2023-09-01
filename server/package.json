@@ -32,6 +32,7 @@
     "ts-pattern": "^5.0.5"
   },
   "devDependencies": {
+    "@tendenz/types": "^1.0.0",
     "@flydotio/dockerfile": "^0.3.3",
     "@jest/globals": "^29.6.2",
     "@types/luxon": "^3.3.1",

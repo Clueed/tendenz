@@ -1,6 +1,6 @@
+import { tendenzApiSigmaYesterdayDay } from '@tendenz/types'
 import classNames from 'classnames'
 import { useMemo } from 'react'
-import { tendenzApiSigmaYesterdayDay } from '../../lib/api/sharedApi'
 import { npl } from '../../lib/naturalLanguageProcessing'
 import { YahooButton } from './YahooButton'
 
@@ -29,7 +29,7 @@ export function SigmaCardBody({
 			</div>
 			<div className="col-start-2">
 				<div className="text-xs leading-tight text-slate-a12">
-					{npl(secondLast.date)}
+					{npl(secondLast.date as string)}
 				</div>
 				<div className="text-[0.6rem] leading-tight text-slate-a11">
 					close price
@@ -53,7 +53,7 @@ export function SigmaCardBody({
 			</div>
 			<div className="col-start-4">
 				<div className="text-xs leading-tight text-slate-a12">
-					{npl(last.date)}
+					{npl(last.date as string)}
 				</div>
 				<div className="text-[0.6rem] leading-tight text-slate-a11">
 					close price
