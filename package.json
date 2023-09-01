@@ -6,5 +6,8 @@
     "web",
     "server",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "turbo": "^1.10.13"
+  }
 }
