@@ -1,5 +1,5 @@
 {
-  "name": "tendenz-server",
+  "name": "@tendenz/server",
   "version": "1.0.0",
   "description": "",
   "exports": "./src/index.js",
@@ -9,7 +9,9 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc --sourceMap false",
     "format": "prettier --write .",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +32,7 @@
     "ts-pattern": "^5.0.5"
   },
   "devDependencies": {
+    "@tendenz/types": "^1.0.0",
     "@flydotio/dockerfile": "^0.3.3",
     "@jest/globals": "^29.6.2",
     "@types/luxon": "^3.3.1",

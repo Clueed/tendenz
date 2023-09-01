@@ -1,7 +1,7 @@
 import * as Accordion from '@radix-ui/react-accordion'
+import { tendenzApiSigmaYesterday } from '@tendenz/types'
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
-import { tendenzApiSigmaYesterday } from '../../lib/api/sharedApi'
 import { SigmaCardBody } from './SigmaCardBody'
 import { SigmaCardHeader } from './SigmaCardHeader'
 
@@ -41,7 +41,7 @@ export default function SigmaCard({
 						expanded={expanded}
 						name={entry.name!}
 						sigma={entry.sigma}
-						marketCap={entry.marketCap}
+						marketCap={entry.marketCap as number}
 						ticker={entry.ticker}
 					/>
 				</Accordion.Trigger>
