@@ -47,11 +47,11 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built application
-COPY --from=build /app/server/dist .
+COPY --from=build /app/ .
 
 # Entrypoint prepares the database.
-ENTRYPOINT [ "/app/docker-entrypoint.js" ]
+ENTRYPOINT [ "/app/server/docker-entrypoint.js" ]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD [ "node", "./dist/index.js" ]
+CMD [ "node", "./server/dist/index.js" ]
