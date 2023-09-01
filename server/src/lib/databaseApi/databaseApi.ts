@@ -145,6 +145,9 @@ export class DatabaseApi {
 		enddate: Date,
 		data: Prisma.UsStockDailyUpdateInput,
 	) {
+		console.debug(
+			`DB: updating ${ticker} in range of ${startdate} to ${enddate}`,
+		)
 		return await this.prisma.usStockDaily.updateMany({
 			where: {
 				ticker,

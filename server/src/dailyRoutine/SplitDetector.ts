@@ -84,7 +84,7 @@ export class SplitDetector {
 					const allMatch = staleResult.value.every(
 						({ match }) => match === true,
 					)
-					if (!allMatch) {
+					if (allMatch) {
 						return ok(<SplitOk>{
 							ticker,
 							updated: false,
