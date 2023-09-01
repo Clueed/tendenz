@@ -1,0 +1,10 @@
+{
+  "name": "tendenz",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "web",
+    "server",
+    "packages/*"
+  ]
+}

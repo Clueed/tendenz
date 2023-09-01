@@ -9,7 +9,9 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc --sourceMap false",
     "format": "prettier --write .",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate"
   },
   "keywords": [],
   "author": "",
