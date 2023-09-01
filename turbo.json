@@ -2,7 +2,9 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "typecheck": {},
-    "build": {},
+    "build": {
+      "dependsOn": ["^db:generate"]
+    },
     "dev": {
       "dependsOn": ["^db:generate"],
       "cache": false,

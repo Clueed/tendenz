@@ -1,5 +1,5 @@
 {
-  "name": "tendenz-web",
+  "name": "@tendenz/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {

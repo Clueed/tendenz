@@ -8,10 +8,7 @@
   "devDependencies": {
     "typescript": "^5.1.6"
   },
-  "scripts": {
-    "typecheck": "tsc --noEmit",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC"
 }

@@ -1,5 +1,5 @@
 {
-  "name": "tendenz-server",
+  "name": "@tendenz/server",
   "version": "1.0.0",
   "description": "",
   "exports": "./src/index.js",

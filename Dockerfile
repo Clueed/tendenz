@@ -9,42 +9,35 @@ LABEL fly_launch_runtime="Node.js/Prisma"
 # Node.js/Prisma app lives here
 WORKDIR /app
 
-# Set production environment
-ENV NODE_ENV=production
-
-
 # Throw-away build stage to reduce size of final image
-FROM base as build
+FROM base as prune
 
-# Install packages needed to build node modules
+RUN yarn global add turbo
+COPY . .
+RUN turbo prune --scope="@tendenz/server" --docker
+
+
+FROM base AS build
 RUN apt-get update -qq && \
     apt-get install -y python-is-python3 pkg-config build-essential openssl 
+WORKDIR /app
 
-# Install node modules
-COPY --link package-lock.json package.json ./
-RUN npm ci --include=dev
+# First install the dependencies (as they change less often)
+COPY .gitignore .gitignore
+COPY --from=prune /app/out/json/ .
+COPY --from=prune /app/out/yarn.lock ./yarn.lock
+RUN yarn install
 
-# Generate Prisma Client
-COPY --link prisma .
-RUN npx prisma generate
+COPY --from=prune /app/out/full/ .
+RUN yarn global add turbo
+RUN turbo run db:generate --filter="@tendenz/server"
+RUN turbo run build --filter="@tendenz/server"
 
-# Build typescript
-COPY --link src/ ./src
-COPY --link tsconfig*.json ./
-RUN npm install typescript -g
-RUN npm run build
-
-# Copy application code
-COPY --link . .
-
-# Build application
-RUN npm run build
-
-# Remove development dependencies
-RUN npm prune --omit=dev
 
 # Final stage for app image
-FROM base
+FROM base AS run
+
+WORKDIR /app
 
 ENV NODE_ENV=production
 
@@ -54,7 +47,7 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built application
-COPY --from=build /app /app
+COPY --from=build /app/server/dist .
 
 # Entrypoint prepares the database.
 ENTRYPOINT [ "/app/docker-entrypoint.js" ]
