@@ -275,6 +275,7 @@ export class DatabaseApi {
 		page: number,
 		date: Date,
 		minMarketCap?: number,
+		types?: stockTypeCode[] | undefined,
 		pageSize: number = 10,
 	) {
 		const skip = page * pageSize
@@ -287,7 +288,7 @@ export class DatabaseApi {
 				date: date,
 				UsStocks: {
 					name: { not: null },
-					type: { not: null },
+					type: { in: types, not: null },
 				},
 				sigmaAbs: { not: null },
 			},

@@ -36,12 +36,32 @@ fastify.get('/us-stocks/daily/:page', async request => {
 	const query = request.query as Query
 	const minMarketCap = Number(query?.minMarketCap) || undefined
 
+	const types =
+		typeof query.type === 'string'
+			? [query.type]
+			: Array.isArray(query.type)
+			? query.type
+			: undefined
+
+	const typesValid = types?.every(type =>
+		Object.keys(stockTypes).includes(type),
+	)
+
+	if (typesValid === false) {
+		throw new Error('Invalid types specified')
+	}
+
 	const mostRecentDates = await db.getMostRecentDates(2)
 
 	const params = request.params as Params
 	const page = Number(params?.page) || 0
 
-	const today = await db.getToday(page, mostRecentDates[0], minMarketCap)
+	const today = await db.getToday(
+		page,
+		mostRecentDates[0],
+		minMarketCap,
+		types as stockTypeCode[] | undefined,
+	)
 
 	const tickers = today.map(value => value.ticker)
 
@@ -91,8 +111,6 @@ function formatName(name: string, type: stockTypeCode) {
 	const nameRegex = stockTypes[type].aliases
 		.map(n => n.replace(' ', '[- ]'))
 		.join('|')
-
-	console.log('nameRegex :>> ', nameRegex)
 
 	if (simpleReplace.includes(type)) {
 		const regEx = new RegExp(`${type}|${nameRegex}`, 'gi')
@@ -193,6 +211,7 @@ start()
 
 export interface Query {
 	minMarketCap?: string
+	type?: string | string[]
 }
 export interface Params {
 	page?: string
