@@ -52,6 +52,8 @@ model UsStocks {
   sourceFeed                  String?
   weightedSharesOutstanding   Float?
   shareClassSharesOutstanding Float?
+
+  @@index([type], type: BTree)
 }
 
 model SigmaUsStocksYesterday {
