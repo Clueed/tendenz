@@ -117,14 +117,19 @@ export class SplitDetector {
 		return Result.combineWithAllErrors(updateResults)
 	}
 
+	/**
+	 * Extracts date from daily.
+	 * Updates ticker with rest of data on any entry without that day.
+	 * Return error if more then one entry for each day was found given that it's querrying daily data.
+	 */
 	private async updateDailyWithRange(ticker: string, daily: SingleAggsMapping) {
-		const { startOfDay, endOfDay } = getStartAndEndOfDay(daily.date)
-
+		const { date, ...data } = daily
+		const { startOfDay, endOfDay } = getStartAndEndOfDay(date)
 		const { count } = await this.db.updateDailyInDateRange(
 			ticker,
 			startOfDay,
 			endOfDay,
-			daily,
+			data,
 		)
 
 		if (count === 1)
