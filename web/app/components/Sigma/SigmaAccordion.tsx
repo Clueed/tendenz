@@ -18,8 +18,6 @@ export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
 		setPageIndex(nextPage)
 	}
 
-	console.log('pageIndex :>> ', pageIndex)
-
 	const pages = []
 	for (let i = 0; i < pageIndex; i++) {
 		pages.push(
