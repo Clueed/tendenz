@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import { stockTypeCode } from '@tendenz/types'
 export class DatabaseApi {
 	constructor(public prisma: PrismaClient) {}
 
@@ -325,7 +326,7 @@ export class DatabaseApi {
 			close: number
 			marketCap: number
 			sigma: number
-			UsStocks: { name: string; type: string }
+			UsStocks: { name: string; type: stockTypeCode }
 		}[]
 	}
 }

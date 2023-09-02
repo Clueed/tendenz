@@ -1,6 +1,8 @@
 import cors from '@fastify/cors'
 import { Prisma } from '@prisma/client'
 import {
+	stockTypeCode,
+	stockTypes,
 	tendenzApiSigmaYesterday,
 	tendenzApiSigmaYesterdayV0,
 } from '@tendenz/types'
@@ -63,11 +65,13 @@ fastify.get('/us-stocks/daily/:page', async request => {
 				throw new Error(`${ticker} has no yesterday value`)
 			}
 
+			const cleanName = formatName(name, type as stockTypeCode)
+
 			return {
 				...rest,
 				marketCap,
 				ticker,
-				name,
+				name: cleanName,
 				type,
 				last: {
 					close: close,
@@ -80,6 +84,17 @@ fastify.get('/us-stocks/daily/:page', async request => {
 
 	return response
 })
+
+function formatName(name: string, type: stockTypeCode) {
+	const simpleReplace: stockTypeCode[] = ['ETF', 'ETN', 'ETS', 'ETV', 'CS']
+
+	if (simpleReplace.includes(type)) {
+		const regEx = new RegExp(`${type}|${stockTypes[type].description}`, 'gi')
+		return name.replace(regEx, '').trim()
+	}
+
+	return name
+}
 
 fastify.get('/:page', async request => {
 	const query = request.query as Query

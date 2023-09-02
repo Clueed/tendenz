@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useState } from 'react'
 import Pop from '../Pop'
 import { MarketCap } from './MarketCap'
 import { Tag } from './Tag'
+import { stockTypeCode, stockTypes } from '@tendenz/types'
 
 export function SigmaCardHeader({
 	expanded,
@@ -18,7 +19,7 @@ export function SigmaCardHeader({
 	ticker: string
 	name: string
 	marketCap: number
-	type: string
+	type: stockTypeCode
 }) {
 	const formattedSigma = Math.abs(sigma).toFixed(2)
 
@@ -87,7 +88,7 @@ export function SigmaCardHeader({
 					<AnimatePresence>
 						{expanded && (
 							<>
-								{' '}<StockTypePopover key={type} text={parantheses}>
+								{' '}<StockTypePopover key={type} text={stockTypes[type].description}>
 												<Tag
 													className={classNames(
 														'hover:bg-slate-a5 hover:text-slate-12',
