@@ -120,48 +120,10 @@ function StockTypePopover({
 		<Pop
 			offset={1}
 			popoverColor="slate"
-			popoverContent={<div className="w-36">{text}</div>}
+			popoverContent={<div className="w-52">{text}</div>}
 		>
 			{children}
 		</Pop>
 	)
 }
 
-function handleTickerTypes(name: string) {
-	let formattedName = name
-	let shareTypes: string[] = []
-
-	if (formattedName === null) {
-		return { formattedName, shareTypes }
-	}
-
-	for (const type of [
-		'Common Stock',
-		'Ordinary Shares',
-		'Class A',
-		'Depositary Shares',
-	]) {
-		if (formattedName!.search(type) !== -1) {
-			formattedName = formattedName!.replace(type, '')
-			shareTypes.push(type)
-		}
-	}
-
-	shareTypes = shareTypes.map(type =>
-		type.replace(' ', String.fromCharCode(160)),
-	)
-
-	return { formattedName, shareTypes }
-}
-
-function extractContentInParentheses(input: string) {
-	const openingIndex = input.indexOf('(')
-	const closingIndex = input.lastIndexOf(')')
-
-	const substring = input.substring(openingIndex, closingIndex + 1)
-	const cleanInput = input.replace(substring, '')
-
-	const content = substring.slice(1, -1)
-
-	return { cleanInput, content }
-}
