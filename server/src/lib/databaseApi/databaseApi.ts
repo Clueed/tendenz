@@ -269,4 +269,63 @@ export class DatabaseApi {
 
 		return dates
 	}
+
+	async getToday(
+		page: number,
+		date: Date,
+		minMarketCap?: number,
+		pageSize: number = 10,
+	) {
+		const skip = page * pageSize
+		const res = await this.prisma.usStockDaily.findMany({
+			orderBy: {
+				sigmaAbs: 'desc',
+			},
+			where: {
+				marketCap: { gte: minMarketCap } || { not: null },
+				date: date,
+				UsStocks: {
+					name: { not: null },
+					type: { not: null },
+				},
+				sigmaAbs: { not: null },
+			},
+			take: pageSize,
+			skip,
+			select: {
+				close: true,
+				ticker: true,
+				sigma: true,
+				date: true,
+				marketCap: true,
+				UsStocks: {
+					select: {
+						name: true,
+						type: true,
+					},
+				},
+			},
+		})
+
+		res.forEach(daily => {
+			const isNull = [
+				daily.marketCap,
+				daily.sigma,
+				daily.UsStocks.name,
+				daily.UsStocks.type,
+			].some(v => v === null)
+			if (isNull) {
+				throw new Error(`${daily.ticker} has null values.`)
+			}
+		})
+
+		return res as {
+			ticker: string
+			date: Date
+			close: number
+			marketCap: number
+			sigma: number
+			UsStocks: { name: string; type: string }
+		}[]
+	}
 }

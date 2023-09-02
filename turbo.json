@@ -3,10 +3,10 @@
   "pipeline": {
     "typecheck": {},
     "build": {
-      "dependsOn": ["^db:generate"]
+      "dependsOn": ["db:generate"]
     },
     "dev": {
-      "dependsOn": ["^db:generate"],
+      "dependsOn": ["db:generate"],
       "cache": false,
       "persistent": false
     },

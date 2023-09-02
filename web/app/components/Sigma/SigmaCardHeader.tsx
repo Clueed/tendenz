@@ -11,12 +11,14 @@ export function SigmaCardHeader({
 	ticker,
 	name,
 	marketCap,
+	type,
 }: {
 	expanded: boolean
 	sigma: number
 	ticker: string
 	name: string
 	marketCap: number
+	type: string
 }) {
 	const formattedSigma = Math.abs(sigma).toFixed(2)
 
@@ -85,13 +87,7 @@ export function SigmaCardHeader({
 					<AnimatePresence>
 						{expanded && (
 							<>
-								{' '}
-								<MarketCap marketCap={marketCap} ticker={ticker} />
-								{shareTypes.map(type =>
-									parantheses ? (
-										<>
-											{' '}
-											<StockTypePopover key={type} text={parantheses}>
+								{' '}<StockTypePopover key={type} text={parantheses}>
 												<Tag
 													className={classNames(
 														'hover:bg-slate-a5 hover:text-slate-12',
@@ -101,11 +97,8 @@ export function SigmaCardHeader({
 													{type}
 												</Tag>
 											</StockTypePopover>
-										</>
-									) : (
-										<Tag key={type}> {type}</Tag>
-									),
-								)}
+								{' '}
+								<MarketCap marketCap={marketCap} ticker={ticker} />
 							</>
 						)}
 					</AnimatePresence>

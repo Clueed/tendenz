@@ -1,6 +1,9 @@
 import cors from '@fastify/cors'
 import { Prisma } from '@prisma/client'
-import { tendenzApiSigmaYesterday } from '@tendenz/types'
+import {
+	tendenzApiSigmaYesterday,
+	tendenzApiSigmaYesterdayV0,
+} from '@tendenz/types'
 import Bree from 'bree'
 import Fastify from 'fastify'
 import path from 'node:path'
@@ -26,8 +29,6 @@ fastify.register(cors, {
 
 fastify.register(prismaPlugin)
 
-const PAGE_SIZE = 10
-
 fastify.get('/us-stocks/daily/:page', async request => {
 	const db = new DatabaseApi(fastify.prisma)
 	const query = request.query as Query
@@ -37,35 +38,8 @@ fastify.get('/us-stocks/daily/:page', async request => {
 
 	const params = request.params as Params
 	const page = Number(params?.page) || 0
-	const skip = page * PAGE_SIZE
 
-	const today = await fastify.prisma.usStockDaily.findMany({
-		orderBy: {
-			sigmaAbs: 'desc',
-		},
-		where: {
-			marketCap: { gte: minMarketCap } || { not: null },
-			date: mostRecentDates[0],
-			UsStocks: {
-				name: { not: null },
-			},
-			sigmaAbs: { not: null },
-		},
-		take: PAGE_SIZE,
-		skip,
-		select: {
-			close: true,
-			ticker: true,
-			sigma: true,
-			date: true,
-			marketCap: true,
-			UsStocks: {
-				select: {
-					name: true,
-				},
-			},
-		},
-	})
+	const today = await db.getToday(page, mostRecentDates[0], minMarketCap)
 
 	const tickers = today.map(value => value.ticker)
 
@@ -81,8 +55,8 @@ fastify.get('/us-stocks/daily/:page', async request => {
 		},
 	})
 
-	const response = today.map(
-		({ ticker, close, date, UsStocks: { name }, ...rest }) => {
+	const response: tendenzApiSigmaYesterday[] = today.map(
+		({ ticker, close, date, UsStocks: { name, type }, marketCap, ...rest }) => {
 			const previous = yesterday.find(prev => prev.ticker === ticker)
 
 			if (!previous) {
@@ -91,8 +65,10 @@ fastify.get('/us-stocks/daily/:page', async request => {
 
 			return {
 				...rest,
+				marketCap,
 				ticker,
 				name,
+				type,
 				last: {
 					close: close,
 					date: date,
@@ -130,7 +106,7 @@ fastify.get('/:page', async request => {
 		skip,
 	})
 
-	const response: tendenzApiSigmaYesterday[] = sigmaYesterday.map(
+	const response: tendenzApiSigmaYesterdayV0[] = sigmaYesterday.map(
 		({
 			ticker,
 			name,
@@ -142,10 +118,8 @@ fastify.get('/:page', async request => {
 			meanLogReturn,
 			sampleSize,
 			lastClose,
-			lastLogReturn,
 			lastDate,
 			secondLastClose,
-			secondLastLogReturn,
 			secondLastDate,
 		}) => ({
 			ticker,
@@ -157,10 +131,9 @@ fastify.get('/:page', async request => {
 			stdLogReturn,
 			meanLogReturn,
 			sampleSize,
-			last: { close: lastClose, logReturn: lastLogReturn, date: lastDate },
+			last: { close: lastClose, date: lastDate },
 			secondLast: {
 				close: secondLastClose,
-				logReturn: secondLastLogReturn,
 				date: secondLastDate,
 			},
 		}),

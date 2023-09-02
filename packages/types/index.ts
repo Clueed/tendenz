@@ -1,10 +1,9 @@
-export interface tendenzApiSigmaYesterdayDay {
+export type tendenzApiSigmaYesterdayDay = {
   close: number;
-  logReturn: number;
   date: string | Date;
-}
+};
 
-export interface tendenzApiSigmaYesterday {
+export type tendenzApiSigmaYesterdayV0 = {
   ticker: string;
   name: string | null;
   sigma: number;
@@ -16,4 +15,14 @@ export interface tendenzApiSigmaYesterday {
   sampleSize: number;
   last: tendenzApiSigmaYesterdayDay;
   secondLast: tendenzApiSigmaYesterdayDay;
-}
+};
+
+export type tendenzApiSigmaYesterday = {
+  ticker: string;
+  name: string;
+  type: string;
+  sigma: number;
+  marketCap: number;
+  last: tendenzApiSigmaYesterdayDay;
+  secondLast: tendenzApiSigmaYesterdayDay;
+};
