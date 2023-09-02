@@ -76,22 +76,22 @@ export const stockTypes = {
   ADRC: {
     aliases: ["American Depository Receipt Common"],
     description:
-      "American Depository Receipts (ADRs) represent ownership in foreign companies and are traded in the U.S. financial markets.",
+      "American Depository Receipts Common (ADRC) represent ownership in foreign companies and are traded in the U.S. financial markets.",
   },
   ADRP: {
     aliases: ["American Depository Receipt Preferred"],
     description:
-      "American Depository Receipt Preferred (ADRP) can also represent preferred shares in foreign companies, offering U.S. investors exposure to international preferences.",
+      "American Depository Receipt Preferred (ADRP) represent preferred shares in foreign companies, offering U.S. investors exposure to international preferences.",
   },
   ADRW: {
     aliases: ["American Depository Receipt Warrants"],
     description:
-      "ADRWs are ADR-linked warrants that provide the holder with the right to purchase additional ADR shares at a specified price.",
+      "American Depository Receipt Warrants (ADRW) are ADR-linked warrants that provide the holder with the right to purchase additional ADR shares at a specified price.",
   },
   ADRR: {
     aliases: ["American Depository Receipt Rights"],
     description:
-      "ADRRs are ADR-linked rights that grant existing ADR shareholders the option to buy more ADR shares at a discounted rate.",
+      "American Depository Receipt Rights (ADRR) are ADR-linked rights that grant existing ADR shareholders the option to buy more ADR shares at a discounted rate.",
   },
   FUND: {
     aliases: ["Fund"],

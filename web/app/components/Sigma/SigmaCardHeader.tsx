@@ -1,10 +1,10 @@
+import { stockTypeCode, stockTypes } from '@tendenz/types'
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ReactNode, useEffect, useState } from 'react'
 import Pop from '../Pop'
 import { MarketCap } from './MarketCap'
 import { Tag } from './Tag'
-import { stockTypeCode, stockTypes } from '@tendenz/types'
 
 export function SigmaCardHeader({
 	expanded,
@@ -88,17 +88,20 @@ export function SigmaCardHeader({
 					<AnimatePresence>
 						{expanded && (
 							<>
-								{' '}<StockTypePopover key={type} text={stockTypes[type].description}>
-												<Tag
-													className={classNames(
-														'hover:bg-slate-a5 hover:text-slate-12',
-														'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
-													)}
-												>
-													{type}
-												</Tag>
-											</StockTypePopover>
 								{' '}
+								<StockTypePopover
+									key={type}
+									text={stockTypes[type].description}
+								>
+									<Tag
+										className={classNames(
+											'hover:bg-slate-a5 hover:text-slate-12',
+											'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
+										)}
+									>
+										{type}
+									</Tag>
+								</StockTypePopover>{' '}
 								<MarketCap marketCap={marketCap} ticker={ticker} />
 							</>
 						)}
@@ -126,4 +129,3 @@ function StockTypePopover({
 		</Pop>
 	)
 }
-

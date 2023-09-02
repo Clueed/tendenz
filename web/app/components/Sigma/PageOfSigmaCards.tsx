@@ -1,5 +1,6 @@
 'use client'
 
+import { stockTypeCode } from '@tendenz/types'
 import { Variants, motion } from 'framer-motion'
 import { useSigmaYesterday } from '../../lib/api/clientApi'
 import { LoadingError } from './LoadingError'
@@ -36,16 +37,19 @@ export function PageOfSigmaCards({
 	expandedKey,
 	last,
 	handleNextPage,
+	stockTypes,
 }: {
 	page: number
 	minMarketCap: number
 	expandedKey: string
 	last: boolean
 	handleNextPage: () => void
+	stockTypes?: stockTypeCode[]
 }) {
 	const { data, isLoading, error, isValidating } = useSigmaYesterday(
 		minMarketCap,
 		page,
+		stockTypes,
 	)
 
 	if (data && data.length > 0) {

@@ -1,43 +1,33 @@
 'use client'
 import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
-import { npl } from '@/app/lib/naturalLanguageProcessing'
+import { stockTypeCode } from '@tendenz/types'
 import { useState } from 'react'
-import { useSigmaYesterday } from '../../lib/api/clientApi'
-import Timer from '../Timer'
 import MarketCapFilter from './MarketCapFilter'
 import MarketCapFilterLabel from './MarketCapQuestionMark'
 import { SigmaAccordion } from './SigmaAccordion'
 
 type MarketCapBucketLabel = (typeof MARKET_CAP_BUCKETS)[number]['label']
 
-export default function SigmaList({
+export default function SigmaRoot({
 	marketCapBuckets,
+	title,
+	stockTypes,
 }: {
 	marketCapBuckets: typeof MARKET_CAP_BUCKETS
+	title: string
+	stockTypes?: stockTypeCode[]
 }) {
 	const defaultKey: MarketCapBucketLabel = '1b'
 	const [bucketKey, setBucketKey] = useState<MarketCapBucketLabel>(defaultKey)
 	const minMarketCap = marketCapBuckets.filter(
 		bucket => bucket.label === bucketKey,
 	)[0].minMarketCap
-
-	const { data } = useSigmaYesterday(minMarketCap, 0)
-	const lastDate = data?.[0] ? npl(data[0].last.date as string) : 'yesterday'
-
 	return (
 		<>
-			<div className="mb-[2.5vh] grid grid-cols-default">
-				<div className="col-start-2 mb-[1.5vh] flex items-end justify-between gap-5">
-					<h2 className="text-4xl font-normal text-indigo-11">
-						{lastDate}
-						&apos;s anomalies
-					</h2>
-
-					<Timer />
-				</div>
+			<div className="mb-[2vh] mt-[10vh] grid grid-cols-default">
 				<div className="col-start-2 mb-2 flex items-end justify-between align-bottom">
 					<h3 className="text-3xl font-normal leading-none text-slate-12">
-						stocks
+						{title}
 					</h3>
 					<div className="flex gap-1">
 						<MarketCapFilter
@@ -55,7 +45,7 @@ export default function SigmaList({
 				</div>
 			</div>
 
-			<SigmaAccordion minMarketCap={minMarketCap} />
+			<SigmaAccordion minMarketCap={minMarketCap} stockTypes={stockTypes} />
 		</>
 	)
 }
