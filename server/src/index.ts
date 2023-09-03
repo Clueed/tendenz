@@ -61,7 +61,7 @@ fastify.get('/us-stocks/daily/:page', async request => {
 		mostRecentDates[0],
 		minMarketCap,
 		types as stockTypeCode[] | undefined,
-		5,
+		10,
 	)
 
 	const tickers = today.map(value => value.ticker)
