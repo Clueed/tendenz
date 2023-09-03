@@ -23,7 +23,7 @@ export default function SigmaRoot({}: {}) {
 
 	return (
 		<>
-			<div className="mb-[2vh] mt-[10vh] grid grid-cols-default">
+			<div className="mb-[2vh] mt-[1vh] grid grid-cols-default">
 				<div className="col-start-2 mb-2 flex items-end justify-between align-bottom">
 					<StockTypeToggle
 						selectedKeys={typeLabels}
@@ -39,9 +39,7 @@ export default function SigmaRoot({}: {}) {
 					</div>
 				</div>
 				<div className="col-start-2 flex items-start justify-between align-top">
-					<h3 className="text-base leading-none text-slate-11">
-						United States
-					</h3>
+					<h3 className="text-sm leading-none text-slate-11">United States</h3>
 					<MarketCapFilterLabel />
 				</div>
 			</div>

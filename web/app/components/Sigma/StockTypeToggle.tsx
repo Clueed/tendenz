@@ -23,8 +23,7 @@ export default function StockTypeToggle<T extends string[]>({
 		>
 			<div
 				className={classNames(
-					'group inline-flex gap-3 overflow-clip rounded-md text-xl transition-all duration-1000',
-					'hover:backdrop-blur-3xl',
+					'group inline-flex gap-3 overflow-clip rounded-md text-2xl transition-all duration-1000',
 				)}
 			>
 				{allKeys.map(key => (
