@@ -30,6 +30,6 @@ export const TYPE_GROUPS = [
 			'EQLK',
 		],
 	},
-]
+] as const
 
 export type TypeGroupLabel = (typeof TYPE_GROUPS)[number]['label']

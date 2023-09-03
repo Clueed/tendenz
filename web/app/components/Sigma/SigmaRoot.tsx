@@ -1,36 +1,22 @@
 'use client'
-import {
-	MARKET_CAP_BUCKETS,
-	MarketCapBucketLabel,
-	TYPE_GROUPS,
-	TypeGroupLabel,
-} from '@/app/lib/MARKET_CAP_BUCKETS'
-import { useState } from 'react'
+import { MARKET_CAP_BUCKETS, TYPE_GROUPS } from '@/app/lib/MARKET_CAP_BUCKETS'
+import { useContext } from 'react'
+import { FilterContext } from '../FilterContextProvider'
 import MarketCapFilter from './MarketCapFilter'
 import MarketCapFilterLabel from './MarketCapQuestionMark'
 import { SigmaAccordion } from './SigmaAccordion'
 import StockTypeToggle from './StockTypeToggle'
 
-export default function SigmaRoot({
-	marketCapBuckets,
-	title,
-	typeGroups,
-}: {
-	marketCapBuckets: typeof MARKET_CAP_BUCKETS
-	title: string
-	typeGroups: typeof TYPE_GROUPS
-}) {
-	const defaultKey: MarketCapBucketLabel = '1b'
-	const [bucketKey, setBucketKey] = useState<MarketCapBucketLabel>(defaultKey)
-	const minMarketCap = marketCapBuckets.filter(
-		bucket => bucket.label === bucketKey,
+export default function SigmaRoot({}: {}) {
+	const { marketCapKey, setMarketCapKey, typeLabels, setTypeLabels } =
+		useContext(FilterContext)
+
+	const minMarketCap = MARKET_CAP_BUCKETS.filter(
+		bucket => bucket.label === marketCapKey,
 	)[0].minMarketCap
 
-	const [selectedTypeLabels, setSelectedTypeLabels] = useState<
-		TypeGroupLabel[]
-	>(['stocks'] as TypeGroupLabel[])
-	const types = selectedTypeLabels.flatMap(selectedLabel =>
-		TYPE_GROUPS.filter(group => group.label === selectedLabel).flatMap(
+	const types = typeLabels.flatMap(label =>
+		TYPE_GROUPS.filter(group => group.label === label).flatMap(
 			typeGroup => typeGroup.types,
 		),
 	)
@@ -40,15 +26,15 @@ export default function SigmaRoot({
 			<div className="mb-[2vh] mt-[10vh] grid grid-cols-default">
 				<div className="col-start-2 mb-2 flex items-end justify-between align-bottom">
 					<StockTypeToggle
-						selectedKeys={selectedTypeLabels}
-						selectKeys={setSelectedTypeLabels}
-						allKeys={typeGroups.map(group => group.label)}
+						selectedKeys={typeLabels}
+						selectKeys={setTypeLabels}
+						allKeys={TYPE_GROUPS.map(group => group.label)}
 					/>
 					<div className="flex gap-1">
 						<MarketCapFilter
-							selectedKey={bucketKey}
-							selectKey={setBucketKey}
-							allKeys={marketCapBuckets.map(bucket => bucket.label)}
+							selectedKey={marketCapKey}
+							selectKey={setMarketCapKey}
+							allKeys={MARKET_CAP_BUCKETS.map(bucket => bucket.label)}
 						/>
 					</div>
 				</div>
