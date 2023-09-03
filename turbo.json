@@ -5,6 +5,11 @@
     "build": {
       "dependsOn": ["db:generate"]
     },
+    "lint": {},
+    "format": {},
+    "pre-commit": {
+      "dependsOn": ["typecheck", "lint", "format"]
+    },
     "dev": {
       "dependsOn": ["db:generate"],
       "cache": false,
