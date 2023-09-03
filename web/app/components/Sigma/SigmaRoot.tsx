@@ -1,61 +1,50 @@
 'use client'
-import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
-import { npl } from '@/app/lib/naturalLanguageProcessing'
-import { useState } from 'react'
-import { useSigmaYesterday } from '../../lib/api/clientApi'
-import Timer from '../Timer'
+import { MARKET_CAP_BUCKETS, TYPE_GROUPS } from '@/app/lib/MARKET_CAP_BUCKETS'
+import { useContext } from 'react'
+import { FilterContext } from '../FilterContextProvider'
 import MarketCapFilter from './MarketCapFilter'
 import MarketCapFilterLabel from './MarketCapQuestionMark'
 import { SigmaAccordion } from './SigmaAccordion'
+import StockTypeToggle from './StockTypeToggle'
 
-type MarketCapBucketLabel = (typeof MARKET_CAP_BUCKETS)[number]['label']
+export default function SigmaRoot({}: {}) {
+	const { marketCapKey, setMarketCapKey, typeLabels, setTypeLabels } =
+		useContext(FilterContext)
 
-export default function SigmaList({
-	marketCapBuckets,
-}: {
-	marketCapBuckets: typeof MARKET_CAP_BUCKETS
-}) {
-	const defaultKey: MarketCapBucketLabel = '1b'
-	const [bucketKey, setBucketKey] = useState<MarketCapBucketLabel>(defaultKey)
-	const minMarketCap = marketCapBuckets.filter(
-		bucket => bucket.label === bucketKey,
+	const minMarketCap = MARKET_CAP_BUCKETS.filter(
+		bucket => bucket.label === marketCapKey,
 	)[0].minMarketCap
 
-	const { data } = useSigmaYesterday(minMarketCap, 0)
-	const lastDate = data?.[0] ? npl(data[0].last.date as string) : 'yesterday'
+	const types = typeLabels.flatMap(label =>
+		TYPE_GROUPS.filter(group => group.label === label).flatMap(
+			typeGroup => typeGroup.types,
+		),
+	)
 
 	return (
 		<>
-			<div className="mb-[2.5vh] grid grid-cols-default">
-				<div className="col-start-2 mb-[1.5vh] flex items-end justify-between gap-5">
-					<h2 className="text-4xl font-normal text-indigo-11">
-						{lastDate}
-						&apos;s anomalies
-					</h2>
-
-					<Timer />
-				</div>
-				<div className="col-start-2 mb-2 flex items-end justify-between align-bottom">
-					<h3 className="text-3xl font-normal leading-none text-slate-12">
-						stocks
-					</h3>
-					<div className="flex gap-1">
+			<div className="mb-[2vh] mt-[1vh] grid grid-cols-default">
+				<div className="col-start-2 mb-2 flex flex-wrap items-end justify-between align-bottom">
+					<StockTypeToggle
+						selectedKeys={typeLabels}
+						selectKeys={setTypeLabels}
+						allKeys={TYPE_GROUPS.map(group => group.label)}
+					/>
+					<div className="flex-grow text-right">
 						<MarketCapFilter
-							selectedKey={bucketKey}
-							selectKey={setBucketKey}
-							allKeys={marketCapBuckets.map(bucket => bucket.label)}
+							selectedKey={marketCapKey}
+							selectKey={setMarketCapKey}
+							allKeys={MARKET_CAP_BUCKETS.map(bucket => bucket.label)}
 						/>
 					</div>
 				</div>
 				<div className="col-start-2 flex items-start justify-between align-top">
-					<h3 className="text-base leading-none text-slate-11">
-						United States
-					</h3>
+					<h3 className="text-sm leading-none text-slate-11">United States</h3>
 					<MarketCapFilterLabel />
 				</div>
 			</div>
 
-			<SigmaAccordion minMarketCap={minMarketCap} />
+			<SigmaAccordion minMarketCap={minMarketCap} stockTypes={types} />
 		</>
 	)
 }

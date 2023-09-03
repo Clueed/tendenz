@@ -1,9 +1,16 @@
 import * as Accordion from '@radix-ui/react-accordion'
+import { stockTypeCode } from '@tendenz/types'
 import { AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { PageOfSigmaCards } from './PageOfSigmaCards'
 
-export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
+export function SigmaAccordion({
+	minMarketCap,
+	stockTypes,
+}: {
+	minMarketCap: number
+	stockTypes?: stockTypeCode[]
+}) {
 	const [expandedKey, setExpandedKey] = useState<string>('')
 
 	useEffect(() => {
@@ -18,15 +25,12 @@ export function SigmaAccordion({ minMarketCap }: { minMarketCap: number }) {
 		setPageIndex(nextPage)
 	}
 
-	console.log('pageIndex :>> ', pageIndex)
-
 	const pages = []
 	for (let i = 0; i < pageIndex; i++) {
 		pages.push(
 			<PageOfSigmaCards
 				page={i}
 				key={i}
-				minMarketCap={minMarketCap}
 				expandedKey={expandedKey}
 				last={i === pageIndex - 1}
 				handleNextPage={handleNextPage}

@@ -1,6 +1,11 @@
 import cors from '@fastify/cors'
 import { Prisma } from '@prisma/client'
-import { tendenzApiSigmaYesterday } from '@tendenz/types'
+import {
+	stockTypeCode,
+	stockTypes,
+	tendenzApiSigmaYesterday,
+	tendenzApiSigmaYesterdayV0,
+} from '@tendenz/types'
 import Bree from 'bree'
 import Fastify from 'fastify'
 import path from 'node:path'
@@ -26,46 +31,41 @@ fastify.register(cors, {
 
 fastify.register(prismaPlugin)
 
-const PAGE_SIZE = 10
-
 fastify.get('/us-stocks/daily/:page', async request => {
 	const db = new DatabaseApi(fastify.prisma)
 	const query = request.query as Query
 	const minMarketCap = Number(query?.minMarketCap) || undefined
 
+	const types =
+		typeof query.type === 'string'
+			? [query.type]
+			: Array.isArray(query.type)
+			? query.type
+			: undefined
+
+	const typesValid = types?.every(type =>
+		Object.keys(stockTypes).includes(type),
+	)
+
+	if (typesValid === false) {
+		throw new Error('Invalid types specified')
+	}
+
+	const typesFilter =
+		types?.length === Object.keys(stockTypes).length ? undefined : types
+
 	const mostRecentDates = await db.getMostRecentDates(2)
 
 	const params = request.params as Params
 	const page = Number(params?.page) || 0
-	const skip = page * PAGE_SIZE
 
-	const today = await fastify.prisma.usStockDaily.findMany({
-		orderBy: {
-			sigmaAbs: 'desc',
-		},
-		where: {
-			marketCap: { gte: minMarketCap } || { not: null },
-			date: mostRecentDates[0],
-			UsStocks: {
-				name: { not: null },
-			},
-			sigmaAbs: { not: null },
-		},
-		take: PAGE_SIZE,
-		skip,
-		select: {
-			close: true,
-			ticker: true,
-			sigma: true,
-			date: true,
-			marketCap: true,
-			UsStocks: {
-				select: {
-					name: true,
-				},
-			},
-		},
-	})
+	const today = await db.getToday(
+		page,
+		mostRecentDates[0],
+		minMarketCap,
+		typesFilter as stockTypeCode[] | undefined,
+		10,
+	)
 
 	const tickers = today.map(value => value.ticker)
 
@@ -81,18 +81,22 @@ fastify.get('/us-stocks/daily/:page', async request => {
 		},
 	})
 
-	const response = today.map(
-		({ ticker, close, date, UsStocks: { name }, ...rest }) => {
+	const response: tendenzApiSigmaYesterday[] = today.map(
+		({ ticker, close, date, UsStocks: { name, type }, marketCap, ...rest }) => {
 			const previous = yesterday.find(prev => prev.ticker === ticker)
 
 			if (!previous) {
 				throw new Error(`${ticker} has no yesterday value`)
 			}
 
+			const cleanName = formatName(name, type as stockTypeCode)
+
 			return {
 				...rest,
+				marketCap,
 				ticker,
-				name,
+				name: cleanName,
+				type,
 				last: {
 					close: close,
 					date: date,
@@ -104,6 +108,21 @@ fastify.get('/us-stocks/daily/:page', async request => {
 
 	return response
 })
+
+function formatName(name: string, type: stockTypeCode) {
+	const simpleReplace: stockTypeCode[] = ['ETF', 'ETN', 'ETS', 'ETV', 'CS']
+
+	const nameRegex = stockTypes[type].aliases
+		.map(n => n.replace(' ', '[- ]'))
+		.join('|')
+
+	if (simpleReplace.includes(type)) {
+		const regEx = new RegExp(`${type}|${nameRegex}`, 'gi')
+		return name.replace(regEx, '').trim()
+	}
+
+	return name
+}
 
 fastify.get('/:page', async request => {
 	const query = request.query as Query
@@ -130,7 +149,7 @@ fastify.get('/:page', async request => {
 		skip,
 	})
 
-	const response: tendenzApiSigmaYesterday[] = sigmaYesterday.map(
+	const response: tendenzApiSigmaYesterdayV0[] = sigmaYesterday.map(
 		({
 			ticker,
 			name,
@@ -142,10 +161,8 @@ fastify.get('/:page', async request => {
 			meanLogReturn,
 			sampleSize,
 			lastClose,
-			lastLogReturn,
 			lastDate,
 			secondLastClose,
-			secondLastLogReturn,
 			secondLastDate,
 		}) => ({
 			ticker,
@@ -157,10 +174,9 @@ fastify.get('/:page', async request => {
 			stdLogReturn,
 			meanLogReturn,
 			sampleSize,
-			last: { close: lastClose, logReturn: lastLogReturn, date: lastDate },
+			last: { close: lastClose, date: lastDate },
 			secondLast: {
 				close: secondLastClose,
-				logReturn: secondLastLogReturn,
 				date: secondLastDate,
 			},
 		}),
@@ -199,6 +215,7 @@ start()
 
 export interface Query {
 	minMarketCap?: string
+	type?: string | string[]
 }
 export interface Params {
 	page?: string

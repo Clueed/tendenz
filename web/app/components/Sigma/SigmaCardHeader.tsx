@@ -1,3 +1,4 @@
+import { stockTypeCode, stockTypes } from '@tendenz/types'
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ReactNode, useEffect, useState } from 'react'
@@ -11,12 +12,14 @@ export function SigmaCardHeader({
 	ticker,
 	name,
 	marketCap,
+	type,
 }: {
 	expanded: boolean
 	sigma: number
 	ticker: string
 	name: string
 	marketCap: number
+	type: stockTypeCode
 }) {
 	const formattedSigma = Math.abs(sigma).toFixed(2)
 
@@ -86,26 +89,20 @@ export function SigmaCardHeader({
 						{expanded && (
 							<>
 								{' '}
+								<StockTypePopover
+									key={type}
+									text={stockTypes[type].description}
+								>
+									<Tag
+										className={classNames(
+											'hover:bg-slate-a5 hover:text-slate-12',
+											'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
+										)}
+									>
+										{type}
+									</Tag>
+								</StockTypePopover>{' '}
 								<MarketCap marketCap={marketCap} ticker={ticker} />
-								{shareTypes.map(type =>
-									parantheses ? (
-										<>
-											{' '}
-											<StockTypePopover key={type} text={parantheses}>
-												<Tag
-													className={classNames(
-														'hover:bg-slate-a5 hover:text-slate-12',
-														'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
-													)}
-												>
-													{type}
-												</Tag>
-											</StockTypePopover>
-										</>
-									) : (
-										<Tag key={type}> {type}</Tag>
-									),
-								)}
 							</>
 						)}
 					</AnimatePresence>
@@ -126,48 +123,9 @@ function StockTypePopover({
 		<Pop
 			offset={1}
 			popoverColor="slate"
-			popoverContent={<div className="w-36">{text}</div>}
+			popoverContent={<div className="w-52">{text}</div>}
 		>
 			{children}
 		</Pop>
 	)
-}
-
-function handleTickerTypes(name: string) {
-	let formattedName = name
-	let shareTypes: string[] = []
-
-	if (formattedName === null) {
-		return { formattedName, shareTypes }
-	}
-
-	for (const type of [
-		'Common Stock',
-		'Ordinary Shares',
-		'Class A',
-		'Depositary Shares',
-	]) {
-		if (formattedName!.search(type) !== -1) {
-			formattedName = formattedName!.replace(type, '')
-			shareTypes.push(type)
-		}
-	}
-
-	shareTypes = shareTypes.map(type =>
-		type.replace(' ', String.fromCharCode(160)),
-	)
-
-	return { formattedName, shareTypes }
-}
-
-function extractContentInParentheses(input: string) {
-	const openingIndex = input.indexOf('(')
-	const closingIndex = input.lastIndexOf(')')
-
-	const substring = input.substring(openingIndex, closingIndex + 1)
-	const cleanInput = input.replace(substring, '')
-
-	const content = substring.slice(1, -1)
-
-	return { cleanInput, content }
 }

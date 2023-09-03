@@ -2,14 +2,14 @@
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
 import useSWR, { SWRResponse, preload } from 'swr'
 import { fetcher } from './SWRConfigProvider'
-import { getStocksURL } from './sharedApi'
+import { ApiQuery, getStocksURL } from './sharedApi'
 
 export function useSigmaYesterday(
-	minMarketCap: number,
-	page: number = 0,
+	querry?: ApiQuery,
 ): SWRResponse<tendenzApiSigmaYesterday[], any, any> {
-	const url = getStocksURL(page, minMarketCap)
-	preload(getStocksURL(page + 1, minMarketCap), fetcher)
+	const url = getStocksURL(querry)
+	const { page, ...rest } = querry ?? {}
+	preload(getStocksURL({ ...rest, page: page || 1 }), fetcher)
 
 	return useSWR<tendenzApiSigmaYesterday[]>(url)
 }

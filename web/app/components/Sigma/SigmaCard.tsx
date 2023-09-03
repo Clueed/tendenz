@@ -39,10 +39,11 @@ export default function SigmaCard({
 				<Accordion.Trigger className="w-full">
 					<SigmaCardHeader
 						expanded={expanded}
-						name={entry.name!}
+						name={entry.name}
 						sigma={entry.sigma}
 						marketCap={entry.marketCap as number}
 						ticker={entry.ticker}
+						type={entry.type}
 					/>
 				</Accordion.Trigger>
 			</div>

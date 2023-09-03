@@ -1,7 +1,10 @@
 'use client'
 
+import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
 import { Variants, motion } from 'framer-motion'
+import { useContext } from 'react'
 import { useSigmaYesterday } from '../../lib/api/clientApi'
+import { FilterContext } from '../FilterContextProvider'
 import { LoadingError } from './LoadingError'
 import { NextPageButton } from './NextPageButton'
 import SigmaCard from './SigmaCard'
@@ -32,26 +35,31 @@ export const variants: Variants = {
 
 export function PageOfSigmaCards({
 	page,
-	minMarketCap,
 	expandedKey,
 	last,
 	handleNextPage,
 }: {
 	page: number
-	minMarketCap: number
 	expandedKey: string
 	last: boolean
 	handleNextPage: () => void
 }) {
-	const { data, isLoading, error, isValidating } = useSigmaYesterday(
+	const { marketCapKey, typeLabels } = useContext(FilterContext)
+
+	const minMarketCap = MARKET_CAP_BUCKETS.filter(
+		bucket => bucket.label === marketCapKey,
+	)[0].minMarketCap
+
+	const { data, isLoading, error, isValidating } = useSigmaYesterday({
 		minMarketCap,
 		page,
-	)
+		typeGroups: typeLabels,
+	})
 
 	if (data && data.length > 0) {
 		return (
 			<>
-				{data.map(entry => (
+				{data.map((entry, index) => (
 					<motion.div
 						layout
 						key={entry.ticker}
@@ -72,6 +80,16 @@ export function PageOfSigmaCards({
 					</div>
 				)}
 			</>
+		)
+	}
+
+	if (isLoading) {
+		return (
+			<div className="grid grid-cols-default">
+				<div className="col-start-2 flex h-96 items-center justify-center">
+					<div className="h-4 w-4 animate-spin rounded-full border-b-2 border-slate-a11" />
+				</div>
+			</div>
 		)
 	}
 

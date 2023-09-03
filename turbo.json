@@ -3,10 +3,15 @@
   "pipeline": {
     "typecheck": {},
     "build": {
-      "dependsOn": ["^db:generate"]
+      "dependsOn": ["db:generate"]
+    },
+    "lint": {},
+    "format": {},
+    "pre-commit": {
+      "dependsOn": ["typecheck", "lint", "format"]
     },
     "dev": {
-      "dependsOn": ["^db:generate"],
+      "dependsOn": ["db:generate"],
       "cache": false,
       "persistent": false
     },
