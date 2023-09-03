@@ -33,3 +33,6 @@ export const TYPE_GROUPS = [
 ] as const
 
 export type TypeGroupLabel = (typeof TYPE_GROUPS)[number]['label']
+
+export const DEFAULT_MARKET_CAP_LABEL = '1b'
+export const DEFAULT_TYPE_GROUP_LABELS = ['stocks'] as TypeGroupLabel[]

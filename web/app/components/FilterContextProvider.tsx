@@ -7,11 +7,12 @@ import {
 	useState,
 } from 'react'
 import {
+	DEFAULT_MARKET_CAP_LABEL,
+	DEFAULT_TYPE_GROUP_LABELS,
 	MarketCapBucketLabel,
 	TYPE_GROUPS,
 	TypeGroupLabel,
 } from '../lib/MARKET_CAP_BUCKETS'
-import { DEFAULT_MARKET_CAP_LABEL, DEFAULT_TYPE_GROUP_LABELS } from '../page'
 
 export const FilterContext = createContext<{
 	marketCapKey: MarketCapBucketLabel

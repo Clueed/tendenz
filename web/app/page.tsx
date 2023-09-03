@@ -3,13 +3,15 @@ import FilterContextProvider from './components/FilterContextProvider'
 import Hero from './components/Hero'
 import SigmaRoot from './components/Sigma/SigmaRoot'
 import UsStocksHeader from './components/UsStocksHeader'
-import { MARKET_CAP_BUCKETS, TypeGroupLabel } from './lib/MARKET_CAP_BUCKETS'
+import {
+	DEFAULT_MARKET_CAP_LABEL,
+	DEFAULT_TYPE_GROUP_LABELS,
+	MARKET_CAP_BUCKETS,
+	TypeGroupLabel,
+} from './lib/MARKET_CAP_BUCKETS'
 import SWRConfigProvider from './lib/api/SWRConfigProvider'
 import { getFallback } from './lib/api/serverApi'
 import { ApiQuery } from './lib/api/sharedApi'
-
-export const DEFAULT_MARKET_CAP_LABEL = '1b'
-export const DEFAULT_TYPE_GROUP_LABELS = ['stocks'] as TypeGroupLabel[]
 
 export default async function Home() {
 	const defaultTypeAllMarketCaps: ApiQuery[] = MARKET_CAP_BUCKETS.map(

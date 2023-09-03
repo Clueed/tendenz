@@ -8,10 +8,9 @@
     "lint": {},
     "format": {},
     "pre-commit": {
-      "dependsOn": ["typecheck", "lint", "format"]
+      "dependsOn": ["format", "typecheck", "lint", "build"]
     },
     "dev": {
-      "dependsOn": ["db:generate"],
       "cache": false,
       "persistent": false
     },

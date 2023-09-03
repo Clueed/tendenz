@@ -1,8 +1,12 @@
 'use client'
-import { MARKET_CAP_BUCKETS } from '../lib/MARKET_CAP_BUCKETS'
+import {
+	DEFAULT_MARKET_CAP_LABEL,
+	DEFAULT_TYPE_GROUP_LABELS,
+	MARKET_CAP_BUCKETS,
+} from '../lib/MARKET_CAP_BUCKETS'
 import { useSigmaYesterday } from '../lib/api/clientApi'
 import { npl } from '../lib/naturalLanguageProcessing'
-import { DEFAULT_MARKET_CAP_LABEL, DEFAULT_TYPE_GROUP_LABELS } from '../page'
+
 import Timer from './Timer'
 
 export default function UsStocksHeader({}: {}) {
