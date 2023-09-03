@@ -59,7 +59,7 @@ export function PageOfSigmaCards({
 	if (data && data.length > 0) {
 		return (
 			<>
-				{data.map(entry => (
+				{data.map((entry, index) => (
 					<motion.div
 						layout
 						key={entry.ticker}
@@ -80,6 +80,16 @@ export function PageOfSigmaCards({
 					</div>
 				)}
 			</>
+		)
+	}
+
+	if (isLoading) {
+		return (
+			<div className="grid grid-cols-default">
+				<div className="col-start-2 flex h-96 items-center justify-center">
+					<div className="h-4 w-4 animate-spin rounded-full border-b-2 border-slate-a11" />
+				</div>
+			</div>
 		)
 	}
 

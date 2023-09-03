@@ -31,11 +31,9 @@ export function SigmaAccordion({
 			<PageOfSigmaCards
 				page={i}
 				key={i}
-				minMarketCap={minMarketCap}
 				expandedKey={expandedKey}
 				last={i === pageIndex - 1}
 				handleNextPage={handleNextPage}
-				stockTypes={stockTypes}
 			/>,
 		)
 	}
