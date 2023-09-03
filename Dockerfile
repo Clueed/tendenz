@@ -30,8 +30,7 @@ RUN yarn install
 
 COPY --from=prune /app/out/full/ .
 RUN yarn global add turbo
-RUN turbo run db:generate --filter="@tendenz/server"
-RUN turbo run build --filter="@tendenz/server"
+RUN turbo run build
 
 
 # Final stage for app image
@@ -48,6 +47,7 @@ RUN apt-get update -qq && \
 
 # Copy built application
 COPY --from=build /app/ .
+RUN yarn install
 
 # Entrypoint prepares the database.
 ENTRYPOINT [ "/app/server/docker-entrypoint.js" ]

@@ -8,7 +8,11 @@
   "devDependencies": {
     "typescript": "^5.1.6"
   },
-  "scripts": {},
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --sourceMap false",
+    "format": "prettier --write ."
+  },
   "author": "",
   "license": "ISC"
 }
