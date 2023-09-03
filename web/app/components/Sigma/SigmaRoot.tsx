@@ -24,13 +24,13 @@ export default function SigmaRoot({}: {}) {
 	return (
 		<>
 			<div className="mb-[2vh] mt-[1vh] grid grid-cols-default">
-				<div className="col-start-2 mb-2 flex items-end justify-between align-bottom">
+				<div className="col-start-2 mb-2 flex flex-wrap items-end justify-between align-bottom">
 					<StockTypeToggle
 						selectedKeys={typeLabels}
 						selectKeys={setTypeLabels}
 						allKeys={TYPE_GROUPS.map(group => group.label)}
 					/>
-					<div className="flex gap-1">
+					<div className="flex-grow text-right">
 						<MarketCapFilter
 							selectedKey={marketCapKey}
 							selectKey={setMarketCapKey}
