@@ -52,7 +52,7 @@ fastify.get('/us-stocks/daily/:page', async request => {
 	}
 
 	const typesFilter =
-		types?.length === Object.keys(stockTypes).length ? [] : types
+		types?.length === Object.keys(stockTypes).length ? undefined : types
 
 	const mostRecentDates = await db.getMostRecentDates(2)
 
