@@ -51,6 +51,9 @@ fastify.get('/us-stocks/daily/:page', async request => {
 		throw new Error('Invalid types specified')
 	}
 
+	const typesFilter =
+		types?.length === Object.keys(stockTypes).length ? [] : types
+
 	const mostRecentDates = await db.getMostRecentDates(2)
 
 	const params = request.params as Params
@@ -60,7 +63,7 @@ fastify.get('/us-stocks/daily/:page', async request => {
 		page,
 		mostRecentDates[0],
 		minMarketCap,
-		types as stockTypeCode[] | undefined,
+		typesFilter as stockTypeCode[] | undefined,
 		10,
 	)
 

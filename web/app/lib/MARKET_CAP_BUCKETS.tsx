@@ -13,7 +13,23 @@ export const TYPE_GROUPS = [
 		types: ['CS', 'OS', 'PFD', 'ADRC', 'ADRP', 'GDR', 'NYRS', 'RIGHT'],
 	},
 	{ label: 'ETFs', types: ['ETF', 'ETN', 'ETV', 'ETS'] },
-	{ label: 'others', types: ['FUND', 'OTHER', 'BOND', 'SP'] },
-] as const
+	{
+		label: 'others',
+		types: [
+			'FUND',
+			'OTHER',
+			'BOND',
+			'SP',
+			'WARRANT',
+			'ADRW',
+			'ADRR',
+			'BASKET',
+			'UNIT',
+			'LT',
+			'AGEN',
+			'EQLK',
+		],
+	},
+]
 
 export type TypeGroupLabel = (typeof TYPE_GROUPS)[number]['label']
