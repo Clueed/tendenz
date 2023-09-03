@@ -1,24 +1,24 @@
+import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
 import * as Accordion from '@radix-ui/react-accordion'
-import { stockTypeCode } from '@tendenz/types'
 import { AnimatePresence } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { FilterContext } from '../FilterContextProvider'
 import { PageOfSigmaCards } from './PageOfSigmaCards'
 
-export function SigmaAccordion({
-	minMarketCap,
-	stockTypes,
-}: {
-	minMarketCap: number
-	stockTypes?: stockTypeCode[]
-}) {
-	const [expandedKey, setExpandedKey] = useState<string>('')
+export function SigmaAccordion({}: {}) {
+	const { marketCapKey, typeLabels } = useContext(FilterContext)
 
+	const minMarketCap = MARKET_CAP_BUCKETS.filter(
+		bucket => bucket.label === marketCapKey,
+	)[0].minMarketCap
+
+	const [expandedKey, setExpandedKey] = useState<string>('')
 	useEffect(() => {
 		setExpandedKey('')
 		setPageIndex(1)
-	}, [minMarketCap])
+	}, [minMarketCap, typeLabels])
 
-	const [pageIndex, setPageIndex] = useState<number>(1)
+	const [pageIndex, setPageIndex] = useState<number>(0)
 
 	function handleNextPage() {
 		const nextPage = pageIndex + 1

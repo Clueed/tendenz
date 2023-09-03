@@ -44,7 +44,7 @@ export default function SigmaRoot({}: {}) {
 				</div>
 			</div>
 
-			<SigmaAccordion minMarketCap={minMarketCap} stockTypes={types} />
+			<SigmaAccordion />
 		</>
 	)
 }
