@@ -19,11 +19,12 @@ export default function StockTypeToggle<T extends string[]>({
 				newKeys.length > 0 && selectKeys(newKeys)
 			}}
 			asChild
+			aria-label="Asset type"
 		>
 			<div
 				className={classNames(
-					'group inline-flex overflow-clip rounded-md bg-slate-a2 text-xs transition-all duration-1000',
-					'hover:shadow-lg hover:backdrop-blur-3xl',
+					'group inline-flex gap-3 overflow-clip rounded-md text-xl transition-all duration-1000',
+					'hover:backdrop-blur-3xl',
 				)}
 			>
 				{allKeys.map(key => (
@@ -31,10 +32,10 @@ export default function StockTypeToggle<T extends string[]>({
 						key={key}
 						value={key}
 						className={classNames(
-							'px-2 py-1 tracking-wide text-slate-11 transition-all duration-500',
-							'hover:!bg-slate-a6 hover:shadow group-hover:text-slate-12',
+							'tracking-wide text-slate-11 transition-all duration-500',
+							'hover:text-slate-12 hover:shadow',
 							{
-								'bg-slate-a6 text-slate-12': selectedKeys.includes(key),
+								'text-slate-12': selectedKeys.includes(key),
 							},
 							{
 								'group-hover:bg-slate-a1': !selectedKeys.includes(key),

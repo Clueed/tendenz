@@ -39,15 +39,12 @@ export default function SigmaRoot({
 		<>
 			<div className="mb-[2vh] mt-[10vh] grid grid-cols-default">
 				<div className="col-start-2 mb-2 flex items-end justify-between align-bottom">
-					<h3 className="text-3xl font-normal leading-none text-slate-12">
-						{title}
-					</h3>
+					<StockTypeToggle
+						selectedKeys={selectedTypeLabels}
+						selectKeys={setSelectedTypeLabels}
+						allKeys={typeGroups.map(group => group.label)}
+					/>
 					<div className="flex gap-1">
-						<StockTypeToggle
-							selectedKeys={selectedTypeLabels}
-							selectKeys={setSelectedTypeLabels}
-							allKeys={typeGroups.map(group => group.label)}
-						/>
 						<MarketCapFilter
 							selectedKey={bucketKey}
 							selectKey={setBucketKey}
