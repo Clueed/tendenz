@@ -1,5 +1,5 @@
-import { stockTypeCode, tendenzApiSigmaYesterday } from '@tendenz/types'
-import { getStocksURL } from './sharedApi'
+import { tendenzApiSigmaYesterday } from '@tendenz/types'
+import { ApiQuery,getStocksURL } from './sharedApi'
 
 async function getData<T>(url: string) {
 	const res = await fetch(url, {
@@ -9,15 +9,13 @@ async function getData<T>(url: string) {
 }
 
 export async function getFallback(
-	minMarketCaps: number[],
-	types?: stockTypeCode[],
-	page: number = 0,
+	queries: ApiQuery[],
 ) {
 	let fallback: { [key: string]: tendenzApiSigmaYesterday[] } = {}
 
 	await Promise.all(
-		minMarketCaps.map(async minMarketCap => {
-			const url = getStocksURL(page, minMarketCap, types)
+		queries.map(async query => {
+			const url = getStocksURL(query)
 			try {
 				fallback[url] = await getData<tendenzApiSigmaYesterday[]>(url)
 			} catch (e) {

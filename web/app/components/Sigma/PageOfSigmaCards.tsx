@@ -1,8 +1,10 @@
 'use client'
 
-import { stockTypeCode } from '@tendenz/types'
+import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
 import { Variants, motion } from 'framer-motion'
+import { useContext } from 'react'
 import { useSigmaYesterday } from '../../lib/api/clientApi'
+import { FilterContext } from '../FilterContextProvider'
 import { LoadingError } from './LoadingError'
 import { NextPageButton } from './NextPageButton'
 import SigmaCard from './SigmaCard'
@@ -33,24 +35,26 @@ export const variants: Variants = {
 
 export function PageOfSigmaCards({
 	page,
-	minMarketCap,
 	expandedKey,
 	last,
 	handleNextPage,
-	stockTypes,
 }: {
 	page: number
-	minMarketCap: number
 	expandedKey: string
 	last: boolean
 	handleNextPage: () => void
-	stockTypes?: stockTypeCode[]
 }) {
-	const { data, isLoading, error, isValidating } = useSigmaYesterday(
+	const { marketCapKey, typeLabels } = useContext(FilterContext)
+
+	const minMarketCap = MARKET_CAP_BUCKETS.filter(
+		bucket => bucket.label === marketCapKey,
+	)[0].minMarketCap
+
+	const { data, isLoading, error, isValidating } = useSigmaYesterday({
 		minMarketCap,
 		page,
-		stockTypes,
-	)
+		typeGroups: typeLabels,
+	})
 
 	if (data && data.length > 0) {
 		return (

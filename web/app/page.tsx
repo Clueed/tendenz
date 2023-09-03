@@ -6,14 +6,42 @@ import UsStocksHeader from './components/UsStocksHeader'
 import { MARKET_CAP_BUCKETS, TypeGroupLabel } from './lib/MARKET_CAP_BUCKETS'
 import SWRConfigProvider from './lib/api/SWRConfigProvider'
 import { getFallback } from './lib/api/serverApi'
+import { ApiQuery } from './lib/api/sharedApi'
 
 export const DEFAULT_MARKET_CAP_LABEL = '1b'
 export const DEFAULT_TYPE_GROUP_LABELS = ['stocks'] as TypeGroupLabel[]
 
 export default async function Home() {
-	const fallback = await getFallback(
-		MARKET_CAP_BUCKETS.map(b => b.minMarketCap),
+	const defaultTypeAllMarketCaps: ApiQuery[] = MARKET_CAP_BUCKETS.map(
+		({ minMarketCap }) => {
+			return {
+				minMarketCap: minMarketCap,
+				typeGroups: DEFAULT_TYPE_GROUP_LABELS,
+			}
+		},
 	)
+
+	const minMarketCap = MARKET_CAP_BUCKETS.filter(
+		bucket => bucket.label === DEFAULT_MARKET_CAP_LABEL,
+	)[0].minMarketCap
+	const selectTypesGroups: TypeGroupLabel[][] = [
+		DEFAULT_TYPE_GROUP_LABELS,
+		['stocks', 'ETFs'],
+		['stocks', 'ETFs', 'others'],
+	]
+	const selectTypesDefaultMarketCap: ApiQuery[] = selectTypesGroups.map(
+		typeGroups => {
+			return {
+				minMarketCap: minMarketCap,
+				typeGroups: typeGroups,
+			}
+		},
+	)
+
+	const fallback = await getFallback([
+		...defaultTypeAllMarketCaps,
+		...selectTypesDefaultMarketCap,
+	])
 
 	return (
 		<>

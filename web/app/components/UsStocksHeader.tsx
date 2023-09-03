@@ -1,13 +1,22 @@
 'use client'
+import { MARKET_CAP_BUCKETS } from '../lib/MARKET_CAP_BUCKETS'
 import { useSigmaYesterday } from '../lib/api/clientApi'
 import { npl } from '../lib/naturalLanguageProcessing'
+import { DEFAULT_MARKET_CAP_LABEL, DEFAULT_TYPE_GROUP_LABELS } from '../page'
 import Timer from './Timer'
 
-type Props = {}
+export default function UsStocksHeader({}: {}) {
+	const minMarketCap = MARKET_CAP_BUCKETS.filter(
+		bucket => bucket.label === DEFAULT_MARKET_CAP_LABEL,
+	)[0].minMarketCap
 
-export default function UsStocksHeader({}: Props) {
-	const { data } = useSigmaYesterday(0)
+	const { data } = useSigmaYesterday({
+		minMarketCap,
+		typeGroups: DEFAULT_TYPE_GROUP_LABELS,
+	})
+
 	const lastDate = data?.[0] ? npl(data[0].last.date as string) : 'yesterday'
+
 	return (
 		<div className="grid grid-cols-default">
 			<div className="col-start-2 mb-[1.5vh] flex items-end justify-between gap-5">
