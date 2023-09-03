@@ -14,6 +14,6 @@ export const TYPE_GROUPS = [
 	},
 	{ label: 'ETFs', types: ['ETF', 'ETN', 'ETV', 'ETS'] },
 	{ label: 'others', types: ['FUND', 'OTHER', 'BOND', 'SP'] },
-]
+] as const
 
 export type TypeGroupLabel = (typeof TYPE_GROUPS)[number]['label']

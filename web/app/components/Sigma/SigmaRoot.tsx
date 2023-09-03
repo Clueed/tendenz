@@ -5,11 +5,11 @@ import {
 	TYPE_GROUPS,
 	TypeGroupLabel,
 } from '@/app/lib/MARKET_CAP_BUCKETS'
-import { stockTypeCode } from '@tendenz/types'
 import { useState } from 'react'
 import MarketCapFilter from './MarketCapFilter'
 import MarketCapFilterLabel from './MarketCapQuestionMark'
 import { SigmaAccordion } from './SigmaAccordion'
+import StockTypeToggle from './StockTypeToggle'
 
 export default function SigmaRoot({
 	marketCapBuckets,
@@ -26,11 +26,14 @@ export default function SigmaRoot({
 		bucket => bucket.label === bucketKey,
 	)[0].minMarketCap
 
-	const defaultTypeGroup: TypeGroupLabel = 'stocks'
-	const [typeGroupKey, setTypeGroupKey] =
-		useState<TypeGroupLabel>(defaultTypeGroup)
-	const types = typeGroups.filter(group => group.label === typeGroupKey)[0]
-		.types as stockTypeCode[]
+	const [selectedTypeLabels, setSelectedTypeLabels] = useState<
+		TypeGroupLabel[]
+	>(['stocks'] as TypeGroupLabel[])
+	const types = selectedTypeLabels.flatMap(selectedLabel =>
+		TYPE_GROUPS.filter(group => group.label === selectedLabel).flatMap(
+			typeGroup => typeGroup.types,
+		),
+	)
 
 	return (
 		<>
@@ -40,15 +43,15 @@ export default function SigmaRoot({
 						{title}
 					</h3>
 					<div className="flex gap-1">
+						<StockTypeToggle
+							selectedKeys={selectedTypeLabels}
+							selectKeys={setSelectedTypeLabels}
+							allKeys={typeGroups.map(group => group.label)}
+						/>
 						<MarketCapFilter
 							selectedKey={bucketKey}
 							selectKey={setBucketKey}
 							allKeys={marketCapBuckets.map(bucket => bucket.label)}
-						/>
-						<MarketCapFilter
-							selectedKey={typeGroupKey}
-							selectKey={setTypeGroupKey}
-							allKeys={typeGroups.map(group => group.label)}
 						/>
 					</div>
 				</div>
