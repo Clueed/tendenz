@@ -6,7 +6,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { FilterContext } from '../FilterContextProvider'
 
 type Inputs = {
-	textfield: number | string
+	textfield: { min: number | string; max: number | string }
 }
 
 const valueMap: Record<number, number> = {
@@ -25,6 +25,14 @@ const valueMap: Record<number, number> = {
 export default function MarketCapFilter({}: {}) {
 	const { minMarketCap, setMinMarketCap } = useContext(FilterContext)
 
+	const [localMarketCap, setLocalMarketCap] = useState<{
+		min: number
+		max: number
+	}>({
+		min: minMarketCap,
+		max: Infinity,
+	})
+
 	const {
 		handleSubmit,
 		watch,
@@ -32,7 +40,10 @@ export default function MarketCapFilter({}: {}) {
 		control,
 	} = useForm<Inputs>({
 		defaultValues: {
-			textfield: convertNumberToString(DEFAULT_MIN_MARKETCAP),
+			textfield: {
+				min: convertNumberToString(DEFAULT_MIN_MARKETCAP),
+				max: Infinity,
+			},
 		},
 	})
 	const [localMinMarketCap, localSetMinMarketCap] =
@@ -40,10 +51,10 @@ export default function MarketCapFilter({}: {}) {
 
 	const onSubmit: SubmitHandler<Inputs> = data => {
 		console.log(data)
-		if (typeof data.textfield === 'string') {
-			localSetMinMarketCap(convertStringToNumber(data.textfield))
+		if (typeof data.textfield.min === 'string') {
+			localSetMinMarketCap(convertStringToNumber(data.textfield.min))
 		} else {
-			localSetMinMarketCap(data.textfield)
+			localSetMinMarketCap(data.textfield.min)
 		}
 	}
 
@@ -56,21 +67,23 @@ export default function MarketCapFilter({}: {}) {
 
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
-			console.log(localMinMarketCap)
-			setMinMarketCap(localMinMarketCap)
+			console.log(localMarketCap.min)
+			setMinMarketCap(localMarketCap.min)
 		}, 500)
 
 		return () => clearTimeout(delayDebounceFn)
-	}, [localMinMarketCap, setMinMarketCap])
+	}, [localMarketCap.min, setMinMarketCap])
 
 	const sliderValue = (value: number | string) => {
-		const newValue =
-			typeof value === 'number' ? value : convertStringToNumber(value)
+		const newMin =
+			typeof value === 'number'
+				? value
+				: handleInfinityString(value, convertStringToNumber)
 
 		return Number(
 			Object.entries(valueMap)
 				.reverse()
-				.find(([_, value]) => value <= newValue)?.[0],
+				.find(([_, value]) => value <= newMin)?.[0],
 		)
 	}
 
@@ -83,32 +96,57 @@ export default function MarketCapFilter({}: {}) {
 					name="textfield"
 					render={({ field }) => (
 						<>
-							<span>
-								<input
-									defaultValue={
-										typeof field.value === 'string'
-											? field.value
-											: convertNumberToString(field.value)
-									}
-									value={field.value === 0 ? '' : field.value}
-									onChange={e => field.onChange(e.target.value)}
-									className="inline w-auto min-w-0 appearance-none bg-[#00000000] text-center tracking-wide focus:outline-none"
-								/>
-							</span>
-
+							<input
+								defaultValue={
+									typeof field.value.min === 'string'
+										? field.value.min
+										: convertNumberToString(field.value.min)
+								}
+								value={field.value.min === 0 ? '' : field.value.min}
+								onChange={e =>
+									field.onChange({ min: e.target.value, max: field.value.max })
+								}
+								className="inline w-24 appearance-none bg-[#00000000] text-center tracking-wide focus:outline-none"
+							/>
+							-
+							<input
+								defaultValue={
+									typeof field.value.max === 'string'
+										? field.value.max
+										: handleInfinityNumber(
+												field.value.max,
+												convertNumberToString,
+										  )
+								}
+								value={field.value.max === 0 ? '' : field.value.max}
+								onChange={e =>
+									field.onChange({ max: e.target.value, min: field.value.min })
+								}
+								className="inline w-24 appearance-none bg-[#00000000] text-center tracking-wide focus:outline-none"
+							/>
 							<Slider.Root
 								className="group/slider relative flex h-5 w-full touch-none select-none items-center"
 								max={9}
 								step={1}
-								onValueChange={v => {
-									const newValue = valueMap[Number(v[0])]
+								onValueChange={values => {
+									const newMinValue = convertNumberToString(
+										valueMap[Number(values[0])],
+									)
 
-									field.onChange(convertNumberToString(newValue))
+									const newMaxValue = handleInfinityNumber(
+										valueMap[Number(values[1])],
+										convertNumberToString,
+									)
+
+									field.onChange({ min: newMinValue, max: newMaxValue })
 								}}
-								value={[sliderValue(field.value)]}
+								value={[
+									sliderValue(field.value.min),
+									sliderValue(field.value.max),
+								]}
 							>
-								<Slider.Track className="relative h-1 grow rounded-full bg-slate-a8 transition-all duration-500 group-hover/slider:h-[6px] group-hover/slider:bg-indigo-a8">
-									<Slider.Range className="absolute h-full rounded-full bg-slate-6" />
+								<Slider.Track className="relative h-1 grow rounded-full bg-slate-a6 transition-all duration-500 group-hover/slider:h-[6px] ">
+									<Slider.Range className="absolute h-full rounded-full bg-slate-a8 group-hover/slider:bg-indigo-a8" />
 								</Slider.Track>
 								<Slider.Thumb
 									className="block h-2 w-2 rounded-full bg-slate-11 transition-transform duration-500 hover:bg-slate-12 focus:outline-none group-hover/slider:scale-150 group-hover/slider:bg-indigo-11"
@@ -125,6 +163,16 @@ export default function MarketCapFilter({}: {}) {
 			</form>
 		</div>
 	)
+}
+
+const handleInfinityNumber = (value: number, fn: (value: number) => string) => {
+	if (value === Infinity) return '∞'
+	return fn(value)
+}
+
+const handleInfinityString = (value: string, fn: (value: string) => number) => {
+	if (value === '∞') return Infinity
+	return fn(value)
 }
 
 const matchString = (input: string) => {
@@ -157,7 +205,9 @@ function convertStringToNumber(input: string): number {
 	return Number(input)
 }
 
-function convertNumberToString(value: number) {
+function convertNumberToString(value: number, infinity: boolean = false) {
+	if (infinity && value === Infinity) return '∞'
+
 	if (value >= 1e12) {
 		return (value / 1e12).toFixed(0) + 't'
 	} else if (value >= 1e9) {
