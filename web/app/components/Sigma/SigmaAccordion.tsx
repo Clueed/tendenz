@@ -8,11 +8,11 @@ import { FilterContext } from '../FilterContextProvider'
 import { PageOfSigmaCards } from './PageOfSigmaCards'
 
 export function SigmaAccordion({}: {}) {
-	const { minMarketCap, typeLabels } = useContext(FilterContext)
+	const { marketCap, typeLabels } = useContext(FilterContext)
 	useEffect(() => {
 		setExpandedKey('')
 		setPageIndex(1)
-	}, [minMarketCap, typeLabels])
+	}, [marketCap, typeLabels])
 
 	const [expandedKey, setExpandedKey] = useState<string>('')
 
