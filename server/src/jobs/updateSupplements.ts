@@ -4,16 +4,13 @@ import { supplementTickerDetails } from '../dailyRoutine/supplementTickerDetails
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { PolygonRequestHandler } from '../lib/polygonApi/polygonRequestHandler.js'
 import { PolygonStocksApi } from '../lib/polygonApi/polygonStocksApi.js'
-
-const newDetails = false
-
 if (process.env.NODE_ENV === 'production') {
 	console.debug = function () {}
 }
 
 const db = new DatabaseApi(new PrismaClient())
-const apiKey = process.env.POLYGON_API_KEY2
 
+const apiKey = process.env.POLYGON_API_KEY2
 if (!apiKey) {
 	throw Error('No API KEY')
 }
@@ -23,11 +20,8 @@ const stocksApi = new PolygonStocksApi(requestHandler)
 const detailsSupplementer = new DetailsSupplementer(db, stocksApi)
 
 try {
-	if (newDetails) {
-		await detailsSupplementer.run()
-	} else {
-		await supplementTickerDetails(db, stocksApi)
-	}
+	await detailsSupplementer.run()
+	await supplementTickerDetails(db, stocksApi)
 } catch (e) {
 	console.error(e)
 	process.exit(1)

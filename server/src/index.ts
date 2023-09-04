@@ -10,6 +10,7 @@ import Bree from 'bree'
 import Fastify from 'fastify'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { SHARE_ENV } from 'node:worker_threads'
 import { DatabaseApi } from './lib/databaseApi/databaseApi.js'
 import prismaPlugin from './plugins/prisma.js'
 
@@ -186,6 +187,7 @@ fastify.get('/:page', async request => {
 })
 
 const bree = new Bree({
+	worker: { env: SHARE_ENV },
 	root: path.join(path.dirname(fileURLToPath(import.meta.url)), 'jobs'),
 	jobs: [
 		{

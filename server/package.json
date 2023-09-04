@@ -4,7 +4,8 @@
   "description": "",
   "exports": "./src/index.js",
   "scripts": {
-    "dev": "node --watch --loader ts-node/esm --inspect --trace-uncaught ./src/index.ts",
+    "dev-with-path": "node --watch --loader ts-node/esm --inspect --trace-uncaught -r dotenv/config",
+    "dev": "node --watch --loader ts-node/esm --inspect --trace-uncaught -r dotenv/config ./src/index.ts",
     "dev-prisma-migrate": "prisma migrate dev --name init",
     "typecheck": "tsc --noEmit",
     "build": "tsc --sourceMap false",
