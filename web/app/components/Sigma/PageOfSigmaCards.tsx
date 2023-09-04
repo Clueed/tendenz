@@ -51,10 +51,10 @@ export function PageOfSigmaCards({
 		typeGroups: typeLabels,
 	})
 
-	if (data && data.length > 0) {
+	if (data) {
 		return (
 			<>
-				{data.map((entry, index) => (
+				{data.map(entry => (
 					<motion.div
 						layout
 						key={entry.ticker}
@@ -66,7 +66,7 @@ export function PageOfSigmaCards({
 						<SigmaCard entry={entry} expanded={expandedKey === entry.ticker} />
 					</motion.div>
 				))}
-				{last && (
+				{last && data.length > 0 && (
 					<div className="my-10">
 						<NextPageButton
 							handleNextPage={handleNextPage}
