@@ -70,7 +70,7 @@ export default function MarketCapFilter({}: {}) {
 		return Number(
 			Object.entries(valueMap)
 				.reverse()
-				.find(([index, value]) => value <= newValue)?.[0],
+				.find(([_, value]) => value <= newValue)?.[0],
 		)
 	}
 
@@ -83,17 +83,21 @@ export default function MarketCapFilter({}: {}) {
 					name="textfield"
 					render={({ field }) => (
 						<>
-							<input
-								defaultValue={
-									typeof field.value === 'string'
-										? field.value
-										: convertNumberToString(field.value)
-								}
-								value={field.value === 0 ? '' : field.value}
-								onChange={e => field.onChange(e.target.value)}
-							/>
+							<span>
+								<input
+									defaultValue={
+										typeof field.value === 'string'
+											? field.value
+											: convertNumberToString(field.value)
+									}
+									value={field.value === 0 ? '' : field.value}
+									onChange={e => field.onChange(e.target.value)}
+									className="inline w-auto min-w-0 appearance-none bg-[#00000000] text-center tracking-wide focus:outline-none"
+								/>
+							</span>
+
 							<Slider.Root
-								className="relative flex h-5 w-full touch-none select-none items-center"
+								className="group/slider relative flex h-5 w-full touch-none select-none items-center"
 								max={9}
 								step={1}
 								onValueChange={v => {
@@ -103,11 +107,15 @@ export default function MarketCapFilter({}: {}) {
 								}}
 								value={[sliderValue(field.value)]}
 							>
-								<Slider.Track className="relative h-[3px] grow rounded-full bg-slate-a5">
-									<Slider.Range className="absolute h-full rounded-full bg-slate-a10" />
+								<Slider.Track className="relative h-1 grow rounded-full bg-slate-a8 transition-all duration-500 group-hover/slider:h-[6px] group-hover/slider:bg-indigo-a8">
+									<Slider.Range className="absolute h-full rounded-full bg-slate-6" />
 								</Slider.Track>
 								<Slider.Thumb
-									className="focus:shadow-blackA8 block h-4 w-4 rounded-[10px] bg-slate-11 hover:bg-violet-5 focus:shadow-[0_0_0_5px] focus:outline-none"
+									className="block h-2 w-2 rounded-full bg-slate-11 transition-transform duration-500 hover:bg-slate-12 focus:outline-none group-hover/slider:scale-150 group-hover/slider:bg-indigo-11"
+									aria-label="Volume"
+								/>
+								<Slider.Thumb
+									className="block h-2 w-2 rounded-full bg-slate-11 transition-transform duration-500 hover:bg-slate-12 focus:outline-none group-hover/slider:scale-150 group-hover/slider:bg-indigo-11"
 									aria-label="Volume"
 								/>
 							</Slider.Root>
