@@ -38,3 +38,8 @@ export const DEFAULT_MARKET_CAP_LABEL = '1b'
 export const DEFAULT_TYPE_GROUP_LABELS = ['stocks'] as TypeGroupLabel[]
 
 export const DEFAULT_MIN_MARKETCAP = 1e9
+
+export const DEFAULT_MARKET_CAP = {
+	min: DEFAULT_MIN_MARKETCAP,
+	max: Infinity,
+}

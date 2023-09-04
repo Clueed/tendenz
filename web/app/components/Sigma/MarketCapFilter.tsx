@@ -3,7 +3,7 @@ import { DEFAULT_MIN_MARKETCAP } from '@/app/lib/MARKET_CAP_BUCKETS'
 import * as Slider from '@radix-ui/react-slider'
 import { useContext, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { FilterContext } from '../FilterContextProvider'
+import { FilterContext, MarketCapFilter } from '../FilterContextProvider'
 
 type Inputs = {
 	textfield: { min: number | string; max: number | string }
@@ -22,16 +22,24 @@ const valueMap: Record<number, number> = {
 	9: 1000e9,
 }
 
-export default function MarketCapFilter({}: {}) {
-	const { minMarketCap, setMinMarketCap } = useContext(FilterContext)
+const valueMapMax: Record<number, number> = {
+	0: 0,
+	1: 1e6,
+	2: 10e6,
+	3: 100e6,
+	4: 500e6,
+	5: 1e9,
+	6: 10e9,
+	7: 100e9,
+	8: 500e9,
+	9: Infinity,
+}
 
-	const [localMarketCap, setLocalMarketCap] = useState<{
-		min: number
-		max: number
-	}>({
-		min: minMarketCap,
-		max: Infinity,
-	})
+export default function MarketCapFilter({}: {}) {
+	const { marketCap, setMarketCap } = useContext(FilterContext)
+
+	const [localMarketCap, setLocalMarketCap] =
+		useState<MarketCapFilter>(marketCap)
 
 	const {
 		handleSubmit,
@@ -42,50 +50,43 @@ export default function MarketCapFilter({}: {}) {
 		defaultValues: {
 			textfield: {
 				min: convertNumberToString(DEFAULT_MIN_MARKETCAP),
-				max: Infinity,
+				max: convertNumberToString(Infinity),
 			},
 		},
 	})
-	const [localMinMarketCap, localSetMinMarketCap] =
-		useState<number>(minMarketCap)
 
-	const onSubmit: SubmitHandler<Inputs> = data => {
-		console.log(data)
-		if (typeof data.textfield.min === 'string') {
-			localSetMinMarketCap(convertStringToNumber(data.textfield.min))
+	const onSubmit: SubmitHandler<Inputs> = ({ textfield: { min, max } }) => {
+		if (typeof min === 'string' && typeof max === 'string') {
+			setLocalMarketCap({
+				min: convertStringToNumber(min),
+				max: convertStringToNumber(max),
+			})
 		} else {
-			localSetMinMarketCap(data.textfield.min)
+			setLocalMarketCap({
+				min: min as number,
+				max: max as number,
+			})
 		}
 	}
 
 	useEffect(() => {
-		// TypeScript users
 		const subscription = watch(() => handleSubmit(onSubmit)())
-		//const subscription = watch(handleSubmit(onSubmit))
 		return () => subscription.unsubscribe()
 	}, [handleSubmit, watch])
 
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
-			console.log(localMarketCap.min)
-			setMinMarketCap(localMarketCap.min)
+			const { min, max } = localMarketCap
+			console.log('min :>> ', min)
+			console.log('min :>> ', max)
+			setMarketCap({
+				min,
+				max,
+			})
 		}, 500)
 
 		return () => clearTimeout(delayDebounceFn)
-	}, [localMarketCap.min, setMinMarketCap])
-
-	const sliderValue = (value: number | string) => {
-		const newMin =
-			typeof value === 'number'
-				? value
-				: handleInfinityString(value, convertStringToNumber)
-
-		return Number(
-			Object.entries(valueMap)
-				.reverse()
-				.find(([_, value]) => value <= newMin)?.[0],
-		)
-	}
+	}, [localMarketCap, setMarketCap])
 
 	return (
 		<div>
@@ -97,11 +98,6 @@ export default function MarketCapFilter({}: {}) {
 					render={({ field }) => (
 						<>
 							<input
-								defaultValue={
-									typeof field.value.min === 'string'
-										? field.value.min
-										: convertNumberToString(field.value.min)
-								}
 								value={field.value.min === 0 ? '' : field.value.min}
 								onChange={e =>
 									field.onChange({ min: e.target.value, max: field.value.max })
@@ -110,14 +106,6 @@ export default function MarketCapFilter({}: {}) {
 							/>
 							-
 							<input
-								defaultValue={
-									typeof field.value.max === 'string'
-										? field.value.max
-										: handleInfinityNumber(
-												field.value.max,
-												convertNumberToString,
-										  )
-								}
 								value={field.value.max === 0 ? '' : field.value.max}
 								onChange={e =>
 									field.onChange({ max: e.target.value, min: field.value.min })
@@ -133,9 +121,8 @@ export default function MarketCapFilter({}: {}) {
 										valueMap[Number(values[0])],
 									)
 
-									const newMaxValue = handleInfinityNumber(
-										valueMap[Number(values[1])],
-										convertNumberToString,
+									const newMaxValue = convertNumberToString(
+										valueMapMax[Number(values[1])],
 									)
 
 									field.onChange({ min: newMinValue, max: newMaxValue })
@@ -165,14 +152,15 @@ export default function MarketCapFilter({}: {}) {
 	)
 }
 
-const handleInfinityNumber = (value: number, fn: (value: number) => string) => {
-	if (value === Infinity) return '∞'
-	return fn(value)
-}
+const sliderValue = (value: number | string) => {
+	const newMin =
+		typeof value === 'number' ? value : convertStringToNumber(value)
 
-const handleInfinityString = (value: string, fn: (value: string) => number) => {
-	if (value === '∞') return Infinity
-	return fn(value)
+	return Number(
+		Object.entries(valueMap)
+			.reverse()
+			.find(([_, value]) => value <= newMin)?.[0],
+	)
 }
 
 const matchString = (input: string) => {
@@ -187,6 +175,7 @@ const matchString = (input: string) => {
 }
 
 function convertStringToNumber(input: string): number {
+	if (input === '∞') return Infinity
 	const { match, unit, value } = matchString(input)
 	if (unit && value) {
 		switch (unit.toLowerCase()) {
@@ -205,8 +194,8 @@ function convertStringToNumber(input: string): number {
 	return Number(input)
 }
 
-function convertNumberToString(value: number, infinity: boolean = false) {
-	if (infinity && value === Infinity) return '∞'
+function convertNumberToString(value: number) {
+	if (value === Infinity) return '∞'
 
 	if (value >= 1e12) {
 		return (value / 1e12).toFixed(0) + 't'
