@@ -43,10 +43,10 @@ export function PageOfSigmaCards({
 	last: boolean
 	handleNextPage: () => void
 }) {
-	const { typeLabels, minMarketCap } = useContext(FilterContext)
+	const { typeLabels, marketCap } = useContext(FilterContext)
 
 	const { data, isLoading, error, isValidating } = useSigmaYesterday({
-		minMarketCap,
+		minMarketCap: marketCap.min,
 		page,
 		typeGroups: typeLabels,
 	})

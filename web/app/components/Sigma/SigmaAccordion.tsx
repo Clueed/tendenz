@@ -11,7 +11,7 @@ export function SigmaAccordion({}: {}) {
 	const { minMarketCap, typeLabels } = useContext(FilterContext)
 	useEffect(() => {
 		setExpandedKey('')
-		setPageIndex(2)
+		setPageIndex(1)
 	}, [minMarketCap, typeLabels])
 
 	const [expandedKey, setExpandedKey] = useState<string>('')
