@@ -1,5 +1,6 @@
 'use client'
 
+import { PAGE_SIZE } from '@tendenz/types'
 import { Variants, motion } from 'framer-motion'
 import { useContext } from 'react'
 import { useSigmaYesterday } from '../../lib/api/clientApi'
@@ -66,7 +67,7 @@ export function PageOfSigmaCards({
 						<SigmaCard entry={entry} expanded={expandedKey === entry.ticker} />
 					</motion.div>
 				))}
-				{last && data.length > 0 && (
+				{last && data.length <= PAGE_SIZE && (
 					<div className="my-10">
 						<NextPageButton
 							handleNextPage={handleNextPage}
