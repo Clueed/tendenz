@@ -1,6 +1,6 @@
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import classNames from 'classnames'
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, ReactNode, SetStateAction } from 'react'
 
 export default function StockTypeToggle<T extends string[]>({
 	selectedKeys,
@@ -23,28 +23,67 @@ export default function StockTypeToggle<T extends string[]>({
 		>
 			<div
 				className={classNames(
-					'group inline-flex gap-3 overflow-clip rounded-md text-2xl transition-all duration-1000',
+					'group inline-flex flex-col-reverse items-start gap-1 rounded-md text-2xl transition-all duration-1000 sm:flex-row sm:gap-3 ',
 				)}
 			>
-				{allKeys.map(key => (
-					<ToggleGroup.Item
-						key={key}
-						value={key}
-						className={classNames(
-							'tracking-wide text-slate-11 transition-all duration-500',
-							'hover:text-slate-12 hover:shadow',
-							{
-								'text-slate-12': selectedKeys.includes(key),
-							},
-							{
-								'group-hover:bg-slate-a1': !selectedKeys.includes(key),
-							},
-						)}
-					>
-						{key}
-					</ToggleGroup.Item>
-				))}
+				{allKeys.map(key => {
+					const selected = selectedKeys.includes(key)
+
+					return (
+						<ToggleGroup.Item key={key} value={key} className={classNames()}>
+							<Highlight
+								className={classNames(
+									'transition-all duration-1000',
+									{
+										'bg-blue-a1': !selected,
+									},
+									{
+										'bg-blue-a5': selected,
+									},
+								)}
+							>
+								<span
+									className={classNames(
+										'tracking-wide transition-all duration-500 ',
+										{
+											'text-slate-a11 hover:text-blue-11': !selected,
+										},
+										{
+											'text-blue-12 hover:text-blue-11': selected,
+										},
+									)}
+								>
+									{key}
+								</span>
+							</Highlight>
+						</ToggleGroup.Item>
+					)
+				})}
 			</div>
 		</ToggleGroup.Root>
+	)
+}
+
+// very refactorable with Coming Soon
+export const Highlight = ({
+	children,
+	className,
+}: {
+	children: ReactNode | string
+	className?: string
+}) => {
+	return (
+		<>
+			{' '}
+			<span className={classNames('relative')}>
+				<div
+					className={classNames(
+						'absolute -inset-x-8 inset-y-0 -z-10 transform-gpu rounded-full blur-xl',
+						className,
+					)}
+				/>
+				{children}
+			</span>{' '}
+		</>
 	)
 }

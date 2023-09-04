@@ -41,7 +41,7 @@ export function SigmaAccordion({}: {}) {
 				className={classNames(
 					'col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll border-y-2 border-slate-a1 border-opacity-0 px-2 py-2 transition-all duration-1000 sm:rounded-2xl',
 					{
-						'via-transparent bg-gradient-to-b from-slate-a2 to-slate-a2':
+						'bg-gradient-to-b from-slate-a2 via-transparent to-slate-a2':
 							pageIndex > 1,
 					},
 				)}
