@@ -5,10 +5,10 @@ import { fetcher } from './SWRConfigProvider'
 import { ApiQuery, getStocksURL } from './sharedApi'
 
 export function useSigmaYesterday(
-	querry?: ApiQuery,
+	query?: ApiQuery,
 ): SWRResponse<tendenzApiSigmaYesterday[], any, any> {
-	const url = getStocksURL(querry)
-	const { page, ...rest } = querry ?? {}
+	const url = getStocksURL(query)
+	const { page, ...rest } = query ?? {}
 	preload(getStocksURL({ ...rest, page: page || 1 }), fetcher)
 
 	return useSWR<tendenzApiSigmaYesterday[]>(url)

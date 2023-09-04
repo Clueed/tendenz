@@ -1,3 +1,4 @@
+import { MarketCapFilter } from '@/app/components/FilterContextProvider'
 import { TYPE_GROUPS, TypeGroupLabel } from '../MARKET_CAP_BUCKETS'
 
 const BASE_URL =
@@ -5,19 +6,28 @@ const BASE_URL =
 
 export type ApiQuery = {
 	page?: number
-	minMarketCap?: number
+	marketCap?: MarketCapFilter
 	typeGroups?: TypeGroupLabel[]
 }
 
 export const getStocksURL = (querry?: ApiQuery) => {
-	const { typeGroups, minMarketCap, page } = querry ?? {}
+	const { typeGroups, marketCap, page } = querry ?? {}
 
 	const types = typeGroupsLabelToTypes(typeGroups ?? [])
 
 	const stockTypesStrings = types ? types.map(type => 'type=' + type) : ''
-	const minMarketCapString = minMarketCap ? 'minMarketCap=' + minMarketCap : ''
+	const minMarketCapString = marketCap?.min
+		? 'minMarketCap=' + marketCap?.min
+		: ''
 
-	const appendStrings = [minMarketCapString, ...stockTypesStrings]
+	const maxMarketCapString =
+		marketCap?.max !== Infinity ? 'maxMarketCap=' + marketCap?.max : ''
+
+	const appendStrings = [
+		minMarketCapString,
+		maxMarketCapString,
+		...stockTypesStrings,
+	]
 	const appendString = appendStrings.join('&')
 
 	const url = BASE_URL + `/us-stocks/daily/${page || ''}?` + appendString
