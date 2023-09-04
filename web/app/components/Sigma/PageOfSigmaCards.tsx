@@ -67,7 +67,7 @@ export function PageOfSigmaCards({
 					</motion.div>
 				))}
 				{last && (
-					<div className="mt-10">
+					<div className="my-10">
 						<NextPageButton
 							handleNextPage={handleNextPage}
 							isLoading={isLoading}
