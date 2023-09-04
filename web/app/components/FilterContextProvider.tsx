@@ -8,6 +8,7 @@ import {
 } from 'react'
 import {
 	DEFAULT_MARKET_CAP_LABEL,
+	DEFAULT_MIN_MARKETCAP,
 	DEFAULT_TYPE_GROUP_LABELS,
 	MarketCapBucketLabel,
 	TYPE_GROUPS,
@@ -17,11 +18,15 @@ import {
 export const FilterContext = createContext<{
 	marketCapKey: MarketCapBucketLabel
 	setMarketCapKey: Dispatch<SetStateAction<MarketCapBucketLabel>>
+	minMarketCap: number
+	setMinMarketCap: Dispatch<SetStateAction<number>>
 	typeLabels: (typeof TYPE_GROUPS)[number]['label'][]
 	setTypeLabels: Dispatch<SetStateAction<TypeGroupLabel[]>>
 }>({
 	marketCapKey: DEFAULT_MARKET_CAP_LABEL,
 	setMarketCapKey: () => {},
+	minMarketCap: DEFAULT_MIN_MARKETCAP,
+	setMinMarketCap: () => {},
 	typeLabels: DEFAULT_TYPE_GROUP_LABELS,
 	setTypeLabels: () => {},
 })
@@ -34,6 +39,9 @@ export default function FilterContextProvider({
 	const [marketCapKey, setMarketCapKey] = useState<MarketCapBucketLabel>(
 		DEFAULT_MARKET_CAP_LABEL,
 	)
+	const [minMarketCap, setMinMarketCap] = useState<number>(
+		DEFAULT_MIN_MARKETCAP,
+	)
 	const [typeLabels, setTypeLabels] = useState<TypeGroupLabel[]>(
 		DEFAULT_TYPE_GROUP_LABELS,
 	)
@@ -43,6 +51,8 @@ export default function FilterContextProvider({
 			value={{
 				marketCapKey,
 				setMarketCapKey,
+				minMarketCap,
+				setMinMarketCap,
 				typeLabels,
 				setTypeLabels,
 			}}

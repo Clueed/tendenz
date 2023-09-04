@@ -1,6 +1,5 @@
 'use client'
 
-import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
 import { Variants, motion } from 'framer-motion'
 import { useContext } from 'react'
 import { useSigmaYesterday } from '../../lib/api/clientApi'
@@ -44,11 +43,11 @@ export function PageOfSigmaCards({
 	last: boolean
 	handleNextPage: () => void
 }) {
-	const { marketCapKey, typeLabels } = useContext(FilterContext)
+	const { marketCapKey, typeLabels, minMarketCap } = useContext(FilterContext)
 
-	const minMarketCap = MARKET_CAP_BUCKETS.filter(
-		bucket => bucket.label === marketCapKey,
-	)[0].minMarketCap
+	// const minMarketCap = MARKET_CAP_BUCKETS.filter(
+	// 	bucket => bucket.label === marketCapKey,
+	// )[0].minMarketCap
 
 	const { data, isLoading, error, isValidating } = useSigmaYesterday({
 		minMarketCap,

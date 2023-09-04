@@ -1,12 +1,6 @@
 import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
 import * as Slider from '@radix-ui/react-slider'
-import {
-	Dispatch,
-	SetStateAction,
-	useContext,
-	useEffect,
-	useState,
-} from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { FilterContext } from '../FilterContextProvider'
 
@@ -27,37 +21,29 @@ const valueMap: Record<number, number> = {
 	9: 1000e9,
 }
 
-export default function MarketCapFilter<T extends string[]>({
-	selectedKey,
-	selectKey,
-	allKeys,
-}: {
-	selectedKey: T[number]
-	selectKey: Dispatch<SetStateAction<T[number]>>
-	allKeys: T
-}) {
-	const { setMarketCapKey, marketCapKey } = useContext(FilterContext)
+export default function MarketCapFilter({}: {}) {
+	const { setMarketCapKey, marketCapKey, minMarketCap, setMinMarketCap } =
+		useContext(FilterContext)
 
 	const {
-		register,
 		handleSubmit,
 		watch,
 		formState: { errors },
 		control,
-		setValue,
 	} = useForm<Inputs>({
 		defaultValues: {
 			textfield: marketCapKey,
 		},
 	})
-	const [minMarketCap, setMinMarketCap] = useState<number>(1e9)
+	const [localMinMarketCap, localSetMinMarketCap] =
+		useState<number>(minMarketCap)
 
 	const onSubmit: SubmitHandler<Inputs> = data => {
 		console.log(data)
 		if (typeof data.textfield === 'string') {
-			setMinMarketCap(convertStringToNumber(data.textfield))
+			localSetMinMarketCap(convertStringToNumber(data.textfield))
 		} else {
-			setMinMarketCap(data.textfield)
+			localSetMinMarketCap(data.textfield)
 		}
 	}
 
@@ -72,16 +58,28 @@ export default function MarketCapFilter<T extends string[]>({
 		const delayDebounceFn = setTimeout(() => {
 			const computedMarketCapKey =
 				MARKET_CAP_BUCKETS.find(
-					({ minMarketCap: value }) => value >= minMarketCap,
+					({ minMarketCap: value }) => value >= localMinMarketCap,
 				)?.label || MARKET_CAP_BUCKETS[3].label
 			console.log('computedMarketCapKey :>> ', computedMarketCapKey)
-			console.log(minMarketCap)
+			console.log(localMinMarketCap)
 			setMarketCapKey(computedMarketCapKey)
+			setMinMarketCap(localMinMarketCap)
 			// Send Axios request here
 		}, 500)
 
 		return () => clearTimeout(delayDebounceFn)
-	}, [minMarketCap, setMarketCapKey])
+	}, [localMinMarketCap, setMarketCapKey, setMinMarketCap])
+
+	const sliderValue = (value: number | string) => {
+		const newValue =
+			typeof value === 'number' ? value : convertStringToNumber(value)
+
+		return Number(
+			Object.entries(valueMap)
+				.reverse()
+				.find(([index, value]) => value <= newValue)?.[0],
+		)
+	}
 
 	return (
 		<div>
@@ -100,7 +98,6 @@ export default function MarketCapFilter<T extends string[]>({
 								}
 								value={field.value === 0 ? '' : field.value}
 								onChange={e => field.onChange(e.target.value)}
-								onBlur={() => console.log('BLUR!!')}
 							/>
 							<Slider.Root
 								className="relative flex h-5 w-full touch-none select-none items-center"
@@ -111,16 +108,7 @@ export default function MarketCapFilter<T extends string[]>({
 
 									field.onChange(convertNumberToString(newValue))
 								}}
-								value={[
-									Number(
-										Object.entries(valueMap)
-											.reverse()
-											.find(
-												([index, value]) =>
-													value <= convertStringToNumber(field.value),
-											)?.[0],
-									),
-								]}
+								value={[sliderValue(field.value)]}
 							>
 								<Slider.Track className="relative h-[3px] grow rounded-full bg-slate-a5">
 									<Slider.Range className="absolute h-full rounded-full bg-slate-a10" />
