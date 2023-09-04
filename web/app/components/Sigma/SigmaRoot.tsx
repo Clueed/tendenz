@@ -11,16 +11,6 @@ export default function SigmaRoot({}: {}) {
 	const { marketCapKey, setMarketCapKey, typeLabels, setTypeLabels } =
 		useContext(FilterContext)
 
-	const minMarketCap = MARKET_CAP_BUCKETS.filter(
-		bucket => bucket.label === marketCapKey,
-	)[0].minMarketCap
-
-	const types = typeLabels.flatMap(label =>
-		TYPE_GROUPS.filter(group => group.label === label).flatMap(
-			typeGroup => typeGroup.types,
-		),
-	)
-
 	return (
 		<>
 			<div className="mb-[2vh] mt-[1vh] grid grid-cols-default">
@@ -30,13 +20,12 @@ export default function SigmaRoot({}: {}) {
 						selectKeys={setTypeLabels}
 						allKeys={TYPE_GROUPS.map(group => group.label)}
 					/>
-					<div className="flex-grow text-right">
-						<MarketCapFilter
-							selectedKey={marketCapKey}
-							selectKey={setMarketCapKey}
-							allKeys={MARKET_CAP_BUCKETS.map(bucket => bucket.label)}
-						/>
-					</div>
+
+					<MarketCapFilter
+						selectedKey={marketCapKey}
+						selectKey={setMarketCapKey}
+						allKeys={MARKET_CAP_BUCKETS.map(bucket => bucket.label)}
+					/>
 				</div>
 				<div className="col-start-2 flex items-start justify-between align-top">
 					<h3 className="text-sm leading-none text-slate-11">United States</h3>
