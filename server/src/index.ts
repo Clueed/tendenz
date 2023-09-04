@@ -35,7 +35,10 @@ fastify.register(prismaPlugin)
 fastify.get('/us-stocks/daily/:page', async request => {
 	const db = new DatabaseApi(fastify.prisma)
 	const query = request.query as Query
-	const minMarketCap = Number(query?.minMarketCap) || undefined
+	const marketCap = {
+		min: Number(query?.minMarketCap) || undefined,
+		max: Number(query?.maxMarketCap) || undefined,
+	}
 
 	const types =
 		typeof query.type === 'string'
@@ -63,7 +66,7 @@ fastify.get('/us-stocks/daily/:page', async request => {
 	const today = await db.getToday(
 		page,
 		mostRecentDates[0],
-		minMarketCap,
+		marketCap,
 		typesFilter as stockTypeCode[] | undefined,
 		10,
 	)
@@ -217,6 +220,7 @@ start()
 
 export interface Query {
 	minMarketCap?: string
+	maxMarketCap?: string
 	type?: string | string[]
 }
 export interface Params {
