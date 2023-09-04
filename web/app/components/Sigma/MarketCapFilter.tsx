@@ -1,6 +1,14 @@
+import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
 import * as Slider from '@radix-ui/react-slider'
-import { Dispatch, SetStateAction, useState } from 'react'
+import {
+	Dispatch,
+	SetStateAction,
+	useContext,
+	useEffect,
+	useState,
+} from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { FilterContext } from '../FilterContextProvider'
 
 type Inputs = {
 	textfield: number | string
@@ -28,6 +36,8 @@ export default function MarketCapFilter<T extends string[]>({
 	selectKey: Dispatch<SetStateAction<T[number]>>
 	allKeys: T
 }) {
+	const { setMarketCapKey, marketCapKey } = useContext(FilterContext)
+
 	const {
 		register,
 		handleSubmit,
@@ -37,13 +47,41 @@ export default function MarketCapFilter<T extends string[]>({
 		setValue,
 	} = useForm<Inputs>({
 		defaultValues: {
-			textfield: '1b',
+			textfield: marketCapKey,
 		},
 	})
+	const [minMarketCap, setMinMarketCap] = useState<number>(1e9)
+
 	const onSubmit: SubmitHandler<Inputs> = data => {
 		console.log(data)
+		if (typeof data.textfield === 'string') {
+			setMinMarketCap(convertStringToNumber(data.textfield))
+		} else {
+			setMinMarketCap(data.textfield)
+		}
 	}
-	const [minMarketCap, setMinMarketCap] = useState<number>(1e9)
+
+	useEffect(() => {
+		// TypeScript users
+		const subscription = watch(() => handleSubmit(onSubmit)())
+		//const subscription = watch(handleSubmit(onSubmit))
+		return () => subscription.unsubscribe()
+	}, [handleSubmit, watch])
+
+	useEffect(() => {
+		const delayDebounceFn = setTimeout(() => {
+			const computedMarketCapKey =
+				MARKET_CAP_BUCKETS.find(
+					({ minMarketCap: value }) => value >= minMarketCap,
+				)?.label || MARKET_CAP_BUCKETS[3].label
+			console.log('computedMarketCapKey :>> ', computedMarketCapKey)
+			console.log(minMarketCap)
+			setMarketCapKey(computedMarketCapKey)
+			// Send Axios request here
+		}, 500)
+
+		return () => clearTimeout(delayDebounceFn)
+	}, [minMarketCap, setMarketCapKey])
 
 	return (
 		<div>
@@ -62,6 +100,7 @@ export default function MarketCapFilter<T extends string[]>({
 								}
 								value={field.value === 0 ? '' : field.value}
 								onChange={e => field.onChange(e.target.value)}
+								onBlur={() => console.log('BLUR!!')}
 							/>
 							<Slider.Root
 								className="relative flex h-5 w-full touch-none select-none items-center"
