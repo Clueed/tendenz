@@ -1,4 +1,5 @@
-import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
+'use client'
+import { DEFAULT_MIN_MARKETCAP } from '@/app/lib/MARKET_CAP_BUCKETS'
 import * as Slider from '@radix-ui/react-slider'
 import { useContext, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
@@ -22,8 +23,7 @@ const valueMap: Record<number, number> = {
 }
 
 export default function MarketCapFilter({}: {}) {
-	const { setMarketCapKey, marketCapKey, minMarketCap, setMinMarketCap } =
-		useContext(FilterContext)
+	const { minMarketCap, setMinMarketCap } = useContext(FilterContext)
 
 	const {
 		handleSubmit,
@@ -32,7 +32,7 @@ export default function MarketCapFilter({}: {}) {
 		control,
 	} = useForm<Inputs>({
 		defaultValues: {
-			textfield: marketCapKey,
+			textfield: convertNumberToString(DEFAULT_MIN_MARKETCAP),
 		},
 	})
 	const [localMinMarketCap, localSetMinMarketCap] =
@@ -56,19 +56,12 @@ export default function MarketCapFilter({}: {}) {
 
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
-			const computedMarketCapKey =
-				MARKET_CAP_BUCKETS.find(
-					({ minMarketCap: value }) => value >= localMinMarketCap,
-				)?.label || MARKET_CAP_BUCKETS[3].label
-			console.log('computedMarketCapKey :>> ', computedMarketCapKey)
 			console.log(localMinMarketCap)
-			setMarketCapKey(computedMarketCapKey)
 			setMinMarketCap(localMinMarketCap)
-			// Send Axios request here
 		}, 500)
 
 		return () => clearTimeout(delayDebounceFn)
-	}, [localMinMarketCap, setMarketCapKey, setMinMarketCap])
+	}, [localMinMarketCap, setMinMarketCap])
 
 	const sliderValue = (value: number | string) => {
 		const newValue =

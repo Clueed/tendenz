@@ -1,4 +1,5 @@
-import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
+'use client'
+
 import * as Accordion from '@radix-ui/react-accordion'
 import { AnimatePresence } from 'framer-motion'
 import { useContext, useEffect, useState } from 'react'
@@ -6,11 +7,7 @@ import { FilterContext } from '../FilterContextProvider'
 import { PageOfSigmaCards } from './PageOfSigmaCards'
 
 export function SigmaAccordion({}: {}) {
-	const { marketCapKey, typeLabels } = useContext(FilterContext)
-
-	const minMarketCap = MARKET_CAP_BUCKETS.filter(
-		bucket => bucket.label === marketCapKey,
-	)[0].minMarketCap
+	const { minMarketCap, typeLabels } = useContext(FilterContext)
 
 	const [expandedKey, setExpandedKey] = useState<string>('')
 	useEffect(() => {

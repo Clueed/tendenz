@@ -1,3 +1,4 @@
+'use client'
 import classNames from 'classnames'
 import Pop from '../Pop'
 import { PopLearnMore } from './PopLearnMore'

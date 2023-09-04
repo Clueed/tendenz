@@ -43,11 +43,7 @@ export function PageOfSigmaCards({
 	last: boolean
 	handleNextPage: () => void
 }) {
-	const { marketCapKey, typeLabels, minMarketCap } = useContext(FilterContext)
-
-	// const minMarketCap = MARKET_CAP_BUCKETS.filter(
-	// 	bucket => bucket.label === marketCapKey,
-	// )[0].minMarketCap
+	const { typeLabels, minMarketCap } = useContext(FilterContext)
 
 	const { data, isLoading, error, isValidating } = useSigmaYesterday({
 		minMarketCap,
