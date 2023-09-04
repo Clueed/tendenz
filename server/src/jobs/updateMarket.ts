@@ -1,6 +1,4 @@
 import { PrismaClient } from '@prisma/client'
-import dotenv, { configDotenv } from 'dotenv'
-import 'dotenv/config'
 import { MarketCapCalculator } from '../dailyRoutine/MarketCapCalculator.js'
 import { SigmaCalculator } from '../dailyRoutine/SigmaCalculator.js'
 import { SplitDetector } from '../dailyRoutine/SplitDetector.js'
@@ -11,12 +9,8 @@ import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { PolygonRequestHandler } from '../lib/polygonApi/polygonRequestHandler.js'
 import { PolygonStocksApi } from '../lib/polygonApi/polygonStocksApi.js'
 
-dotenv.config()
-
 if (process.env.NODE_ENV === 'production') {
 	console.debug = function () {}
-} else {
-	configDotenv({ path: '../../.env' })
 }
 
 const apiKey = process.env.POLYGON_API_KEY1
