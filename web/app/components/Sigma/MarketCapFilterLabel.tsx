@@ -35,7 +35,7 @@ export default function MarketCapFilterLabel({}: Props) {
 						{ 'text-slate-12': open },
 					)}
 				>
-					<div>minimum&nbsp;market&nbsp;cap</div>
+					<div>market&nbsp;cap&nbsp;filter</div>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						height="0.8em"

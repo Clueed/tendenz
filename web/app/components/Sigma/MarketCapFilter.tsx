@@ -3,7 +3,13 @@ import { DEFAULT_MIN_MARKETCAP } from '@/app/lib/MARKET_CAP_BUCKETS'
 import * as Slider from '@radix-ui/react-slider'
 import classNames from 'classnames'
 import { motion } from 'framer-motion'
-import { useContext, useEffect, useState } from 'react'
+import {
+	Dispatch,
+	SetStateAction,
+	useContext,
+	useEffect,
+	useState,
+} from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { FilterContext, MarketCapFilter } from '../FilterContextProvider'
 
@@ -37,7 +43,13 @@ const valueMapMax: Record<number, number> = {
 	9: Infinity,
 }
 
-export default function MarketCapFilter({}: {}) {
+export default function MarketCapFilter({
+	edit,
+	setEdit,
+}: {
+	edit: boolean
+	setEdit: Dispatch<SetStateAction<boolean>>
+}) {
 	const { marketCap, setMarketCap } = useContext(FilterContext)
 
 	const [localMarketCap, setLocalMarketCap] =
@@ -90,19 +102,9 @@ export default function MarketCapFilter({}: {}) {
 		return () => clearTimeout(delayDebounceFn)
 	}, [localMarketCap, setMarketCap])
 
-	const [edit, setEdit] = useState<boolean>(false)
-
 	return (
 		<div>
-			<form
-				onSubmit={handleSubmit(onSubmit)}
-				className={classNames(
-					'w-52 rounded-lg transition-colors delay-150 duration-500 ease-in',
-					edit
-						? 'bg-slate-a8 px-4 py-2 text-sm text-slate-1'
-						: 'px-2 py-1 text-xs text-slate-11',
-				)}
-			>
+			<form onSubmit={handleSubmit(onSubmit)}>
 				<Controller
 					control={control}
 					name="textfield"
@@ -125,7 +127,7 @@ export default function MarketCapFilter({}: {}) {
 										'flex items-center justify-end rounded-md transition-colors duration-500',
 										edit
 											? 'gap-2 pt-1 text-sm'
-											: 'px-2 py-0 text-xs group-hover:bg-slate-a4 group-hover:text-slate-12',
+											: 'bg-slate-a3 px-2 py-0 text-xs group-hover:bg-slate-a4 group-hover:text-slate-12',
 									)}
 									transition={{ duration: 0.5, ease: 'easeInOut' }}
 								>
