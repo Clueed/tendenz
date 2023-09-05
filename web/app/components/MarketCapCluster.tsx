@@ -11,7 +11,7 @@ export default function MarketCapCluster({}: Props) {
 	return (
 		<div
 			className={classNames(
-				'flex w-60 flex-col items-end gap-1 rounded-lg transition-colors delay-150 duration-500 ease-in',
+				'flex w-72 flex-col items-end gap-1 rounded-lg transition-colors delay-150 duration-500 ease-in',
 				edit
 					? 'bg-slate-a8 px-4 py-2 text-sm text-slate-1'
 					: 'px-2 py-1 text-xs text-slate-11',

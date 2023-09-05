@@ -1,10 +1,10 @@
 'use client'
 import { DEFAULT_MIN_MARKETCAP } from '@/app/lib/MARKET_CAP_BUCKETS'
-import * as Slider from '@radix-ui/react-slider'
+import { Slider } from '@mui/base'
 import classNames from 'classnames'
-import { motion } from 'framer-motion'
 import {
 	Dispatch,
+	ReactElement,
 	SetStateAction,
 	useContext,
 	useEffect,
@@ -16,6 +16,34 @@ import { FilterContext, MarketCapFilter } from '../FilterContextProvider'
 type Inputs = {
 	textfield: { min: number | string; max: number | string }
 }
+
+const zeroToZero = (x: number) => (x === 0 ? 0 : x)
+
+const sliderToValue = (x: number) =>
+	customMapping.find(({ slider }) => slider === x)?.value ||
+	1e6 * Math.pow(10, x)
+const valueToSlider = (y: number, mapping?: Mapping[]) =>
+	customMapping.find(({ value }) => value === y)?.slider ||
+	Math.log10(y / 1e6) / Math.log10(10)
+
+const customMapping = [
+	{ slider: 0, value: 0 },
+	{ slider: 9, value: Infinity },
+]
+type Mapping = { slider: number; value: number }
+
+const valueMapping = [
+	{ slider: 0, value: 0 },
+	{ slider: 1, value: 1e6 },
+	{ slider: 2, value: 10e6 },
+	{ slider: 3, value: 100e6 },
+	{ slider: 4, value: 500e6 },
+	{ slider: 5, value: 1e9 },
+	{ slider: 6, value: 10e9 },
+	{ slider: 7, value: 100e9 },
+	{ slider: 8, value: 500e9 },
+	{ slider: 9, value: 1000e9 },
+]
 
 const valueMap: Record<number, number> = {
 	0: 0,
@@ -60,6 +88,7 @@ export default function MarketCapFilter({
 		watch,
 		formState: { errors },
 		control,
+		setValue,
 	} = useForm<Inputs>({
 		defaultValues: {
 			textfield: {
@@ -68,6 +97,8 @@ export default function MarketCapFilter({
 			},
 		},
 	})
+
+	const [nextToEachOther, setNextToEachOther] = useState<boolean>(false)
 
 	const onSubmit: SubmitHandler<Inputs> = ({ textfield: { min, max } }) => {
 		if (typeof min === 'string' && typeof max === 'string') {
@@ -91,8 +122,8 @@ export default function MarketCapFilter({
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
 			const { min, max } = localMarketCap
-			console.log('min :>> ', min)
-			console.log('min :>> ', max)
+			console.log('index :>> ')
+
 			setMarketCap({
 				min,
 				max,
@@ -100,17 +131,16 @@ export default function MarketCapFilter({
 		}, 500)
 
 		return () => clearTimeout(delayDebounceFn)
-	}, [localMarketCap, setMarketCap])
+	}, [localMarketCap, setMarketCap, setValue])
 
 	return (
-		<div>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<Controller
-					control={control}
-					name="textfield"
-					render={({ field }) => (
-						<>
-							<div
+		<form onSubmit={handleSubmit(onSubmit)} className="w-full">
+			<Controller
+				control={control}
+				name="textfield"
+				render={({ field: { value, onChange, ...field } }) => (
+					<>
+						{/* <div
 								className={classNames(
 									'group relative mb-2 flex justify-end text-right tracking-wide ',
 								)}
@@ -136,11 +166,11 @@ export default function MarketCapFilter({
 										className={classNames(edit ? 'h-full w-full' : 'h-5 w-10')}
 									>
 										<input
-											value={field.value.min === 0 ? '' : field.value.min}
+											value={value.min === 0 ? '' : value.min}
 											onChange={e =>
-												field.onChange({
+												onChange({
 													min: e.target.value,
-													max: field.value.max,
+													max: value.max,
 												})
 											}
 											className={classNames(
@@ -149,72 +179,111 @@ export default function MarketCapFilter({
 													? 'rounded-md border-2 border-slate-7 focus:border-slate-2'
 													: '',
 											)}
+											{...field}
 										/>
 									</div>
 									<div>-</div>
 									<div
 										className={classNames(
 											edit ? 'h-full w-full' : 'h-5 w-10',
-											field.value.max === '∞' &&
-												'text-xl font-light leading-none',
+											value.max === '∞' && 'text-xl font-light leading-none',
 										)}
 									>
 										<input
-											value={field.value.max === 0 ? '' : field.value.max}
+											value={value.max === 0 ? '' : value.max}
 											onChange={e =>
-												field.onChange({
+												onChange({
 													max: e.target.value,
-													min: field.value.min,
+													min: value.min,
 												})
 											}
 											className={classNames(
 												'inline h-full w-full appearance-none bg-[#00000000] text-center focus:outline-none',
 												edit
-													? 'rounded-md border-2 border-slate-7 focus:border-slate-2'
+													? 'rounded-md border-2 border-slate-7 focus:border-slate-2 '
 													: '',
 											)}
+											{...field}
 										/>
 									</div>
 								</motion.div>
-							</div>
-							<Slider.Root
-								className="group/slider relative mt-1 flex h-4 touch-none select-none items-center"
-								max={9}
-								step={1}
-								onValueChange={values => {
-									const newMinValue = convertNumberToString(
-										valueMap[Number(values[0])],
-									)
+							</div> */}
 
-									const newMaxValue = convertNumberToString(
-										valueMapMax[Number(values[1])],
-									)
+						<Slider
+							aria-label="Temperature"
+							value={[sliderValue(value.min), sliderValue(value.max)]}
+							onChange={(event, value) => {
+								// mui always return both values as long as
+								// two values are also passed in for 'value'
+								const values = value as [number, number]
 
-									field.onChange({ min: newMinValue, max: newMaxValue })
-								}}
-								value={[
-									sliderValue(field.value.min),
-									sliderValue(field.value.max),
-								]}
-							>
-								<Slider.Track className="relative h-1 grow rounded-full bg-slate-a6 transition-all duration-500 group-hover/slider:h-[6px] ">
-									<Slider.Range className="absolute h-full rounded-full bg-slate-a8 group-hover/slider:bg-indigo-a8" />
-								</Slider.Track>
+								// check for overlap
+								if (values[0] === values[1]) {
+								}
+								const newMinValue = convertNumberToString(
+									valueMap[Number(values[0])],
+								)
 
-								<Slider.Thumb
-									className="block h-2 w-2 rounded-full bg-slate-11 transition-transform duration-500 hover:bg-slate-12 focus:outline-none group-hover/slider:scale-150 group-hover/slider:bg-indigo-11"
-									aria-label="Volume"
-								/>
-								<Slider.Thumb
-									className="block h-2 w-2 rounded-full bg-slate-11 transition-transform duration-500 hover:bg-slate-12 focus:outline-none group-hover/slider:scale-150 group-hover/slider:bg-indigo-11"
-									aria-label="Volume"
-								/>
-							</Slider.Root>
-						</>
-					)}
-				/>
-			</form>
-		</div>
+								const newMaxValue = convertNumberToString(
+									valueMapMax[Number(values[1])],
+								)
+
+								onChange({ min: newMinValue, max: newMaxValue })
+							}}
+							{...field}
+							step={1}
+							marks
+							min={0}
+							max={9}
+							valueLabelFormat={(v, i) => {
+								const min = i === 0
+								return (
+									<div
+										className={classNames(
+											'text-slate-11',
+											min
+												? 'text-xs'
+												: value.max === '∞'
+												? 'text-lg font-light leading-none'
+												: 'text-xs',
+										)}
+									>
+										{min ? value.min : value.max}
+									</div>
+								)
+							}}
+							slots={{
+								valueLabel: SliderValueLabel,
+							}}
+							slotProps={{
+								thumb: {
+									className:
+										'w-2 h-2 flex items-center justify-center bg-slate-11 rounded-full shadow absolute -translate-x-1/2 -translate-y-1/4',
+								},
+								root: {
+									className: 'w-full relative inline-block h-2 cursor-pointer',
+								},
+								rail: {
+									className:
+										'bg-slate-a6 h-1 w-full rounded-full block absolute',
+								},
+								track: {
+									className: 'bg-slate-9 h-1 absolute my-auto rounded-full',
+								},
+							}}
+						/>
+					</>
+				)}
+			/>
+		</form>
+	)
+}
+
+function SliderValueLabel({ children }: { children: ReactElement }) {
+	return (
+		<span className="-translate-y-5">
+			<div className="value">{children}</div>
+		</span>
 	)
 }
 
@@ -238,6 +307,20 @@ const matchString = (input: string) => {
 	}
 
 	return { match: true, value: parseFloat(match[1]), unit: match[3] }
+}
+
+const overlapAdjusted = (
+	numbers: [number, number],
+	max: number,
+): [number, number] => {
+	if (numbers[0] !== numbers[1]) {
+		return numbers
+	}
+	if (numbers.some(n => n === max)) {
+		return [numbers[0] - 1, numbers[1]]
+	}
+
+	return [numbers[0], numbers[1] + 1]
 }
 
 function convertStringToNumber(input: string): number {
