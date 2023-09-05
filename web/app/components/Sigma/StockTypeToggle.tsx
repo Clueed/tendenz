@@ -34,23 +34,15 @@ export default function StockTypeToggle<T extends string[]>({
 							<Highlight
 								className={classNames(
 									'transition-all duration-1000',
-									{
-										'bg-blue-a1': !selected,
-									},
-									{
-										'bg-blue-a5': selected,
-									},
+									selected ? 'bg-indigo-a5' : 'bg-indigo-a1',
 								)}
 							>
 								<span
 									className={classNames(
 										'tracking-wide transition-all duration-500 ',
-										{
-											'text-slate-a11 hover:text-blue-11': !selected,
-										},
-										{
-											'text-blue-12 hover:text-blue-11': selected,
-										},
+										selected
+											? 'text-indigo-11 hover:text-indigo-12'
+											: 'text-slate-a11 hover:text-slate-12',
 									)}
 								>
 									{key}

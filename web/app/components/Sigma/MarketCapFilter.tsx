@@ -1,6 +1,8 @@
 'use client'
 import { DEFAULT_MIN_MARKETCAP } from '@/app/lib/MARKET_CAP_BUCKETS'
 import * as Slider from '@radix-ui/react-slider'
+import classNames from 'classnames'
+import { motion } from 'framer-motion'
 import { useContext, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { FilterContext, MarketCapFilter } from '../FilterContextProvider'
@@ -88,32 +90,93 @@ export default function MarketCapFilter({}: {}) {
 		return () => clearTimeout(delayDebounceFn)
 	}, [localMarketCap, setMarketCap])
 
+	const [edit, setEdit] = useState<boolean>(false)
+
 	return (
 		<div>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				${' '}
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				className={classNames(
+					'w-52 rounded-lg transition-colors delay-150 duration-500 ease-in',
+					edit
+						? 'bg-slate-a8 px-4 py-2 text-sm text-slate-1'
+						: 'px-2 py-1 text-xs text-slate-11',
+				)}
+			>
 				<Controller
 					control={control}
 					name="textfield"
 					render={({ field }) => (
 						<>
-							<input
-								value={field.value.min === 0 ? '' : field.value.min}
-								onChange={e =>
-									field.onChange({ min: e.target.value, max: field.value.max })
-								}
-								className="inline w-24 appearance-none bg-[#00000000] text-center tracking-wide focus:outline-none"
-							/>
-							-
-							<input
-								value={field.value.max === 0 ? '' : field.value.max}
-								onChange={e =>
-									field.onChange({ max: e.target.value, min: field.value.min })
-								}
-								className="inline w-24 appearance-none bg-[#00000000] text-center tracking-wide focus:outline-none"
-							/>
+							<div
+								className={classNames(
+									'group relative mb-2 flex justify-end text-right tracking-wide ',
+								)}
+							>
+								{!edit && (
+									<div
+										className="absolute inset-0"
+										onClick={() => setEdit(!edit)}
+									/>
+								)}
+								<motion.div
+									layout
+									className={classNames(
+										'flex items-center justify-end rounded-md transition-colors duration-500',
+										edit
+											? 'gap-2 pt-1 text-sm'
+											: 'px-2 py-0 text-xs group-hover:bg-slate-a4 group-hover:text-slate-12',
+									)}
+									transition={{ duration: 0.5, ease: 'easeInOut' }}
+								>
+									<div>$</div>
+									<div
+										className={classNames(edit ? 'h-full w-full' : 'h-5 w-10')}
+									>
+										<input
+											value={field.value.min === 0 ? '' : field.value.min}
+											onChange={e =>
+												field.onChange({
+													min: e.target.value,
+													max: field.value.max,
+												})
+											}
+											className={classNames(
+												'inline h-full w-full appearance-none bg-[#00000000] text-center focus:outline-none',
+												edit
+													? 'rounded-md border-2 border-slate-7 focus:border-slate-2'
+													: '',
+											)}
+										/>
+									</div>
+									<div>-</div>
+									<div
+										className={classNames(
+											edit ? 'h-full w-full' : 'h-5 w-10',
+											field.value.max === '∞' &&
+												'text-xl font-light leading-none',
+										)}
+									>
+										<input
+											value={field.value.max === 0 ? '' : field.value.max}
+											onChange={e =>
+												field.onChange({
+													max: e.target.value,
+													min: field.value.min,
+												})
+											}
+											className={classNames(
+												'inline h-full w-full appearance-none bg-[#00000000] text-center focus:outline-none',
+												edit
+													? 'rounded-md border-2 border-slate-7 focus:border-slate-2'
+													: '',
+											)}
+										/>
+									</div>
+								</motion.div>
+							</div>
 							<Slider.Root
-								className="group/slider relative flex h-5 w-full touch-none select-none items-center"
+								className="group/slider relative mt-1 flex h-4 touch-none select-none items-center"
 								max={9}
 								step={1}
 								onValueChange={values => {
@@ -135,6 +198,7 @@ export default function MarketCapFilter({}: {}) {
 								<Slider.Track className="relative h-1 grow rounded-full bg-slate-a6 transition-all duration-500 group-hover/slider:h-[6px] ">
 									<Slider.Range className="absolute h-full rounded-full bg-slate-a8 group-hover/slider:bg-indigo-a8" />
 								</Slider.Track>
+
 								<Slider.Thumb
 									className="block h-2 w-2 rounded-full bg-slate-11 transition-transform duration-500 hover:bg-slate-12 focus:outline-none group-hover/slider:scale-150 group-hover/slider:bg-indigo-11"
 									aria-label="Volume"
