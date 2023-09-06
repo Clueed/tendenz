@@ -6,7 +6,7 @@ export default function SigmaRoot({}: {}) {
 	return (
 		<>
 			<div className="mb-[2vh] mt-[1vh] grid grid-cols-default">
-				<div className="col-start-2 mb-2 flex flex-wrap items-end justify-between align-bottom">
+				<div className="col-start-2 mb-2 flex items-end justify-between align-bottom">
 					<StockTypeToggleDataWrapper />
 					<MarketCapCluster />
 				</div>
