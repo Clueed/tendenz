@@ -101,7 +101,7 @@ export default function MarketCapFilter({}: {}) {
 }
 
 const style = {
-	rootHeight: 'h-7', // needs to be account for absolute-positioned valueLabels
+	rootHeight: 'h-1.5 mt-5', // padding for absolute-positioned valueLabels
 	railSize: 'h-2 rounded-full', // sizes rail also overflow-clips track
 	trackSize: 'h-2 rounded-full',
 	thumbHeight: 'h-2 w-2',
@@ -118,7 +118,7 @@ const slotProps = {
 		className: classNames('absolute block w-full bg-slate-a6', style.railSize),
 	},
 	track: {
-		className: classNames('absolute bg-slate-8', style.trackSize),
+		className: classNames('absolute bg-slate-9', style.trackSize),
 	},
 }
 
@@ -127,16 +127,16 @@ const Thumb = ({ children, className, ...props }: any) => (
 		{...props}
 		className="absolute top-1 -translate-x-1/2 -translate-y-1/2 text-center"
 	>
+		{
+			// children is valueLabel
+		}
+		{children}
 		<div
 			className={classNames(
 				'origin-center rounded-full bg-slate-9',
 				style.thumbHeight,
 			)}
 		/>
-		{
-			// children is only valueLabel
-		}
-		{children}
 	</span>
 )
 const Track = ({ children, className, ...props }: any) => (
@@ -152,12 +152,9 @@ const Track = ({ children, className, ...props }: any) => (
 	</span>
 )
 const ValueLabel = ({ children, className, ...props }: any) => (
-	<div
-		{...props}
-		className={classNames(className, 'text-center text-xs text-slate-a11')}
-	>
+	<span {...props} className={className}>
 		{children}
-	</div>
+	</span>
 )
 
 const valueLabelFormat = (
@@ -170,7 +167,7 @@ const valueLabelFormat = (
 	return (
 		<span
 			className={classNames(
-				'absolute py-1 transition-transform',
+				'absolute bottom-3 text-xs text-slate-a11 transition-transform duration-300 ease-in-out',
 				nextToEachOther
 					? max
 						? '-translate-x-1/4'
