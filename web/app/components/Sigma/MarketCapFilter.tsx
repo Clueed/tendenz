@@ -183,6 +183,12 @@ export default function MarketCapFilter({}: {}) {
 		return () => clearTimeout(delayDebounceFn)
 	}, [localMarketCap, setMarketCap])
 
+	const style = {
+		railTrackHeight: 'h-5 sm:h-2',
+		thumbHeight: 'h-5 w-0 sm:h-2 sm:w-2',
+		rootHeight: 'h-7', // needs to be account for absolue positioned valueLabels
+	}
+
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="w-full">
 			<Controller
@@ -208,9 +214,14 @@ export default function MarketCapFilter({}: {}) {
 							const min = i === 0
 							return (
 								<span
-									className={
-										nextToEachOther(fieldValue) && min ? 'pr-1' : 'pl-1'
-									}
+									className={classNames(
+										'absolute',
+										nextToEachOther(fieldValue)
+											? min
+												? '-translate-x-1'
+												: 'translate-x-1'
+											: '',
+									)}
 								>
 									{min ? fieldValue.string.min : fieldValue.string.max}
 								</span>
@@ -223,12 +234,14 @@ export default function MarketCapFilter({}: {}) {
 							thumb: ({ children, className, ...rest }) => (
 								<span
 									{...rest}
-									className="absolute inline-flex -translate-x-1/2 -translate-y-1 flex-col items-center justify-center sm:-translate-y-0.5"
+									className="absolute top-1 inline-flex -translate-x-1/2 -translate-y-1/2 flex-col items-start justify-center"
 								>
 									<div
 										className={classNames(
-											'h-7 w-0 origin-center rounded-full bg-slate-8 transition-[width,_height,_opacity,_transform] duration-500 sm:h-2 sm:w-2 sm:scale-0 sm:bg-slate-11 sm:opacity-0',
-											'group-hover/mc-cluster:scale-100 group-hover/mc-cluster:opacity-100',
+											'origin-center scale-100 rounded-full bg-slate-9 transition-[width,_height,_opacity,_transform] duration-500',
+											'sm:opacity-100',
+											'group-hover/mc-cluster:scale-150 group-hover/mc-cluster:opacity-100',
+											style.thumbHeight,
 										)}
 									/>
 									{
@@ -237,21 +250,31 @@ export default function MarketCapFilter({}: {}) {
 									{children}
 								</span>
 							),
+							track: ({ children, ...rest }) => (
+								<span className="absolute inset-0 h-full w-full overflow-hidden rounded-md">
+									<span {...rest}>{children}</span>
+								</span>
+							),
 						}}
 						slotProps={{
 							root: {
 								className: classNames(
-									'relative inline-block w-full cursor-pointer pb-5',
+									'relative inline-block w-full cursor-pointer',
+									style.rootHeight,
 								),
 							},
 							rail: {
 								className: classNames(
-									'absolute block h-5 w-full overflow-hidden rounded-lg bg-slate-a4 sm:h-1 sm:rounded-full sm:bg-slate-a6',
+									'absolute block w-full overflow-hidden rounded-md bg-slate-a4',
+									'sm:rounded-full sm:bg-slate-a6',
+									style.railTrackHeight,
 								),
 							},
 							track: {
 								className: classNames(
-									'absolute my-auto h-5 bg-slate-a5 sm:h-1 sm:rounded-full sm:bg-slate-a8',
+									'absolute my-auto bg-slate-a5',
+									'sm:rounded-full sm:bg-slate-a8',
+									style.railTrackHeight,
 									'group-hover/mc-cluster:bg-slate-11',
 								),
 							},
