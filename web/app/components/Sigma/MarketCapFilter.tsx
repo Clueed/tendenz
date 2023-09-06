@@ -1,7 +1,6 @@
 'use client'
 import { DEFAULT_MIN_MARKETCAP } from '@/app/lib/MARKET_CAP_BUCKETS'
 import { Slider } from '@mui/base'
-import classNames from 'classnames'
 import {
 	Dispatch,
 	ReactElement,
@@ -13,62 +12,132 @@ import {
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { FilterContext, MarketCapFilter } from '../FilterContextProvider'
 
+const valueMap: Mapping[] = [
+	{ slider: 0, number: 0 },
+	{ slider: 1, number: 1e6 },
+	{ slider: 2, number: 10e6 },
+	{ slider: 3, number: 100e6 },
+	{ slider: 4, number: 1e9 },
+	{ slider: 5, number: 10e9 },
+	{ slider: 6, number: 100e9 },
+	{ slider: 7, number: 1000e9 },
+]
+
+const valueMapMax: Mapping[] = [
+	{ slider: 0, number: 0 },
+	{ slider: 1, number: 1e6 },
+	{ slider: 2, number: 10e6 },
+	{ slider: 3, number: 100e6 },
+	{ slider: 4, number: 1e9 },
+	{ slider: 5, number: 10e9 },
+	{ slider: 6, number: 100e9 },
+	{ slider: 7, number: Infinity },
+]
+
+const valueLength = valueMap.length - 1
+
+type Mapping = { readonly slider: number; readonly number: number }
+
 type Inputs = {
-	textfield: { min: number | string; max: number | string }
+	marketCapFilter: {
+		slider: {
+			min: (typeof valueMap)[number]['slider']
+			max: (typeof valueMap)[number]['slider']
+		}
+		string: {
+			min: string | null
+			max: string | null
+		}
+		number: {
+			min: number
+			max: number
+		}
+	}
 }
 
-const zeroToZero = (x: number) => (x === 0 ? 0 : x)
+function sliderToValue<T extends Mapping[]>(
+	inputValue: T[number]['slider'],
+	map: T,
+) {
+	const slider = map.findLast(({ slider }) => slider === inputValue)?.number
+	if (slider === undefined) {
+		throw new Error('Slider mapping failed')
+	}
 
-const sliderToValue = (x: number) =>
-	customMapping.find(({ slider }) => slider === x)?.value ||
-	1e6 * Math.pow(10, x)
-const valueToSlider = (y: number, mapping?: Mapping[]) =>
-	customMapping.find(({ value }) => value === y)?.slider ||
-	Math.log10(y / 1e6) / Math.log10(10)
-
-const customMapping = [
-	{ slider: 0, value: 0 },
-	{ slider: 9, value: Infinity },
-]
-type Mapping = { slider: number; value: number }
-
-const valueMapping = [
-	{ slider: 0, value: 0 },
-	{ slider: 1, value: 1e6 },
-	{ slider: 2, value: 10e6 },
-	{ slider: 3, value: 100e6 },
-	{ slider: 4, value: 500e6 },
-	{ slider: 5, value: 1e9 },
-	{ slider: 6, value: 10e9 },
-	{ slider: 7, value: 100e9 },
-	{ slider: 8, value: 500e9 },
-	{ slider: 9, value: 1000e9 },
-]
-
-const valueMap: Record<number, number> = {
-	0: 0,
-	1: 1e6,
-	2: 10e6,
-	3: 100e6,
-	4: 500e6,
-	5: 1e9,
-	6: 10e9,
-	7: 100e9,
-	8: 500e9,
-	9: 1000e9,
+	return slider
 }
 
-const valueMapMax: Record<number, number> = {
-	0: 0,
-	1: 1e6,
-	2: 10e6,
-	3: 100e6,
-	4: 500e6,
-	5: 1e9,
-	6: 10e9,
-	7: 100e9,
-	8: 500e9,
-	9: Infinity,
+function valueToSlider<T extends Mapping[]>(
+	inputValue: T[number]['number'],
+	map: T,
+) {
+	const number = [...map].reverse().find(({ number }) => number <= inputValue)
+		?.slider
+
+	if (number === undefined) {
+		throw new Error('Slider mapping failed')
+	}
+
+	return number
+}
+function createInputsFromSlider(
+	slider: Inputs['marketCapFilter']['slider'],
+): Inputs['marketCapFilter'] {
+	const number = {
+		min: sliderToValue(slider.min, valueMap),
+		max: sliderToValue(slider.max, valueMapMax),
+	}
+
+	const string = {
+		min: convertNumberToString(number.min),
+		max: convertNumberToString(number.max),
+	}
+
+	return {
+		slider,
+		number,
+		string,
+	}
+}
+function createInputsFromValue(
+	number: Inputs['marketCapFilter']['number'],
+): Inputs['marketCapFilter'] {
+	const slider = {
+		min: valueToSlider(number.min, valueMap),
+		max: valueToSlider(number.max, valueMapMax),
+	}
+
+	const string = {
+		min: convertNumberToString(number.min),
+		max: convertNumberToString(number.max),
+	}
+
+	return {
+		slider,
+		number,
+		string,
+	}
+}
+
+function createInputsFromString(string: {
+	min: string
+	max: string
+}): Inputs['marketCapFilter'] {
+	const number = {
+		min: convertStringToNumber(string.min),
+		max: convertStringToNumber(string.max),
+	}
+
+	const slider = {
+		min: valueToSlider(number.min, valueMap),
+		max: valueToSlider(number.max, valueMapMax),
+	}
+
+	return {
+		slider,
+		number,
+		string,
+	}
 }
 
 export default function MarketCapFilter({
@@ -91,27 +160,23 @@ export default function MarketCapFilter({
 		setValue,
 	} = useForm<Inputs>({
 		defaultValues: {
-			textfield: {
-				min: convertNumberToString(DEFAULT_MIN_MARKETCAP),
-				max: convertNumberToString(Infinity),
-			},
+			marketCapFilter: createInputsFromValue({
+				min: DEFAULT_MIN_MARKETCAP,
+				max: Infinity,
+			}),
 		},
 	})
 
-	const [nextToEachOther, setNextToEachOther] = useState<boolean>(false)
-
-	const onSubmit: SubmitHandler<Inputs> = ({ textfield: { min, max } }) => {
-		if (typeof min === 'string' && typeof max === 'string') {
-			setLocalMarketCap({
-				min: convertStringToNumber(min),
-				max: convertStringToNumber(max),
-			})
-		} else {
-			setLocalMarketCap({
-				min: min as number,
-				max: max as number,
-			})
-		}
+	const onSubmit: SubmitHandler<Inputs> = (
+		//{marketCapFilter: {number: {max, max}}}
+		data,
+	) => {
+		console.log('data :>> ', data)
+		return
+		setLocalMarketCap({
+			min,
+			max,
+		})
 	}
 
 	useEffect(() => {
@@ -122,7 +187,7 @@ export default function MarketCapFilter({
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
 			const { min, max } = localMarketCap
-			console.log('index :>> ')
+			console.log('index :>> ', min, max)
 
 			setMarketCap({
 				min,
@@ -131,124 +196,37 @@ export default function MarketCapFilter({
 		}, 500)
 
 		return () => clearTimeout(delayDebounceFn)
-	}, [localMarketCap, setMarketCap, setValue])
+	}, [localMarketCap, setMarketCap])
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="w-full">
 			<Controller
 				control={control}
-				name="textfield"
-				render={({ field: { value, onChange, ...field } }) => (
-					<>
-						{/* <div
-								className={classNames(
-									'group relative mb-2 flex justify-end text-right tracking-wide ',
-								)}
-							>
-								{!edit && (
-									<div
-										className="absolute inset-0"
-										onClick={() => setEdit(!edit)}
-									/>
-								)}
-								<motion.div
-									layout
-									className={classNames(
-										'flex items-center justify-end rounded-md transition-colors duration-500',
-										edit
-											? 'gap-2 pt-1 text-sm'
-											: 'bg-slate-a3 px-2 py-0 text-xs group-hover:bg-slate-a4 group-hover:text-slate-12',
-									)}
-									transition={{ duration: 0.5, ease: 'easeInOut' }}
-								>
-									<div>$</div>
-									<div
-										className={classNames(edit ? 'h-full w-full' : 'h-5 w-10')}
-									>
-										<input
-											value={value.min === 0 ? '' : value.min}
-											onChange={e =>
-												onChange({
-													min: e.target.value,
-													max: value.max,
-												})
-											}
-											className={classNames(
-												'inline h-full w-full appearance-none bg-[#00000000] text-center focus:outline-none',
-												edit
-													? 'rounded-md border-2 border-slate-7 focus:border-slate-2'
-													: '',
-											)}
-											{...field}
-										/>
-									</div>
-									<div>-</div>
-									<div
-										className={classNames(
-											edit ? 'h-full w-full' : 'h-5 w-10',
-											value.max === '∞' && 'text-xl font-light leading-none',
-										)}
-									>
-										<input
-											value={value.max === 0 ? '' : value.max}
-											onChange={e =>
-												onChange({
-													max: e.target.value,
-													min: value.min,
-												})
-											}
-											className={classNames(
-												'inline h-full w-full appearance-none bg-[#00000000] text-center focus:outline-none',
-												edit
-													? 'rounded-md border-2 border-slate-7 focus:border-slate-2 '
-													: '',
-											)}
-											{...field}
-										/>
-									</div>
-								</motion.div>
-							</div> */}
-
+				name="marketCapFilter"
+				render={({
+					field: { onChange: fieldOnChange, value: fieldValue, ...field },
+				}) => {
+					console.log('fieldValue :>> ', fieldValue)
+					console.log('fieldValue.slider :>> ', fieldValue.slider)
+					return (
 						<Slider
-							aria-label="Temperature"
-							value={[sliderValue(value.min), sliderValue(value.max)]}
+							value={[fieldValue.slider.min, fieldValue.slider.max]}
 							onChange={(event, value) => {
-								// mui always return both values as long as
-								// two values are also passed in for 'value'
-								const values = value as [number, number]
-
-								// check for overlap
-								if (values[0] === values[1]) {
-								}
-								const newMinValue = convertNumberToString(
-									valueMap[Number(values[0])],
-								)
-
-								const newMaxValue = convertNumberToString(
-									valueMapMax[Number(values[1])],
-								)
-
-								onChange({ min: newMinValue, max: newMaxValue })
+								const [min, max] = value as [number, number]
+								const inputs = createInputsFromSlider({ min, max })
+								console.log('inputs :>> ', inputs)
+								fieldOnChange(inputs)
 							}}
 							{...field}
 							step={1}
 							marks
 							min={0}
-							max={9}
+							max={valueLength}
 							valueLabelFormat={(v, i) => {
 								const min = i === 0
 								return (
-									<div
-										className={classNames(
-											'text-slate-11',
-											min
-												? 'text-xs'
-												: value.max === '∞'
-												? 'text-lg font-light leading-none'
-												: 'text-xs',
-										)}
-									>
-										{min ? value.min : value.max}
+									<div>
+										{min ? fieldValue.string.min : fieldValue.string.max}
 									</div>
 								)
 							}}
@@ -272,8 +250,8 @@ export default function MarketCapFilter({
 								},
 							}}
 						/>
-					</>
-				)}
+					)
+				}}
 			/>
 		</form>
 	)
@@ -287,17 +265,6 @@ function SliderValueLabel({ children }: { children: ReactElement }) {
 	)
 }
 
-const sliderValue = (value: number | string) => {
-	const newMin =
-		typeof value === 'number' ? value : convertStringToNumber(value)
-
-	return Number(
-		Object.entries(valueMap)
-			.reverse()
-			.find(([_, value]) => value <= newMin)?.[0],
-	)
-}
-
 const matchString = (input: string) => {
 	const numberPattern = /^(\d+(\.\d+)?)\s*([kKmMbBtT])?$/
 	const match = input.trim().match(numberPattern)
@@ -307,20 +274,6 @@ const matchString = (input: string) => {
 	}
 
 	return { match: true, value: parseFloat(match[1]), unit: match[3] }
-}
-
-const overlapAdjusted = (
-	numbers: [number, number],
-	max: number,
-): [number, number] => {
-	if (numbers[0] !== numbers[1]) {
-		return numbers
-	}
-	if (numbers.some(n => n === max)) {
-		return [numbers[0] - 1, numbers[1]]
-	}
-
-	return [numbers[0], numbers[1] + 1]
 }
 
 function convertStringToNumber(input: string): number {
