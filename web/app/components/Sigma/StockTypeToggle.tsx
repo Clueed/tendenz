@@ -33,8 +33,8 @@ export default function StockTypeToggle<T extends string[]>({
 						<ToggleGroup.Item key={key} value={key} className={classNames()}>
 							<Highlight
 								className={classNames(
-									'transition-all duration-1000',
-									selected ? 'bg-indigo-a5' : 'bg-indigo-a1',
+									'bg-indigo-a7 transition-opacity duration-1000 dark:bg-indigo-a5',
+									selected ? 'opacity-100' : 'opacity-0',
 								)}
 							>
 								<span

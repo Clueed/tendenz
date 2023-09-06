@@ -227,7 +227,7 @@ export default function MarketCapFilter({}: {}) {
 								>
 									<div
 										className={classNames(
-											'h-2 w-2 origin-center scale-0 rounded-full bg-slate-11 opacity-0 transition-[width,_height,_opacity,_transform] duration-500',
+											'h-2 w-2 origin-center rounded-full bg-slate-11 transition-[width,_height,_opacity,_transform] duration-500 sm:scale-0 sm:opacity-0',
 											'group-hover/mc-cluster:scale-100 group-hover/mc-cluster:opacity-100',
 										)}
 									/>
@@ -252,12 +252,13 @@ export default function MarketCapFilter({}: {}) {
 							track: {
 								className: classNames(
 									'absolute my-auto h-1 rounded-full bg-slate-a8',
+									'group-hover/mc-cluster:bg-slate-11',
 								),
 							},
 							valueLabel: {
 								className: classNames(
-									'text-sm text-slate-a11 transition-all duration-500',
-									'group-hover/mc-cluster: group-hover/mc-cluster:text-base:text-slate-12',
+									'text-xs text-slate-a11 transition-all duration-500',
+									'group-hover/mc-cluster:text-base group-hover/mc-cluster:text-slate-12',
 								),
 							},
 						}}
