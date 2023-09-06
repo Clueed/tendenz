@@ -10,9 +10,6 @@ export default function SigmaRoot({}: {}) {
 					<StockTypeToggleDataWrapper />
 					<MarketCapCluster />
 				</div>
-				<div className="col-start-2 flex items-start justify-between align-top">
-					<h3 className="text-sm leading-none text-slate-11">United States</h3>
-				</div>
 			</div>
 
 			<SigmaAccordion />
