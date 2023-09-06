@@ -1,14 +1,8 @@
 'use client'
 import { DEFAULT_MIN_MARKETCAP } from '@/app/lib/MARKET_CAP_BUCKETS'
 import { Slider } from '@mui/base'
-import {
-	Dispatch,
-	ReactElement,
-	SetStateAction,
-	useContext,
-	useEffect,
-	useState,
-} from 'react'
+import classNames from 'classnames'
+import { useContext, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { FilterContext, MarketCapFilter } from '../FilterContextProvider'
 
@@ -140,13 +134,7 @@ function createInputsFromString(string: {
 	}
 }
 
-export default function MarketCapFilter({
-	edit,
-	setEdit,
-}: {
-	edit: boolean
-	setEdit: Dispatch<SetStateAction<boolean>>
-}) {
+export default function MarketCapFilter({}: {}) {
 	const { marketCap, setMarketCap } = useContext(FilterContext)
 
 	const [localMarketCap, setLocalMarketCap] =
@@ -186,8 +174,6 @@ export default function MarketCapFilter({
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
 			const { min, max } = localMarketCap
-			console.log('index :>> ', min, max)
-
 			setMarketCap({
 				min,
 				max,
@@ -206,8 +192,9 @@ export default function MarketCapFilter({
 					field: { onChange: fieldOnChange, value: fieldValue, ...field },
 				}) => (
 					<Slider
+						className="transition-[width,_height]"
 						value={[fieldValue.slider.min, fieldValue.slider.max]}
-						onChange={(event, value) => {
+						onChange={(_, value) => {
 							const [min, max] = value as [number, number]
 							const inputs = createInputsFromSlider({ min, max })
 							fieldOnChange(inputs)
@@ -220,25 +207,58 @@ export default function MarketCapFilter({
 						valueLabelFormat={(v, i) => {
 							const min = i === 0
 							return (
-								<div>{min ? fieldValue.string.min : fieldValue.string.max}</div>
+								<span
+									className={
+										nextToEachOther(fieldValue) && min ? 'pr-1' : 'pl-1'
+									}
+								>
+									{min ? fieldValue.string.min : fieldValue.string.max}
+								</span>
 							)
 						}}
 						slots={{
-							valueLabel: SliderValueLabel,
+							valueLabel: ({ children, ...rest }) => (
+								<span {...rest}>{children}</span>
+							),
+							thumb: ({ children, className, ...rest }) => (
+								<span
+									{...rest}
+									className="absolute inline-flex -translate-x-1/2 -translate-y-0.5 flex-col items-center justify-center"
+								>
+									<div
+										className={classNames(
+											'h-2 w-2 origin-center scale-0 rounded-full bg-slate-11 opacity-0 transition-[width,_height,_opacity,_transform] duration-500',
+											'group-hover/mc-cluster:scale-100 group-hover/mc-cluster:opacity-100',
+										)}
+									/>
+									{
+										// children is only valueLabel
+									}
+									{children}
+								</span>
+							),
 						}}
 						slotProps={{
-							thumb: {
-								className:
-									'w-2 h-2 flex items-center justify-center bg-slate-11 rounded-full shadow absolute -translate-x-1/2 -translate-y-1/4',
-							},
 							root: {
-								className: 'w-full relative inline-block h-2 cursor-pointer',
+								className: classNames(
+									'relative inline-block w-full cursor-pointer pb-5',
+								),
 							},
 							rail: {
-								className: 'bg-slate-a6 h-1 w-full rounded-full block absolute',
+								className: classNames(
+									'absolute block h-1 w-full rounded-full bg-slate-a6',
+								),
 							},
 							track: {
-								className: 'bg-slate-9 h-1 absolute my-auto rounded-full',
+								className: classNames(
+									'absolute my-auto h-1 rounded-full bg-slate-a8',
+								),
+							},
+							valueLabel: {
+								className: classNames(
+									'text-sm text-slate-a11 transition-all duration-500',
+									'group-hover/mc-cluster: group-hover/mc-cluster:text-base:text-slate-12',
+								),
 							},
 						}}
 					/>
@@ -248,12 +268,10 @@ export default function MarketCapFilter({
 	)
 }
 
-function SliderValueLabel({ children }: { children: ReactElement }) {
-	return (
-		<span className="-translate-y-5">
-			<div className="value">{children}</div>
-		</span>
-	)
+const nextToEachOther = (fieldValue: Inputs['marketCapFilter']) => {
+	const { min, max } = fieldValue.slider
+	if (max - min === 1) return true
+	return false
 }
 
 const unitConversions = [
