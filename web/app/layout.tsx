@@ -30,7 +30,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en" className="dark-theme overflow-x-hidden">
+		<html lang="en" className="dark-theme w-full overflow-x-hidden">
 			<head>
 				<title>Tendenz - Skip past the noise</title>
 				<link
@@ -74,7 +74,7 @@ export default function RootLayout({
 				className={classNames(
 					dmSans.variable,
 					dmMono.variable,
-					'relative flex h-full w-full flex-col bg-slate-1 font-sans text-slate-12',
+					'relative flex h-full w-full flex-col overflow-x-clip bg-slate-1 font-sans text-slate-12',
 				)}
 			>
 				<NavigationBar />
