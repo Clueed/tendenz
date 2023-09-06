@@ -31,8 +31,8 @@ export type Inputs = {
 			max: (typeof valueMap)[number]['slider']
 		}
 		string: {
-			min: string | null
-			max: string | null
+			min: string
+			max: string
 		}
 		number: {
 			min: number
@@ -126,7 +126,7 @@ export function createInputsFromString(string: {
 	}
 }
 
-export const nextToEachOther = (fieldValue: Inputs['marketCapFilter']) => {
+export const areNextToEachOther = (fieldValue: Inputs['marketCapFilter']) => {
 	const { min, max } = fieldValue.slider
 	if (max - min === 1) return true
 	return false

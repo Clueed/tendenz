@@ -2,14 +2,14 @@
 import { DEFAULT_MIN_MARKETCAP } from '@/app/lib/MARKET_CAP_BUCKETS'
 import { Slider } from '@mui/base'
 import classNames from 'classnames'
-import { useContext, useEffect, useState } from 'react'
+import { ReactNode, useContext, useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { FilterContext, MarketCapFilter } from '../FilterContextProvider'
 import {
 	Inputs,
+	areNextToEachOther,
 	createInputsFromSlider,
 	createInputsFromValue,
-	nextToEachOther,
 	valueLength,
 } from './marketCapFilterLib'
 
@@ -24,7 +24,6 @@ export default function MarketCapFilter({}: {}) {
 		watch,
 		formState: { errors },
 		control,
-		setValue,
 	} = useForm<Inputs>({
 		defaultValues: {
 			marketCapFilter: createInputsFromValue({
@@ -62,12 +61,6 @@ export default function MarketCapFilter({}: {}) {
 		return () => clearTimeout(delayDebounceFn)
 	}, [localMarketCap, setMarketCap])
 
-	const style = {
-		railTrackHeight: 'h-5 sm:h-2',
-		thumbHeight: 'h-5 w-0 sm:h-2 sm:w-2',
-		rootHeight: 'h-7', // needs to be account for absolute-positioned valueLabels
-	}
-
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="w-full">
 			<Controller
@@ -77,96 +70,115 @@ export default function MarketCapFilter({}: {}) {
 					field: { onChange: fieldOnChange, value: fieldValue, ...field },
 				}) => (
 					<Slider
-						className="transition-[width,_height]"
+						{...field}
+						step={1}
+						min={0}
+						max={valueLength}
 						value={[fieldValue.slider.min, fieldValue.slider.max]}
 						onChange={(_, value) => {
 							const [min, max] = value as [number, number]
 							const inputs = createInputsFromSlider({ min, max })
 							fieldOnChange(inputs)
 						}}
-						{...field}
-						step={1}
-						marks
-						min={0}
-						max={valueLength}
-						valueLabelFormat={(v, i) => {
-							const min = i === 0
-							return (
-								<span
-									className={classNames(
-										'absolute',
-										nextToEachOther(fieldValue)
-											? min
-												? '-translate-x-1'
-												: 'translate-x-1'
-											: '',
-									)}
-								>
-									{min ? fieldValue.string.min : fieldValue.string.max}
-								</span>
+						valueLabelFormat={(_, index) =>
+							valueLabelFormat(
+								index,
+								fieldValue.string,
+								areNextToEachOther(fieldValue),
 							)
-						}}
+						}
 						slots={{
-							valueLabel: ({ children, ...rest }) => (
-								<span {...rest}>{children}</span>
-							),
-							thumb: ({ children, className, ...rest }) => (
-								<span
-									{...rest}
-									className="absolute top-1 inline-flex -translate-x-1/2 -translate-y-1/2 flex-col items-start justify-center"
-								>
-									<div
-										className={classNames(
-											'origin-center scale-100 rounded-full bg-slate-9 transition-[width,_height,_opacity,_transform] duration-500',
-											'sm:opacity-100',
-											'group-hover/mc-cluster:scale-150 group-hover/mc-cluster:opacity-100',
-											style.thumbHeight,
-										)}
-									/>
-									{
-										// children is only valueLabel
-									}
-									{children}
-								</span>
-							),
-							track: ({ children, ...rest }) => (
-								<span className="absolute inset-0 h-full w-full overflow-hidden rounded-md">
-									<span {...rest}>{children}</span>
-								</span>
-							),
+							valueLabel: ValueLabel,
+							thumb: Thumb,
+							track: Track,
 						}}
-						slotProps={{
-							root: {
-								className: classNames(
-									'relative inline-block w-full cursor-pointer',
-									style.rootHeight,
-								),
-							},
-							rail: {
-								className: classNames(
-									'absolute block w-full overflow-hidden rounded-md bg-slate-a4',
-									'sm:rounded-full sm:bg-slate-a6',
-									style.railTrackHeight,
-								),
-							},
-							track: {
-								className: classNames(
-									'absolute my-auto bg-slate-a5',
-									'sm:rounded-full sm:bg-slate-a8',
-									style.railTrackHeight,
-									'group-hover/mc-cluster:bg-slate-11',
-								),
-							},
-							valueLabel: {
-								className: classNames(
-									'text-base text-slate-a11 transition-all duration-500 sm:text-xs',
-									'group-hover/mc-cluster:text-base group-hover/mc-cluster:text-slate-12',
-								),
-							},
-						}}
+						slotProps={slotProps}
 					/>
 				)}
 			/>
 		</form>
+	)
+}
+
+const style = {
+	rootHeight: 'h-7', // needs to be account for absolute-positioned valueLabels
+	railSize: 'h-2 rounded-full', // sizes rail also overflow-clips track
+	trackSize: 'h-2 rounded-full',
+	thumbHeight: 'h-2 w-2',
+}
+
+const slotProps = {
+	root: {
+		className: classNames(
+			'relative inline-block w-full cursor-pointer',
+			style.rootHeight,
+		),
+	},
+	rail: {
+		className: classNames('absolute block w-full bg-slate-a6', style.railSize),
+	},
+	track: {
+		className: classNames('absolute bg-slate-8', style.trackSize),
+	},
+}
+
+const Thumb = ({ children, className, ...props }: any) => (
+	<span
+		{...props}
+		className="absolute top-1 -translate-x-1/2 -translate-y-1/2 text-center"
+	>
+		<div
+			className={classNames(
+				'origin-center rounded-full bg-slate-9',
+				style.thumbHeight,
+			)}
+		/>
+		{
+			// children is only valueLabel
+		}
+		{children}
+	</span>
+)
+const Track = ({ children, className, ...props }: any) => (
+	<span
+		className={classNames(
+			'absolute inset-0 h-full w-full overflow-hidden',
+			style.railSize,
+		)}
+	>
+		<span {...props} className={className}>
+			{children}
+		</span>
+	</span>
+)
+const ValueLabel = ({ children, className, ...props }: any) => (
+	<div
+		{...props}
+		className={classNames(className, 'text-center text-xs text-slate-a11')}
+	>
+		{children}
+	</div>
+)
+
+const valueLabelFormat = (
+	index: number,
+	string: { min: string; max: string },
+	nextToEachOther: boolean,
+): ReactNode => {
+	console.log('index :>> ', index)
+	const max = index === 1
+	return (
+		<span
+			className={classNames(
+				'absolute py-1 transition-transform',
+				nextToEachOther
+					? max
+						? '-translate-x-1/4'
+						: '-translate-x-3/4'
+					: '-translate-x-1/2',
+			)}
+		>
+			{max ? string.max : string.min}
+		</span>
 	)
 }
