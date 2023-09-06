@@ -223,11 +223,11 @@ export default function MarketCapFilter({}: {}) {
 							thumb: ({ children, className, ...rest }) => (
 								<span
 									{...rest}
-									className="absolute inline-flex -translate-x-1/2 -translate-y-0.5 flex-col items-center justify-center"
+									className="absolute inline-flex -translate-x-1/2 -translate-y-1 flex-col items-center justify-center sm:-translate-y-0.5"
 								>
 									<div
 										className={classNames(
-											'h-2 w-2 origin-center rounded-full bg-slate-11 transition-[width,_height,_opacity,_transform] duration-500 sm:scale-0 sm:opacity-0',
+											'h-7 w-0 origin-center rounded-full bg-slate-8 transition-[width,_height,_opacity,_transform] duration-500 sm:h-2 sm:w-2 sm:scale-0 sm:bg-slate-11 sm:opacity-0',
 											'group-hover/mc-cluster:scale-100 group-hover/mc-cluster:opacity-100',
 										)}
 									/>
@@ -246,18 +246,18 @@ export default function MarketCapFilter({}: {}) {
 							},
 							rail: {
 								className: classNames(
-									'absolute block h-1 w-full rounded-full bg-slate-a6',
+									'absolute block h-5 w-full overflow-hidden rounded-lg bg-slate-a4 sm:h-1 sm:rounded-full sm:bg-slate-a6',
 								),
 							},
 							track: {
 								className: classNames(
-									'absolute my-auto h-1 rounded-full bg-slate-a8',
+									'absolute my-auto h-5 bg-slate-a5 sm:h-1 sm:rounded-full sm:bg-slate-a8',
 									'group-hover/mc-cluster:bg-slate-11',
 								),
 							},
 							valueLabel: {
 								className: classNames(
-									'text-xs text-slate-a11 transition-all duration-500',
+									'text-base text-slate-a11 transition-all duration-500 sm:text-xs',
 									'group-hover/mc-cluster:text-base group-hover/mc-cluster:text-slate-12',
 								),
 							},
