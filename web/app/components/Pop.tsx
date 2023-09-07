@@ -73,10 +73,10 @@ export default function Pop({
 									colors[popoverColor].popClassNames,
 								)}
 							>
-								<div className="noise-bg absolute inset-0 -z-10 rounded-lg opacity-30" />
+								<div className="noise-bg absolute inset-0 -z-10 rounded-lg opacity-75" />
 								<div
 									className={classNames(
-										'rounded-lg px-5 py-4 text-slate-1 shadow-lg',
+										'rounded-lg px-5 py-4',
 										colors[popoverColor].contentClassNames,
 									)}
 								>
