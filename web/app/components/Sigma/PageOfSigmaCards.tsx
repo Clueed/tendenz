@@ -67,7 +67,7 @@ export function PageOfSigmaCards({
 						<SigmaCard entry={entry} expanded={expandedKey === entry.ticker} />
 					</motion.div>
 				))}
-				{last && data.length <= PAGE_SIZE && (
+				{last && data.length >= PAGE_SIZE && (
 					<div className="my-10">
 						<NextPageButton
 							handleNextPage={handleNextPage}
