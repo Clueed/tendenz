@@ -21,15 +21,24 @@ export default function StockTypeToggle<T extends string[]>({
 			asChild
 			aria-label="Asset type"
 		>
-			<div className={classNames('flex items-start gap-3 rounded-md text-2xl')}>
-				{allKeys.map(key => {
+			<div
+				className={classNames(
+					'flex flex-wrap items-start gap-x-3 rounded-md text-2xl',
+				)}
+			>
+				{allKeys.map((key, index) => {
 					const selected = selectedKeys.includes(key)
 
 					return (
 						<ToggleGroup.Item
 							key={key}
 							value={key}
-							className={classNames('group')}
+							className={classNames(
+								'group',
+								{ 'order-1 max-sm:order-3': index === 0 },
+								{ 'order-2': index === 1 },
+								{ 'order-3 max-sm:order-2': index === 2 },
+							)}
 						>
 							<Highlight
 								className={classNames(
