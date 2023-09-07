@@ -80,8 +80,11 @@ export default function MarketCapFilter({}: {}) {
 							const inputs = createInputsFromSlider({ min, max })
 							fieldOnChange(inputs)
 						}}
-						valueLabelFormat={(_, index) =>
+						valueLabelFormat={(value, index) =>
 							valueLabelFormat(
+								value,
+								0,
+								valueLength,
 								index,
 								fieldValue.string,
 								areNextToEachOther(fieldValue),
@@ -102,9 +105,9 @@ export default function MarketCapFilter({}: {}) {
 
 const style = {
 	rootHeight: 'h-2 mt-5', // padding for absolute-positioned valueLabels
-	railSize: 'h-2 rounded-full', // sizes rail also overflow-clips track
-	trackSize: 'h-2 rounded-full',
-	thumbHeight: 'h-2 w-2',
+	railSize: 'h-2 max-sm:h-5 rounded-full', // sizes rail also overflow-clips track
+	trackSize: 'h-2 max-sm:h-5 rounded-full',
+	thumbHeight: 'h-2 max-sm:h-5 w-2',
 }
 
 const slotProps = {
@@ -133,7 +136,7 @@ const Thumb = ({ children, className, ...props }: any) => (
 		{children}
 		<div
 			className={classNames(
-				'origin-center rounded-full bg-slate-9',
+				'origin-center bg-slate-9 opacity-0',
 				style.thumbHeight,
 			)}
 		/>
@@ -166,21 +169,26 @@ const ValueLabel = ({
 )
 
 const valueLabelFormat = (
+	value: number,
+	minValue: number,
+	maxValue: number,
 	index: number,
 	string: { min: string; max: string },
 	nextToEachOther: boolean,
 ): ReactNode => {
 	console.log('index :>> ', index)
+	const min = index === 0
 	const max = index === 1
+
+	const outer = value === minValue || value === maxValue
+
 	return (
 		<span
 			className={classNames(
-				'absolute bottom-3 text-xs text-slate-a11 transition-transform duration-300 ease-in-out',
-				nextToEachOther
-					? max
-						? '-translate-x-1/4'
-						: '-translate-x-3/4'
-					: '-translate-x-1/2',
+				'absolute bottom-3 text-xs text-slate-a11 transition-transform duration-500 ease-in-out',
+				{ '-translate-x-full': max && outer },
+				{ '-translate-x-1/2': max && !outer },
+				{ '-translate-x-1/2': min && !outer },
 			)}
 		>
 			{max ? string.max : string.min}

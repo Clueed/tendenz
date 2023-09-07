@@ -23,7 +23,7 @@ export default function StockTypeToggle<T extends string[]>({
 		>
 			<div
 				className={classNames(
-					'group inline-flex flex-col-reverse items-start gap-1 rounded-md text-2xl transition-all duration-1000 sm:flex-row sm:gap-3 ',
+					'group flex items-start gap-3 rounded-md text-2xl',
 				)}
 			>
 				{allKeys.map(key => {

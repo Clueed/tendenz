@@ -7,7 +7,7 @@ import StockTypeToggle from './Sigma/StockTypeToggle'
 export default function StockTypeToggleDataWrapper({}: {}) {
 	const { typeLabels, setTypeLabels } = useContext(FilterContext)
 	return (
-		<div className="flex flex-col">
+		<div>
 			<StockTypeToggle
 				selectedKeys={typeLabels}
 				selectKeys={setTypeLabels}
