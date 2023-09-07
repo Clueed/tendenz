@@ -42,7 +42,7 @@ export default function MarketCapFilter({}: {}) {
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="self-baseline justify-self-end"
+			className="w-full self-end justify-self-end"
 		>
 			<Controller
 				control={control}
