@@ -104,10 +104,13 @@ export default function MarketCapFilter({}: {}) {
 }
 
 const style = {
-	rootHeight: 'h-2 mt-5', // padding for absolute-positioned valueLabels
-	railSize: 'h-2 max-sm:h-5 rounded-full', // sizes rail also overflow-clips track
-	trackSize: 'h-2 max-sm:h-5 rounded-full',
-	thumbHeight: 'h-2 max-sm:h-5 w-2',
+	rootHeight:
+		'h-2 focus-within:max-sm:h-5 mt-5 group max-sm:mt-10 transition-[margin,_height]', // padding for absolute-positioned valueLabels
+	railSize:
+		'h-2 group-focus-within:max-sm:h-5 rounded-full transition-[height]', // sizes rail also overflow-clips track
+	trackSize: 'h-2 group-focus-within:max-sm:h-5 transition-[height]',
+	thumbHeight:
+		'h-2 group-focus-within:max-sm:h-5 group-focus-within:max-sm:w-5 w-2 transition-all',
 }
 
 const slotProps = {
@@ -126,17 +129,14 @@ const slotProps = {
 }
 
 const Thumb = ({ children, className, ...props }: any) => (
-	<span
-		{...props}
-		className="absolute top-1 -translate-x-1/2 -translate-y-1/2 text-center"
-	>
+	<span {...props} className="absolute text-center sm:top-1">
 		{
 			// children is valueLabel
 		}
 		{children}
 		<div
 			className={classNames(
-				'origin-center bg-slate-9 opacity-0',
+				'origin-center rounded-full bg-slate-9',
 				style.thumbHeight,
 			)}
 		/>
@@ -144,10 +144,7 @@ const Thumb = ({ children, className, ...props }: any) => (
 )
 const Track = ({ children, className, ...props }: any) => (
 	<span
-		className={classNames(
-			'absolute inset-0 h-full w-full overflow-hidden',
-			style.railSize,
-		)}
+		className={classNames('absolute inset-0 h-full w-full', style.railSize)}
 	>
 		<span {...props} className={className}>
 			{children}
@@ -185,10 +182,11 @@ const valueLabelFormat = (
 	return (
 		<span
 			className={classNames(
-				'absolute bottom-3 text-xs text-slate-a11 transition-transform duration-500 ease-in-out',
+				'absolute bottom-3 text-xs text-slate-a11 transition-all delay-500 duration-500 ease-in-out',
 				{ '-translate-x-full': max && outer },
 				{ '-translate-x-1/2': max && !outer },
 				{ '-translate-x-1/2': min && !outer },
+				'group-focus-within:delay-0 group-focus-within:max-sm:-translate-y-2 group-focus-within:max-sm:text-base',
 			)}
 		>
 			{max ? string.max : string.min}
