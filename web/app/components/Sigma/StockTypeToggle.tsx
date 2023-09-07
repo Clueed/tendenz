@@ -39,7 +39,7 @@ export default function StockTypeToggle<T extends string[]>({
 							>
 								<span
 									className={classNames(
-										'tracking-wide transition-all duration-500 ',
+										'tracking-wide transition-all duration-500',
 										selected
 											? 'text-indigo-11 hover:text-indigo-12'
 											: 'text-slate-a11 hover:text-slate-12',
