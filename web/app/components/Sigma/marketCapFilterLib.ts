@@ -7,17 +7,7 @@ export const valueMap: Mapping[] = [
 	{ slider: 5, number: 10e9 },
 	{ slider: 6, number: 100e9 },
 	{ slider: 7, number: 1000e9 },
-]
-
-export const valueMapMax: Mapping[] = [
-	{ slider: 0, number: 0 },
-	{ slider: 1, number: 1e6 },
-	{ slider: 2, number: 10e6 },
-	{ slider: 3, number: 100e6 },
-	{ slider: 4, number: 1e9 },
-	{ slider: 5, number: 10e9 },
-	{ slider: 6, number: 100e9 },
-	{ slider: 7, number: Infinity },
+	{ slider: 8, number: Infinity },
 ]
 
 export const valueLength = valueMap.length - 1
@@ -71,7 +61,7 @@ export function createInputsFromSlider(
 ): Inputs['marketCapFilter'] {
 	const number = {
 		min: sliderToValue(slider.min, valueMap),
-		max: sliderToValue(slider.max, valueMapMax),
+		max: sliderToValue(slider.max, valueMap),
 	}
 
 	const string = {
@@ -90,7 +80,7 @@ export function createInputsFromValue(
 ): Inputs['marketCapFilter'] {
 	const slider = {
 		min: valueToSlider(number.min, valueMap),
-		max: valueToSlider(number.max, valueMapMax),
+		max: valueToSlider(number.max, valueMap),
 	}
 
 	const string = {
@@ -116,7 +106,7 @@ export function createInputsFromString(string: {
 
 	const slider = {
 		min: valueToSlider(number.min, valueMap),
-		max: valueToSlider(number.max, valueMapMax),
+		max: valueToSlider(number.max, valueMap),
 	}
 
 	return {
