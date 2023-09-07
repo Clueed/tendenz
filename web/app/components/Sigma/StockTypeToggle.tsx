@@ -21,20 +21,20 @@ export default function StockTypeToggle<T extends string[]>({
 			asChild
 			aria-label="Asset type"
 		>
-			<div
-				className={classNames(
-					'group flex items-start gap-3 rounded-md text-2xl',
-				)}
-			>
+			<div className={classNames('flex items-start gap-3 rounded-md text-2xl')}>
 				{allKeys.map(key => {
 					const selected = selectedKeys.includes(key)
 
 					return (
-						<ToggleGroup.Item key={key} value={key} className={classNames()}>
+						<ToggleGroup.Item
+							key={key}
+							value={key}
+							className={classNames('group')}
+						>
 							<Highlight
 								className={classNames(
 									'bg-indigo-a7 transition-opacity duration-1000 dark:bg-indigo-a5',
-									selected ? 'opacity-100' : 'opacity-0',
+									selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-50',
 								)}
 							>
 								<span

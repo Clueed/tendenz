@@ -5,7 +5,7 @@ import MarketCapFilterLabel from './Sigma/MarketCapFilterLabel'
 
 export default function MarketCapCluster({}: {}) {
 	return (
-		<div className={classNames('h-full flex-grow')}>
+		<div className={classNames('')}>
 			<MarketCapFilter />
 			<MarketCapFilterLabel />
 		</div>

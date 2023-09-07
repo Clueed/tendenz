@@ -1,10 +1,12 @@
 'use client'
 import * as Slider from '@radix-ui/react-slider'
-import { useContext } from 'react'
+import classNames from 'classnames'
+import { HTMLAttributes, ReactNode, useContext } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { FilterContext } from '../FilterContextProvider'
 import {
 	Inputs,
+	areNextToEachOther,
 	createInputsFromSlider,
 	createInputsFromValue,
 	valueLength,
@@ -38,7 +40,7 @@ export default function MarketCapFilter({}: {}) {
 	}
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="w-full">
+		<form onSubmit={handleSubmit(onSubmit)} className="">
 			<Controller
 				control={control}
 				name="marketCapFilter"
@@ -52,7 +54,8 @@ export default function MarketCapFilter({}: {}) {
 							step={1}
 							min={0}
 							max={valueLength}
-							className="relative flex touch-none select-none items-center"
+							minStepsBetweenThumbs={1}
+							className="relative flex cursor-pointer touch-none select-none items-center sm:w-48"
 							onValueChange={value => {
 								const [min, max] = value
 								const inputs = createInputsFromSlider({ min, max })
@@ -60,25 +63,35 @@ export default function MarketCapFilter({}: {}) {
 							}}
 							onValueCommit={handleValueCommited}
 						>
-							<Slider.Track className="relative h-3 flex-grow bg-green-7">
-								<Slider.Range className="absolute h-3 bg-pink-8" />
+							<Slider.Track className="relative h-1.5 flex-grow rounded-full bg-slate-7">
+								<Slider.Range className="absolute h-full rounded-full bg-slate-10" />
 							</Slider.Track>
-							<Slider.Thumb asChild>
-								<div className="relative ">
-									<div className="h-4 w-10 bg-tomato-9"></div>
-									<div className="absolute inset-0 flex -translate-y-5 items-center justify-center">
-										{fieldValue.string.min}
-									</div>
-								</div>
-							</Slider.Thumb>
-							<Slider.Thumb asChild>
-								<div className="relative ">
-									<div className="h-4 w-10 bg-tomato-9"></div>
-									<div className="absolute inset-0 flex -translate-y-5 items-center justify-center">
-										{fieldValue.string.max}
-									</div>
-								</div>
-							</Slider.Thumb>
+							<Thumb>
+								<ThumbLabel
+									alignToThumb={
+										fieldValue.slider.min === 0
+											? 'right'
+											: areNextToEachOther(fieldValue)
+											? 'left'
+											: 'center'
+									}
+								>
+									{fieldValue.string.min}
+								</ThumbLabel>
+							</Thumb>
+							<Thumb>
+								<ThumbLabel
+									alignToThumb={
+										fieldValue.slider.max === valueLength
+											? 'left'
+											: areNextToEachOther(fieldValue)
+											? 'right'
+											: 'center'
+									}
+								>
+									{fieldValue.string.max}
+								</ThumbLabel>
+							</Thumb>
 						</Slider.Root>
 					</>
 				)}
@@ -86,3 +99,35 @@ export default function MarketCapFilter({}: {}) {
 		</form>
 	)
 }
+
+const Thumb = ({ children }: { children: ReactNode }) => (
+	<Slider.Thumb asChild>
+		<div className="relative ">
+			<div className="h-0 w-0 bg-tomato-9"></div>
+			{children}
+		</div>
+	</Slider.Thumb>
+)
+
+const ThumbLabel = ({
+	children,
+	className,
+	alignToThumb = 'center',
+	...props
+}: HTMLAttributes<HTMLDivElement> & {
+	alignToThumb?: 'left' | 'right' | 'center'
+}) => (
+	<div
+		{...props}
+		className={classNames(
+			className,
+			'absolute inset-0 flex -translate-y-5 items-center transition-all',
+			{ 'justify-center': alignToThumb === 'center' },
+			{ 'justify-end': alignToThumb === 'left' },
+			{ 'justify-start': alignToThumb === 'right' },
+			'text-sm text-slate-11',
+		)}
+	>
+		{children}
+	</div>
+)
