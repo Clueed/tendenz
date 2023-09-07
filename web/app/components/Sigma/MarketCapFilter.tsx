@@ -101,7 +101,7 @@ export default function MarketCapFilter({}: {}) {
 }
 
 const style = {
-	rootHeight: 'h-1.5 mt-5', // padding for absolute-positioned valueLabels
+	rootHeight: 'h-2 mt-5', // padding for absolute-positioned valueLabels
 	railSize: 'h-2 rounded-full', // sizes rail also overflow-clips track
 	trackSize: 'h-2 rounded-full',
 	thumbHeight: 'h-2 w-2',
@@ -151,9 +151,17 @@ const Track = ({ children, className, ...props }: any) => (
 		</span>
 	</span>
 )
-const ValueLabel = ({ children, className, ...props }: any) => (
+const ValueLabel = ({
+	children,
+	className,
+	valueLabelFormat,
+	...props
+}: any) => (
 	<span {...props} className={className}>
 		{children}
+		{
+			//valueLabelFormat()
+		}
 	</span>
 )
 
