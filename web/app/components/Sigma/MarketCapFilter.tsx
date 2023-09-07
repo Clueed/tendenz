@@ -42,7 +42,7 @@ export default function MarketCapFilter({}: {}) {
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="w-full self-end justify-self-end"
+			className="w-full self-end justify-self-end sm:w-48"
 		>
 			<Controller
 				control={control}
@@ -58,7 +58,7 @@ export default function MarketCapFilter({}: {}) {
 							min={0}
 							max={valueLength}
 							minStepsBetweenThumbs={1}
-							className="relative mb-2 flex h-8 cursor-pointer touch-none select-none items-center pt-7 sm:w-48"
+							className="relative mb-2 flex h-8  cursor-pointer touch-none select-none items-center pt-7 "
 							onValueChange={value => {
 								const [min, max] = value
 								const inputs = createInputsFromSlider({ min, max })
