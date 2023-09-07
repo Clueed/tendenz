@@ -1,3 +1,4 @@
+'use client'
 import * as Popover from '@radix-ui/react-popover'
 import classNames from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -42,7 +43,10 @@ export default function Pop({
 					setOpen(!open)
 					e.preventDefault()
 				}}
-				className={classNames('group', rootClassName)}
+				className={classNames(
+					'group !inline appearance-none leading-none',
+					rootClassName,
+				)}
 			>
 				{typeof children === 'function' ? children(open) : children}
 			</Popover.Trigger>

@@ -7,7 +7,7 @@ export default function SigmaRoot({}: {}) {
 	return (
 		<>
 			<div className="mb-[2vh] mt-[1vh] grid grid-cols-default">
-				<div className="col-start-2 grid grid-cols-2 items-start">
+				<div className="col-start-2 grid grid-cols-2 items-end">
 					<StockTypeToggleDataWrapper />
 
 					<MarketCapFilter />
@@ -17,7 +17,9 @@ export default function SigmaRoot({}: {}) {
 						</span>{' '}
 						<span className="text-slate-11">United&nbsp;States</span>
 					</div>
-					<MarketCapFilterLabel />
+					<div className="flex justify-end text-right">
+						<MarketCapFilterLabel />
+					</div>
 				</div>
 			</div>
 
