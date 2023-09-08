@@ -11,7 +11,6 @@ import { PageOfSigmaCards } from './PageOfSigmaCards'
 export function SigmaAccordion({}: {}) {
 	const { marketCap, typeLabels } = useContext(FilterContext)
 	useEffect(() => {
-		setExpandedKey('')
 		setPageIndex(1)
 	}, [marketCap, typeLabels])
 
