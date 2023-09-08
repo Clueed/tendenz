@@ -52,7 +52,7 @@ export function PageOfSigmaCards({
 		typeLabels: typeLabels,
 	})
 
-	if (data) {
+	if (data && data.length > 0) {
 		return (
 			<>
 				{data.map(entry => (
@@ -64,11 +64,7 @@ export function PageOfSigmaCards({
 						animate="animate"
 						exit="exit"
 					>
-						<SigmaCard
-							entry={entry}
-							expanded={expandedKey === entry.ticker}
-							isLoading={isLoading}
-						/>
+						<SigmaCard entry={entry} expanded={expandedKey === entry.ticker} />
 					</motion.div>
 				))}
 				{last && data.length >= PAGE_SIZE && (
@@ -80,6 +76,16 @@ export function PageOfSigmaCards({
 					</div>
 				)}
 			</>
+		)
+	}
+
+	if (data && data.length === 0) {
+		return (
+			<div className="grid grid-cols-default">
+				<div className="col-start-2 flex h-24 items-center justify-center">
+					<div>the end.</div>
+				</div>
+			</div>
 		)
 	}
 

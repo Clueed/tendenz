@@ -8,11 +8,9 @@ import { SigmaCardHeader } from './SigmaCardHeader'
 export default function SigmaCard({
 	entry,
 	expanded,
-	isLoading,
 }: {
 	entry: tendenzApiSigmaYesterday
 	expanded: boolean
-	isLoading?: boolean
 }) {
 	const positive = entry.sigma > 0
 
