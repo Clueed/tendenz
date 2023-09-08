@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client'
 import pLimit from 'p-limit'
 import { match } from 'ts-pattern'
+import { PLIMIT_CONFIG } from '../lib/PLIMIT_CONFIG.js'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { formatDateString } from '../lib/misc.js'
 import { PolygonStocksApi } from '../lib/polygonApi/polygonStocksApi.js'
@@ -41,7 +42,7 @@ export class DetailsSupplementer {
 		tickers: string[],
 		mostRecentDateString: string,
 	) {
-		const limit = pLimit(2)
+		const limit = pLimit(PLIMIT_CONFIG.dbBound)
 		const results = await Promise.all(
 			tickers.map(ticker =>
 				limit(async () => {

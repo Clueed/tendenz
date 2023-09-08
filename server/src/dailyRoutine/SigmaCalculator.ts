@@ -2,6 +2,7 @@ import { Prisma, UsStockDaily } from '@prisma/client'
 import { DateTime } from 'luxon'
 import pLimit from 'p-limit'
 import { match } from 'ts-pattern'
+import { PLIMIT_CONFIG } from '../lib/PLIMIT_CONFIG.js'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { formatDateString } from '../lib/misc.js'
 import { DataPoints, SigmaMath } from './SigmaMath.js'
@@ -12,6 +13,10 @@ interface ISigmaCalcDB {
 		startdate: Date,
 		enddate: Date,
 	): Promise<UsStockDaily[]>
+
+	getMostRecentDates(daysMinus?: number): Promise<Date[]>
+
+	getTickersWithoutSigma(dates: Date[]): Promise<string[]>
 }
 
 export class SigmaCalculator {
@@ -31,7 +36,7 @@ export class SigmaCalculator {
 		const { successResults, groupedByErrorCode } =
 			SigmaCalculator.structureResults(results)
 		console.info(
-			`Calcuted sigma for ${successResults.length} out of ${tickers} tickers`,
+			`Calcuted sigma for ${successResults.length} out of ${tickers.length} tickers`,
 		)
 		Object.keys(groupedByErrorCode).map(key => {
 			console.warn(
@@ -43,12 +48,14 @@ export class SigmaCalculator {
 		console.groupEnd()
 	}
 
-	private async updateTickers(tickers: { ticker: string }[]) {
-		const limit = pLimit(10)
+	private async updateTickers(tickers: string[]) {
+		const limit = pLimit(PLIMIT_CONFIG.apiBound)
 		const results = await Promise.all(
-			tickers.map(({ ticker }) =>
+			tickers.map(ticker =>
 				limit(async () => {
-					const result = await this.constructSigmaRow(ticker)
+					console.debug('Updating ticker:', ticker)
+					const dailys = await this.getDailys(ticker)
+					const result = await this.constructSigmaRow(ticker, dailys)
 					return await this.handleSigmaResult(result)
 				}),
 			),
@@ -56,17 +63,20 @@ export class SigmaCalculator {
 		return results
 	}
 
-	private async constructSigmaRow(
-		ticker: string,
-		now = DateTime.now(),
-		timeRangeInYears = 2,
-	): Promise<SigmaCalcResult> {
+	async getDailys(ticker: string, now = DateTime.now(), timeRangeInYears = 2) {
 		const earliestDate = now.minus({ year: timeRangeInYears })
-		const dailys = await this.db.getDailyInDateRange(
+		return await this.db.getDailyInDateRange(
 			ticker,
 			earliestDate.toJSDate(),
 			now.toJSDate(),
 		)
+	}
+
+	private async constructSigmaRow(
+		ticker: string,
+		dailys: Prisma.PromiseReturnType<typeof this.getDailys>,
+	): Promise<SigmaCalcResult> {
+		console.debug('Constructing sigma row for ticker:', ticker)
 
 		const minPopulation = 30
 		if (dailys.length < minPopulation) {
