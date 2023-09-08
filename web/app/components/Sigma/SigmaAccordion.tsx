@@ -1,5 +1,6 @@
 'use client'
 
+import { useSigmaYesterday } from '@/app/lib/api/clientApi'
 import * as Accordion from '@radix-ui/react-accordion'
 import classNames from 'classnames'
 import { AnimatePresence } from 'framer-motion'
@@ -32,17 +33,26 @@ export function SigmaAccordion({}: {}) {
 		/>
 	))
 
+	const { data, isLoading, error, isValidating } = useSigmaYesterday({
+		marketCap,
+		page: pageIndex,
+		typeLabels,
+	})
+
+	const bgClassName =
+		'bg-gradient-to-b from-slate-a2 via-transparent to-slate-a2'
+
 	return (
 		<div className="grid-cols-default sm:grid">
 			<div
 				className={classNames(
 					'col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll px-2 py-2 transition-all duration-1000 sm:rounded-2xl',
 					{
-						'bg-gradient-to-b from-slate-a2 via-transparent to-slate-a2':
-							pageIndex > 1,
+						bgClassName: pageIndex > 1,
 					},
 				)}
 			>
+				{isLoading && 'loading'}
 				<Accordion.Root
 					collapsible
 					type="single"
