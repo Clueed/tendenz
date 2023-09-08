@@ -7,19 +7,23 @@ const BASE_URL =
 export type ApiQuery = {
 	page?: number
 	marketCap?: MarketCapFilter
-	typeGroups?: TypeGroupLabel[]
+	typeLabels?: TypeGroupLabel[]
 }
 
-export const getStocksURL = (querry?: ApiQuery) => {
-	const { typeGroups, marketCap, page } = querry ?? {}
+const filterFalseAndUndefined = (obj: any) => obj !== false && obj !== undefined
 
-	const types = typeGroups && typeGroupsLabelToTypes(typeGroups)
+export const getStocksURL = (querry?: ApiQuery) => {
+	const { typeLabels, marketCap, page } = querry ?? {}
+
+	const types = typeLabels && typeGroupsLabelToTypes(typeLabels)
 	const stockTypesStrings = types?.map(type => 'type=' + type) || []
 
 	const minMarketCapString =
-		marketCap?.min !== 0 && 'minMarketCap=' + marketCap?.min
+		marketCap?.min && marketCap?.min !== 0 && 'minMarketCap=' + marketCap?.min
 	const maxMarketCapString =
-		marketCap?.max !== Infinity && 'maxMarketCap=' + marketCap?.max
+		marketCap?.max &&
+		marketCap?.max !== Infinity &&
+		'maxMarketCap=' + marketCap?.max
 
 	const appendStrings = [
 		minMarketCapString,
@@ -27,7 +31,7 @@ export const getStocksURL = (querry?: ApiQuery) => {
 		...stockTypesStrings,
 	]
 
-	const appendString = appendStrings.filter(Boolean).join('&')
+	const appendString = appendStrings.filter(filterFalseAndUndefined).join('&')
 
 	const url = BASE_URL + `/us-stocks/daily/${page || ''}?` + appendString
 	console.debug('url :>> ', url)

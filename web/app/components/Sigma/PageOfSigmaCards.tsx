@@ -49,7 +49,7 @@ export function PageOfSigmaCards({
 	const { data, isLoading, error, isValidating } = useSigmaYesterday({
 		marketCap,
 		page,
-		typeGroups: typeLabels,
+		typeLabels: typeLabels,
 	})
 
 	if (data) {

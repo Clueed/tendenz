@@ -3,7 +3,7 @@ import { ApiQuery, getStocksURL } from './sharedApi'
 
 async function getData<T>(url: string) {
 	const res = await fetch(url, {
-		next: { revalidate: Number(process.env.REVALIDATE_INTERVAL) || 600 },
+		next: { revalidate: 600 },
 	})
 	return res.json() as Promise<T>
 }

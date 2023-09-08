@@ -18,7 +18,7 @@ export const fetcher = async (url: string) => {
 		throw error
 	}
 
-	return res.json()
+	return {}
 }
 
 // @ts-ignore
