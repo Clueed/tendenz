@@ -64,7 +64,11 @@ export function PageOfSigmaCards({
 						animate="animate"
 						exit="exit"
 					>
-						<SigmaCard entry={entry} expanded={expandedKey === entry.ticker} />
+						<SigmaCard
+							entry={entry}
+							expanded={expandedKey === entry.ticker}
+							isLoading={isLoading}
+						/>
 					</motion.div>
 				))}
 				{last && data.length >= PAGE_SIZE && (

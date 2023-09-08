@@ -8,27 +8,27 @@ import { SigmaCardHeader } from './SigmaCardHeader'
 export default function SigmaCard({
 	entry,
 	expanded,
+	isLoading,
 }: {
 	entry: tendenzApiSigmaYesterday
 	expanded: boolean
+	isLoading?: boolean
 }) {
 	const positive = entry.sigma > 0
 
 	return (
 		<Accordion.Item
 			value={entry.ticker}
-			className="group/card relative mb-2 grid grid-cols-default py-3"
+			className={clsx(
+				'group/card relative mb-2 grid grid-cols-default py-3 transition-opacity',
+			)}
 		>
 			<div
 				className={clsx(
 					'absolute inset-0 -z-10 col-span-full transition-all sm:col-start-2 sm:col-end-2 sm:rounded-xl',
 					{
 						'group-hover/card:bg-slate-a3': !expanded,
-					},
-					{
 						'bg-gradient-to-br from-lime-a3 to-teal-a4': expanded && positive,
-					},
-					{
 						'bg-gradient-to-br from-orange-a3 to-purple-a4':
 							expanded && !positive,
 					},
