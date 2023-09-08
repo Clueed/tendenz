@@ -1,7 +1,8 @@
 import { ComingSoon } from './components/ComingSoon'
 import FilterContextProvider from './components/FilterContextProvider'
 import Hero from './components/Hero'
-import SigmaRoot from './components/Sigma/SigmaRoot'
+import { FilterCluster } from './components/Sigma/FilterCluster'
+import { SigmaAccordion } from './components/Sigma/SigmaAccordion'
 import UsStocksHeader from './components/UsStocksHeader'
 import {
 	DEFAULT_MARKET_CAP_LABEL,
@@ -55,7 +56,8 @@ export default async function Home() {
 				<SWRConfigProvider fallback={fallback}>
 					<FilterContextProvider>
 						<UsStocksHeader />
-						<SigmaRoot />
+						<FilterCluster />
+						<SigmaAccordion />
 					</FilterContextProvider>
 				</SWRConfigProvider>
 			</section>
