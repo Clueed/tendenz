@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import Link from 'next/link'
 import ChevronRight from '../components/Sigma/ChevronRight'
 
@@ -24,14 +24,14 @@ function MainDocsLink({ href, text }: { href: string; text: string }) {
 			className="group relative grid grid-cols-default gap-y-[5vh] @container sm:grid-cols-[1fr_min(30rem,_90vw)_1fr] "
 		>
 			<div
-				className={classNames(
+				className={clsx(
 					bgClassName,
 					'from-slate-a1 to-slate-a3',
 					'group-hover:opacity-0',
 				)}
 			/>
 			<div
-				className={classNames(
+				className={clsx(
 					bgClassName,
 					'from-sky-a4 to-indigo-a5 shadow-xl',
 					'opacity-0 group-hover:opacity-100',

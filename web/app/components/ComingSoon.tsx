@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { ReactNode } from 'react'
 import { Balancer } from 'react-wrap-balancer'
 
@@ -73,9 +73,9 @@ const Highlight = ({
 	return (
 		<>
 			{' '}
-			<span className={classNames('relative', colors[color].text)}>
+			<span className={clsx('relative', colors[color].text)}>
 				<div
-					className={classNames(
+					className={clsx(
 						'absolute -inset-x-8 inset-y-0 -z-10 transform-gpu rounded-full blur-xl',
 						colors[color].bg,
 					)}

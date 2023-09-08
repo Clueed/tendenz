@@ -2,7 +2,7 @@
 
 import { useSigmaYesterday } from '@/app/lib/api/clientApi'
 import * as Accordion from '@radix-ui/react-accordion'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import { useContext, useEffect, useState } from 'react'
 import { FilterContext } from '../FilterContextProvider'
@@ -45,7 +45,7 @@ export function SigmaAccordion({}: {}) {
 	return (
 		<div className="grid-cols-default sm:grid">
 			<div
-				className={classNames(
+				className={clsx(
 					'col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll px-2 py-2 transition-all duration-1000 sm:rounded-2xl',
 					{
 						bgClassName: pageIndex > 1,

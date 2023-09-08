@@ -1,5 +1,5 @@
 import * as motion from '@/app/lib/motionWrapper'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 export function NextPageButton({
 	handleNextPage,
@@ -24,7 +24,7 @@ export function NextPageButton({
 			<button
 				aria-label="load more"
 				onClick={handleNextPage}
-				className={classNames(
+				className={clsx(
 					'rounded-md bg-slate-a2 p-3 text-slate-12 transition-all',
 					{
 						'hover:bg-slate-a5 hover:shadow-md': !isLoading,

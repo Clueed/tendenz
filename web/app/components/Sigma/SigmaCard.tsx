@@ -1,6 +1,6 @@
 import * as Accordion from '@radix-ui/react-accordion'
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { SigmaCardBody } from './SigmaCardBody'
 import { SigmaCardHeader } from './SigmaCardHeader'
@@ -20,7 +20,7 @@ export default function SigmaCard({
 			className="group/card relative mb-2 grid grid-cols-default py-3"
 		>
 			<div
-				className={classNames(
+				className={clsx(
 					'absolute inset-0 -z-10 col-span-full transition-all sm:col-start-2 sm:col-end-2 sm:rounded-xl',
 					{
 						'group-hover/card:bg-slate-a3': !expanded,

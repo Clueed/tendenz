@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { ReactNode } from 'react'
 import { Balancer } from 'react-wrap-balancer'
 
@@ -31,7 +31,7 @@ export function UL({
 }) {
 	return (
 		<ul
-			className={classNames(
+			className={clsx(
 				'col-start-2 ml-8 mt-2 list-inside list-disc text-slate-12',
 				className,
 			)}
@@ -50,7 +50,7 @@ export function OL({
 }) {
 	return (
 		<ol
-			className={classNames(
+			className={clsx(
 				'col-start-2 ml-8 mt-2 list-inside list-decimal text-slate-12',
 				className,
 			)}

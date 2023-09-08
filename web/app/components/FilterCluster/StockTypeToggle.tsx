@@ -1,5 +1,5 @@
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { Dispatch, ReactNode, SetStateAction } from 'react'
 
 export default function StockTypeToggle<T extends string[]>({
@@ -22,7 +22,7 @@ export default function StockTypeToggle<T extends string[]>({
 			aria-label="Asset type"
 		>
 			<div
-				className={classNames(
+				className={clsx(
 					'flex flex-wrap items-start gap-x-3 rounded-md text-2xl',
 				)}
 			>
@@ -33,7 +33,7 @@ export default function StockTypeToggle<T extends string[]>({
 						<ToggleGroup.Item
 							key={key}
 							value={key}
-							className={classNames(
+							className={clsx(
 								'group',
 								{ 'order-1 max-sm:order-3': index === 0 },
 								{ 'order-2': index === 1 },
@@ -41,13 +41,13 @@ export default function StockTypeToggle<T extends string[]>({
 							)}
 						>
 							<Highlight
-								className={classNames(
+								className={clsx(
 									'bg-indigo-a7 transition-opacity duration-1000 dark:bg-indigo-a5',
 									selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-50',
 								)}
 							>
 								<span
-									className={classNames(
+									className={clsx(
 										'tracking-wide transition-all duration-500',
 										selected
 											? 'text-indigo-11 hover:text-indigo-12'
@@ -76,9 +76,9 @@ export const Highlight = ({
 	return (
 		<>
 			{' '}
-			<span className={classNames('relative')}>
+			<span className={clsx('relative')}>
 				<div
-					className={classNames(
+					className={clsx(
 						'absolute -inset-x-8 inset-y-0 -z-10 transform-gpu rounded-full blur-xl',
 						className,
 					)}

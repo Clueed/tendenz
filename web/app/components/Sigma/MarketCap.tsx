@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { getMarketCapCategory } from '../../lib/getMarketCapCategory'
 import Pop from '../Pop'
 import { PopLearnMore } from '../PopLearnMore'
@@ -28,7 +28,7 @@ export function MarketCap({
 			}
 		>
 			<Tag
-				className={classNames(
+				className={clsx(
 					'tracking-widest',
 					'hover:bg-slate-a5 hover:text-slate-12',
 					'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
