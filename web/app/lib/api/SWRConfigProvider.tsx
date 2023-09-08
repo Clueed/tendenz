@@ -2,7 +2,7 @@
 import React from 'react'
 import { SWRConfig } from 'swr'
 
-export const fetcher = async (url: string) => {
+export async function fetcher<T>(url: string) {
 	const res = await fetch(url)
 
 	//console.info('res :>> ', res)
@@ -18,7 +18,7 @@ export const fetcher = async (url: string) => {
 		throw error
 	}
 
-	return {}
+	return res.json() as T
 }
 
 // @ts-ignore
