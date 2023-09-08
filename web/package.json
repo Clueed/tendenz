@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "analyze-bundle": "ANALYZE=true next build"
   },
   "dependencies": {
     "@radix-ui/colors": "^2.1.0",
