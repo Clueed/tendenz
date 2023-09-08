@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import Link from 'next/link'
-import ChevronRight from './ChevronRight'
+import ChevronRight from './Sigma/ChevronRight'
 
 const colors = {
 	indigo: {

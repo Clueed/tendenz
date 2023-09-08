@@ -1,6 +1,6 @@
-import StockTypeToggleDataWrapper from '../StockTypeToggleDataWrapper'
 import MarketCapFilter from './MarketCapFilter'
 import MarketCapFilterLabel from './MarketCapFilterLabel'
+import StockTypeToggleDataWrapper from './StockTypeToggleDataWrapper'
 export function FilterCluster({}) {
 	return (
 		<div className="mb-[2vh] mt-[1vh] grid grid-cols-default">

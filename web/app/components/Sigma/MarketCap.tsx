@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { getMarketCapCategory } from '../../lib/getMarketCapCategory'
 import Pop from '../Pop'
-import { PopLearnMore } from './PopLearnMore'
+import { PopLearnMore } from '../PopLearnMore'
 import { Tag } from './Tag'
 
 export function MarketCap({

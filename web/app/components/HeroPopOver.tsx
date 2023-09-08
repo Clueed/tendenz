@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { ReactNode } from 'react'
 import Pop from './Pop'
-import { PopLearnMore } from './Sigma/PopLearnMore'
+import { PopLearnMore } from './PopLearnMore'
 export function HeroPopOver({
 	popoverText,
 	triggerText,
