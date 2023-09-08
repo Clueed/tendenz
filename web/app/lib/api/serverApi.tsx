@@ -1,9 +1,13 @@
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
 import { ApiQuery, getStocksURL } from './sharedApi'
 
+const cacheInterval = Number(process.env.REVALIDATE_INTERVAL) ?? 600
+
+console.debug('Next cache interval:', cacheInterval, 's')
+
 async function getData<T>(url: string) {
 	const res = await fetch(url, {
-		next: { revalidate: 600 },
+		next: { revalidate: cacheInterval },
 	})
 	return res.json() as Promise<T>
 }
