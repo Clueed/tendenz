@@ -1,5 +1,6 @@
 import { Result, err, ok } from 'neverthrow'
 import pLimit from 'p-limit'
+import { PLIMIT_CONFIG } from '../lib/PLIMIT_CONFIG.js'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import {
 	SingleAggsMapping,
@@ -68,7 +69,7 @@ export class SplitDetector {
 	}
 
 	private async handleSplits(splits: IStockSplitResults[]) {
-		const limit = pLimit(2)
+		const limit = pLimit(PLIMIT_CONFIG.dbBound)
 		const results = await Promise.all(
 			splits.map(async ({ ticker }) =>
 				limit(async () => {
@@ -108,7 +109,7 @@ export class SplitDetector {
 	}
 
 	private async updateTicker(dailys: SingleAggsMapping[], ticker: string) {
-		const limit = pLimit(5)
+		const limit = pLimit(PLIMIT_CONFIG.dbBound)
 		const updateResults = await Promise.all(
 			dailys.map(async daily =>
 				limit(async () => this.updateDailyWithRange(ticker, daily)),

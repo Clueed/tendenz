@@ -245,7 +245,7 @@ export class DatabaseApi {
 	async getTickersWithoutSigma(dates: Date[]) {
 		// considere doing the check for wso and scso with market cap instead
 
-		return this.prisma.usStocks.findMany({
+		const results = await this.prisma.usStocks.findMany({
 			where: {
 				AND: [
 					{ dailys: { some: { date: dates[0], sigma: null } } },
@@ -256,7 +256,14 @@ export class DatabaseApi {
 					{ shareClassSharesOutstanding: { not: null } },
 				],
 			},
+			select: {
+				ticker: true,
+			},
 		})
+
+		const tickers = results.map(({ ticker }) => ticker)
+
+		return tickers
 	}
 
 	async getMostRecentDates(daysMinus: number = 1) {

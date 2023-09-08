@@ -1,5 +1,6 @@
 import pLimit from 'p-limit'
 import { match } from 'ts-pattern'
+import { PLIMIT_CONFIG } from '../lib/PLIMIT_CONFIG.js'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { formatDateString } from '../lib/misc.js'
 
@@ -45,7 +46,7 @@ export class MarketCapCalculator {
 	async recalcMarketCaps(
 		dailys: { ticker: string; close: number; date: Date }[],
 	) {
-		const limit = pLimit(5)
+		const limit = pLimit(PLIMIT_CONFIG.dbBound)
 		const results = await Promise.all(
 			dailys.map(({ ticker, close, date }) =>
 				limit(async () => {
