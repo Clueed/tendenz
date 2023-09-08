@@ -36,7 +36,8 @@ const popoverContent = (
 			company&apos;s total value in the stock market.
 		</p>
 		<p className="mt-2">
-			Change the minimum value to see smaller/larger companies.
+			Drag the slider to see only companies within the selected market cap
+			range.
 		</p>
 		<div className="flex justify-end">
 			<PopLearnMore href="/docs/market-cap" color="slate" />
