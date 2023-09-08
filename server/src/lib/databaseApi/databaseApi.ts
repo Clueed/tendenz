@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
-import { stockTypeCode } from '@tendenz/types'
+import { PAGE_SIZE, stockTypeCode } from '@tendenz/types'
 export class DatabaseApi {
 	constructor(public prisma: PrismaClient) {}
 
@@ -274,9 +274,9 @@ export class DatabaseApi {
 	async getToday(
 		page: number,
 		date: Date,
-		minMarketCap?: number,
+		marketCap?: { min?: number; max?: number },
 		types?: stockTypeCode[] | undefined,
-		pageSize: number = 10,
+		pageSize: number = PAGE_SIZE,
 	) {
 		const skip = page * pageSize
 		const res = await this.prisma.usStockDaily.findMany({
@@ -284,7 +284,9 @@ export class DatabaseApi {
 				sigmaAbs: 'desc',
 			},
 			where: {
-				marketCap: { gte: minMarketCap } || { not: null },
+				marketCap: { gte: marketCap?.min, lte: marketCap?.max } || {
+					not: null,
+				},
 				date: date,
 				UsStocks: {
 					name: { not: null },

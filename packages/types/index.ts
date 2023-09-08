@@ -151,3 +151,5 @@ export const stockTypes = {
 };
 
 export type stockTypeCode = keyof typeof stockTypes;
+
+export const PAGE_SIZE = 10;

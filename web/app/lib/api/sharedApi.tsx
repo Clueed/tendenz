@@ -1,3 +1,4 @@
+import { MarketCapFilter } from '@/app/components/FilterContextProvider'
 import { TYPE_GROUPS, TypeGroupLabel } from '../MARKET_CAP_BUCKETS'
 
 const BASE_URL =
@@ -5,23 +6,35 @@ const BASE_URL =
 
 export type ApiQuery = {
 	page?: number
-	minMarketCap?: number
-	typeGroups?: TypeGroupLabel[]
+	marketCap?: MarketCapFilter
+	typeLabels?: TypeGroupLabel[]
 }
 
+const filterFalseAndUndefined = (obj: any) => obj !== false && obj !== undefined
+
 export const getStocksURL = (querry?: ApiQuery) => {
-	const { typeGroups, minMarketCap, page } = querry ?? {}
+	const { typeLabels, marketCap, page } = querry ?? {}
 
-	const types = typeGroupsLabelToTypes(typeGroups ?? [])
+	const types = typeLabels && typeGroupsLabelToTypes(typeLabels)
+	const stockTypesStrings = types?.map(type => 'type=' + type) || []
 
-	const stockTypesStrings = types ? types.map(type => 'type=' + type) : ''
-	const minMarketCapString = minMarketCap ? 'minMarketCap=' + minMarketCap : ''
+	const minMarketCapString =
+		marketCap?.min && marketCap?.min !== 0 && 'minMarketCap=' + marketCap?.min
+	const maxMarketCapString =
+		marketCap?.max &&
+		marketCap?.max !== Infinity &&
+		'maxMarketCap=' + marketCap?.max
 
-	const appendStrings = [minMarketCapString, ...stockTypesStrings]
-	const appendString = appendStrings.join('&')
+	const appendStrings = [
+		minMarketCapString,
+		maxMarketCapString,
+		...stockTypesStrings,
+	]
+
+	const appendString = appendStrings.filter(filterFalseAndUndefined).join('&')
 
 	const url = BASE_URL + `/us-stocks/daily/${page || ''}?` + appendString
-	//console.debug('url :>> ', url)
+	console.debug('url :>> ', url)
 	return url
 }
 

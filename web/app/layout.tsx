@@ -30,7 +30,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en" className="dark-theme">
+		<html lang="en" className="dark-theme w-full overflow-x-hidden">
 			<head>
 				<title>Tendenz - Skip past the noise</title>
 				<link
@@ -74,7 +74,7 @@ export default function RootLayout({
 				className={classNames(
 					dmSans.variable,
 					dmMono.variable,
-					'relative flex h-full min-h-screen flex-col bg-slate-1 font-sans text-slate-12',
+					'relative flex h-full w-full flex-col overflow-x-clip bg-slate-1 font-sans text-slate-12',
 				)}
 			>
 				<NavigationBar />
@@ -93,8 +93,8 @@ export default function RootLayout({
 					{
 						// Middle
 					}
-					<div className="absolute right-0 top-[62rem] h-[50vw] w-[50vw] translate-x-1/2 rounded-full bg-sky-a3 dark:opacity-50" />
-					<div className="absolute left-0 top-[40rem] h-[50vw] w-[50vw] -translate-x-1/2 rounded-full bg-indigo-a4 dark:opacity-50" />
+					<div className="absolute right-0 top-[40rem] h-[50vw] w-[50vw] translate-x-1/2 rounded-full bg-sky-a3 dark:opacity-50" />
+					<div className="absolute left-0 top-[62rem] h-[50vw] w-[50vw] -translate-x-1/2 rounded-full bg-indigo-a4 dark:opacity-50" />
 					{
 						// Middle 2 (coming soon)
 					}

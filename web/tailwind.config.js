@@ -46,7 +46,9 @@ module.exports = {
 			]),
 			black: generateScale('black', true),
 			white: generateScale('white', true),
+			transparent: '#00000000',
 		},
+		screens: require('./tailwind-screens.config'),
 		extend: {
 			fontSize: {
 				xxs: ['0.64rem', { lineHeight: '1rem' }],

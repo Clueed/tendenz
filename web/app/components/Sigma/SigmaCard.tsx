@@ -26,11 +26,10 @@ export default function SigmaCard({
 						'group-hover/card:bg-slate-a3': !expanded,
 					},
 					{
-						'bg-gradient-to-br from-lime-a3 to-teal-a4 shadow':
-							expanded && positive,
+						'bg-gradient-to-br from-lime-a3 to-teal-a4': expanded && positive,
 					},
 					{
-						'bg-gradient-to-br from-orange-a3 to-purple-a4 shadow':
+						'bg-gradient-to-br from-orange-a3 to-purple-a4':
 							expanded && !positive,
 					},
 				)}
@@ -41,7 +40,7 @@ export default function SigmaCard({
 						expanded={expanded}
 						name={entry.name}
 						sigma={entry.sigma}
-						marketCap={entry.marketCap as number}
+						marketCap={entry.marketCap}
 						ticker={entry.ticker}
 						type={entry.type}
 					/>

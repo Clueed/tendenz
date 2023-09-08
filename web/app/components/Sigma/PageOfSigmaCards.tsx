@@ -1,6 +1,6 @@
 'use client'
 
-import { MARKET_CAP_BUCKETS } from '@/app/lib/MARKET_CAP_BUCKETS'
+import { PAGE_SIZE } from '@tendenz/types'
 import { Variants, motion } from 'framer-motion'
 import { useContext } from 'react'
 import { useSigmaYesterday } from '../../lib/api/clientApi'
@@ -44,22 +44,18 @@ export function PageOfSigmaCards({
 	last: boolean
 	handleNextPage: () => void
 }) {
-	const { marketCapKey, typeLabels } = useContext(FilterContext)
-
-	const minMarketCap = MARKET_CAP_BUCKETS.filter(
-		bucket => bucket.label === marketCapKey,
-	)[0].minMarketCap
+	const { typeLabels, marketCap } = useContext(FilterContext)
 
 	const { data, isLoading, error, isValidating } = useSigmaYesterday({
-		minMarketCap,
+		marketCap,
 		page,
-		typeGroups: typeLabels,
+		typeLabels: typeLabels,
 	})
 
-	if (data && data.length > 0) {
+	if (data) {
 		return (
 			<>
-				{data.map((entry, index) => (
+				{data.map(entry => (
 					<motion.div
 						layout
 						key={entry.ticker}
@@ -71,8 +67,8 @@ export function PageOfSigmaCards({
 						<SigmaCard entry={entry} expanded={expandedKey === entry.ticker} />
 					</motion.div>
 				))}
-				{last && (
-					<div className="mt-10">
+				{last && data.length >= PAGE_SIZE && (
+					<div className="my-10">
 						<NextPageButton
 							handleNextPage={handleNextPage}
 							isLoading={isLoading}
