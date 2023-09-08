@@ -32,9 +32,6 @@ export function SigmaAccordion({}: {}) {
 		/>
 	))
 
-	console.log('pages :>> ', [...Array(pageIndex).keys()])
-	console.log('pageIndex :>> ', pageIndex)
-
 	return (
 		<div className="grid-cols-default sm:grid">
 			<div

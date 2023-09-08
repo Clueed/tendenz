@@ -27,6 +27,7 @@ export default async function Home() {
 	const minMarketCap = MARKET_CAP_BUCKETS.filter(
 		bucket => bucket.label === DEFAULT_MARKET_CAP_LABEL,
 	)[0].minMarketCap
+
 	const selectTypesGroups: TypeGroupLabel[][] = [
 		DEFAULT_TYPE_GROUP_LABELS,
 		['stocks', 'ETFs'],

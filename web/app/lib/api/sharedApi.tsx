@@ -13,22 +13,21 @@ export type ApiQuery = {
 export const getStocksURL = (querry?: ApiQuery) => {
 	const { typeGroups, marketCap, page } = querry ?? {}
 
-	const types = typeGroupsLabelToTypes(typeGroups ?? [])
+	const types = typeGroups && typeGroupsLabelToTypes(typeGroups)
+	const stockTypesStrings = types?.map(type => 'type=' + type) || []
 
-	const stockTypesStrings = types ? types.map(type => 'type=' + type) : ''
-	const minMarketCapString = marketCap?.min
-		? 'minMarketCap=' + marketCap?.min
-		: ''
-
+	const minMarketCapString =
+		marketCap?.min !== 0 && 'minMarketCap=' + marketCap?.min
 	const maxMarketCapString =
-		marketCap?.max !== Infinity ? 'maxMarketCap=' + marketCap?.max : ''
+		marketCap?.max !== Infinity && 'maxMarketCap=' + marketCap?.max
 
 	const appendStrings = [
 		minMarketCapString,
 		maxMarketCapString,
 		...stockTypesStrings,
 	]
-	const appendString = appendStrings.join('&')
+
+	const appendString = appendStrings.filter(Boolean).join('&')
 
 	const url = BASE_URL + `/us-stocks/daily/${page || ''}?` + appendString
 	console.debug('url :>> ', url)
