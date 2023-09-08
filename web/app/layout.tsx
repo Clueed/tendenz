@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { DM_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Footer } from './Footer'
@@ -71,7 +71,7 @@ export default function RootLayout({
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 			</head>
 			<body
-				className={classNames(
+				className={clsx(
 					dmSans.variable,
 					dmMono.variable,
 					'relative flex h-full w-full flex-col overflow-x-clip bg-slate-1 font-sans text-slate-12',

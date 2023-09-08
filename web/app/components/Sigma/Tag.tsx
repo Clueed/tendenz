@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { ReactNode } from 'react'
 
 export function Tag({
@@ -12,7 +12,7 @@ export function Tag({
 		<>
 			{' '}
 			<span
-				className={classNames(
+				className={clsx(
 					'rounded-md bg-slate-a3 px-2 py-1 text-[0.6em] text-slate-11',
 					className,
 				)}

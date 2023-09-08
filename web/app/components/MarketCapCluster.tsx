@@ -1,6 +1,6 @@
 'use client'
-import classNames from 'classnames'
+import clsx from 'clsx'
 
 export default function MarketCapCluster({}: {}) {
-	return <div className={classNames('')}></div>
+	return <div className={clsx('')}></div>
 }

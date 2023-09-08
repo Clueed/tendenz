@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { ReactNode } from 'react'
 import Pop from './Pop'
 import { PopLearnMore } from './PopLearnMore'
@@ -26,7 +26,7 @@ export function HeroPopOver({
 			}
 		>
 			<span
-				className={classNames(
+				className={clsx(
 					'border-b-2 border-slate-a7 transition-colors duration-500 hover:border-slate-a9 hover:text-slate-a12',
 					'group-radix-state-open:border-indigo-a8 group-radix-state-open:text-indigo-12',
 				)}

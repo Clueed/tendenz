@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { hoursUntilNextWeekdayHour } from '../lib/hoursUntilNextWeekdayHour'
 import IconClock from './IconClock'
 import Pop from './Pop'
@@ -21,7 +21,7 @@ export default function Timer() {
 		>
 			{open => (
 				<div
-					className={classNames(
+					className={clsx(
 						'flex items-center gap-2 rounded-md stroke-2 px-2 py-1 text-sm transition-all',
 						{
 							'bg-slate-a2 text-slate-a11 duration-500 hover:bg-slate-a4 hover:shadow-lg group-hover:bg-slate-a4':

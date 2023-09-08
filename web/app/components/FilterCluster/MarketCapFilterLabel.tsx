@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import Pop from '../Pop'
 import { PopLearnMore } from '../PopLearnMore'
 
@@ -6,7 +6,7 @@ export default function MarketCapFilterLabel({}: {}) {
 	return (
 		<Pop popoverColor="slate" offset={0} popoverContent={popoverContent}>
 			<span
-				className={classNames(
+				className={clsx(
 					'text-xxs uppercase tracking-wider text-slate-10 transition-colors duration-500',
 					'leading-none group-radix-state-open:text-slate-12',
 				)}

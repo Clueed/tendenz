@@ -1,19 +1,19 @@
 'use client'
 import * as Popover from '@radix-ui/react-popover'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ReactNode, useState } from 'react'
 
 const colors = {
 	indigo: {
-		popClassNames: 'bg-gradient-to-br from-indigo-11 to-indigo-12',
-		arrowClassNames: 'fill-indigo-11',
-		contentClassNames: 'text-indigo-1',
+		popclsx: 'bg-gradient-to-br from-indigo-11 to-indigo-12',
+		arrowclsx: 'fill-indigo-11',
+		contentclsx: 'text-indigo-1',
 	},
 	slate: {
-		popClassNames: 'bg-gradient-to-br from-slate-11 to-slate-12',
-		arrowClassNames: 'fill-slate-11',
-		contentClassNames: 'text-slate-1',
+		popclsx: 'bg-gradient-to-br from-slate-11 to-slate-12',
+		arrowclsx: 'fill-slate-11',
+		contentclsx: 'text-slate-1',
 	},
 } as const
 
@@ -30,7 +30,7 @@ export default function Pop({
 		| ((open: boolean) => ReactNode | ReactNode[])
 	popoverContent: ReactNode | ReactNode[]
 	popoverColor: keyof typeof colors
-	popoverContainerClassNames?: string
+	popoverContainerclsx?: string
 	offset: number
 	rootClassName?: string
 }) {
@@ -43,7 +43,7 @@ export default function Pop({
 					setOpen(!open)
 					e.preventDefault()
 				}}
-				className={classNames(
+				className={clsx(
 					'group !inline appearance-none leading-none',
 					rootClassName,
 				)}
@@ -68,23 +68,23 @@ export default function Pop({
 									transition: { type: 'spring', duration: 0.5 },
 								}}
 								exit={{ y: '-10%', opacity: 0 }}
-								className={classNames(
+								className={clsx(
 									'z-50 rounded-lg',
-									colors[popoverColor].popClassNames,
+									colors[popoverColor].popclsx,
 								)}
 							>
 								<div className="noise-bg absolute inset-0 -z-10 rounded-lg opacity-75" />
 								<div
-									className={classNames(
+									className={clsx(
 										'rounded-lg px-5 py-4',
-										colors[popoverColor].contentClassNames,
+										colors[popoverColor].contentclsx,
 									)}
 								>
 									{popoverContent}
 								</div>
 								<Popover.Arrow
-									className={classNames(
-										colors[popoverColor].arrowClassNames,
+									className={clsx(
+										colors[popoverColor].arrowclsx,
 										'drop-shadow-2xl',
 									)}
 								/>

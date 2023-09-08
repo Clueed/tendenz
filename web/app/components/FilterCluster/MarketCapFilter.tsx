@@ -1,6 +1,6 @@
 'use client'
 import * as Slider from '@radix-ui/react-slider'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { HTMLAttributes, ReactNode, useContext } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { FilterContext } from '../FilterContextProvider'
@@ -122,7 +122,7 @@ const ThumbLabel = ({
 }) => (
 	<div
 		{...props}
-		className={classNames(
+		className={clsx(
 			className,
 			'absolute inset-0 flex -translate-y-5 items-center transition-all',
 			{ 'justify-center': alignToThumb === 'center' },

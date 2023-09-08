@@ -1,5 +1,5 @@
 import { stockTypeCode, stockTypes } from '@tendenz/types'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ReactNode, useEffect, useState } from 'react'
 import Pop from '../Pop'
@@ -56,7 +56,7 @@ export function SigmaCardHeader({
 				</div>
 				<div className="ml-1 flex flex-col text-xl">
 					<div
-						className={classNames('-my-1 text-xxs opacity-90', {
+						className={clsx('-my-1 text-xxs opacity-90', {
 							'text-red-a11': sigma < 0,
 							'text-green-a11': sigma > 0,
 						})}
@@ -81,7 +81,7 @@ export function SigmaCardHeader({
 				}}
 				className={'overflow-hidden pr-5 text-left text-xl'}
 			>
-				<div className={classNames({ truncate: expanded ? false : trunc })}>
+				<div className={clsx({ truncate: expanded ? false : trunc })}>
 					<span className="mr-1 text-slate-11">{ticker}</span>
 					{'  '}
 					<span className="text-slate-12">{nameWithoutTypesAndParan}</span>
@@ -94,7 +94,7 @@ export function SigmaCardHeader({
 									text={stockTypes[type].description}
 								>
 									<Tag
-										className={classNames(
+										className={clsx(
 											'hover:bg-slate-a5 hover:text-slate-12',
 											'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
 										)}

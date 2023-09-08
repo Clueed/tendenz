@@ -1,4 +1,4 @@
-import classNames from 'classnames'
+import clsx from 'clsx'
 import Link from 'next/link'
 import ChevronRight from './Sigma/ChevronRight'
 
@@ -21,7 +21,7 @@ export function PopLearnMore({
 	return (
 		<Link href={href}>
 			<div
-				className={classNames(
+				className={clsx(
 					'-mb-1 -mr-1 mt-2 flex items-center gap-2 rounded-md  px-3 py-1 text-sm transition-all  hover:shadow-xl',
 					colors[color].button,
 				)}

@@ -1,5 +1,5 @@
 import { tendenzApiSigmaYesterdayDay } from '@tendenz/types'
-import classNames from 'classnames'
+import clsx from 'clsx'
 import { useMemo } from 'react'
 import { npl } from '../../lib/naturalLanguageProcessing'
 import { YahooButton } from './YahooButton'
@@ -37,7 +37,7 @@ export function SigmaCardBody({
 			</div>
 
 			<div
-				className={classNames(
+				className={clsx(
 					'col-start-3 row-start-1 text-xl',
 					//dailyReturnColor
 				)}
