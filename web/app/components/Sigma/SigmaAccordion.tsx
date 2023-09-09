@@ -1,5 +1,6 @@
 'use client'
 
+import { useSigmaYesterdayInfinite } from '@/app/lib/api/clientApi'
 import * as Accordion from '@radix-ui/react-accordion'
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
@@ -20,6 +21,10 @@ export function SigmaAccordion({}: {}) {
 		const nextPage = pageIndex + 1
 		setPageIndex(nextPage)
 	}
+
+	const { data, size, setSize } = useSigmaYesterdayInfinite()
+
+	console.log('pages2 :>> ', data)
 
 	const pages = [...Array(pageIndex).keys()].map(key => (
 		<PageOfSigmaCards
