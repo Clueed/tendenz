@@ -1,15 +1,17 @@
 'use client'
+import { FilterContext } from '@/app/components/FilterContextProvider'
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
+import { useContext } from 'react'
 import useSWR, { SWRResponse, preload } from 'swr'
 import { fetcher } from './SWRConfigProvider'
-import { ApiQuery, getStocksURL } from './sharedApi'
+import { getStocksURL } from './sharedApi'
 
 export function useSigmaYesterday(
-	query?: ApiQuery,
+	pageIndex: number,
 ): SWRResponse<tendenzApiSigmaYesterday[], any, any> {
-	const url = getStocksURL(query)
-	const { page, ...rest } = query ?? {}
-	preload(getStocksURL({ ...rest, page: page || 1 }), fetcher)
+	const { marketCap, typeLabels } = useContext(FilterContext)
+	const url = getStocksURL({ marketCap, typeLabels, page: pageIndex })
+	preload(getStocksURL({ marketCap, typeLabels, page: pageIndex + 1 }), fetcher)
 
 	return useSWR<tendenzApiSigmaYesterday[]>(url)
 }

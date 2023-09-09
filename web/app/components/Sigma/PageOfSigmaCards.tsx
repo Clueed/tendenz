@@ -3,9 +3,8 @@
 import { PAGE_SIZE } from '@tendenz/types'
 import clsx from 'clsx'
 import { Variants, motion } from 'framer-motion'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSigmaYesterday } from '../../lib/api/clientApi'
-import { FilterContext } from '../FilterContextProvider'
 import { LoadingError } from './LoadingError'
 import { NextPageButton } from './NextPageButton'
 import SigmaCard from './SigmaCard'
@@ -45,13 +44,7 @@ export function PageOfSigmaCards({
 	last: boolean
 	handleNextPage: () => void
 }) {
-	const { typeLabels, marketCap } = useContext(FilterContext)
-
-	const { data, isLoading, error, isValidating } = useSigmaYesterday({
-		marketCap,
-		page,
-		typeLabels: typeLabels,
-	})
+	const { data, isLoading, error, isValidating } = useSigmaYesterday(page)
 
 	const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false)
 

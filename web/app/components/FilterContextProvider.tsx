@@ -23,11 +23,15 @@ export const FilterContext = createContext<{
 	setMarketCap: Dispatch<SetStateAction<MarketCapFilter>>
 	typeLabels: (typeof TYPE_GROUPS)[number]['label'][]
 	setTypeLabels: Dispatch<SetStateAction<TypeGroupLabel[]>>
+	pageIndex: number
+	setPageIndex: Dispatch<SetStateAction<number>>
 }>({
 	marketCap: DEFAULT_MARKET_CAP,
 	setMarketCap: () => {},
 	typeLabels: DEFAULT_TYPE_GROUP_LABELS,
 	setTypeLabels: () => {},
+	pageIndex: 0,
+	setPageIndex: () => {},
 })
 
 export default function FilterContextProvider({
@@ -40,6 +44,7 @@ export default function FilterContextProvider({
 	const [typeLabels, setTypeLabels] = useState<TypeGroupLabel[]>(
 		DEFAULT_TYPE_GROUP_LABELS,
 	)
+	const [pageIndex, setPageIndex] = useState<number>(0)
 
 	return (
 		<FilterContext.Provider
@@ -48,6 +53,8 @@ export default function FilterContextProvider({
 				setMarketCap,
 				typeLabels,
 				setTypeLabels,
+				pageIndex,
+				setPageIndex,
 			}}
 		>
 			{children}
