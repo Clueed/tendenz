@@ -47,10 +47,8 @@ export default function SWRConfigProvider({
 			value={{
 				fallback,
 				fetcher,
-				revalidateIfStale: false,
 				focusThrottleInterval: 60000,
 				keepPreviousData: true,
-				revalidateOnMount: false,
 			}}
 		>
 			{children}

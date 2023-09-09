@@ -1,8 +1,9 @@
 'use client'
 
 import { PAGE_SIZE } from '@tendenz/types'
+import clsx from 'clsx'
 import { Variants, motion } from 'framer-motion'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useSigmaYesterday } from '../../lib/api/clientApi'
 import { FilterContext } from '../FilterContextProvider'
 import { LoadingError } from './LoadingError'
@@ -52,6 +53,20 @@ export function PageOfSigmaCards({
 		typeLabels: typeLabels,
 	})
 
+	const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false)
+
+	const handleAnimationIteration = () => {
+		if (!isLoading) {
+			setLoadingAnimation(false)
+		}
+	}
+
+	useEffect(() => {
+		if (isLoading) {
+			setLoadingAnimation(true)
+		}
+	}, [isLoading, data])
+
 	if (data && data.length > 0) {
 		return (
 			<>
@@ -64,7 +79,12 @@ export function PageOfSigmaCards({
 						animate="animate"
 						exit="exit"
 					>
-						<SigmaCard entry={entry} expanded={expandedKey === entry.ticker} />
+						<SigmaCard
+							entry={entry}
+							expanded={expandedKey === entry.ticker}
+							onAnimationIteration={handleAnimationIteration}
+							className={clsx(loadingAnimation && 'animate-pulse')}
+						/>
 					</motion.div>
 				))}
 				{last && data.length >= PAGE_SIZE && (

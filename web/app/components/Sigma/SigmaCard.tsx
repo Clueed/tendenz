@@ -8,9 +8,13 @@ import { SigmaCardHeader } from './SigmaCardHeader'
 export default function SigmaCard({
 	entry,
 	expanded,
+	className,
+	onAnimationIteration,
 }: {
 	entry: tendenzApiSigmaYesterday
 	expanded: boolean
+	className?: string
+	onAnimationIteration?: () => void
 }) {
 	const positive = entry.sigma > 0
 
@@ -19,7 +23,9 @@ export default function SigmaCard({
 			value={entry.ticker}
 			className={clsx(
 				'group/card relative mb-2 grid grid-cols-default py-3 transition-opacity',
+				className,
 			)}
+			onAnimationIteration={onAnimationIteration}
 		>
 			<div
 				className={clsx(
