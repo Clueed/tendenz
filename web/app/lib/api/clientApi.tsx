@@ -19,7 +19,6 @@ export function useSigmaYesterday(
 
 export function useSigmaYesterdayInfinite() {
 	const { marketCap, typeLabels } = useContext(FilterContext)
-	//const url = getStocksURL({ marketCap, typeLabels, page: pageIndex })
 
 	return useSWRInfinite<tendenzApiSigmaYesterday[]>(
 		(pageIndex, previousPageData) => {

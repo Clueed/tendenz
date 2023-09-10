@@ -49,6 +49,7 @@ export default function SWRConfigProvider({
 				fetcher,
 				focusThrottleInterval: 60000,
 				keepPreviousData: true,
+				revalidateOnMount: false,
 			}}
 		>
 			{children}
