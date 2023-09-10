@@ -2,47 +2,32 @@
 
 import { useSigmaYesterdayInfinite } from '@/app/lib/api/clientApi'
 import * as Accordion from '@radix-ui/react-accordion'
+import { PAGE_SIZE, tendenzApiSigmaYesterday } from '@tendenz/types'
 import clsx from 'clsx'
-import { AnimatePresence, Variants, motion } from 'framer-motion'
-import { useContext, useEffect, useState } from 'react'
-import { FilterContext } from '../FilterContextProvider'
-import { PageOfSigmaCards } from './PageOfSigmaCards'
-import SigmaCard from './SigmaCard'
+import { AnimatePresence, Variants } from 'framer-motion'
+import { useState } from 'react'
+import { NextPageButton } from './NextPageButton'
+import { SigmaCard } from './SigmaCard'
 
 export function SigmaAccordion({}: {}) {
-	const { marketCap, typeLabels } = useContext(FilterContext)
-	useEffect(() => {
-		setPageIndex(1)
-	}, [marketCap, typeLabels])
-
 	const [expandedKey, setExpandedKey] = useState<string>('')
 
-	const [pageIndex, setPageIndex] = useState<number>(1)
-	function handleNextPage() {
-		const nextPage = pageIndex + 1
-		setPageIndex(nextPage)
-	}
+	const { data, mutate, size, setSize, isValidating, isLoading } =
+		useSigmaYesterdayInfinite()
 
-	const { data, size, setSize } = useSigmaYesterdayInfinite()
-
-	console.log('pages2 :>> ', data)
-
-	const pages = [...Array(pageIndex).keys()].map(key => (
-		<PageOfSigmaCards
-			page={key}
-			key={key}
-			expandedKey={expandedKey}
-			last={key === pageIndex - 1}
-			handleNextPage={handleNextPage}
-		/>
-	))
+	const cards = data ? ([] as tendenzApiSigmaYesterday[]).concat(...data) : []
+	const isLoadingMore =
+		isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined')
+	const isEmpty = data?.[0]?.length === 0
+	const isReachingEnd =
+		isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE)
 
 	return (
 		<div className="grid-cols-default sm:grid">
 			<div
 				className={clsx(
 					'col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll px-2 py-2 transition-all duration-1000 sm:rounded-2xl',
-					pageIndex > 1 &&
+					size > 1 &&
 						'bg-gradient-to-b from-slate-a2 via-transparent to-slate-a2',
 				)}
 			>
@@ -52,29 +37,25 @@ export function SigmaAccordion({}: {}) {
 					onValueChange={o => setExpandedKey(o)}
 					className=""
 				>
-					<AnimatePresence initial={false}>
+					<AnimatePresence initial={false} mode="popLayout">
 						{data &&
-							data.map(page =>
-								page.map(entry => (
-									<motion.div
-										layout
-										key={entry.ticker}
-										variants={variants}
-										initial="initial"
-										animate="animate"
-										exit="exit"
-									>
-										<SigmaCard
-											entry={entry}
-											expanded={expandedKey === entry.ticker}
-											onAnimationIteration={() => {}}
-											className={clsx(false && 'animate-pulse')}
-										/>
-									</motion.div>
-								)),
-							)}
+							cards.map(card => (
+								<SigmaCard
+									key={card.ticker}
+									entry={card}
+									expanded={expandedKey === card.ticker}
+									onAnimationIteration={() => {}}
+									className={clsx(false && 'animate-pulse')}
+								/>
+							))}
 					</AnimatePresence>
 				</Accordion.Root>
+				<div className="my-10">
+					<NextPageButton
+						handleNextPage={() => setSize(size + 1)}
+						isLoading={isLoading}
+					/>
+				</div>
 			</div>
 		</div>
 	)
