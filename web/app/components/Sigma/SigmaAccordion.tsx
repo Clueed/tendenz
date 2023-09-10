@@ -3,10 +3,11 @@
 import { useSigmaYesterdayInfinite } from '@/app/lib/api/clientApi'
 import * as Accordion from '@radix-ui/react-accordion'
 import clsx from 'clsx'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, Variants, motion } from 'framer-motion'
 import { useContext, useEffect, useState } from 'react'
 import { FilterContext } from '../FilterContextProvider'
 import { PageOfSigmaCards } from './PageOfSigmaCards'
+import SigmaCard from './SigmaCard'
 
 export function SigmaAccordion({}: {}) {
 	const { marketCap, typeLabels } = useContext(FilterContext)
@@ -51,9 +52,54 @@ export function SigmaAccordion({}: {}) {
 					onValueChange={o => setExpandedKey(o)}
 					className=""
 				>
-					<AnimatePresence initial={false}>{pages}</AnimatePresence>
+					<AnimatePresence initial={false}>
+						{data &&
+							data.map(page =>
+								page.map(entry => (
+									<motion.div
+										layout
+										key={entry.ticker}
+										variants={variants}
+										initial="initial"
+										animate="animate"
+										exit="exit"
+									>
+										<SigmaCard
+											entry={entry}
+											expanded={expandedKey === entry.ticker}
+											onAnimationIteration={() => {}}
+											className={clsx(false && 'animate-pulse')}
+										/>
+									</motion.div>
+								)),
+							)}
+					</AnimatePresence>
 				</Accordion.Root>
 			</div>
 		</div>
 	)
+}
+
+const transition = {
+	type: 'spring',
+	duration: 1,
+	bounce: 0.35,
+}
+
+export const variants: Variants = {
+	initial: {
+		x: '2.5vw',
+		opacity: 0,
+		transition,
+	},
+	animate: {
+		x: 0,
+		opacity: 1,
+		transition,
+	},
+	exit: {
+		x: '-2.5vw',
+		opacity: 0,
+		transition,
+	},
 }
