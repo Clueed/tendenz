@@ -15,7 +15,7 @@ export function SigmaAccordion({}: {}) {
 
 	const { marketCap, typeLabels } = useContext(FilterContext)
 
-	const { data, mutate, size, setSize, isValidating, isLoading } =
+	const { data, mutate, size, setSize, isValidating, isLoading, error } =
 		useSigmaYesterdayInfinite()
 
 	const cards = useMemo(
@@ -52,25 +52,32 @@ export function SigmaAccordion({}: {}) {
 					'relative col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll px-2 py-2 transition-all duration-1000 sm:rounded-2xl',
 					size > 1 && 'bg-slate-a2',
 					loadingAnimation && 'bg-slate-a2',
+					error && 'bg-tomato-a3',
 				)}
-				//onAnimationIteration={handleAnimationIteration}
 			>
-				{loadingAnimation && (
-					<>
-						<div className="absolute top-0 flex w-full justify-center">
-							<div
-								className="left-0 h-[1px] transform-gpu animate-border-width rounded-full bg-gradient-to-r from-transparent via-slate-a10 to-transparent transition-all"
-								onAnimationIteration={handleAnimationIteration}
-							/>
-						</div>
-						<div className="absolute bottom-0 flex w-full justify-center">
-							<div
-								className="left-0 h-[1px] transform-gpu animate-border-width rounded-full bg-gradient-to-r from-transparent via-slate-a10 to-transparent transition-all"
-								onAnimationIteration={handleAnimationIteration}
-							/>
-						</div>
-					</>
-				)}
+				<div
+					className={clsx(
+						'absolute inset-0 flex w-full flex-col items-center justify-between',
+						loadingAnimation ? 'flex' : 'hidden',
+					)}
+				>
+					<div
+						className={clsx(
+							'left-0 h-[1px] rounded-full bg-gradient-to-r from-transparent via-slate-a10 to-transparent transition-all',
+							loadingAnimation && 'animate-border-width',
+						)}
+						onAnimationIteration={handleAnimationIteration}
+					/>
+
+					<div
+						className={clsx(
+							'left-0 h-[1px] rounded-full bg-gradient-to-r from-transparent via-slate-a10 to-transparent transition-all',
+							loadingAnimation && 'animate-border-width',
+						)}
+						onAnimationIteration={handleAnimationIteration}
+					/>
+				</div>
+
 				<Accordion.Root
 					collapsible
 					type="single"
