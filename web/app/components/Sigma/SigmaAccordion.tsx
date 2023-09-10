@@ -5,12 +5,15 @@ import * as Accordion from '@radix-ui/react-accordion'
 import { PAGE_SIZE, tendenzApiSigmaYesterday } from '@tendenz/types'
 import clsx from 'clsx'
 import { AnimatePresence, Variants } from 'framer-motion'
-import { useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { FilterContext } from '../FilterContextProvider'
 import { NextPageButton } from './NextPageButton'
 import { SigmaCard } from './SigmaCard'
 
 export function SigmaAccordion({}: {}) {
 	const [expandedKey, setExpandedKey] = useState<string>('')
+
+	const { marketCap, typeLabels } = useContext(FilterContext)
 
 	const { data, mutate, size, setSize, isValidating, isLoading } =
 		useSigmaYesterdayInfinite()
@@ -28,9 +31,15 @@ export function SigmaAccordion({}: {}) {
 
 	const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false)
 
+	const isMounted = useRef(false)
+
 	useEffect(() => {
-		isLoadingMore && setLoadingAnimation(true)
-	}, [setLoadingAnimation, isLoadingMore])
+		if (isMounted.current) {
+			setLoadingAnimation(true)
+		} else {
+			isMounted.current = true
+		}
+	}, [marketCap, typeLabels])
 
 	const handleAnimationIteration = () => {
 		!isLoadingMore && setLoadingAnimation(false)
@@ -42,15 +51,30 @@ export function SigmaAccordion({}: {}) {
 				className={clsx(
 					'relative col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll px-2 py-2 transition-all duration-1000 sm:rounded-2xl',
 					size > 1 && 'bg-slate-a2',
-					loadingAnimation && 'animate-pulse bg-slate-a2',
+					loadingAnimation && 'bg-slate-a2',
 				)}
-				onAnimationIteration={handleAnimationIteration}
+				//onAnimationIteration={handleAnimationIteration}
 			>
+				{loadingAnimation && (
+					<>
+						<div className="absolute top-0 flex w-full justify-center">
+							<div
+								className="left-0 h-[1px] transform-gpu animate-border-width rounded-full bg-gradient-to-r from-transparent via-slate-a10 to-transparent transition-all"
+								onAnimationIteration={handleAnimationIteration}
+							/>
+						</div>
+						<div className="absolute bottom-0 flex w-full justify-center">
+							<div
+								className="left-0 h-[1px] transform-gpu animate-border-width rounded-full bg-gradient-to-r from-transparent via-slate-a10 to-transparent transition-all"
+								onAnimationIteration={handleAnimationIteration}
+							/>
+						</div>
+					</>
+				)}
 				<Accordion.Root
 					collapsible
 					type="single"
 					onValueChange={o => setExpandedKey(o)}
-					className=""
 				>
 					{
 						//isLoadingMore && 'isloading more'
@@ -62,8 +86,6 @@ export function SigmaAccordion({}: {}) {
 									key={card.ticker}
 									entry={card}
 									expanded={expandedKey === card.ticker}
-									onAnimationIteration={() => {}}
-									className={clsx(false && 'animate-pulse')}
 								/>
 							))}
 					</AnimatePresence>
