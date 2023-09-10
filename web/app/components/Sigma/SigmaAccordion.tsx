@@ -5,7 +5,7 @@ import * as Accordion from '@radix-ui/react-accordion'
 import { PAGE_SIZE, tendenzApiSigmaYesterday } from '@tendenz/types'
 import clsx from 'clsx'
 import { AnimatePresence, Variants } from 'framer-motion'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { NextPageButton } from './NextPageButton'
 import { SigmaCard } from './SigmaCard'
 
@@ -26,14 +26,25 @@ export function SigmaAccordion({}: {}) {
 	const isReachingEnd =
 		isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE)
 
+	const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false)
+
+	useEffect(() => {
+		isLoadingMore && setLoadingAnimation(true)
+	}, [setLoadingAnimation, isLoadingMore])
+
+	const handleAnimationIteration = () => {
+		!isLoadingMore && setLoadingAnimation(false)
+	}
+
 	return (
 		<div className="grid-cols-default sm:grid">
 			<div
 				className={clsx(
-					'col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll px-2 py-2 transition-all duration-1000 sm:rounded-2xl',
-					size > 1 &&
-						'bg-gradient-to-b from-slate-a2 via-transparent to-slate-a2',
+					'relative col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll px-2 py-2 transition-all duration-1000 sm:rounded-2xl',
+					size > 1 && 'bg-slate-a2',
+					loadingAnimation && 'animate-pulse bg-slate-a2',
 				)}
+				onAnimationIteration={handleAnimationIteration}
 			>
 				<Accordion.Root
 					collapsible
@@ -41,7 +52,9 @@ export function SigmaAccordion({}: {}) {
 					onValueChange={o => setExpandedKey(o)}
 					className=""
 				>
-					{isLoadingMore && 'isloading more'}
+					{
+						//isLoadingMore && 'isloading more'
+					}
 					<AnimatePresence initial={false} mode="popLayout">
 						{data &&
 							cards.map(card => (
