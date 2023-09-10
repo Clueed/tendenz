@@ -29,9 +29,7 @@ export default async function Home() {
 		},
 	)
 
-	const fallback = await getFallback([
-		{ marketCap: DEFAULT_MARKET_CAP, typeLabels: ['stocks'] },
-	])
+	const fallback = await getFallback(selectTypesDefaultMarketCap)
 
 	return (
 		<>

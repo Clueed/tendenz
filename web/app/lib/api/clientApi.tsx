@@ -20,11 +20,14 @@ export function useSigmaYesterday(
 export function useSigmaYesterdayInfinite() {
 	const { marketCap, typeLabels } = useContext(FilterContext)
 	//const url = getStocksURL({ marketCap, typeLabels, page: pageIndex })
-	//preload(getStocksURL({ marketCap, typeLabels, page: pageIndex + 1 }), fetcher)
 
 	return useSWRInfinite<tendenzApiSigmaYesterday[]>(
 		(pageIndex, previousPageData) => {
 			if (previousPageData && !previousPageData.length) return null
+			preload(
+				getStocksURL({ marketCap, typeLabels, page: pageIndex + 1 }),
+				fetcher,
+			)
 			return getStocksURL({ page: pageIndex, marketCap, typeLabels })
 		},
 	)
