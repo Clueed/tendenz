@@ -7,6 +7,7 @@ import clsx from 'clsx'
 import { AnimatePresence, Variants } from 'framer-motion'
 import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { FilterContext } from '../FilterContextProvider'
+import IconFire from '../IconFire'
 import { NextPageButton } from './NextPageButton'
 import { SigmaCard } from './SigmaCard'
 
@@ -49,7 +50,7 @@ export function SigmaAccordion({}: {}) {
 		<div className="grid-cols-default sm:grid">
 			<div
 				className={clsx(
-					'relative col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll px-2 py-2 transition-all duration-1000 sm:rounded-2xl',
+					'relative col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll transition-all duration-1000 sm:rounded-2xl',
 					size > 1 && 'bg-slate-a2',
 					loadingAnimation && 'bg-slate-a2',
 					error && 'bg-tomato-a3',
@@ -77,11 +78,18 @@ export function SigmaAccordion({}: {}) {
 						onAnimationIteration={handleAnimationIteration}
 					/>
 				</div>
+				{error && (
+					<div className="flex items-center justify-center gap-2 bg-red-a3 px-2 py-2 text-sm text-red-12">
+						<IconFire />
+						something went wrong...
+					</div>
+				)}
 
 				<Accordion.Root
 					collapsible
 					type="single"
 					onValueChange={o => setExpandedKey(o)}
+					className="px-2 py-2"
 				>
 					{
 						//isLoadingMore && 'isloading more'

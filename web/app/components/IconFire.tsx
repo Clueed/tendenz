@@ -6,12 +6,11 @@ export default function IconFire({ animationTrigger }: Props) {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			height="1.1em"
+			height="1em"
 			viewBox="0 0 448 512"
 			fill="currentColor"
 			aria-hidden="true"
 			focusable="false"
-			className="text-tomato-a11"
 		>
 			Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License
 			- https://fontawesome.com/license (Commercial License) Copyright 2023
