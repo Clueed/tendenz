@@ -1,4 +1,5 @@
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
+import { unstable_serialize } from 'swr/infinite'
 import { ApiQuery, getStocksURL } from './sharedApi'
 
 const cacheInterval = Number(process.env.REVALIDATE_INTERVAL) ?? 600
@@ -13,13 +14,17 @@ async function getData<T>(url: string) {
 }
 
 export async function getFallback(queries: ApiQuery[]) {
-	let fallback: { [key: string]: tendenzApiSigmaYesterday[] } = {}
+	let fallback: { [key: string]: tendenzApiSigmaYesterday[][] } = {}
 
 	await Promise.all(
-		queries.map(async query => {
-			const url = getStocksURL(query)
+		queries.map(async ({ marketCap, typeLabels }) => {
+			const url = getStocksURL({ marketCap, typeLabels, page: 0 })
+			const key = unstable_serialize(pageIndex =>
+				getStocksURL({ marketCap, typeLabels, page: pageIndex }),
+			)
 			try {
-				fallback[url] = await getData<tendenzApiSigmaYesterday[]>(url)
+				const data = await getData<tendenzApiSigmaYesterday[]>(url)
+				fallback[key] = [data]
 			} catch (e) {
 				console.error(e)
 			}

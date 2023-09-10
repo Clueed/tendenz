@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react'
 import { useSigmaYesterday } from '../../lib/api/clientApi'
 import { LoadingError } from './LoadingError'
 import { NextPageButton } from './NextPageButton'
-import SigmaCard from './SigmaCard'
 
 const transition = {
 	type: 'spring',

@@ -1,13 +1,11 @@
 'use client'
-import { useSigmaYesterday } from '../lib/api/clientApi'
+import { useSigmaYesterdayInfinite } from '../lib/api/clientApi'
 import { npl } from '../lib/naturalLanguageProcessing'
-
 import Timer from './Timer'
 
 export default function UsStocksHeader({}: {}) {
-	const { data } = useSigmaYesterday(0)
-
-	const lastDate = data?.[0] ? npl(data[0].last.date as string) : 'yesterday'
+	const { data } = useSigmaYesterdayInfinite()
+	const lastDate = data?.[0] ? npl(data[0][0].last.date as string) : 'yesterday'
 
 	return (
 		<div className="grid grid-cols-default">

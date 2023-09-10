@@ -5,7 +5,7 @@ import * as Accordion from '@radix-ui/react-accordion'
 import { PAGE_SIZE, tendenzApiSigmaYesterday } from '@tendenz/types'
 import clsx from 'clsx'
 import { AnimatePresence, Variants } from 'framer-motion'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { NextPageButton } from './NextPageButton'
 import { SigmaCard } from './SigmaCard'
 
@@ -15,7 +15,11 @@ export function SigmaAccordion({}: {}) {
 	const { data, mutate, size, setSize, isValidating, isLoading } =
 		useSigmaYesterdayInfinite()
 
-	const cards = data ? ([] as tendenzApiSigmaYesterday[]).concat(...data) : []
+	const cards = useMemo(
+		() => (data ? ([] as tendenzApiSigmaYesterday[]).concat(...data) : []),
+		[data],
+	)
+
 	const isLoadingMore =
 		isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined')
 	const isEmpty = data?.[0]?.length === 0
@@ -37,6 +41,7 @@ export function SigmaAccordion({}: {}) {
 					onValueChange={o => setExpandedKey(o)}
 					className=""
 				>
+					{isLoadingMore && 'isloading more'}
 					<AnimatePresence initial={false} mode="popLayout">
 						{data &&
 							cards.map(card => (
