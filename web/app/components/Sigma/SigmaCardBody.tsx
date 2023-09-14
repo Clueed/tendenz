@@ -1,18 +1,12 @@
-import { tendenzApiSigmaYesterdayDay } from '@tendenz/types'
 import clsx from 'clsx'
-import { useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import { npl } from '../../lib/naturalLanguageProcessing'
+import { SigmaEntryContext } from './SigmaEntryContext'
 import { YahooButton } from './YahooButton'
 
-export function SigmaCardBody({
-	last,
-	secondLast,
-	ticker,
-}: {
-	last: tendenzApiSigmaYesterdayDay
-	secondLast: tendenzApiSigmaYesterdayDay
-	ticker: string
-}) {
+export function SigmaCardBody() {
+	const { last, secondLast } = useContext(SigmaEntryContext)
+
 	const formattedLastClose = '$' + last.close.toFixed(2)
 	const formattedSecondLastClose = '$' + secondLast.close.toFixed(2)
 	const dailyReturn = useMemo(
@@ -36,12 +30,7 @@ export function SigmaCardBody({
 				</div>
 			</div>
 
-			<div
-				className={clsx(
-					'col-start-3 row-start-1 text-xl',
-					//dailyReturnColor
-				)}
-			>
+			<div className={clsx('col-start-3 row-start-1 text-xl')}>
 				{dailyReturnString}
 			</div>
 			<div className="col-start-3 flex justify-self-end">
@@ -61,7 +50,7 @@ export function SigmaCardBody({
 			</div>
 
 			<div className="col-start-5 row-span-2 row-start-1 py-1">
-				<YahooButton ticker={ticker} />
+				<YahooButton />
 			</div>
 		</div>
 	)
