@@ -104,10 +104,7 @@ export function SigmaAccordion({}: {}) {
 				</Accordion.Root>
 				{!isReachingEnd && (
 					<div className="my-10">
-						<NextPageButton
-							handleNextPage={() => setSize(size + 1)}
-							isLoading={isLoading}
-						/>
+						<NextPageButton handleNextPage={() => setSize(size + 1)} />
 					</div>
 				)}
 			</div>
