@@ -16,8 +16,7 @@ export function SigmaAccordion({}: {}) {
 
 	const { marketCap, typeLabels } = useContext(FilterContext)
 
-	const { data, mutate, size, setSize, isValidating, isLoading, error } =
-		useSigmaYesterdayInfinite()
+	const { data, size, setSize, isLoading, error } = useSigmaYesterdayInfinite()
 
 	const cards = useMemo(
 		() => (data ? ([] as tendenzApiSigmaYesterday[]).concat(...data) : []),
@@ -46,6 +45,8 @@ export function SigmaAccordion({}: {}) {
 		!isLoadingMore && setLoadingAnimation(false)
 	}
 
+	const showError = error || (isReachingEnd && size === 1)
+
 	return (
 		<div className="grid-cols-default sm:grid">
 			<div
@@ -53,7 +54,7 @@ export function SigmaAccordion({}: {}) {
 					'relative col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll transition-all duration-1000 sm:rounded-2xl',
 					size > 1 && 'bg-slate-a2',
 					loadingAnimation && 'bg-slate-a2',
-					error && 'bg-tomato-a3',
+					showError && 'bg-tomato-a3',
 				)}
 			>
 				<div
@@ -78,7 +79,7 @@ export function SigmaAccordion({}: {}) {
 						onAnimationIteration={handleAnimationIteration}
 					/>
 				</div>
-				{error && (
+				{showError && (
 					<div className="flex items-center justify-center gap-2 bg-red-a3 px-2 py-2 text-sm text-red-12">
 						<IconFire />
 						something went wrong...
@@ -91,9 +92,6 @@ export function SigmaAccordion({}: {}) {
 					onValueChange={o => setExpandedKey(o)}
 					className="px-2 py-2"
 				>
-					{
-						//isLoadingMore && 'isloading more'
-					}
 					<AnimatePresence initial={false} mode="popLayout">
 						{data &&
 							cards.map(card => (
@@ -105,12 +103,14 @@ export function SigmaAccordion({}: {}) {
 							))}
 					</AnimatePresence>
 				</Accordion.Root>
-				<div className="my-10">
-					<NextPageButton
-						handleNextPage={() => setSize(size + 1)}
-						isLoading={isLoading}
-					/>
-				</div>
+				{!isReachingEnd && (
+					<div className="my-10">
+						<NextPageButton
+							handleNextPage={() => setSize(size + 1)}
+							isLoading={isLoading}
+						/>
+					</div>
+				)}
 			</div>
 		</div>
 	)
