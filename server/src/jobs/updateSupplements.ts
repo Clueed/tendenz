@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client'
 import { DetailsSupplementer } from '../dailyRoutine/DetailsSupplementer.js'
-import { supplementTickerDetails } from '../dailyRoutine/supplementTickerDetails.js'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 import { PolygonRequestHandler } from '../lib/polygonApi/polygonRequestHandler.js'
 import { PolygonStocksApi } from '../lib/polygonApi/polygonStocksApi.js'
@@ -21,7 +20,7 @@ const detailsSupplementer = new DetailsSupplementer(db, stocksApi)
 
 try {
 	await detailsSupplementer.run()
-	await supplementTickerDetails(db, stocksApi)
+	//await supplementTickerDetails(db, stocksApi)
 } catch (e) {
 	console.error(e)
 	process.exit(1)
