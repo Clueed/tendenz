@@ -1,4 +1,4 @@
-import { MarketCapFilter } from '@/app/components/FilterContextProvider'
+import { MarketCapFilter } from '@/app/components/filterStore'
 import { TYPE_GROUPS, TypeGroupLabel } from '../MARKET_CAP_BUCKETS'
 
 const BASE_URL =

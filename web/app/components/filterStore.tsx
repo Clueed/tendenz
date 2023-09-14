@@ -6,7 +6,11 @@ import {
 	TYPE_GROUPS,
 	TypeGroupLabel,
 } from '../lib/MARKET_CAP_BUCKETS'
-import { MarketCapFilter } from './FilterContextProvider'
+
+export type MarketCapFilter = {
+	min: number
+	max: number
+}
 
 interface FilterState {
 	marketCap: MarketCapFilter

@@ -1,6 +1,5 @@
 import { ComingSoon } from './components/ComingSoon'
 import { FilterCluster } from './components/FilterCluster/FilterCluster'
-import FilterContextProvider from './components/FilterContextProvider'
 import Hero from './components/Hero'
 import { SigmaAccordion } from './components/Sigma/SigmaAccordion'
 import UsStocksHeader from './components/UsStocksHeader'
@@ -39,11 +38,9 @@ export default async function Home() {
 
 			<section className="mb-[9vh] sm:mb-[15vh]">
 				<SWRConfigProvider fallback={fallback}>
-					<FilterContextProvider>
-						<UsStocksHeader />
-						<FilterCluster />
-						<SigmaAccordion />
-					</FilterContextProvider>
+					<UsStocksHeader />
+					<FilterCluster />
+					<SigmaAccordion />
 				</SWRConfigProvider>
 			</section>
 
