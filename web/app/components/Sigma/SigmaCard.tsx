@@ -1,11 +1,34 @@
 import * as Accordion from '@radix-ui/react-accordion'
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
 import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, Variants, motion } from 'framer-motion'
 import { ForwardedRef, forwardRef } from 'react'
-import { variants } from './SigmaAccordion'
 import { SigmaCardBody } from './SigmaCardBody'
 import { SigmaCardHeader } from './SigmaCardHeader'
+
+const transition = {
+	type: 'spring',
+	duration: 1,
+	bounce: 0.35,
+}
+
+const variants: Variants = {
+	initial: {
+		x: '2.5vw',
+		opacity: 0,
+		transition,
+	},
+	animate: {
+		x: 0,
+		opacity: 1,
+		transition,
+	},
+	exit: {
+		x: '-2.5vw',
+		opacity: 0,
+		transition,
+	},
+}
 
 export const SigmaCard = forwardRef(function SigmaCard(
 	{

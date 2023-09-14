@@ -4,14 +4,14 @@ import { useSigmaYesterdayInfinite } from '@/app/lib/api/clientApi'
 import * as Accordion from '@radix-ui/react-accordion'
 import { PAGE_SIZE, tendenzApiSigmaYesterday } from '@tendenz/types'
 import clsx from 'clsx'
-import { AnimatePresence, Variants } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import IconFire from '../IconFire'
 import { useFilterStore } from '../filterStore'
 import { NextPageButton } from './NextPageButton'
 import { SigmaCard } from './SigmaCard'
 
-export function SigmaAccordion({}: {}) {
+export function SigmaAccordion() {
 	const [expandedKey, setExpandedKey] = useState<string>('')
 
 	const marketCap = useFilterStore(state => state.marketCap)
@@ -52,32 +52,13 @@ export function SigmaAccordion({}: {}) {
 				className={clsx(
 					'relative col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll transition-all duration-1000 sm:rounded-2xl',
 					size > 1 && 'bg-slate-a2',
-					loadingAnimation && 'bg-slate-a3',
 					error && 'bg-tomato-a3',
 				)}
 			>
-				<div
-					className={clsx(
-						'absolute inset-0 flex w-full flex-col items-center justify-between',
-						loadingAnimation ? 'flex' : 'hidden',
-					)}
-				>
-					<div
-						className={clsx(
-							'left-0 h-[1px] rounded-full bg-gradient-to-r from-transparent via-slate-a10 to-transparent transition-all',
-							loadingAnimation && 'animate-border-width',
-						)}
-						onAnimationIteration={handleAnimationIteration}
-					/>
-
-					<div
-						className={clsx(
-							'left-0 h-[1px] rounded-full bg-gradient-to-r from-transparent via-slate-a10 to-transparent transition-all',
-							loadingAnimation && 'animate-border-width',
-						)}
-						onAnimationIteration={handleAnimationIteration}
-					/>
-				</div>
+				<LoadingOverlay
+					loadingAnimation={loadingAnimation}
+					handleAnimationIteration={handleAnimationIteration}
+				/>
 				{error && (
 					<div className="flex items-center justify-center gap-2 bg-red-a3 px-2 py-2 text-sm text-red-12">
 						<IconFire />
@@ -103,7 +84,7 @@ export function SigmaAccordion({}: {}) {
 					</AnimatePresence>
 				</Accordion.Root>
 				{!isReachingEnd && (
-					<div className="my-10">
+					<div className="my-10 flex items-center justify-center">
 						<NextPageButton handleNextPage={() => setSize(size + 1)} />
 					</div>
 				)}
@@ -112,26 +93,32 @@ export function SigmaAccordion({}: {}) {
 	)
 }
 
-const transition = {
-	type: 'spring',
-	duration: 1,
-	bounce: 0.35,
-}
+function LoadingOverlay({
+	loadingAnimation,
+	handleAnimationIteration,
+}: {
+	loadingAnimation: boolean
+	handleAnimationIteration: () => void
+}) {
+	const pulsingStripe = (
+		<div
+			className={clsx(
+				'left-0 h-[1px] rounded-full bg-gradient-to-r from-transparent via-slate-a10 to-transparent transition-all',
+				loadingAnimation && 'animate-border-width',
+			)}
+			onAnimationIteration={handleAnimationIteration}
+		/>
+	)
 
-export const variants: Variants = {
-	initial: {
-		x: '2.5vw',
-		opacity: 0,
-		transition,
-	},
-	animate: {
-		x: 0,
-		opacity: 1,
-		transition,
-	},
-	exit: {
-		x: '-2.5vw',
-		opacity: 0,
-		transition,
-	},
+	return (
+		<div
+			className={clsx(
+				'absolute inset-0 -z-10 flex w-full flex-col items-center justify-between transition-all duration-1000',
+				loadingAnimation && 'bg-slate-a3',
+			)}
+		>
+			{pulsingStripe}
+			{pulsingStripe}
+		</div>
+	)
 }
