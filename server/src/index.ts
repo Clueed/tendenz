@@ -86,7 +86,14 @@ fastify.get('/us-stocks/daily/:page', async request => {
 	})
 
 	const response: tendenzApiSigmaYesterday[] = today.map(
-		({ ticker, close, date, UsStocks: { name, type }, marketCap, ...rest }) => {
+		({
+			ticker,
+			close,
+			date,
+			UsStocks: { name, type, primaryExchange },
+			marketCap,
+			...rest
+		}) => {
 			const previous = yesterday.find(prev => prev.ticker === ticker)
 
 			if (!previous) {
@@ -101,6 +108,7 @@ fastify.get('/us-stocks/daily/:page', async request => {
 				ticker,
 				name: cleanName,
 				type,
+				primaryExchange,
 				last: {
 					close: close,
 					date: date,
