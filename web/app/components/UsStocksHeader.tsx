@@ -5,7 +5,10 @@ import Timer from './Timer'
 
 export default function UsStocksHeader({}: {}) {
 	const { data } = useSigmaYesterdayInfinite()
-	const lastDate = data?.[0] ? npl(data[0][0].last.date as string) : 'yesterday'
+	console.log('data :>> ', data)
+	const lastDate = data?.[0]?.[0]
+		? npl(data[0][0].last.date as string)
+		: 'yesterday'
 
 	return (
 		<div className="grid grid-cols-default">
