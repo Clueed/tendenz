@@ -1,6 +1,7 @@
 'use client'
 import * as Slider from '@radix-ui/react-slider'
 import clsx from 'clsx'
+import { AnimatePresence, motion } from 'framer-motion'
 import { HTMLAttributes, ReactNode } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { useFilterStore } from '../filterStore'
@@ -105,12 +106,18 @@ export default function MarketCapFilter({}: {}) {
 }
 
 const Thumb = ({ children }: { children: ReactNode }) => (
-	<Slider.Thumb asChild>
-		<div className="relative ">
-			<div className="h-0 w-0 bg-tomato-9"></div>
-			{children}
-		</div>
-	</Slider.Thumb>
+	<AnimatePresence>
+		<Slider.Thumb asChild>
+			<motion.div
+				className="relative"
+				initial={{ opacity: 0, y: 10 }}
+				animate={{ opacity: 1, y: 0 }}
+			>
+				{/* <div className="h-2 w-2 bg-tomato-9"></div> */}
+				{children}
+			</motion.div>
+		</Slider.Thumb>
+	</AnimatePresence>
 )
 
 const ThumbLabel = ({
