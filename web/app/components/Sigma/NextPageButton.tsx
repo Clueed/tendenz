@@ -1,5 +1,5 @@
-import * as motion from '@/app/lib/motionWrapper'
 import clsx from 'clsx'
+import { motion } from 'framer-motion'
 
 export function NextPageButton({
 	handleNextPage,

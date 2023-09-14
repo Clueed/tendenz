@@ -1,10 +1,10 @@
-import * as motion from '@/app/lib/motionWrapper'
+import { motion } from 'framer-motion'
 
-type Props = {
+export default function IconClock({
+	animationTrigger,
+}: {
 	animationTrigger: boolean
-}
-
-export default function IconClock({ animationTrigger }: Props) {
+}) {
 	return (
 		<motion.svg
 			animate={{
