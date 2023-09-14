@@ -73,7 +73,7 @@ export default function Pop({
 									colors[popoverColor].popclsx,
 								)}
 							>
-								<div className="noise-bg absolute inset-0 -z-10 rounded-lg opacity-75" />
+								<div className="noise-bg absolute inset-0 -z-10 rounded-lg opacity-40 dark:opacity-75" />
 								<div
 									className={clsx(
 										'rounded-lg px-5 py-4',
@@ -83,10 +83,7 @@ export default function Pop({
 									{popoverContent}
 								</div>
 								<Popover.Arrow
-									className={clsx(
-										colors[popoverColor].arrowclsx,
-										'drop-shadow-2xl',
-									)}
+									className={clsx(colors[popoverColor].arrowclsx)}
 								/>
 							</motion.div>
 						</Popover.Content>
