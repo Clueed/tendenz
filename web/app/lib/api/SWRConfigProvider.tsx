@@ -10,7 +10,6 @@ export async function fetcher<T>(url: string) {
 	// If the status code is not in the range 199-299,
 	// we still try to parse and throw it.
 	if (!res.ok) {
-		console.warn('"error" :>> ', 'error')
 		const error = new Error('An error occurred while fetching the data.')
 		// Attach extra info to the error object.
 		// error.info = await res.json();
@@ -49,7 +48,7 @@ export default function SWRConfigProvider({
 				fetcher,
 				focusThrottleInterval: 60000,
 				keepPreviousData: true,
-				revalidateOnMount: false,
+				//revalidateOnMount: false,
 			}}
 		>
 			{children}

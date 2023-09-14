@@ -21,14 +21,16 @@ interface FilterState {
 
 export const useFilterStore = create<FilterState>()(
 	devtools(
-		//persist(
+		// persist(
 		set => ({
 			marketCap: DEFAULT_MARKET_CAP,
 			setMarketCap: newMarketCap => set({ marketCap: newMarketCap }),
 			typeLabels: DEFAULT_TYPE_GROUP_LABELS,
 			setTypeLabels: newTypeGroups => set({ typeLabels: newTypeGroups }),
 		}),
-		{ name: 'filterStore' },
+		{
+			name: 'filterStore',
+		},
+		// ),
 	),
-	//),
 )

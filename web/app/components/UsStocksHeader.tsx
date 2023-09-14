@@ -5,7 +5,6 @@ import Timer from './Timer'
 
 export default function UsStocksHeader({}: {}) {
 	const { data } = useSigmaYesterdayInfinite()
-	console.log('data :>> ', data)
 	const lastDate = data?.[0]?.[0]
 		? npl(data[0][0].last.date as string)
 		: 'yesterday'
