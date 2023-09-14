@@ -5,16 +5,17 @@ import * as Accordion from '@radix-ui/react-accordion'
 import { PAGE_SIZE, tendenzApiSigmaYesterday } from '@tendenz/types'
 import clsx from 'clsx'
 import { AnimatePresence, Variants } from 'framer-motion'
-import { useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { FilterContext } from '../FilterContextProvider'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import IconFire from '../IconFire'
+import { useFilterStore } from '../filterStore'
 import { NextPageButton } from './NextPageButton'
 import { SigmaCard } from './SigmaCard'
 
 export function SigmaAccordion({}: {}) {
 	const [expandedKey, setExpandedKey] = useState<string>('')
 
-	const { marketCap, typeLabels } = useContext(FilterContext)
+	const marketCap = useFilterStore(state => state.marketCap)
+	const typeLabels = useFilterStore(state => state.typeLabels)
 
 	const { data, size, setSize, isLoading, error } = useSigmaYesterdayInfinite()
 

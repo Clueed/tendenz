@@ -1,9 +1,9 @@
 'use client'
 import * as Slider from '@radix-ui/react-slider'
 import clsx from 'clsx'
-import { HTMLAttributes, ReactNode, useContext } from 'react'
+import { HTMLAttributes, ReactNode } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { FilterContext } from '../FilterContextProvider'
+import { useFilterStore } from '../filterStore'
 import {
 	Inputs,
 	areNextToEachOther,
@@ -13,7 +13,8 @@ import {
 } from './marketCapFilterLib'
 
 export default function MarketCapFilter({}: {}) {
-	const { marketCap, setMarketCap } = useContext(FilterContext)
+	const setMarketCap = useFilterStore(state => state.setMarketCap)
+	const marketCap = useFilterStore(state => state.marketCap)
 
 	const {
 		handleSubmit,

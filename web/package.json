@@ -27,7 +27,8 @@
     "react-hook-form": "^7.46.1",
     "react-responsive": "^9.0.2",
     "react-wrap-balancer": "^1.0.0",
-    "swr": "^2.2.0"
+    "swr": "^2.2.0",
+    "zustand": "^4.4.1"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.12",

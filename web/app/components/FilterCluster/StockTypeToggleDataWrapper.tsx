@@ -1,11 +1,11 @@
 'use client'
-import { useContext } from 'react'
 import { TYPE_GROUPS } from '../../lib/MARKET_CAP_BUCKETS'
-import { FilterContext } from '../FilterContextProvider'
+import { useFilterStore } from '../filterStore'
 import StockTypeToggle from './StockTypeToggle'
 
 export default function StockTypeToggleDataWrapper({}: {}) {
-	const { typeLabels, setTypeLabels } = useContext(FilterContext)
+	const setTypeLabels = useFilterStore(state => state.setTypeLabels)
+	const typeLabels = useFilterStore(state => state.typeLabels)
 	return (
 		<StockTypeToggle
 			selectedKeys={typeLabels}

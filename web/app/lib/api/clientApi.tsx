@@ -1,5 +1,6 @@
 'use client'
 import { FilterContext } from '@/app/components/FilterContextProvider'
+import { useFilterStore } from '@/app/components/filterStore'
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
 import { useContext } from 'react'
 import useSWR, { SWRResponse, preload } from 'swr'
@@ -18,7 +19,8 @@ export function useSigmaYesterday(
 }
 
 export function useSigmaYesterdayInfinite() {
-	const { marketCap, typeLabels } = useContext(FilterContext)
+	const marketCap = useFilterStore(state => state.marketCap)
+	const typeLabels = useFilterStore(state => state.typeLabels)
 
 	return useSWRInfinite<tendenzApiSigmaYesterday[]>(
 		(pageIndex, previousPageData) => {
