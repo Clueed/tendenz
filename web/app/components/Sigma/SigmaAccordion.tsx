@@ -14,9 +14,6 @@ import { SigmaCard } from './SigmaCard'
 export function SigmaAccordion() {
 	const [expandedKey, setExpandedKey] = useState<string>('')
 
-	const marketCap = useFilterStore(state => state.marketCap)
-	const typeLabels = useFilterStore(state => state.typeLabels)
-
 	const { data, size, setSize, isLoading, error } = useSigmaYesterdayInfinite()
 
 	const cards = useMemo(
@@ -31,6 +28,9 @@ export function SigmaAccordion() {
 		isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE)
 
 	const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false)
+
+	const marketCap = useFilterStore(state => state.marketCap)
+	const typeLabels = useFilterStore(state => state.typeLabels)
 
 	const isMounted = useRef(false)
 
@@ -50,7 +50,7 @@ export function SigmaAccordion() {
 		<div className="grid-cols-default sm:grid">
 			<div
 				className={clsx(
-					'relative col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll transition-all duration-1000 sm:rounded-2xl',
+					'relative col-start-2 -mx-2 box-border max-h-[50rem] overflow-y-auto overflow-x-hidden transition-all duration-1000 sm:rounded-2xl',
 					size > 1 && 'bg-slate-a2',
 					error && 'bg-tomato-a3',
 				)}
@@ -65,7 +65,6 @@ export function SigmaAccordion() {
 						something went wrong...
 					</div>
 				)}
-
 				<Accordion.Root
 					collapsible
 					type="single"
