@@ -1,77 +1,123 @@
 'use client'
 
-import { useSigmaYesterday } from '@/app/lib/api/clientApi'
+import { useSigmaYesterdayInfinite } from '@/app/lib/api/clientApi'
 import * as Accordion from '@radix-ui/react-accordion'
+import { PAGE_SIZE, tendenzApiSigmaYesterday } from '@tendenz/types'
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
-import { useContext, useEffect, useState } from 'react'
-import { FilterContext } from '../FilterContextProvider'
-import { PageOfSigmaCards } from './PageOfSigmaCards'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import IconFire from '../IconFire'
+import { useFilterStore } from '../filterStore'
+import { NextPageButton } from './NextPageButton'
+import { SigmaCard } from './SigmaCard'
 
-export function SigmaAccordion({}: {}) {
-	const { marketCap, typeLabels } = useContext(FilterContext)
-	useEffect(() => {
-		setPageIndex(1)
-	}, [marketCap, typeLabels])
-
+export function SigmaAccordion() {
 	const [expandedKey, setExpandedKey] = useState<string>('')
 
-	const [pageIndex, setPageIndex] = useState<number>(1)
-	function handleNextPage() {
-		const nextPage = pageIndex + 1
-		setPageIndex(nextPage)
-	}
+	const { data, size, setSize, isLoading, error } = useSigmaYesterdayInfinite()
 
-	const pages = [...Array(pageIndex).keys()].map(key => (
-		<PageOfSigmaCards
-			page={key}
-			key={key}
-			expandedKey={expandedKey}
-			last={key === pageIndex - 1}
-			handleNextPage={handleNextPage}
-		/>
-	))
+	const cards = useMemo(
+		() => (data ? ([] as tendenzApiSigmaYesterday[]).concat(...data) : []),
+		[data],
+	)
 
-	const { isLoading } = useSigmaYesterday({
-		marketCap,
-		page: pageIndex,
-		typeLabels,
-	})
+	const isLoadingMore =
+		isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined')
+	const isEmpty = data?.[0]?.length === 0
+	const isReachingEnd =
+		isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE)
 
 	const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false)
 
-	const handleAnimationIteration = () => {
-		if (!isLoading) {
-			setLoadingAnimation(false)
-		}
-	}
+	const marketCap = useFilterStore(state => state.marketCap)
+	const typeLabels = useFilterStore(state => state.typeLabels)
+
+	const isMounted = useRef(false)
 
 	useEffect(() => {
-		if (isLoading) {
+		if (isMounted.current) {
 			setLoadingAnimation(true)
+		} else {
+			isMounted.current = true
 		}
-	}, [isLoading])
+	}, [marketCap, typeLabels])
+
+	const handleAnimationIteration = () => {
+		!isLoadingMore && setLoadingAnimation(false)
+	}
 
 	return (
 		<div className="grid-cols-default sm:grid">
 			<div
 				className={clsx(
-					'col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll px-2 py-2 transition-all duration-1000 sm:rounded-2xl',
-					pageIndex > 1 &&
-						'bg-gradient-to-b from-slate-a2 via-transparent to-slate-a2',
-					loadingAnimation && 'animate-pulse',
+					'relative col-start-2 -mx-2 box-border max-h-[50rem] overflow-y-auto overflow-x-hidden transition-all duration-1000 sm:rounded-2xl',
+					size > 1 && 'bg-slate-a2',
+					error && 'bg-tomato-a3',
 				)}
-				onAnimationIteration={handleAnimationIteration}
 			>
+				<LoadingOverlay
+					loadingAnimation={loadingAnimation}
+					handleAnimationIteration={handleAnimationIteration}
+				/>
+				{error && (
+					<div className="flex items-center justify-center gap-2 bg-red-a3 px-2 py-2 text-sm text-red-12">
+						<IconFire />
+						something went wrong...
+					</div>
+				)}
 				<Accordion.Root
 					collapsible
 					type="single"
 					onValueChange={o => setExpandedKey(o)}
-					className=""
+					className="px-2 py-2"
 				>
-					<AnimatePresence initial={false}>{pages}</AnimatePresence>
+					<AnimatePresence initial={false} mode="popLayout">
+						{data &&
+							cards.map(card => (
+								<SigmaCard
+									key={card.ticker}
+									entry={card}
+									expanded={expandedKey === card.ticker}
+								/>
+							))}
+					</AnimatePresence>
 				</Accordion.Root>
+				{!isReachingEnd && (
+					<div className="my-10 flex items-center justify-center">
+						<NextPageButton handleNextPage={() => setSize(size + 1)} />
+					</div>
+				)}
 			</div>
+		</div>
+	)
+}
+
+function LoadingOverlay({
+	loadingAnimation,
+	handleAnimationIteration,
+}: {
+	loadingAnimation: boolean
+	handleAnimationIteration: () => void
+}) {
+	const pulsingStripe = (
+		<div
+			className={clsx(
+				'left-0 h-[1px] rounded-full bg-gradient-to-r from-transparent via-slate-a10 to-transparent transition-all',
+				loadingAnimation && 'animate-border-width',
+			)}
+			onAnimationIteration={handleAnimationIteration}
+		/>
+	)
+
+	return (
+		<div
+			className={clsx(
+				'absolute inset-0 -z-10 flex w-full flex-col items-center justify-between transition-all duration-1000',
+				loadingAnimation && 'bg-slate-a3',
+			)}
+		>
+			{pulsingStripe}
+			{pulsingStripe}
 		</div>
 	)
 }

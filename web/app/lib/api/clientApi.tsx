@@ -1,15 +1,24 @@
 'use client'
+
+import { useFilterStore } from '@/app/components/filterStore'
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
-import useSWR, { SWRResponse, preload } from 'swr'
+import { preload } from 'swr'
+import useSWRInfinite from 'swr/infinite'
 import { fetcher } from './SWRConfigProvider'
-import { ApiQuery, getStocksURL } from './sharedApi'
+import { getStocksURL } from './sharedApi'
 
-export function useSigmaYesterday(
-	query?: ApiQuery,
-): SWRResponse<tendenzApiSigmaYesterday[], any, any> {
-	const url = getStocksURL(query)
-	const { page, ...rest } = query ?? {}
-	preload(getStocksURL({ ...rest, page: page || 1 }), fetcher)
+export function useSigmaYesterdayInfinite() {
+	const marketCap = useFilterStore(state => state.marketCap)
+	const typeLabels = useFilterStore(state => state.typeLabels)
 
-	return useSWR<tendenzApiSigmaYesterday[]>(url)
+	return useSWRInfinite<tendenzApiSigmaYesterday[]>(
+		(pageIndex, previousPageData) => {
+			if (previousPageData && !previousPageData.length) return null
+			preload(
+				getStocksURL({ marketCap, typeLabels, page: pageIndex + 1 }),
+				fetcher,
+			)
+			return getStocksURL({ page: pageIndex, marketCap, typeLabels })
+		},
+	)
 }

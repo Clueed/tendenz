@@ -1,16 +1,13 @@
 'use client'
-import { useContext } from 'react'
-import { useSigmaYesterday } from '../lib/api/clientApi'
+import { useSigmaYesterdayInfinite } from '../lib/api/clientApi'
 import { npl } from '../lib/naturalLanguageProcessing'
-import { FilterContext } from './FilterContextProvider'
-
 import Timer from './Timer'
 
 export default function UsStocksHeader({}: {}) {
-	const { typeLabels, marketCap } = useContext(FilterContext)
-	const { data } = useSigmaYesterday({ typeLabels, marketCap })
-
-	const lastDate = data?.[0] ? npl(data[0].last.date as string) : 'yesterday'
+	const { data } = useSigmaYesterdayInfinite()
+	const lastDate = data?.[0]?.[0]
+		? npl(data[0][0].last.date as string)
+		: 'yesterday'
 
 	return (
 		<div className="grid grid-cols-default">

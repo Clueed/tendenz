@@ -1,4 +1,4 @@
-import { MarketCapFilter } from '@/app/components/FilterContextProvider'
+import { MarketCapFilter } from '@/app/components/filterStore'
 import { TYPE_GROUPS, TypeGroupLabel } from '../MARKET_CAP_BUCKETS'
 
 const BASE_URL =
@@ -34,7 +34,6 @@ export const getStocksURL = (querry?: ApiQuery) => {
 	const appendString = appendStrings.filter(filterFalseAndUndefined).join('&')
 
 	const url = BASE_URL + `/us-stocks/daily/${page || ''}?` + appendString
-	console.debug('url :>> ', url)
 	return url
 }
 

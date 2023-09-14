@@ -1,6 +1,6 @@
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import clsx from 'clsx'
-import { Dispatch, ReactNode, SetStateAction } from 'react'
+import { ReactNode } from 'react'
 
 export default function StockTypeToggle<T extends string[]>({
 	selectedKeys,
@@ -8,7 +8,7 @@ export default function StockTypeToggle<T extends string[]>({
 	allKeys,
 }: {
 	selectedKeys: T[number][]
-	selectKeys: Dispatch<SetStateAction<T[number][]>>
+	selectKeys: (newKeys: T[number][]) => void
 	allKeys: T
 }) {
 	return (

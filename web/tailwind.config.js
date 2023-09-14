@@ -69,6 +69,8 @@ module.exports = {
 			animation: {
 				'text-gradient-15s': 'text-gradient 15s linear infinite',
 				slide: 'slide 4s linear infinite',
+				'pulse-1s': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+				'border-width': 'border-width 1s infinite',
 			},
 			keyframes: {
 				'text-gradient': {
@@ -82,6 +84,20 @@ module.exports = {
 					'30%': { transform: 'translateY(0)', opacity: 1 },
 					'45%': { transform: 'translateY(-100%)', opacity: 1 },
 					'100%': { transform: 'translateY(-100%)', opacity: 0.1 },
+				},
+				'border-width': {
+					'0%': {
+						width: '0%',
+						opacity: '0',
+					},
+					'50%': {
+						width: '100%',
+						opacity: '1',
+					},
+					'100%': {
+						width: '0%',
+						opacity: '0',
+					},
 				},
 			},
 		},
