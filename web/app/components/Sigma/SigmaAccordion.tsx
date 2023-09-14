@@ -46,8 +46,6 @@ export function SigmaAccordion({}: {}) {
 		!isLoadingMore && setLoadingAnimation(false)
 	}
 
-	const showError = error || (isEmpty && size === 1)
-
 	return (
 		<div className="grid-cols-default sm:grid">
 			<div
@@ -55,7 +53,7 @@ export function SigmaAccordion({}: {}) {
 					'relative col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll transition-all duration-1000 sm:rounded-2xl',
 					size > 1 && 'bg-slate-a2',
 					loadingAnimation && 'bg-slate-a3',
-					showError && 'bg-tomato-a3',
+					error && 'bg-tomato-a3',
 				)}
 			>
 				<div
@@ -80,7 +78,7 @@ export function SigmaAccordion({}: {}) {
 						onAnimationIteration={handleAnimationIteration}
 					/>
 				</div>
-				{showError && (
+				{error && (
 					<div className="flex items-center justify-center gap-2 bg-red-a3 px-2 py-2 text-sm text-red-12">
 						<IconFire />
 						something went wrong...
