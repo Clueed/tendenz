@@ -1,13 +1,10 @@
 import clsx from 'clsx'
-import { motion } from 'framer-motion'
+import { HTMLMotionProps, motion } from 'framer-motion'
 
-export function NextPageButton({
-	handleNextPage,
-}: {
-	handleNextPage: () => void
-}) {
+export function NextPageButton(props: HTMLMotionProps<'button'>) {
 	return (
 		<motion.button
+			{...props}
 			whileInView={{
 				y: [0, 15, 0],
 				transition: {
@@ -17,9 +14,8 @@ export function NextPageButton({
 				},
 			}}
 			aria-label="load more"
-			onClick={handleNextPage}
 			className={clsx(
-				'rounded-md bg-slate-a3 p-3 text-slate-12 transition-all duration-500 hover:bg-slate-a10 hover:text-slate-1 hover:shadow-md',
+				'rounded-md bg-slate-a3 p-3 text-slate-12 transition-all duration-500 enabled:hover:bg-slate-a10 enabled:hover:text-slate-1 enabled:hover:shadow-md',
 			)}
 		>
 			<svg
