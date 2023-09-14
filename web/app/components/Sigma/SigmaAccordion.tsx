@@ -45,7 +45,7 @@ export function SigmaAccordion({}: {}) {
 		!isLoadingMore && setLoadingAnimation(false)
 	}
 
-	const showError = error || (isReachingEnd && size === 1)
+	const showError = error || (isEmpty && size === 1)
 
 	return (
 		<div className="grid-cols-default sm:grid">
@@ -53,7 +53,7 @@ export function SigmaAccordion({}: {}) {
 				className={clsx(
 					'relative col-start-2 -mx-2 box-border h-[50rem] overflow-x-hidden overflow-y-scroll transition-all duration-1000 sm:rounded-2xl',
 					size > 1 && 'bg-slate-a2',
-					loadingAnimation && 'bg-slate-a2',
+					loadingAnimation && 'bg-slate-a3',
 					showError && 'bg-tomato-a3',
 				)}
 			>
