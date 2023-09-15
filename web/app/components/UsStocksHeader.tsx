@@ -2,6 +2,7 @@
 import { useSigmaYesterdayInfinite } from '../lib/api/clientApi'
 import { npl } from '../lib/naturalLanguageProcessing'
 import SettingsButton from './SettingsButton'
+
 import Timer from './Timer'
 
 export default function UsStocksHeader({}: {}) {
