@@ -33,7 +33,7 @@ export default function SettingsPage() {
 					/>
 				</div>
 			</section>
-			<section>
+			<section className="pt-8">
 				<form>
 					<div className="flex items-center">
 						<label
@@ -52,6 +52,9 @@ export default function SettingsPage() {
 							<div className="absolute inset-0 -m-0.5 rounded-full bg-slate-a7 transition-colors duration-500 ease-in-out will-change-[backgroundColor] group-radix-state-checked:bg-slate-a9" />
 							<Switch.Thumb className="h-4 w-4 rounded-full bg-slate-1 transition-transform duration-500 ease-in-out will-change-transform data-[state=checked]:translate-x-[calc(2rem-100%)] dark:bg-slate-12" />
 						</Switch.Root>
+					</div>
+					<div className="mt-2 text-xs text-slate-11">
+						we use cookies for settings store.
 					</div>
 				</form>
 			</section>

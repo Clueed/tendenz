@@ -43,8 +43,8 @@ export default function SettingsButton({}: {}) {
 								<div className="mask-linear-radial absolute inset-0 -z-20 bg-slate-1 opacity-75" />
 								<div className="noise-bg absolute bottom-1/2 right-1/2 -z-10 h-screen w-screen translate-x-1/2 translate-y-1/2 opacity-50 dark:opacity-25" />
 							</Dialog.Overlay>
-							<Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-[6px] p-[25px] focus:outline-none">
-								<Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
+							<Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 focus:outline-none">
+								<Dialog.Title className="m-0 text-[17px] font-medium text-slate-11">
 									Settings
 								</Dialog.Title>
 
@@ -53,7 +53,7 @@ export default function SettingsButton({}: {}) {
 								</Suspense>
 								<Dialog.Close asChild>
 									<button
-										className="absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full text-violet-11 hover:bg-violet-4 focus:shadow-[0_0_0_2px] focus:shadow-violet-7 focus:outline-none"
+										className="absolute right-0 top-0 inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full text-violet-11 hover:bg-violet-4 focus:shadow-[0_0_0_2px] focus:shadow-violet-7 focus:outline-none"
 										aria-label="Close"
 									>
 										x
