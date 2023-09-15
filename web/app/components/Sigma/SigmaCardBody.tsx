@@ -1,11 +1,15 @@
 import clsx from 'clsx'
 import { useContext, useMemo } from 'react'
 import { npl } from '../../lib/naturalLanguageProcessing'
+import { useSettingsStore } from '../settingsStore'
 import { SigmaEntryContext } from './SigmaEntryContext'
 import { YahooButton } from './YahooButton'
+import { useOfframpUrl } from './useOffRampUrl'
 
 export function SigmaCardBody() {
-	const { last, secondLast } = useContext(SigmaEntryContext)
+	const entry = useContext(SigmaEntryContext)
+
+	const { last, secondLast } = entry
 
 	const formattedLastClose = '$' + last.close.toFixed(2)
 	const formattedSecondLastClose = '$' + secondLast.close.toFixed(2)
@@ -15,6 +19,11 @@ export function SigmaCardBody() {
 	)
 
 	const dailyReturnString = dailyReturn.toFixed(2) + '%'
+
+	const offRampName = useSettingsStore(state => state.offrampName)
+	const url = useOfframpUrl(entry, offRampName)
+
+	console.log('url :>> ', url)
 
 	return (
 		<div className="mt-4 grid grid-cols-[1fr_7rem_repeat(content_fit,_2)_1fr] justify-between text-right">
@@ -50,7 +59,7 @@ export function SigmaCardBody() {
 			</div>
 
 			<div className="col-start-5 row-span-2 row-start-1 py-1">
-				<YahooButton />
+				<YahooButton url={url} />
 			</div>
 		</div>
 	)

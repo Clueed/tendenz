@@ -43,3 +43,7 @@ export const DEFAULT_MARKET_CAP = {
 	min: DEFAULT_MIN_MARKETCAP,
 	max: Infinity,
 }
+
+export const DEFAULT_OFFRAMP_NAME = 'Yahoo Finance'
+
+export const OFFRAMP_NAMES = ['Yahoo Finance', 'Wallmine'] as const

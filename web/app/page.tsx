@@ -3,6 +3,7 @@ import { FilterCluster } from './components/FilterCluster/FilterCluster'
 import Hero from './components/Hero'
 import { SigmaAccordion } from './components/Sigma/SigmaAccordion'
 import UsStocksHeader from './components/UsStocksHeader'
+
 import {
 	DEFAULT_MARKET_CAP,
 	DEFAULT_TYPE_GROUP_LABELS,

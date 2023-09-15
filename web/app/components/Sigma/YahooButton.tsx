@@ -2,10 +2,8 @@ import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import clsx from 'clsx'
 import Link from 'next/link'
 import ChevronRight from './ChevronRight'
-import { useOffRampUrl } from './useOffRampUrl'
 
-export function YahooButton() {
-	const url = useOffRampUrl()
+export function YahooButton({ url }: { url: string }) {
 	return (
 		<Link
 			target="_blank"
