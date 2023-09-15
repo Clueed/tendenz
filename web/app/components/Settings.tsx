@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import SettingsPage from '../settings/page'
 
-export default function Settings({}: {}) {
+export default function SettingsButton({}: {}) {
 	return (
 		<Dialog.Root>
 			<Dialog.Trigger asChild>

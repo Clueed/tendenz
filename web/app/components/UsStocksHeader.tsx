@@ -1,7 +1,7 @@
 'use client'
 import { useSigmaYesterdayInfinite } from '../lib/api/clientApi'
 import { npl } from '../lib/naturalLanguageProcessing'
-import Settings from './Settings'
+import SettingsButton from './Settings'
 import Timer from './Timer'
 
 export default function UsStocksHeader({}: {}) {
@@ -19,7 +19,7 @@ export default function UsStocksHeader({}: {}) {
 				</h2>
 
 				<Timer />
-				<Settings />
+				<SettingsButton />
 			</div>
 		</div>
 	)
