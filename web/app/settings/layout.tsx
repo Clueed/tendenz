@@ -14,7 +14,7 @@ export default function SettingsLayout({ children }: { children: ReactNode }) {
 					</h1>
 				</Link>
 			</header>
-			{children}
+			<div className="grid grid-cols-default [&>*]:col-start-2">{children}</div>
 		</>
 	)
 }
