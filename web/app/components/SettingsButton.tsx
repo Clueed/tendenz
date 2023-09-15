@@ -31,7 +31,7 @@ export default function SettingsButton({}: {}) {
 				</button>
 			</Dialog.Trigger>
 			<Dialog.Portal>
-				<Dialog.Overlay className="fixed inset-0 bg-slate-a5 opacity-0 backdrop-blur-md transition-opacity duration-[5s] will-change-[opacity] data-[state=open]:opacity-100">
+				<Dialog.Overlay className="fixed inset-0 bg-slate-a5   backdrop-blur-md dark:bg-slate-1">
 					<div className="mask-linear-radial absolute inset-0 -z-20 bg-slate-1 opacity-75" />
 					<div className="noise-bg absolute bottom-1/2 right-1/2 -z-10 h-screen w-screen translate-x-1/2 translate-y-1/2 opacity-50 dark:opacity-25" />
 				</Dialog.Overlay>

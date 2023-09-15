@@ -18,8 +18,10 @@ export default function UsStocksHeader({}: {}) {
 					&apos;s anomalies
 				</h2>
 
-				<Timer />
-				<SettingsButton />
+				<div className="flex gap-2">
+					<Timer />
+					<SettingsButton />
+				</div>
 			</div>
 		</div>
 	)

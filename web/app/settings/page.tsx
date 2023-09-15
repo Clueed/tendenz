@@ -1,5 +1,6 @@
 'use client'
 import * as Switch from '@radix-ui/react-switch'
+import { GraphIcon } from '../components/Sigma/GraphIcon'
 import { useSettingsStore } from '../components/settingsStore'
 import { H3 } from '../docs/TextStyles'
 import { OFFRAMP_NAMES } from '../lib/MARKET_CAP_BUCKETS'
@@ -14,7 +15,14 @@ export default function SettingsPage() {
 	return (
 		<>
 			<section>
-				<H3>Offramp Provider</H3>
+				<H3>
+					<div className="flex items-center gap-2">
+						<span className="text-xl">
+							<GraphIcon />{' '}
+						</span>{' '}
+						offramp provider
+					</div>
+				</H3>
 				<div className="my-7">
 					<OffRampToggle
 						selectedKey={offRampName}
