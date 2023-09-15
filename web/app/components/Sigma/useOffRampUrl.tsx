@@ -13,6 +13,9 @@ export function useOffRampUrl(
 		case 'Wallmine': {
 			return generateWallmineUrl(entry)
 		}
+		case 'Google Finance': {
+			return generateGoogleFinanceUrl(entry)
+		}
 	}
 
 	return assertUnreachable(offRampName)
@@ -32,4 +35,11 @@ function generateWallmineUrl({
 	const param = type === 'ETF' ? `etf` : `${primaryExchange}`
 
 	return `https://wallmine.com/${param}/${ticker}`
+}
+
+function generateGoogleFinanceUrl({
+	ticker,
+	primaryExchange,
+}: tendenzApiSigmaYesterday) {
+	return `https://www.google.com/finance/quote/${ticker}:${primaryExchange}`
 }
