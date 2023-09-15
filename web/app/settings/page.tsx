@@ -4,7 +4,7 @@ import { H3 } from '../docs/TextStyles'
 import { OFFRAMP_NAMES } from '../lib/MARKET_CAP_BUCKETS'
 import { OffRampToggle } from './OffRampToggle'
 
-export default function Settings() {
+export default function SettingsPage() {
 	const offRampName = useSettingsStore(state => state.offRampName)
 	const setOffRampName = useSettingsStore(state => state.setOffRampName)
 
