@@ -1,10 +1,14 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import clsx from 'clsx'
-import SettingsPage from '../settings/page'
+import { motion } from 'framer-motion'
+import { Suspense, lazy, useState } from 'react'
+
+const SettingsPage = lazy(() => import('../settings/page'))
 
 export default function SettingsButton({}: {}) {
+	const [open, setOpen] = useState<boolean>(false)
 	return (
-		<Dialog.Root>
+		<Dialog.Root open={open} onOpenChange={setOpen}>
 			<Dialog.Trigger asChild>
 				<button
 					className={clsx(
@@ -27,9 +31,9 @@ export default function SettingsButton({}: {}) {
 				</button>
 			</Dialog.Trigger>
 			<Dialog.Portal>
-				<Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 bg-slate-a5 backdrop-blur-md">
+				<Dialog.Overlay className="fixed inset-0 bg-slate-a5 opacity-0 backdrop-blur-md transition-opacity duration-[5s] will-change-[opacity] data-[state=open]:opacity-100">
 					<div className="mask-linear-radial absolute inset-0 -z-20 bg-slate-1 opacity-75" />
-					<div className="noise-bg absolute bottom-1/2 right-1/2 -z-10 h-screen w-screen translate-x-1/2 translate-y-1/2 opacity-50"></div>
+					<div className="noise-bg absolute bottom-1/2 right-1/2 -z-10 h-screen w-screen translate-x-1/2 translate-y-1/2 opacity-50 dark:opacity-25" />
 				</Dialog.Overlay>
 				<Dialog.Content className="data-[state=open]:animate-contentShow fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-[6px] p-[25px] focus:outline-none">
 					<Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
@@ -38,7 +42,8 @@ export default function SettingsButton({}: {}) {
 					{/* <Dialog.Description className="mb-5 mt-[10px] text-[15px] leading-normal text-mauve-11">
 						Make changes to your profile here. Click save when you're done.
 					</Dialog.Description> */}
-					<SettingsPage />
+
+					<Suspense fallback={<Loading />}>{open && <SettingsPage />}</Suspense>
 					{/* <div className="mt-[25px] flex justify-end">
 						<Dialog.Close asChild>
 							<button className="inline-flex h-[35px] items-center justify-center rounded-[4px] bg-green-4 px-[15px] font-medium leading-none text-green-11 hover:bg-green-5 focus:shadow-[0_0_0_2px] focus:shadow-green-7 focus:outline-none">
@@ -57,5 +62,66 @@ export default function SettingsButton({}: {}) {
 				</Dialog.Content>
 			</Dialog.Portal>
 		</Dialog.Root>
+	)
+}
+
+const Loading = () => (
+	<div className="flex h-24 items-center justify-center">
+		<LoadingBalls className="translate-x-0" />
+		<LoadingBalls className="translate-x-5" />
+		<LoadingBalls className="-translate-x-10" />
+	</div>
+)
+
+const LoadingBalls = ({ className }: { className?: string }) => {
+	const xKeyFrames = Array.from(
+		{ length: 5 },
+		() => Math.random() * 50 * (Math.random() > 0.5 ? 1 : -1) + '%',
+	)
+	const yKeyFrames = Array.from(
+		{ length: 5 },
+		() => Math.random() * 50 * (Math.random() > 0.5 ? 1 : -1) + '%',
+	)
+
+	const colors = [
+		'bg-sky-a6',
+		'bg-mint-a6',
+		'bg-indigo-a8',
+		'bg-violet-a8',
+		'bg-plum-a8',
+		'bg-iris-a8',
+		'bg-purple-a8',
+		'bg-blue-a8',
+		'bg-cyan-a8',
+		'bg-pink-a8',
+	]
+	const randomColorIndex = Math.floor(Math.random() * (colors.length - 1))
+	const color = colors[randomColorIndex]
+
+	return (
+		<div className={clsx(className, 'absolute')}>
+			<motion.div
+				animate={{
+					x: ['0%', ...xKeyFrames, '0%'],
+					y: ['0%', ...yKeyFrames, '0%'],
+					transition: {
+						//delay: 10,
+						repeat: Infinity,
+						//repeatDelay: 10,
+						duration: 20,
+						ease: 'linear',
+						//type: 'inertia',
+						//velocity: 50,
+						//type: 'inertia',
+
+						//type: 'spring',
+					},
+				}}
+				className={clsx(
+					'aspect-square w-20 transform-gpu rounded-full blur-lg',
+					color,
+				)}
+			/>
+		</div>
 	)
 }
