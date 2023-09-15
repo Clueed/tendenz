@@ -17,7 +17,7 @@ export default function SettingsButton({}: {}) {
 						'bg-slate-a2 text-slate-a11 duration-500 hover:bg-slate-a4 hover:shadow-lg group-hover:bg-slate-a4',
 					)}
 				>
-					<GearIcon classname='"transition-transform duration-1000 ease-linear  hover:rotate-[800deg]"' />
+					<GearIcon className="transition-transform duration-1000 ease-linear  hover:rotate-[360deg]" />
 				</button>
 			</Dialog.Trigger>
 
