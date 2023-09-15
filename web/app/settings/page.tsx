@@ -19,7 +19,7 @@ export default function SettingsPage() {
 		<>
 			<section>
 				<H3>
-					<div className="flex items-center gap-2">
+					<div className="flex items-center gap-2 text-slate-12">
 						<span className="text-xl">
 							<GraphIcon />{' '}
 						</span>{' '}

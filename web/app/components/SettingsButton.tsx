@@ -2,6 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Suspense, lazy, useState } from 'react'
+import { Ball } from './LoadingsBalls'
 import { GearIcon } from './icons/GearIcon'
 
 const SettingsPage = lazy(() => import('../settings/page'))
@@ -38,7 +39,7 @@ export default function SettingsButton({}: {}) {
 									Settings
 								</Dialog.Title>
 
-								<Suspense fallback={<Loading />}>
+								<Suspense fallback={<LoadingsBalls />}>
 									<SettingsPage />
 								</Suspense>
 								<Dialog.Close asChild>
@@ -58,56 +59,23 @@ export default function SettingsButton({}: {}) {
 	)
 }
 
-const Loading = () => (
+const colors = [
+	'bg-sky-a6',
+	'bg-mint-a6',
+	'bg-indigo-a8',
+	'bg-violet-a8',
+	'bg-plum-a8',
+	'bg-iris-a8',
+	'bg-purple-a8',
+	'bg-blue-a8',
+	'bg-cyan-a8',
+	'bg-pink-a8',
+]
+
+const LoadingsBalls = () => (
 	<div className="flex h-24 items-center justify-center">
-		<LoadingBalls className="translate-x-0" />
-		<LoadingBalls className="translate-x-10" />
-		<LoadingBalls className="-translate-x-10" />
+		<Ball className="translate-x-0" colorClassNameList={colors} />
+		<Ball className="translate-x-10" colorClassNameList={colors} />
+		<Ball className="-translate-x-10" colorClassNameList={colors} />
 	</div>
 )
-
-const LoadingBalls = ({ className }: { className?: string }) => {
-	const xKeyFrames = Array.from(
-		{ length: 5 },
-		() => Math.random() * 50 * (Math.random() > 0.5 ? 1 : -1) + '%',
-	)
-	const yKeyFrames = Array.from(
-		{ length: 5 },
-		() => Math.random() * 50 * (Math.random() > 0.5 ? 1 : -1) + '%',
-	)
-
-	const colors = [
-		'bg-sky-a6',
-		'bg-mint-a6',
-		'bg-indigo-a8',
-		'bg-violet-a8',
-		'bg-plum-a8',
-		'bg-iris-a8',
-		'bg-purple-a8',
-		'bg-blue-a8',
-		'bg-cyan-a8',
-		'bg-pink-a8',
-	]
-	const randomColorIndex = Math.floor(Math.random() * (colors.length - 1))
-	const color = colors[randomColorIndex]
-
-	return (
-		<div className={clsx(className, 'absolute')}>
-			<motion.div
-				animate={{
-					x: ['0%', ...xKeyFrames, '0%'],
-					y: ['0%', ...yKeyFrames, '0%'],
-					transition: {
-						repeat: Infinity,
-						duration: 20,
-						ease: 'linear',
-					},
-				}}
-				className={clsx(
-					'aspect-square w-20 transform-gpu rounded-full blur-lg',
-					color,
-				)}
-			/>
-		</div>
-	)
-}
