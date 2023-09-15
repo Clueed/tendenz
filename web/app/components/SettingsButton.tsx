@@ -1,6 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import clsx from 'clsx'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Suspense, lazy, useState } from 'react'
 
 const SettingsPage = lazy(() => import('../settings/page'))
@@ -30,37 +30,40 @@ export default function SettingsButton({}: {}) {
 					</svg>
 				</button>
 			</Dialog.Trigger>
-			<Dialog.Portal>
-				<Dialog.Overlay className="fixed inset-0 bg-slate-a5   backdrop-blur-md dark:bg-slate-1">
-					<div className="mask-linear-radial absolute inset-0 -z-20 bg-slate-1 opacity-75" />
-					<div className="noise-bg absolute bottom-1/2 right-1/2 -z-10 h-screen w-screen translate-x-1/2 translate-y-1/2 opacity-50 dark:opacity-25" />
-				</Dialog.Overlay>
-				<Dialog.Content className="data-[state=open]:animate-contentShow fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-[6px] p-[25px] focus:outline-none">
-					<Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
-						Settings
-					</Dialog.Title>
-					{/* <Dialog.Description className="mb-5 mt-[10px] text-[15px] leading-normal text-mauve-11">
-						Make changes to your profile here. Click save when you're done.
-					</Dialog.Description> */}
 
-					<Suspense fallback={<Loading />}>{open && <SettingsPage />}</Suspense>
-					{/* <div className="mt-[25px] flex justify-end">
-						<Dialog.Close asChild>
-							<button className="inline-flex h-[35px] items-center justify-center rounded-[4px] bg-green-4 px-[15px] font-medium leading-none text-green-11 hover:bg-green-5 focus:shadow-[0_0_0_2px] focus:shadow-green-7 focus:outline-none">
-								Save changes
-							</button>
-						</Dialog.Close>
-					</div> */}
-					<Dialog.Close asChild>
-						<button
-							className="absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full text-violet-11 hover:bg-violet-4 focus:shadow-[0_0_0_2px] focus:shadow-violet-7 focus:outline-none"
-							aria-label="Close"
+			<AnimatePresence>
+				{open && (
+					<Dialog.Portal forceMount>
+						<motion.div
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
 						>
-							x
-						</button>
-					</Dialog.Close>
-				</Dialog.Content>
-			</Dialog.Portal>
+							<Dialog.Overlay className="fixed inset-0 bg-slate-a5 backdrop-blur-md dark:bg-slate-1">
+								<div className="mask-linear-radial absolute inset-0 -z-20 bg-slate-1 opacity-75" />
+								<div className="noise-bg absolute bottom-1/2 right-1/2 -z-10 h-screen w-screen translate-x-1/2 translate-y-1/2 opacity-50 dark:opacity-25" />
+							</Dialog.Overlay>
+							<Dialog.Content className="fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-[6px] p-[25px] focus:outline-none">
+								<Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
+									Settings
+								</Dialog.Title>
+
+								<Suspense fallback={<Loading />}>
+									<SettingsPage />
+								</Suspense>
+								<Dialog.Close asChild>
+									<button
+										className="absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full text-violet-11 hover:bg-violet-4 focus:shadow-[0_0_0_2px] focus:shadow-violet-7 focus:outline-none"
+										aria-label="Close"
+									>
+										x
+									</button>
+								</Dialog.Close>
+							</Dialog.Content>
+						</motion.div>
+					</Dialog.Portal>
+				)}
+			</AnimatePresence>
 		</Dialog.Root>
 	)
 }
@@ -68,7 +71,7 @@ export default function SettingsButton({}: {}) {
 const Loading = () => (
 	<div className="flex h-24 items-center justify-center">
 		<LoadingBalls className="translate-x-0" />
-		<LoadingBalls className="translate-x-5" />
+		<LoadingBalls className="translate-x-10" />
 		<LoadingBalls className="-translate-x-10" />
 	</div>
 )
