@@ -1,16 +1,23 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import clsx from 'clsx'
 import SettingsPage from '../settings/page'
 
 export default function SettingsButton({}: {}) {
 	return (
 		<Dialog.Root>
 			<Dialog.Trigger asChild>
-				<button className="text-violet11 shadow-blackA7 hover:bg-mauve3 bg-white focus:shadow-black inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-[0_0_0_2px] focus:outline-none">
+				<button
+					className={clsx(
+						'rounded-md stroke-2 px-2 py-2 text-sm transition-all',
+						'bg-slate-a2 text-slate-a11 duration-500 hover:bg-slate-a4 hover:shadow-lg group-hover:bg-slate-a4',
+					)}
+				>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						height="1em"
 						viewBox="0 0 512 512"
 						fill="currentColor"
+						className="transition-transform duration-1000 ease-[cubic-bezier(0,-0.91,1,1.73)] hover:rotate-[360deg]"
 					>
 						! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com
 						License - https://fontawesome.com/license (Commercial License)
@@ -20,8 +27,11 @@ export default function SettingsButton({}: {}) {
 				</button>
 			</Dialog.Trigger>
 			<Dialog.Portal>
-				<Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 bg-black-a9" />
-				<Dialog.Content className="data-[state=open]:animate-contentShow fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-slate-1 p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+				<Dialog.Overlay className="data-[state=open]:animate-overlayShow fixed inset-0 bg-slate-a5 backdrop-blur-md">
+					<div className="mask-linear-radial absolute inset-0 -z-20 bg-slate-1 opacity-75" />
+					<div className="noise-bg absolute bottom-1/2 right-1/2 -z-10 h-screen w-screen translate-x-1/2 translate-y-1/2 opacity-50"></div>
+				</Dialog.Overlay>
+				<Dialog.Content className="data-[state=open]:animate-contentShow fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-[6px] p-[25px] focus:outline-none">
 					<Dialog.Title className="text-mauve12 m-0 text-[17px] font-medium">
 						Settings
 					</Dialog.Title>
@@ -29,13 +39,13 @@ export default function SettingsButton({}: {}) {
 						Make changes to your profile here. Click save when you're done.
 					</Dialog.Description> */}
 					<SettingsPage />
-					<div className="mt-[25px] flex justify-end">
+					{/* <div className="mt-[25px] flex justify-end">
 						<Dialog.Close asChild>
 							<button className="inline-flex h-[35px] items-center justify-center rounded-[4px] bg-green-4 px-[15px] font-medium leading-none text-green-11 hover:bg-green-5 focus:shadow-[0_0_0_2px] focus:shadow-green-7 focus:outline-none">
 								Save changes
 							</button>
 						</Dialog.Close>
-					</div>
+					</div> */}
 					<Dialog.Close asChild>
 						<button
 							className="absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full text-violet-11 hover:bg-violet-4 focus:shadow-[0_0_0_2px] focus:shadow-violet-7 focus:outline-none"

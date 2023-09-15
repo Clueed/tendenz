@@ -177,3 +177,12 @@
 		filter: contrast(100%) brightness(80%) invert(0%);
 	}
 }
+
+.mask-linear-radial {
+	-webkit-mask-image: radial-gradient(
+		circle at center,
+		black 30%,
+		transparent 50%
+	);
+	mask-image: radial-gradient(circle at center, black 30%, transparent 50%);
+}
