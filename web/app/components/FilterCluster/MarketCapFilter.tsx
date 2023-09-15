@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { HTMLAttributes, ReactNode } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { useFilterStore } from '../filterStore'
+import { useFilterStore } from '../../lib/stores/filterStore'
 import {
 	Inputs,
 	areNextToEachOther,

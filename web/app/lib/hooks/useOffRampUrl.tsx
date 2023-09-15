@@ -1,4 +1,4 @@
-import { OFFRAMP_NAMES } from '@/app/lib/MARKET_CAP_BUCKETS'
+import { OFFRAMP_NAMES } from '@/app/lib/CONSTANS'
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
 
 export function useOffRampUrl(

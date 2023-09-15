@@ -1,5 +1,5 @@
-import { MarketCapFilter } from '@/app/components/filterStore'
-import { TYPE_GROUPS, TypeGroupLabel } from '../MARKET_CAP_BUCKETS'
+import { MarketCapFilter } from '@/app/lib/stores/filterStore'
+import { TYPE_GROUPS, TypeGroupLabel } from '../CONSTANS'
 
 const BASE_URL =
 	process.env.NEXT_PUBLIC_BASE_URL || 'https://tendenz-server.fly.dev'

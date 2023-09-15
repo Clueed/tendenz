@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import Link from 'next/link'
-import ChevronRight from '../components/Sigma/ChevronRight'
+import ChevronRight from '../components/icons/ChevronRight'
 
 export default function Docs() {
 	return (

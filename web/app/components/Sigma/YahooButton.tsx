@@ -1,8 +1,8 @@
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 import clsx from 'clsx'
 import Link from 'next/link'
-import ChevronRight from './ChevronRight'
-import { GraphIcon } from './GraphIcon'
+import ChevronRight from '../icons/ChevronRight'
+import { GraphIcon } from '../icons/GraphIcon'
 
 export function YahooButton({ url }: { url: string }) {
 	return (

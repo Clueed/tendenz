@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { hoursUntilNextWeekdayHour } from '../lib/hoursUntilNextWeekdayHour'
-import IconClock from './IconClock'
 import Pop from './Pop'
+import IconClock from './icons/IconClock'
 
 export default function Timer() {
 	const timeTill = hoursUntilNextWeekdayHour(2)

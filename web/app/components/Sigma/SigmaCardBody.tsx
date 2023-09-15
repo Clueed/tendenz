@@ -1,10 +1,10 @@
 import clsx from 'clsx'
 import { useContext, useMemo } from 'react'
+import { useOffRampUrl } from '../../lib/hooks/useOffRampUrl'
 import { npl } from '../../lib/naturalLanguageProcessing'
-import { useSettingsStore } from '../settingsStore'
+import { useSettingsStore } from '../../lib/stores/settingsStore'
 import { SigmaEntryContext } from './SigmaEntryContext'
 import { YahooButton } from './YahooButton'
-import { useOffRampUrl } from './useOffRampUrl'
 
 export function SigmaCardBody() {
 	const entry = useContext(SigmaEntryContext)

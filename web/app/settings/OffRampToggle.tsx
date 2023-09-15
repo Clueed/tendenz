@@ -27,7 +27,7 @@ export function OffRampToggle<T extends string[] | readonly string[]>({
 		>
 			<div
 				className={clsx(
-					'flex flex-wrap items-start justify-between gap-x-3 gap-y-2 text-2xl',
+					'flex flex-col  items-start gap-x-3 gap-y-2 text-2xl sm:items-center',
 				)}
 			>
 				{allKeys.map((key, _) => {

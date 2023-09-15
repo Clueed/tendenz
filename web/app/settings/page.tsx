@@ -1,9 +1,10 @@
 'use client'
 import * as Switch from '@radix-ui/react-switch'
-import { GraphIcon } from '../components/Sigma/GraphIcon'
-import { useSettingsStore } from '../components/settingsStore'
+import Balancer from 'react-wrap-balancer'
+import { GraphIcon } from '../components/icons/GraphIcon'
 import { H3 } from '../docs/TextStyles'
-import { OFFRAMP_NAMES } from '../lib/MARKET_CAP_BUCKETS'
+import { OFFRAMP_NAMES } from '../lib/CONSTANS'
+import { useSettingsStore } from '../lib/stores/settingsStore'
 import { OffRampToggle } from './OffRampToggle'
 
 export default function SettingsPage() {
@@ -25,6 +26,12 @@ export default function SettingsPage() {
 						offramp provider
 					</div>
 				</H3>
+				<div className="text-sm text-slate-11 sm:text-center">
+					<Balancer>
+						the service to be used when linking to external sites for additional
+						information on assets
+					</Balancer>
+				</div>
 				<div className="my-7">
 					<OffRampToggle
 						selectedKey={offRampName}
@@ -53,9 +60,7 @@ export default function SettingsPage() {
 							<Switch.Thumb className="h-4 w-4 rounded-full bg-slate-1 transition-transform duration-500 ease-in-out will-change-transform data-[state=checked]:translate-x-[calc(2rem-100%)] dark:bg-slate-12" />
 						</Switch.Root>
 					</div>
-					<div className="mt-2 text-xs text-slate-11">
-						we use cookies for settings store.
-					</div>
+					<div className="mt-1 text-xs text-slate-10">this uses cookies.</div>
 				</form>
 			</section>
 		</>

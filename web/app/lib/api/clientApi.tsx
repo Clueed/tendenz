@@ -1,6 +1,6 @@
 'use client'
 
-import { useFilterStore } from '@/app/components/filterStore'
+import { useFilterStore } from '@/app/lib/stores/filterStore'
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
 import { preload } from 'swr'
 import useSWRInfinite from 'swr/infinite'

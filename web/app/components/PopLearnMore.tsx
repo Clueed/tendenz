@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import Link from 'next/link'
-import ChevronRight from './Sigma/ChevronRight'
+import ChevronRight from './icons/ChevronRight'
 
 const colors = {
 	indigo: {

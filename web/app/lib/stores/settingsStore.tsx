@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
-import { DEFAULT_OFFRAMP_NAME, OFFRAMP_NAMES } from '../lib/MARKET_CAP_BUCKETS'
+import { DEFAULT_OFFRAMP_NAME, OFFRAMP_NAMES } from '../CONSTANS'
 
 interface FilterState {
 	persist: boolean

@@ -8,7 +8,7 @@ import {
 	DEFAULT_MARKET_CAP,
 	DEFAULT_TYPE_GROUP_LABELS,
 	TypeGroupLabel,
-} from './lib/MARKET_CAP_BUCKETS'
+} from './lib/CONSTANS'
 import SWRConfigProvider from './lib/api/SWRConfigProvider'
 import { getFallback } from './lib/api/serverApi'
 import { ApiQuery } from './lib/api/sharedApi'

@@ -1,12 +1,3 @@
-export const MARKET_CAP_BUCKETS = [
-	{ label: '10m', minMarketCap: 10000000 },
-	{ label: '100m', minMarketCap: 100000000 },
-	{ label: '1b', minMarketCap: 1000000000 },
-	{ label: '50b', minMarketCap: 50000000000 },
-] as const
-
-export type MarketCapBucketLabel = (typeof MARKET_CAP_BUCKETS)[number]['label']
-
 export const TYPE_GROUPS = [
 	{
 		label: 'stocks',
@@ -31,23 +22,17 @@ export const TYPE_GROUPS = [
 		],
 	},
 ] as const
-
 export type TypeGroupLabel = (typeof TYPE_GROUPS)[number]['label']
-
-export const DEFAULT_MARKET_CAP_LABEL = '1b'
 export const DEFAULT_TYPE_GROUP_LABELS = ['stocks'] as TypeGroupLabel[]
 
-export const DEFAULT_MIN_MARKETCAP = 1e9
-
 export const DEFAULT_MARKET_CAP = {
-	min: DEFAULT_MIN_MARKETCAP,
+	min: 1e9,
 	max: Infinity,
 }
-
-export const DEFAULT_OFFRAMP_NAME = 'Yahoo Finance'
 
 export const OFFRAMP_NAMES = [
 	'Yahoo Finance',
 	'Google Finance',
 	'Wallmine',
 ] as const
+export const DEFAULT_OFFRAMP_NAME = 'Yahoo Finance'

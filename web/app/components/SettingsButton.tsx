@@ -108,16 +108,9 @@ const LoadingBalls = ({ className }: { className?: string }) => {
 					x: ['0%', ...xKeyFrames, '0%'],
 					y: ['0%', ...yKeyFrames, '0%'],
 					transition: {
-						//delay: 10,
 						repeat: Infinity,
-						//repeatDelay: 10,
 						duration: 20,
 						ease: 'linear',
-						//type: 'inertia',
-						//velocity: 50,
-						//type: 'inertia',
-
-						//type: 'spring',
 					},
 				}}
 				className={clsx(

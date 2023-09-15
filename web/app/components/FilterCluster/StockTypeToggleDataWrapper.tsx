@@ -1,6 +1,6 @@
 'use client'
-import { TYPE_GROUPS } from '../../lib/MARKET_CAP_BUCKETS'
-import { useFilterStore } from '../filterStore'
+import { TYPE_GROUPS } from '../../lib/CONSTANS'
+import { useFilterStore } from '../../lib/stores/filterStore'
 import StockTypeToggle from './StockTypeToggle'
 
 export default function StockTypeToggleDataWrapper({}: {}) {
