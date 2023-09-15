@@ -32,14 +32,41 @@ function generateWallmineUrl({
 	primaryExchange,
 	ticker,
 }: tendenzApiSigmaYesterday) {
-	const param = type === 'ETF' ? `etf` : `${primaryExchange}`
+	const param =
+		type === 'ETF'
+			? `etf`
+			: getMappedExchange(primaryExchange, wallmineExchangeMap)
 
 	return `https://wallmine.com/${param}/${ticker}`
+}
+
+type ExchangeMap = Partial<
+	Record<tendenzApiSigmaYesterday['primaryExchange'], string>
+>
+
+const wallmineExchangeMap: ExchangeMap = {
+	XNAS: 'NASDAQ',
+}
+
+const googleExchangeMap: ExchangeMap = {
+	XNAS: 'NASDAQ',
+	XASE: 'NYSEAMERICAN',
+	XNYS: 'NYSE',
+	ARCX: 'NYSEARCA',
+}
+
+const getMappedExchange = (
+	primaryExchange: tendenzApiSigmaYesterday['primaryExchange'],
+	map: ExchangeMap,
+) => {
+	return map[primaryExchange] ?? primaryExchange
 }
 
 function generateGoogleFinanceUrl({
 	ticker,
 	primaryExchange,
 }: tendenzApiSigmaYesterday) {
-	return `https://www.google.com/finance/quote/${ticker}:${primaryExchange}`
+	const exchange = getMappedExchange(primaryExchange, googleExchangeMap)
+
+	return `https://www.google.com/finance/quote/${ticker}:${exchange}`
 }
