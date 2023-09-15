@@ -21,11 +21,7 @@ export default function StockTypeToggle<T extends string[]>({
 			asChild
 			aria-label="Asset type"
 		>
-			<div
-				className={clsx(
-					'flex flex-wrap items-start gap-x-3 rounded-md text-2xl',
-				)}
-			>
+			<div className={clsx('flex flex-wrap items-start gap-x-3 text-2xl')}>
 				{allKeys.map((key, index) => {
 					const selected = selectedKeys.includes(key)
 
