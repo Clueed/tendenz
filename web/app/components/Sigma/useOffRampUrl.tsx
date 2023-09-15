@@ -1,12 +1,12 @@
 import { OFFRAMP_NAMES } from '@/app/lib/MARKET_CAP_BUCKETS'
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
 
-export function useOfframpUrl(
+export function useOffRampUrl(
 	entry: tendenzApiSigmaYesterday,
-	offrampName: (typeof OFFRAMP_NAMES)[number],
+	offRampName: (typeof OFFRAMP_NAMES)[number],
 ) {
-	console.log('offrampName :>> ', offrampName)
-	switch (offrampName) {
+	console.log('offRampName :>> ', offRampName)
+	switch (offRampName) {
 		case 'Yahoo Finance': {
 			return generateYahooFinanceUrl(entry)
 		}
@@ -15,7 +15,7 @@ export function useOfframpUrl(
 		}
 	}
 
-	return assertUnreachable(offrampName)
+	return assertUnreachable(offRampName)
 }
 function assertUnreachable(x: never): never {
 	throw new Error("Didn't expect to get here")

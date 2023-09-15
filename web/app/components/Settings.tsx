@@ -34,7 +34,7 @@ export default function Settings({}: {}) {
 					sideOffset={5}
 				>
 					<DropdownMenu.Label className="text-xs text-slate-3">
-						offramp link
+						offRamp link
 					</DropdownMenu.Label>
 					<DropdownMenu.Sub>
 						<DropdownMenu.SubTrigger>{value}</DropdownMenu.SubTrigger>

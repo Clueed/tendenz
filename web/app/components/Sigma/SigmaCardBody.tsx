@@ -4,7 +4,7 @@ import { npl } from '../../lib/naturalLanguageProcessing'
 import { useSettingsStore } from '../settingsStore'
 import { SigmaEntryContext } from './SigmaEntryContext'
 import { YahooButton } from './YahooButton'
-import { useOfframpUrl } from './useOffRampUrl'
+import { useOffRampUrl } from './useOffRampUrl'
 
 export function SigmaCardBody() {
 	const entry = useContext(SigmaEntryContext)
@@ -20,8 +20,8 @@ export function SigmaCardBody() {
 
 	const dailyReturnString = dailyReturn.toFixed(2) + '%'
 
-	const offRampName = useSettingsStore(state => state.offrampName)
-	const url = useOfframpUrl(entry, offRampName)
+	const offRampName = useSettingsStore(state => state.offRampName)
+	const url = useOffRampUrl(entry, offRampName)
 
 	console.log('url :>> ', url)
 

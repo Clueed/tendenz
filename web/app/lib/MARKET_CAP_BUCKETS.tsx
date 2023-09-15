@@ -46,4 +46,8 @@ export const DEFAULT_MARKET_CAP = {
 
 export const DEFAULT_OFFRAMP_NAME = 'Yahoo Finance'
 
-export const OFFRAMP_NAMES = ['Yahoo Finance', 'Wallmine'] as const
+export const OFFRAMP_NAMES = [
+	'Yahoo Finance',
+	'Google Finance',
+	'Wallmine',
+] as const

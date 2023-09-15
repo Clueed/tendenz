@@ -2,40 +2,39 @@ import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import clsx from 'clsx'
 import { ReactNode } from 'react'
 
-export function OffRampToggle<T extends string[]>({
-	selectedKeys,
-	selectKeys,
+export function OffRampToggle<T extends string[] | readonly string[]>({
+	selectedKey,
+	selectKey,
 	allKeys,
 }: {
-	selectedKeys: T[number][]
-	selectKeys: (newKeys: T[number][]) => void
+	selectedKey: T[number]
+	selectKey: (newKey: T[number]) => void
 	allKeys: T
 }) {
 	return (
 		<ToggleGroup.Root
-			type="multiple"
-			value={selectedKeys}
-			onValueChange={newKeys => {
-				newKeys.length > 0 && selectKeys(newKeys)
+			type="single"
+			value={selectedKey}
+			onValueChange={newKey => {
+				if (allKeys.includes(newKey)) {
+					selectKey(newKey as T[number])
+				} else {
+					throw new Error('Selected invalid key')
+				}
 			}}
 			asChild
 			aria-label="Asset type"
 		>
-			<div className={clsx('flex flex-wrap items-start gap-x-3 text-2xl')}>
-				{allKeys.map((key, index) => {
-					const selected = selectedKeys.includes(key)
+			<div
+				className={clsx(
+					'flex flex-wrap items-start justify-between gap-x-3 gap-y-2 text-2xl',
+				)}
+			>
+				{allKeys.map((key, _) => {
+					const selected = key === selectedKey
 
 					return (
-						<ToggleGroup.Item
-							key={key}
-							value={key}
-							className={clsx(
-								'group',
-								{ 'order-1 max-sm:order-3': index === 0 },
-								{ 'order-2': index === 1 },
-								{ 'order-3 max-sm:order-2': index === 2 },
-							)}
-						>
+						<ToggleGroup.Item key={key} value={key} className={clsx()}>
 							<Highlight
 								className={clsx(
 									'bg-indigo-a7 transition-opacity duration-1000 dark:bg-indigo-a5',

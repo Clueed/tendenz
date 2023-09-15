@@ -5,15 +5,21 @@ import { OFFRAMP_NAMES } from '../lib/MARKET_CAP_BUCKETS'
 import { OffRampToggle } from './OffRampToggle'
 
 export default function Settings() {
-	const offRampName = useSettingsStore(state => state.offrampName)
-	const setOfframpName = useSettingsStore(state => state.setOfframpName)
+	const offRampName = useSettingsStore(state => state.offRampName)
+	const setOffRampName = useSettingsStore(state => state.setOffRampName)
 
 	const allOffRampNames = OFFRAMP_NAMES
 
 	return (
 		<section>
 			<H3>Offramp Provider</H3>
-			<OffRampToggle />
+			<div className="my-7">
+				<OffRampToggle
+					selectedKey={offRampName}
+					selectKey={setOffRampName}
+					allKeys={allOffRampNames}
+				/>
+			</div>
 		</section>
 	)
 }
