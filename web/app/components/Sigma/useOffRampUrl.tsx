@@ -5,7 +5,6 @@ export function useOffRampUrl(
 	entry: tendenzApiSigmaYesterday,
 	offRampName: (typeof OFFRAMP_NAMES)[number],
 ) {
-	console.log('offRampName :>> ', offRampName)
 	switch (offRampName) {
 		case 'Yahoo Finance': {
 			return generateYahooFinanceUrl(entry)

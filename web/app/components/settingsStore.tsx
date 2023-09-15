@@ -1,22 +1,27 @@
 import { create } from 'zustand'
-import { devtools } from 'zustand/middleware'
+import { devtools, persist } from 'zustand/middleware'
 import { DEFAULT_OFFRAMP_NAME, OFFRAMP_NAMES } from '../lib/MARKET_CAP_BUCKETS'
 
 interface FilterState {
+	persist: boolean
+	setPersist: (bool: boolean) => void
 	offRampName: (typeof OFFRAMP_NAMES)[number]
 	setOffRampName: (newOffRampName: (typeof OFFRAMP_NAMES)[number]) => void
 }
 
 export const useSettingsStore = create<FilterState>()(
 	devtools(
-		// persist(
-		set => ({
-			offRampName: DEFAULT_OFFRAMP_NAME,
-			setOffRampName: newOffRampName => set({ offRampName: newOffRampName }),
-		}),
-		{
-			name: 'SettingsStore',
-		},
-		// ),
+		persist(
+			set => ({
+				persist: false,
+				setPersist: bool => set({ persist: bool }),
+				offRampName: DEFAULT_OFFRAMP_NAME,
+				setOffRampName: newOffRampName => set({ offRampName: newOffRampName }),
+			}),
+			{
+				name: 'SettingsStore',
+				partialize: state => (state.persist === true ? state : undefined),
+			},
+		),
 	),
 )
