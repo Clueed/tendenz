@@ -2,12 +2,12 @@
 
 import { useSigmaYesterdayInfinite } from '@/app/lib/api/clientApi'
 import * as Accordion from '@radix-ui/react-accordion'
+import { Icon } from '@tendenz/icons'
 import { PAGE_SIZE, tendenzApiSigmaYesterday } from '@tendenz/types'
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useFilterStore } from '../../lib/stores/filterStore'
-import IconFire from '../icons/IconFire'
 import { NextPageButton } from './NextPageButton'
 import { SigmaCard } from './SigmaCard'
 
@@ -63,7 +63,7 @@ export function SigmaAccordion() {
 				<div className="max-h-[55rem] overflow-y-auto overflow-x-hidden">
 					{error && (
 						<div className="flex items-center justify-center gap-2 bg-red-a3 px-2 py-2 text-sm text-red-12">
-							<IconFire />
+							<Icon name="phosphor-icons/fire" />
 							something went wrong...
 						</div>
 					)}

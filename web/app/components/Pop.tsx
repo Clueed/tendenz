@@ -43,10 +43,7 @@ export default function Pop({
 					setOpen(!open)
 					e.preventDefault()
 				}}
-				className={clsx(
-					'group !inline appearance-none leading-none',
-					rootClassName,
-				)}
+				className={clsx('group appearance-none leading-none', rootClassName)}
 			>
 				{typeof children === 'function' ? children(open) : children}
 			</Popover.Trigger>

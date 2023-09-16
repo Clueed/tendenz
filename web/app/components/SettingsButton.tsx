@@ -14,7 +14,7 @@ export default function SettingsButton({}: {}) {
 			<Dialog.Trigger asChild>
 				<button
 					className={clsx(
-						'rounded-md stroke-2 px-2 py-2 text-sm transition-all',
+						'rounded-md stroke-2 px-2.5 py-1.5 text-sm transition-all',
 						'bg-slate-a2 text-slate-a11 duration-500 hover:bg-slate-a4 hover:shadow-lg group-hover:bg-slate-a4',
 					)}
 				>

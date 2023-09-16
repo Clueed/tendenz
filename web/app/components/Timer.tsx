@@ -18,23 +18,17 @@ export default function Timer() {
 				</div>
 			}
 			popoverColor="slate"
+			rootClassName={clsx(
+				'flex items-center gap-1 rounded-md stroke-2 px-2.5 py-1.5 text-sm transition-all duration-500',
+				'bg-slate-a2 text-slate-a11 hover:bg-slate-a4 hover:shadow-lg group-hover:bg-slate-a4',
+				'group-radix-state-open:bg-slate-a11 group-radix-state-open:text-slate-2',
+			)}
 		>
-			<div
-				className={clsx(
-					'flex items-center gap-2 rounded-md stroke-2 px-2 py-1 text-sm transition-all duration-500',
-					'bg-slate-a2 text-slate-a11 hover:bg-slate-a4 hover:shadow-lg group-hover:bg-slate-a4',
-					'group-radix-state-open:bg-slate-a11 group-radix-state-open:text-slate-2',
-				)}
-			>
-				{/* <IconClock animationTrigger={open} /> */}
-
-				<Icon
-					name="radix-icons/clock"
-					className="will-change-transform group-radix-state-open:animate-[rotate-360_1s_cubic-bezier(.12,0,.36,1.5)]"
-				/>
-
-				<span className="font-light">{timeTill}h</span>
-			</div>
+			<Icon
+				name="radix-icons/clock"
+				className="will-change-transform group-radix-state-open:animate-[rotate-360_1s_cubic-bezier(.12,0,.36,1.5)]"
+			/>
+			<span className="font-light">{timeTill}h</span>
 		</Pop>
 	)
 }
