@@ -1,5 +1,7 @@
 'use client'
 import * as Switch from '@radix-ui/react-switch'
+
+import { Icon } from '@tendenz/icons'
 import Balancer from 'react-wrap-balancer'
 import { GraphIcon } from '../components/icons/GraphIcon'
 import { H3 } from '../docs/TextStyles'
@@ -33,6 +35,7 @@ export default function SettingsPage() {
 					</Balancer>
 				</div>
 				<div className="my-7">
+					
 					<OffRampToggle
 						selectedKey={offRampName}
 						selectKey={setOffRampName}

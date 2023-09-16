@@ -1,4 +1,5 @@
 import * as ToggleGroup from '@radix-ui/react-toggle-group'
+import { Icon } from '@tendenz/icons'
 import clsx from 'clsx'
 import { ReactNode } from 'react'
 
@@ -50,7 +51,8 @@ export function OffRampToggle<T extends string[] | readonly string[]>({
 									)}
 								>
 									{key}
-								</span>
+								</span>{' '}
+								<Icon name="external-link" />
 							</Highlight>
 						</ToggleGroup.Item>
 					)
