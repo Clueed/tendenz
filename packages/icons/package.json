@@ -9,13 +9,13 @@
     "@types/fs-extra": "^11.0.2",
     "@types/glob": "^8.1.0",
     "cpx": "^1.5.0",
-    "typescript": "^5.1.6",
     "execa": "^8.0.1",
-    "node-html-parser": "^6.1.10"
+    "node-html-parser": "^6.1.10",
+    "typescript": "^5.1.6"
   },
   "scripts": {
     "dev": "yarn build",
-    "build": "node --loader ts-node/esm --inspect --trace-uncaught ./build-icons.ts &&     cpx ./output/sprite.svg ../../web/app/public/sprite.svg",
+    "build": "node --loader ts-node/esm --inspect --trace-uncaught ./build-icons.ts && cpx ./output/sprite.svg ../../web/public/",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write ."
   },
