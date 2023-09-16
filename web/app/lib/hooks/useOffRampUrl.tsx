@@ -1,31 +1,47 @@
-import { OFFRAMP_NAMES } from '@/app/lib/CONSTANS'
+import { OFFRAMPS } from '@/app/lib/CONSTANS'
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
 
 export function useOffRampUrl(
 	entry: tendenzApiSigmaYesterday,
-	offRampName: (typeof OFFRAMP_NAMES)[number],
+	offRamp: keyof typeof OFFRAMPS,
 ) {
-	switch (offRampName) {
-		case 'Yahoo Finance': {
+	switch (offRamp) {
+		case 'yahoo': {
 			return generateYahooFinanceUrl(entry)
 		}
-		case 'Wallmine': {
+		case 'wallmine': {
 			return generateWallmineUrl(entry)
 		}
-		case 'Google Finance': {
+		case 'google': {
 			return generateGoogleFinanceUrl(entry)
+		}
+		case 'finviz': {
+			return generateFinvizUrl(entry)
 		}
 	}
 
-	return assertUnreachable(offRampName)
+	return assertUnreachable(offRamp)
 }
+
 function assertUnreachable(x: never): never {
 	throw new Error("Didn't expect to get here")
 }
 
-function generateYahooFinanceUrl({ ticker }: tendenzApiSigmaYesterday) {
-	return `https://finance.yahoo.com/quote/${ticker}`
+type ExchangeMap = Partial<
+	Record<tendenzApiSigmaYesterday['primaryExchange'], string>
+>
+
+const getMappedExchange = (
+	primaryExchange: tendenzApiSigmaYesterday['primaryExchange'],
+	map: ExchangeMap,
+) => {
+	return map[primaryExchange] ?? primaryExchange
 }
+
+const wallmineExchangeMap: ExchangeMap = {
+	XNAS: 'NASDAQ',
+}
+
 function generateWallmineUrl({
 	type,
 	primaryExchange,
@@ -39,26 +55,11 @@ function generateWallmineUrl({
 	return `https://wallmine.com/${param}/${ticker}`
 }
 
-type ExchangeMap = Partial<
-	Record<tendenzApiSigmaYesterday['primaryExchange'], string>
->
-
-const wallmineExchangeMap: ExchangeMap = {
-	XNAS: 'NASDAQ',
-}
-
 const googleExchangeMap: ExchangeMap = {
 	XNAS: 'NASDAQ',
 	XASE: 'NYSEAMERICAN',
 	XNYS: 'NYSE',
 	ARCX: 'NYSEARCA',
-}
-
-const getMappedExchange = (
-	primaryExchange: tendenzApiSigmaYesterday['primaryExchange'],
-	map: ExchangeMap,
-) => {
-	return map[primaryExchange] ?? primaryExchange
 }
 
 function generateGoogleFinanceUrl({
@@ -68,4 +69,11 @@ function generateGoogleFinanceUrl({
 	const exchange = getMappedExchange(primaryExchange, googleExchangeMap)
 
 	return `https://www.google.com/finance/quote/${ticker}:${exchange}`
+}
+function generateYahooFinanceUrl({ ticker }: tendenzApiSigmaYesterday) {
+	return `https://finance.yahoo.com/quote/${ticker}`
+}
+
+function generateFinvizUrl(entry: tendenzApiSigmaYesterday) {
+	throw new Error('Function not implemented.')
 }
