@@ -75,5 +75,5 @@ function generateYahooFinanceUrl({ ticker }: tendenzApiSigmaYesterday) {
 }
 
 function generateFinvizUrl(entry: tendenzApiSigmaYesterday) {
-	throw new Error('Function not implemented.')
+	return `https://finviz.com/quote.ashx?t=${entry.ticker}`
 }
