@@ -1,4 +1,4 @@
-import { ComingSoon } from './components/ComingSoon'
+import { ComingSoon } from './components/ComingSoon/ComingSoon'
 import { FilterCluster } from './components/FilterCluster/FilterCluster'
 import Hero from './components/Hero'
 import { SigmaAccordion } from './components/Sigma/SigmaAccordion'

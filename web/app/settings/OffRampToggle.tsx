@@ -17,24 +17,23 @@ export function OffRampToggle({}: {}) {
 			ariaLabel="offramp provider"
 		>
 			{(key, _, selected) => (
-				<button className="group">
+				<button className="group relative">
 					<Highlight
 						className={clsx(
 							'bg-indigo-a7 transition-opacity duration-1000 dark:bg-indigo-a5',
 							selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-50',
 						)}
+					/>
+					<span
+						className={clsx(
+							'tracking-wide transition-all duration-500',
+							selected
+								? 'text-indigo-11 hover:text-indigo-12'
+								: 'text-slate-a11 hover:text-slate-12',
+						)}
 					>
-						<span
-							className={clsx(
-								'tracking-wide transition-all duration-500',
-								selected
-									? 'text-indigo-11 hover:text-indigo-12'
-									: 'text-slate-a11 hover:text-slate-12',
-							)}
-						>
-							{OFFRAMPS[key]}
-						</span>{' '}
-					</Highlight>
+						{OFFRAMPS[key]}
+					</span>{' '}
 				</button>
 			)}
 		</CustomToggleGroupSingle>

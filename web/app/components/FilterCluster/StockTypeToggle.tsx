@@ -16,25 +16,31 @@ export default function StockTypeToggle({}: {}) {
 			className="flex flex-wrap items-start gap-x-3 text-2xl"
 			ariaLabel="Asset type"
 		>
-			{(key, _, selected) => (
-				<button className="group">
+			{(key, index, selected) => (
+				<button
+					className={clsx(
+						'group relative',
+						{ 'order-1 max-sm:order-3': index === 0 },
+						{ 'order-2': index === 1 },
+						{ 'order-3 max-sm:order-2': index === 2 },
+					)}
+				>
 					<Highlight
 						className={clsx(
 							'bg-indigo-a7 transition-opacity duration-1000 dark:bg-indigo-a5',
 							selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-50',
 						)}
+					/>
+					<span
+						className={clsx(
+							'tracking-wide transition-all duration-500',
+							selected
+								? 'text-indigo-11 hover:text-indigo-12'
+								: 'text-slate-a11 hover:text-slate-12',
+						)}
 					>
-						<span
-							className={clsx(
-								'tracking-wide transition-all duration-500',
-								selected
-									? 'text-indigo-11 hover:text-indigo-12'
-									: 'text-slate-a11 hover:text-slate-12',
-							)}
-						>
-							{key}
-						</span>{' '}
-					</Highlight>
+						{key}
+					</span>{' '}
 				</button>
 			)}
 		</CustomToggleGroupMultiple>
