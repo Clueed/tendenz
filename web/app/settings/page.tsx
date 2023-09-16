@@ -2,20 +2,15 @@
 import * as Switch from '@radix-ui/react-switch'
 
 import { Icon } from '@tendenz/icons'
-import clsx from 'clsx'
 import Balancer from 'react-wrap-balancer'
 import { H3 } from '../docs/TextStyles'
-import { OFFRAMPS } from '../lib/CONSTANS'
 import { useSettingsStore } from '../lib/stores/settingsStore'
-import { Highlight, OffRampToggle } from './OffRampToggle'
+import { OffRampToggle } from './OffRampToggle'
 
 export default function SettingsPage() {
-	const offRampName = useSettingsStore(state => state.offRampName)
-	const setOffRampName = useSettingsStore(state => state.setOffRampName)
 	const setPersist = useSettingsStore(state => state.setPersist)
 	const persist = useSettingsStore(state => state.persist)
 
-	const allOffRampNames = Object.keys(OFFRAMPS) as (keyof typeof OFFRAMPS)[]
 	return (
 		<>
 			<section>
@@ -32,36 +27,7 @@ export default function SettingsPage() {
 					</Balancer>
 				</div>
 				<div className="my-7">
-					<OffRampToggle
-						selectedKey={offRampName}
-						selectKey={setOffRampName}
-						allKeys={allOffRampNames}
-						className="flex flex-col  items-start gap-x-3 gap-y-2 text-2xl sm:items-center"
-					>
-						{(key, _, selected) => (
-							<button>
-								<Highlight
-									className={clsx(
-										'bg-indigo-a7 transition-opacity duration-1000 dark:bg-indigo-a5',
-										selected
-											? 'opacity-100'
-											: 'opacity-0 group-hover:opacity-50',
-									)}
-								>
-									<span
-										className={clsx(
-											'tracking-wide transition-all duration-500',
-											selected
-												? 'text-indigo-11 hover:text-indigo-12'
-												: 'text-slate-a11 hover:text-slate-12',
-										)}
-									>
-										{OFFRAMPS[key]}
-									</span>{' '}
-								</Highlight>
-							</button>
-						)}
-					</OffRampToggle>
+					<OffRampToggle />
 				</div>
 			</section>
 			<section className="pt-8">

@@ -1,66 +1,42 @@
-import * as ToggleGroup from '@radix-ui/react-toggle-group'
 import clsx from 'clsx'
-import { ReactNode } from 'react'
+import { CustomToggleGroupSingle } from '../components/CustomToggleGroup'
+import { Highlight } from '../components/Highlight'
+import { OFFRAMPS } from '../lib/CONSTANS'
+import { useSettingsStore } from '../lib/stores/settingsStore'
 
-export function OffRampToggle<T extends string[] | readonly string[]>({
-	selectedKey,
-	selectKey,
-	allKeys,
-	children,
-	className,
-}: {
-	selectedKey: T[number]
-	selectKey: (newKey: T[number]) => void
-	allKeys: T
-	children: (key: T[number], index: number, selected: boolean) => ReactNode
-	className: string
-}) {
+export function OffRampToggle({}: {}) {
+	const offRampName = useSettingsStore(state => state.offRampName)
+	const setOffRampName = useSettingsStore(state => state.setOffRampName)
+	const allOffRampNames = Object.keys(OFFRAMPS) as (keyof typeof OFFRAMPS)[]
 	return (
-		<ToggleGroup.Root
-			type="single"
-			value={selectedKey}
-			onValueChange={newKey => {
-				if (allKeys.includes(newKey)) {
-					selectKey(newKey as T[number])
-				} else {
-					throw new Error('Selected invalid key')
-				}
-			}}
-			aria-label="Asset type"
-			className={className}
+		<CustomToggleGroupSingle
+			selectedKeys={offRampName}
+			selectKeys={setOffRampName}
+			allKeys={allOffRampNames}
+			className="flex flex-col items-start gap-x-3 gap-y-2 text-2xl sm:items-center"
+			ariaLabel="offramp provider"
 		>
-			{allKeys.map((key, index) => {
-				const selected = key === selectedKey
-				return (
-					<ToggleGroup.Item key={key} value={key} asChild>
-						{children(key, index, selected)}
-					</ToggleGroup.Item>
-				)
-			})}
-		</ToggleGroup.Root>
-	)
-}
-
-// very refactorable with Coming Soon
-export const Highlight = ({
-	children,
-	className,
-}: {
-	children: ReactNode | string
-	className?: string
-}) => {
-	return (
-		<>
-			{' '}
-			<span className={clsx('relative')}>
-				<div
-					className={clsx(
-						'absolute -inset-x-8 inset-y-0 -z-10 transform-gpu rounded-full blur-xl',
-						className,
-					)}
-				/>
-				{children}
-			</span>{' '}
-		</>
+			{(key, _, selected) => (
+				<button className="group">
+					<Highlight
+						className={clsx(
+							'bg-indigo-a7 transition-opacity duration-1000 dark:bg-indigo-a5',
+							selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-50',
+						)}
+					>
+						<span
+							className={clsx(
+								'tracking-wide transition-all duration-500',
+								selected
+									? 'text-indigo-11 hover:text-indigo-12'
+									: 'text-slate-a11 hover:text-slate-12',
+							)}
+						>
+							{OFFRAMPS[key]}
+						</span>{' '}
+					</Highlight>
+				</button>
+			)}
+		</CustomToggleGroupSingle>
 	)
 }
