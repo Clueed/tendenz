@@ -3,9 +3,9 @@ import { Icon } from '@tendenz/icons'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Suspense, lazy, useState } from 'react'
-import { Ball } from './LoadingsBalls'
+import { Ball } from '../LoadingsBalls'
 
-const SettingsPage = lazy(() => import('../settings/page'))
+const SettingsPage = lazy(() => import('../../settings/page'))
 
 export default function SettingsButton({}: {}) {
 	const [open, setOpen] = useState<boolean>(false)

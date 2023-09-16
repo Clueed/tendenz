@@ -1,7 +1,7 @@
 import { Icon } from '@tendenz/icons'
 import clsx from 'clsx'
-import { hoursUntilNextWeekdayHour } from '../lib/hoursUntilNextWeekdayHour'
-import Pop from './Pop'
+import { hoursUntilNextWeekdayHour } from '../../lib/hoursUntilNextWeekdayHour'
+import Pop from '../Pop'
 
 export default function Timer() {
 	const timeTill = hoursUntilNextWeekdayHour(2)

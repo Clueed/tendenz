@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { DM_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Footer } from './Footer'
-import NavigationBar from './components/Navbar/NavigationBar'
+import NavigationBar from './components/navbar/NavigationBar'
 import './globals.css'
 
 const dmSans = localFont({
