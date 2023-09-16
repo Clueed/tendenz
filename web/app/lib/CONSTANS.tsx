@@ -30,9 +30,11 @@ export const DEFAULT_MARKET_CAP = {
 	max: Infinity,
 }
 
-export const OFFRAMP_NAMES = [
-	'Yahoo Finance',
-	'Google Finance',
-	'Wallmine',
-] as const
-export const DEFAULT_OFFRAMP_NAME = 'Yahoo Finance'
+export const OFFRAMPS = {
+	yahoo: 'Yahoo Finance',
+	google: 'Google Finance',
+	wallmine: 'wallmine',
+	finviz: 'FINVIZ',
+} as const
+
+export const DEFAULT_OFFRAMP: keyof typeof OFFRAMPS = 'yahoo'

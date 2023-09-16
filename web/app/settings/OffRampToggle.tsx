@@ -6,10 +6,14 @@ export function OffRampToggle<T extends string[] | readonly string[]>({
 	selectedKey,
 	selectKey,
 	allKeys,
+	children,
+	className,
 }: {
 	selectedKey: T[number]
 	selectKey: (newKey: T[number]) => void
 	allKeys: T
+	children: (key: T[number], index: number, selected: boolean) => ReactNode
+	className: string
 }) {
 	return (
 		<ToggleGroup.Root
@@ -22,40 +26,17 @@ export function OffRampToggle<T extends string[] | readonly string[]>({
 					throw new Error('Selected invalid key')
 				}
 			}}
-			asChild
 			aria-label="Asset type"
+			className={className}
 		>
-			<div
-				className={clsx(
-					'flex flex-col  items-start gap-x-3 gap-y-2 text-2xl sm:items-center',
-				)}
-			>
-				{allKeys.map((key, _) => {
-					const selected = key === selectedKey
-
-					return (
-						<ToggleGroup.Item key={key} value={key} className={clsx()}>
-							<Highlight
-								className={clsx(
-									'bg-indigo-a7 transition-opacity duration-1000 dark:bg-indigo-a5',
-									selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-50',
-								)}
-							>
-								<span
-									className={clsx(
-										'tracking-wide transition-all duration-500',
-										selected
-											? 'text-indigo-11 hover:text-indigo-12'
-											: 'text-slate-a11 hover:text-slate-12',
-									)}
-								>
-									{key}
-								</span>{' '}
-							</Highlight>
-						</ToggleGroup.Item>
-					)
-				})}
-			</div>
+			{allKeys.map((key, index) => {
+				const selected = key === selectedKey
+				return (
+					<ToggleGroup.Item key={key} value={key} asChild>
+						{children(key, index, selected)}
+					</ToggleGroup.Item>
+				)
+			})}
 		</ToggleGroup.Root>
 	)
 }

@@ -1,12 +1,12 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
-import { DEFAULT_OFFRAMP_NAME, OFFRAMP_NAMES } from '../CONSTANS'
+import { DEFAULT_OFFRAMP, OFFRAMPS } from '../CONSTANS'
 
 interface FilterState {
 	persist: boolean
 	setPersist: (bool: boolean) => void
-	offRampName: (typeof OFFRAMP_NAMES)[number]
-	setOffRampName: (newOffRampName: (typeof OFFRAMP_NAMES)[number]) => void
+	offRampName: keyof typeof OFFRAMPS
+	setOffRampName: (newOffRampName: keyof typeof OFFRAMPS) => void
 }
 
 export const useSettingsStore = create<FilterState>()(
@@ -15,7 +15,7 @@ export const useSettingsStore = create<FilterState>()(
 			set => ({
 				persist: false,
 				setPersist: bool => set({ persist: bool }),
-				offRampName: DEFAULT_OFFRAMP_NAME,
+				offRampName: DEFAULT_OFFRAMP,
 				setOffRampName: newOffRampName => set({ offRampName: newOffRampName }),
 			}),
 			{

@@ -2,11 +2,12 @@
 import * as Switch from '@radix-ui/react-switch'
 
 import { Icon } from '@tendenz/icons'
+import clsx from 'clsx'
 import Balancer from 'react-wrap-balancer'
 import { H3 } from '../docs/TextStyles'
-import { OFFRAMP_NAMES } from '../lib/CONSTANS'
+import { OFFRAMPS } from '../lib/CONSTANS'
 import { useSettingsStore } from '../lib/stores/settingsStore'
-import { OffRampToggle } from './OffRampToggle'
+import { Highlight, OffRampToggle } from './OffRampToggle'
 
 export default function SettingsPage() {
 	const offRampName = useSettingsStore(state => state.offRampName)
@@ -14,8 +15,7 @@ export default function SettingsPage() {
 	const setPersist = useSettingsStore(state => state.setPersist)
 	const persist = useSettingsStore(state => state.persist)
 
-	const allOffRampNames = OFFRAMP_NAMES
-
+	const allOffRampNames = Object.keys(OFFRAMPS) as (keyof typeof OFFRAMPS)[]
 	return (
 		<>
 			<section>
@@ -36,7 +36,32 @@ export default function SettingsPage() {
 						selectedKey={offRampName}
 						selectKey={setOffRampName}
 						allKeys={allOffRampNames}
-					/>
+						className="flex flex-col  items-start gap-x-3 gap-y-2 text-2xl sm:items-center"
+					>
+						{(key, _, selected) => (
+							<button>
+								<Highlight
+									className={clsx(
+										'bg-indigo-a7 transition-opacity duration-1000 dark:bg-indigo-a5',
+										selected
+											? 'opacity-100'
+											: 'opacity-0 group-hover:opacity-50',
+									)}
+								>
+									<span
+										className={clsx(
+											'tracking-wide transition-all duration-500',
+											selected
+												? 'text-indigo-11 hover:text-indigo-12'
+												: 'text-slate-a11 hover:text-slate-12',
+										)}
+									>
+										{OFFRAMPS[key]}
+									</span>{' '}
+								</Highlight>
+							</button>
+						)}
+					</OffRampToggle>
 				</div>
 			</section>
 			<section className="pt-8">
@@ -53,7 +78,7 @@ export default function SettingsPage() {
 							onCheckedChange={setPersist}
 							className="group relative flex h-4 w-8 cursor-default items-center outline-none"
 							id="remeber-setting"
-							style={{ '-webkit-tap-highlight-color': 'rgba(0, 0, 0, 0)' }}
+							style={{ WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)' }}
 						>
 							<div className="absolute inset-0 -m-0.5 rounded-full bg-slate-a7 transition-colors duration-500 ease-in-out will-change-[backgroundColor] group-radix-state-checked:bg-slate-a9" />
 							<Switch.Thumb className="h-4 w-4 rounded-full bg-slate-1 transition-transform duration-500 ease-in-out will-change-transform data-[state=checked]:translate-x-[calc(2rem-100%)] dark:bg-slate-12" />
