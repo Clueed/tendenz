@@ -1,6 +1,6 @@
+import { Icon } from '@tendenz/icons'
 import clsx from 'clsx'
 import Link from 'next/link'
-import ChevronRight from '../components/icons/ChevronRight'
 
 export default function Docs() {
 	return (
@@ -40,7 +40,7 @@ function MainDocsLink({ href, text }: { href: string; text: string }) {
 			<div className="col-start-2 flex items-center justify-between py-8 text-3xl text-slate-12">
 				<div>{text}</div>
 				<div className="transition-all duration-1000 group-hover:translate-x-3">
-					<ChevronRight height="0.5em" strokeWidth={1} />
+					<Icon name="radix-icons/chevron-right" />
 				</div>
 			</div>
 		</Link>

@@ -2,19 +2,6 @@ import { type SVGProps } from "react";
 import { type IconName } from "./output/name";
 import React from "react";
 
-//export { IconName };
-
-const sizeClassName = {
-  font: "w-[1em] h-[1em]",
-  xs: "w-3 h-3",
-  sm: "w-4 h-4",
-  md: "w-5 h-5",
-  lg: "w-6 h-6",
-  xl: "w-7 h-7",
-} as const;
-
-type Size = keyof typeof sizeClassName;
-
 /**
  * Renders an SVG icon. The icon defaults to the size of the font. To make it
  * align vertically with neighboring text, you can pass the text as a child of
@@ -25,19 +12,22 @@ type Size = keyof typeof sizeClassName;
  */
 export function Icon({
   name,
-  size = "font",
+  sizeClassName = "h-[1em]",
   className,
   children,
   ...props
 }: SVGProps<SVGSVGElement> & {
   name: IconName;
-  size?: Size;
+  sizeClassName?: string;
 }) {
   return (
     <svg
       {...props}
+      fill="currentColor"
       className={
-        "inline self-center " + sizeClassName[size] + (" " + className || "")
+        "inline self-center aspect-square " +
+        sizeClassName +
+        (className ? " " + className : "")
       }
     >
       <use href={`/sprite.svg#${name}`} />

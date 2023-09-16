@@ -1,7 +1,7 @@
+import { Icon } from '@tendenz/icons'
 import clsx from 'clsx'
 import { hoursUntilNextWeekdayHour } from '../lib/hoursUntilNextWeekdayHour'
 import Pop from './Pop'
-import IconClock from './icons/IconClock'
 
 export default function Timer() {
 	const timeTill = hoursUntilNextWeekdayHour(2)
@@ -19,22 +19,22 @@ export default function Timer() {
 			}
 			popoverColor="slate"
 		>
-			{open => (
-				<div
-					className={clsx(
-						'flex items-center gap-2 rounded-md stroke-2 px-2 py-1 text-sm transition-all',
-						{
-							'bg-slate-a2 text-slate-a11 duration-500 hover:bg-slate-a4 hover:shadow-lg group-hover:bg-slate-a4':
-								!open,
-						},
-						{ 'bg-slate-a11 text-slate-2': open },
-					)}
-				>
-					<IconClock animationTrigger={open} />
+			<div
+				className={clsx(
+					'flex items-center gap-2 rounded-md stroke-2 px-2 py-1 text-sm transition-all duration-500',
+					'bg-slate-a2 text-slate-a11 hover:bg-slate-a4 hover:shadow-lg group-hover:bg-slate-a4',
+					'group-radix-state-open:bg-slate-a11 group-radix-state-open:text-slate-2',
+				)}
+			>
+				{/* <IconClock animationTrigger={open} /> */}
 
-					<span>{timeTill}h</span>
-				</div>
-			)}
+				<Icon
+					name="radix-icons/clock"
+					className="will-change-transform group-radix-state-open:animate-[rotate-360_1s_cubic-bezier(.12,0,.36,1.5)]"
+				/>
+
+				<span className="font-light">{timeTill}h</span>
+			</div>
 		</Pop>
 	)
 }

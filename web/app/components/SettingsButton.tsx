@@ -1,9 +1,9 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import { Icon } from '@tendenz/icons'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Suspense, lazy, useState } from 'react'
 import { Ball } from './LoadingsBalls'
-import { GearIcon } from './icons/GearIcon'
 
 const SettingsPage = lazy(() => import('../settings/page'))
 
@@ -18,7 +18,10 @@ export default function SettingsButton({}: {}) {
 						'bg-slate-a2 text-slate-a11 duration-500 hover:bg-slate-a4 hover:shadow-lg group-hover:bg-slate-a4',
 					)}
 				>
-					<GearIcon className="transition-transform duration-1000 ease-linear  hover:rotate-[360deg]" />
+					<Icon
+						name="radix-icons/gear"
+						className="transition-transform duration-1000 ease-linear will-change-transform hover:rotate-[360deg]"
+					/>
 				</button>
 			</Dialog.Trigger>
 

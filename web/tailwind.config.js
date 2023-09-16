@@ -67,6 +67,7 @@ module.exports = {
 				default: '1fr min(640px, 90vw) 1fr',
 				'default-prosa': '1fr min(45ch, 90vw) 1fr',
 			},
+			transitionTimingFunction: { spring: 'cubic-bezier(.12,0,.36,1.5)' },
 			animation: {
 				'text-gradient-15s': 'text-gradient 15s linear infinite',
 				slide: 'slide 4s linear infinite',
@@ -81,6 +82,7 @@ module.exports = {
 					'slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
 				overlayShow: 'overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
 				contentShow: 'contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
+				clockRotate: 'rotate-360 1s spring ',
 			},
 			keyframes: {
 				overlayShow: {
@@ -131,6 +133,11 @@ module.exports = {
 					'100%': {
 						width: '0%',
 						opacity: '0',
+					},
+				},
+				'rotate-360': {
+					to: {
+						transform: 'rotate(360deg)',
 					},
 				},
 				'random-movement1': {

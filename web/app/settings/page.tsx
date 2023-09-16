@@ -3,7 +3,6 @@ import * as Switch from '@radix-ui/react-switch'
 
 import { Icon } from '@tendenz/icons'
 import Balancer from 'react-wrap-balancer'
-import { GraphIcon } from '../components/icons/GraphIcon'
 import { H3 } from '../docs/TextStyles'
 import { OFFRAMP_NAMES } from '../lib/CONSTANS'
 import { useSettingsStore } from '../lib/stores/settingsStore'
@@ -22,9 +21,7 @@ export default function SettingsPage() {
 			<section>
 				<H3>
 					<div className="flex items-center gap-2 text-slate-12">
-						<span className="text-xl">
-							<GraphIcon />{' '}
-						</span>{' '}
+						<Icon name="phosphor-icons/chart-line" />
 						offramp provider
 					</div>
 				</H3>
@@ -35,7 +32,6 @@ export default function SettingsPage() {
 					</Balancer>
 				</div>
 				<div className="my-7">
-					
 					<OffRampToggle
 						selectedKey={offRampName}
 						selectKey={setOffRampName}
