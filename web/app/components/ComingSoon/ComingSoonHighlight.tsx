@@ -18,7 +18,10 @@ export const ComingSoonHighlight = ({
 		<>
 			{' '}
 			<span className={clsx('relative', colors[color].text)}>
-				<Highlight className={colors[color].bg} />
+				<Highlight
+					className={colors[color].bg}
+					sizeClassName="-inset-x-10 -inset-y-5"
+				/>
 				{children}
 			</span>{' '}
 		</>

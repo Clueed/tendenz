@@ -19,9 +19,9 @@ export default function Timer() {
 			}
 			popoverColor="slate"
 			rootClassName={clsx(
-				'flex items-center gap-1 rounded-md stroke-2 px-2.5 py-1.5 text-sm transition-all duration-500',
-				'bg-slate-a2 text-slate-a11 hover:bg-slate-a4 hover:shadow-lg group-hover:bg-slate-a4',
-				'group-radix-state-open:bg-slate-a11 group-radix-state-open:text-slate-2',
+				'flex items-center gap-1 rounded-md stroke-2 px-2.5 py-1.5 text-sm transition-all duration-500 bg-slate-a2 text-slate-a11 will-change-color',
+				'data-[state=closed]:hover:bg-slate-a4 data-[state=closed]:hover:shadow-lg data-[state=closed]:hover:bg-slate-a4',
+				'data-[state=open]:bg-slate-a11 data-[state=open]:text-slate-2',
 			)}
 		>
 			<Icon
