@@ -60,7 +60,7 @@ export function SigmaAccordion() {
 					loadingAnimation={loadingAnimation}
 					handleAnimationIteration={handleAnimationIteration}
 				/>
-				<div className="max-h-[55rem] overflow-y-auto overflow-x-hidden">
+				<div className="max-h-[55rem] min-h-[30rem] overflow-y-auto overflow-x-hidden">
 					{error && (
 						<div className="flex items-center justify-center gap-2 bg-red-a3 px-2 py-2 text-sm text-red-12">
 							<Icon name="phosphor-icons/fire" />
