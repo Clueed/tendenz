@@ -3,10 +3,9 @@
 import { useSigmaYesterdayInfinite } from '@/app/lib/api/clientApi'
 import * as Accordion from '@radix-ui/react-accordion'
 import { Icon } from '@tendenz/icons'
-import { PAGE_SIZE, tendenzApiSigmaYesterday } from '@tendenz/types'
 import clsx from 'clsx'
 import { AnimatePresence } from 'framer-motion'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useFilterStore } from '../../lib/stores/filterStore'
 import { NextPageButton } from './NextPageButton'
 import { SigmaCard } from './SigmaCard'
@@ -14,38 +13,21 @@ import { SigmaCard } from './SigmaCard'
 export function SigmaAccordion() {
 	const [expandedKey, setExpandedKey] = useState<string>('')
 
-	const { data, size, setSize, isLoading, error } = useSigmaYesterdayInfinite()
-
-	const cards = useMemo(
-		() => (data ? ([] as tendenzApiSigmaYesterday[]).concat(...data) : []),
-		[data],
-	)
-
-	const isLoadingMore =
-		isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined')
-	const isEmpty = data?.[0]?.length === 0
-	const isReachingEnd =
-		isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE)
-
-	const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false)
+	const { data, size, setSize, isLoadingMore, error, flatData, isReachingEnd } =
+		useSigmaYesterdayInfinite()
 
 	const marketCap = useFilterStore(state => state.marketCap)
 	const typeLabels = useFilterStore(state => state.typeLabels)
 
 	const isMounted = useRef(false)
-
 	useEffect(() => {
-		console.log('"run" :>> ', 'run')
 		if (isMounted.current) {
 			setLoadingAnimation(true)
 		} else {
 			isMounted.current = true
 		}
 	}, [marketCap, typeLabels, size])
-
-	const handleAnimationIteration = () => {
-		!isLoadingMore && setLoadingAnimation(false)
-	}
+	const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false)
 
 	return (
 		<div className="grid-cols-default sm:grid">
@@ -58,24 +40,21 @@ export function SigmaAccordion() {
 			>
 				<LoadingOverlay
 					loadingAnimation={loadingAnimation}
-					handleAnimationIteration={handleAnimationIteration}
+					handleAnimationIteration={() => {
+						!isLoadingMore && setLoadingAnimation(false)
+					}}
 				/>
-				<div className="max-h-[55rem] overflow-y-auto overflow-x-hidden">
-					{error && (
-						<div className="flex items-center justify-center gap-2 bg-red-a3 px-2 py-2 text-sm text-red-12">
-							<Icon name="phosphor-icons/fire" />
-							something went wrong...
-						</div>
-					)}
+				<div className="max-h-[55rem] min-h-[30rem] overflow-y-auto overflow-x-hidden">
+					{error && <ErrorBar />}
 					<Accordion.Root
 						collapsible
 						type="single"
-						onValueChange={o => setExpandedKey(o)}
+						onValueChange={setExpandedKey}
 						className="px-2 py-2"
 					>
 						<AnimatePresence initial={false} mode="popLayout">
 							{data &&
-								cards.map(card => (
+								flatData.map(card => (
 									<SigmaCard
 										key={card.ticker}
 										entry={card}
@@ -108,7 +87,7 @@ function LoadingOverlay({
 	const pulsingStripe = (
 		<div
 			className={clsx(
-				'left-0 h-[1px] rounded-full bg-gradient-to-r from-transparent via-slate-a10 to-transparent transition-all',
+				'via-slate-a10 left-0 h-[1px] rounded-full bg-gradient-to-r from-transparent to-transparent transition-all',
 				loadingAnimation && 'animate-border-width',
 			)}
 			onAnimationIteration={handleAnimationIteration}
@@ -127,3 +106,10 @@ function LoadingOverlay({
 		</div>
 	)
 }
+
+const ErrorBar = () => (
+	<div className="bg-red-a3 text-red-12 flex items-center justify-center gap-2 px-2 py-2 text-sm">
+		<Icon name="phosphor-icons/fire" />
+		something went wrong...
+	</div>
+)
