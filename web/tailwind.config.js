@@ -1,6 +1,9 @@
+const { createThemes } = require('tw-colors')
+const radix = require('@radix-ui/colors')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	darkMode: 'media',
+	darkMode: 'class',
 	future: {
 		hoverOnlyWhenSupported: true,
 	},
@@ -12,41 +15,6 @@ module.exports = {
 	],
 	theme: {
 		colors: {
-			...createColorObject([
-				'tomato',
-				'red',
-				'ruby',
-				'crimson',
-				'pink',
-				'plum',
-				'purple',
-				'violet',
-				'indigo',
-				'iris',
-				'blue',
-				'cyan',
-				'teal',
-				'jade',
-				'green',
-				'grass',
-				'orange',
-				'brown',
-				'sky',
-				'mint',
-				'lime',
-				'yellow',
-				'amber',
-				'gray',
-				'mauve',
-				'slate',
-				'sage',
-				'olive',
-				'sand',
-				'bronze',
-				'gold',
-			]),
-			black: generateScale('black', true),
-			white: generateScale('white', true),
 			transparent: '#00000000',
 		},
 		screens: require('./tailwind-screens.config'),
@@ -156,6 +124,22 @@ module.exports = {
 	plugins: [
 		require('@tailwindcss/container-queries'),
 		require('tailwindcss-radix'),
+		createThemes({
+			light: Object.entries(radix)
+				.filter(color => !color[0].includes('Dark'))
+				.map(color => color[1])
+				.reduce((accumulator, currentObject) => {
+					Object.assign(accumulator, currentObject)
+					return accumulator
+				}, {}),
+			dark: Object.entries(radix)
+				.filter(color => color[0].includes('Dark'))
+				.map(color => color[1])
+				.reduce((accumulator, currentObject) => {
+					Object.assign(accumulator, currentObject)
+					return accumulator
+				}, {}),
+		}),
 	],
 }
 
