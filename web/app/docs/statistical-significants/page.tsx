@@ -42,7 +42,7 @@ export default function docs() {
 				<LI>Plug the most recent return X into the Z-Score formula.</LI>
 			</OL>
 
-			<div className="col-start-2 my-1 flex justify-center rounded-lg bg-slate-a3 px-5 py-1 leading-normal">
+			<div className="col-start-2 my-1 flex justify-center rounded-lg bg-slateA3 px-5 py-1 leading-normal">
 				z-score = (X - mean) / standard deviation
 			</div>
 		</section>

@@ -27,7 +27,7 @@ export default function StockTypeToggle({}: {}) {
 				>
 					<Highlight
 						className={clsx(
-							'bg-indigo-a7 transition-opacity duration-1000 dark:bg-indigo-a5',
+							'bg-indigoA7 transition-opacity duration-1000 dark:bg-indigoA5',
 							selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-50',
 						)}
 					/>
@@ -35,8 +35,8 @@ export default function StockTypeToggle({}: {}) {
 						className={clsx(
 							'tracking-wide transition-all duration-500',
 							selected
-								? 'text-indigo-11 hover:text-indigo-12'
-								: 'text-slate-a11 hover:text-slate-12',
+								? 'text-indigo11 hover:text-indigo12'
+								: 'text-slateA11 hover:text-slate12',
 						)}
 					>
 						{key}

@@ -7,8 +7,8 @@ export default function MarketCapFilterLabel({}: {}) {
 		<Pop popoverColor="slate" offset={0} popoverContent={popoverContent}>
 			<span
 				className={clsx(
-					'text-xxs uppercase tracking-wider text-slate-10 transition-colors duration-500',
-					'leading-none group-radix-state-open:text-slate-12',
+					'text-xxs uppercase tracking-wider text-slate10 transition-colors duration-500',
+					'leading-none group-radix-state-open:text-slate12',
 				)}
 			>
 				<span>market&nbsp;cap&nbsp;filter</span>{' '}

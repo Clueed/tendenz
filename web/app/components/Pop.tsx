@@ -6,14 +6,14 @@ import { ReactNode, useState } from 'react'
 
 const colors = {
 	indigo: {
-		popclsx: 'bg-gradient-to-br from-indigo-11 to-indigo-12',
-		arrowclsx: 'fill-indigo-11',
-		contentclsx: 'text-indigo-1',
+		popclsx: 'bg-gradient-to-br from-indigo11 to-indigo12',
+		arrowclsx: 'fill-indigo11',
+		contentclsx: 'text-indigo1',
 	},
 	slate: {
-		popclsx: 'bg-gradient-to-br from-slate-11 to-slate-12',
-		arrowclsx: 'fill-slate-11',
-		contentclsx: 'text-slate-1',
+		popclsx: 'bg-gradient-to-br from-slate11 to-slate12',
+		arrowclsx: 'fill-slate11',
+		contentclsx: 'text-slate1',
 	},
 } as const
 

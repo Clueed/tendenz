@@ -13,7 +13,7 @@ export function Tag({
 			{' '}
 			<span
 				className={clsx(
-					'rounded-md bg-slate-a3 px-2 py-1 text-[0.6em] text-slate-11',
+					'rounded-md bg-slateA3 px-2 py-1 text-[0.6em] text-slate11',
 					className,
 				)}
 			>

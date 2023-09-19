@@ -4,10 +4,10 @@ import Link from 'next/link'
 
 const colors = {
 	indigo: {
-		button: 'text-indigo-4 hover:bg-indigo-a6 bg-indigo-a3',
+		button: 'text-indigo4 hover:bg-indigoA6 bg-indigoA3',
 	},
 	slate: {
-		button: 'text-slate-4 hover:bg-slate-a10 bg-slate-a3',
+		button: 'text-slate4 hover:bg-slateA10 bg-slateA3',
 	},
 } as const
 

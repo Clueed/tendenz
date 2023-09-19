@@ -3,9 +3,9 @@ import { ReactNode } from 'react'
 import { Highlight } from '../Highlight'
 
 const colors = {
-	sky: { text: 'text-sky-11', bg: 'bg-sky-a4' },
-	violet: { text: 'text-violet-11', bg: 'bg-violet-a5' },
-	blue: { text: 'text-blue-11', bg: 'bg-blue-a5' },
+	sky: { text: 'text-sky11', bg: 'bg-skyA4' },
+	violet: { text: 'text-violet11', bg: 'bg-violetA5' },
+	blue: { text: 'text-blue11', bg: 'bg-blueA5' },
 } as const
 export const ComingSoonHighlight = ({
 	children,

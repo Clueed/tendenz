@@ -5,12 +5,12 @@ export default function Hero() {
 	return (
 		<div className="grid grid-cols-default">
 			<div className="col-start-2 sm:text-center">
-				<h1 className="text-5xl leading-[1.1] text-indigo-a12 sm:text-6xl">
+				<h1 className="text-5xl leading-[1.1] text-indigoA12 sm:text-6xl">
 					objective insight <span className="opacity-75"> across</span>{' '}
 					financial markets
 				</h1>
 
-				<div className="mt-4 text-xl text-slate-11 sm:text-2xl">
+				<div className="mt-4 text-xl text-slate11 sm:text-2xl">
 					<Balancer>
 						<HeroPopOver
 							learnMore="/docs/statistical-significants"
@@ -32,7 +32,7 @@ export default function Hero() {
 						of market close prices <br />
 					</Balancer>
 				</div>
-				<div className="mt-4 text-slate-11 sm:text-xl">
+				<div className="mt-4 text-slate11 sm:text-xl">
 					based on{' '}
 					<HeroPopOver
 						learnMore={false}

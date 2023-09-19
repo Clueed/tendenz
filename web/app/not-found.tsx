@@ -3,16 +3,16 @@
 import { Ball } from './components/LoadingsBalls'
 
 const colors = [
-	'bg-sky-a4',
-	'bg-mint-a4',
-	'bg-indigo-a5',
-	'bg-violet-a5',
-	'bg-plum-a5',
-	'bg-iris-a5',
-	'bg-purple-a5',
-	'bg-blue-a5',
-	'bg-cyan-a5',
-	'bg-pink-a5',
+	'bg-skyA4',
+	'bg-mintA4',
+	'bg-indigoA5',
+	'bg-violetA5',
+	'bg-plumA5',
+	'bg-irisA5',
+	'bg-purpleA5',
+	'bg-blueA5',
+	'bg-cyanA5',
+	'bg-pinkA5',
 ]
 
 export default function NotFound() {

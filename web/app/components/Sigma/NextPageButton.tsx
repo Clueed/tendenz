@@ -15,7 +15,7 @@ export function NextPageButton(props: HTMLMotionProps<'button'>) {
 			}}
 			aria-label="load more"
 			className={clsx(
-				'rounded-md bg-slate-a3 p-3 text-slate-12 transition-all duration-500 enabled:hover:bg-slate-a10 enabled:hover:text-slate-1 enabled:hover:shadow-md',
+				'rounded-md bg-slateA3 p-3 text-slate12 transition-all duration-500 enabled:hover:bg-slateA10 enabled:hover:text-slate1 enabled:hover:shadow-md',
 			)}
 		>
 			<svg
