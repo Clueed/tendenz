@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import { DM_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Footer } from './Footer'
+import { CustomThemeProvider } from './components/ThemeProvider'
 import NavigationBar from './components/navbar/NavigationBar'
 import './globals.css'
 
@@ -30,7 +31,11 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en" className="dark-theme min-h-full w-full overflow-x-hidden">
+		<html
+			lang="en"
+			className="min-h-full w-full overflow-x-hidden"
+			suppressHydrationWarning
+		>
 			<head>
 				<title>Tendenz - Skip past the noise</title>
 				<link
@@ -74,37 +79,39 @@ export default function RootLayout({
 				className={clsx(
 					dmSans.variable,
 					dmMono.variable,
-					'relative flex min-h-screen w-full flex-col overflow-x-clip bg-slate-1 font-sans text-slate-12',
+					'bg-slate-1 text-slate-12 relative flex min-h-screen w-full flex-col overflow-x-clip font-sans',
 				)}
 			>
-				<NavigationBar />
-				<main className="flex-1">{children}</main>
-				<Footer />
-				<div className="noise-bg absolute inset-0 -z-30 transform-gpu opacity-30" />
-				<div className="absolute top-0 -z-40 h-full w-full transform-gpu backdrop-blur-3xl"></div>
-				<div className="absolute top-0 -z-50 h-full w-full overflow-clip">
-					{
-						// Top
-					}
-					<div className="absolute left-0 top-0 grid w-full grid-cols-default">
-						<div className="left-0 top-0 col-start-2 h-96 w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-a12 opacity-30 sm:hidden" />
+				<CustomThemeProvider>
+					<NavigationBar />
+					<main className="flex-1">{children}</main>
+					<Footer />
+					<div className="noise-bg absolute inset-0 -z-30 transform-gpu opacity-30" />
+					<div className="absolute top-0 -z-40 h-full w-full transform-gpu backdrop-blur-3xl"></div>
+					<div className="absolute top-0 -z-50 h-full w-full overflow-clip">
+						{
+							// Top
+						}
+						<div className="absolute left-0 top-0 grid w-full grid-cols-default">
+							<div className="bg-indigo-a12 left-0 top-0 col-start-2 h-96 w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-30 sm:hidden" />
+						</div>
+						<div className="bg-indigo-a11 absolute left-1/2 top-0 hidden h-80 w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-30 sm:block" />
+						{
+							// Middle
+						}
+						<div className="bg-sky-a3 absolute right-0 top-[40rem] h-[50vw] w-[50vw] translate-x-1/2 rounded-full dark:opacity-50" />
+						<div className="bg-indigo-a4 absolute left-0 top-[62rem] h-[50vw] w-[50vw] -translate-x-1/2 rounded-full dark:opacity-50" />
+						{
+							// Middle 2 (coming soon)
+						}
+						<div className="bg-violet-a3 absolute bottom-[30rem] right-0 h-[50vw] w-[50vw] translate-x-1/2 translate-y-1/2 rounded-full  dark:opacity-50  sm:bottom-[44rem]" />
+						<div className="bg-blue-a3 absolute bottom-[20rem] left-0 h-[50vw] w-[50vw] -translate-x-1/2 translate-y-1/2 rounded-full dark:opacity-50  sm:bottom-[34rem]" />
+						{
+							// Bot
+						}
+						<div className="bg-slate-a3 absolute bottom-0 left-1/2 h-80 w-[40rem] -translate-x-1/2 translate-y-1/2 rounded-full" />
 					</div>
-					<div className="absolute left-1/2 top-0 hidden h-80 w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-a11 opacity-30 sm:block" />
-					{
-						// Middle
-					}
-					<div className="absolute right-0 top-[40rem] h-[50vw] w-[50vw] translate-x-1/2 rounded-full bg-sky-a3 dark:opacity-50" />
-					<div className="absolute left-0 top-[62rem] h-[50vw] w-[50vw] -translate-x-1/2 rounded-full bg-indigo-a4 dark:opacity-50" />
-					{
-						// Middle 2 (coming soon)
-					}
-					<div className="absolute bottom-[30rem] right-0 h-[50vw] w-[50vw] translate-x-1/2 translate-y-1/2 rounded-full bg-violet-a3  dark:opacity-50  sm:bottom-[44rem]" />
-					<div className="absolute bottom-[20rem] left-0 h-[50vw] w-[50vw] -translate-x-1/2 translate-y-1/2 rounded-full bg-blue-a3 dark:opacity-50  sm:bottom-[34rem]" />
-					{
-						// Bot
-					}
-					<div className="absolute bottom-0 left-1/2 h-80 w-[40rem] -translate-x-1/2 translate-y-1/2 rounded-full bg-slate-a3" />
-				</div>
+				</CustomThemeProvider>
 			</body>
 		</html>
 	)
