@@ -9,7 +9,7 @@ export default function SettingsLayout({ children }: { children: ReactNode }) {
 					href={'/settings'}
 					className="col-start-2 mb-[4vh] mt-[8vh] sm:mb-[6vh] sm:mt-[12vh]"
 				>
-					<h1 className="text-5xl font-normal text-slate-11 hover:text-indigo-11 sm:text-center">
+					<h1 className="text-5xl font-normal text-slate11 hover:text-indigo11 sm:text-center">
 						settings
 					</h1>
 				</Link>

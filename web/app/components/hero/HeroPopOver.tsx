@@ -27,8 +27,8 @@ export function HeroPopOver({
 		>
 			<span
 				className={clsx(
-					'border-b-2 border-slate-a7 transition-colors duration-500 hover:border-slate-a9 hover:text-slate-a12',
-					'group-radix-state-open:border-indigo-a8 group-radix-state-open:text-indigo-12',
+					'border-b-2 border-slateA7 transition-colors duration-500 hover:border-slateA9 hover:text-slateA12',
+					'group-radix-state-open:border-indigoA8 group-radix-state-open:text-indigo12',
 				)}
 			>
 				{triggerText}

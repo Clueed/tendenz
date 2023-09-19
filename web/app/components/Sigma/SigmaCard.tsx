@@ -109,9 +109,9 @@ const CardBackground = ({
 		className={clsx(
 			'absolute inset-0 -z-10 col-span-full transition-all sm:col-start-2 sm:col-end-2 sm:rounded-xl',
 			{
-				'group-hover/card:bg-slate-a3': !expanded,
-				'bg-gradient-to-br from-lime-a3 to-teal-a4': expanded && positive,
-				'bg-gradient-to-br from-orange-a3 to-purple-a4': expanded && !positive,
+				'group-hover/card:bg-slateA3': !expanded,
+				'bg-gradient-to-br from-limeA3 to-tealA4': expanded && positive,
+				'bg-gradient-to-br from-orangeA3 to-purpleA4': expanded && !positive,
 			},
 		)}
 	/>

@@ -30,8 +30,8 @@ export function MarketCap({
 			<Tag
 				className={clsx(
 					'tracking-widest',
-					'hover:bg-slate-a5 hover:text-slate-12',
-					'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
+					'hover:bg-slateA5 hover:text-slate12',
+					'group-radix-state-open:bg-slateA5 group-radix-state-open:text-slate12',
 				)}
 			>
 				{formatted}

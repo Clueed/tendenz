@@ -39,19 +39,19 @@ export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 			}
 		>
 			<div className="flex items-center justify-end">
-				<div className="text-right text-2xl leading-none text-indigo-12">
+				<div className="text-right text-2xl leading-none text-indigo12">
 					{formattedSigma}
 				</div>
 				<div className="ml-1 flex flex-col text-xl">
 					<div
 						className={clsx('-my-1 text-xxs opacity-90', {
-							'text-red-a11': sigma < 0,
-							'text-green-a11': sigma > 0,
+							'text-redA11': sigma < 0,
+							'text-greenA11': sigma > 0,
 						})}
 					>
 						{sigma < 0 ? '↓' : '↑'}
 					</div>
-					<div className="-my-1 text-sm text-slate-10">σ</div>
+					<div className="-my-1 text-sm text-slate10">σ</div>
 				</div>
 			</div>
 
@@ -70,9 +70,9 @@ export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 				className={'overflow-hidden pr-5 text-left text-xl'}
 			>
 				<div className={clsx({ truncate: expanded ? false : trunc })}>
-					<span className="mr-1 text-slate-11">{ticker}</span>
+					<span className="mr-1 text-slate11">{ticker}</span>
 					{'  '}
-					<span className="text-slate-12">{nameWithoutTypesAndParan}</span>
+					<span className="text-slate12">{nameWithoutTypesAndParan}</span>
 					<AnimatePresence>
 						{expanded && (
 							<>
@@ -83,8 +83,8 @@ export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 								>
 									<Tag
 										className={clsx(
-											'hover:bg-slate-a5 hover:text-slate-12',
-											'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
+											'hover:bg-slateA5 hover:text-slate12',
+											'group-radix-state-open:bg-slateA5 group-radix-state-open:text-slate12',
 										)}
 									>
 										{type}

@@ -31,10 +31,10 @@ export function SigmaCardBody() {
 				{formattedSecondLastClose}
 			</div>
 			<div className="col-start-2">
-				<div className="text-xs leading-tight text-slate-a12">
+				<div className="text-xs leading-tight text-slateA12">
 					{npl(secondLast.date as string)}
 				</div>
-				<div className="text-[0.6rem] leading-tight text-slate-a11">
+				<div className="text-[0.6rem] leading-tight text-slateA11">
 					close price
 				</div>
 			</div>
@@ -43,17 +43,17 @@ export function SigmaCardBody() {
 				{dailyReturnString}
 			</div>
 			<div className="col-start-3 flex justify-self-end">
-				<div className="text-xs leading-tight text-slate-a12">return</div>
+				<div className="text-xs leading-tight text-slateA12">return</div>
 			</div>
 
 			<div className="col-start-4 row-start-1 text-xl">
 				{formattedLastClose}
 			</div>
 			<div className="col-start-4">
-				<div className="text-xs leading-tight text-slate-a12">
+				<div className="text-xs leading-tight text-slateA12">
 					{npl(last.date as string)}
 				</div>
-				<div className="text-[0.6rem] leading-tight text-slate-a11">
+				<div className="text-[0.6rem] leading-tight text-slateA11">
 					close price
 				</div>
 			</div>

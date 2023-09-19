@@ -34,8 +34,8 @@ export function SigmaAccordion() {
 			<div
 				className={clsx(
 					'relative col-start-2 -mx-2 box-border overflow-hidden transition-all duration-1000 sm:rounded-2xl',
-					size > 1 && 'bg-slate-a2',
-					error && 'bg-tomato-a3',
+					size > 1 && 'bg-slateA2',
+					error && 'bg-tomatoA3',
 				)}
 			>
 				<LoadingOverlay
@@ -87,7 +87,7 @@ function LoadingOverlay({
 	const pulsingStripe = (
 		<div
 			className={clsx(
-				'left-0 h-[1px] rounded-full bg-gradient-to-r from-transparent via-slate-a10 to-transparent transition-all',
+				'left-0 h-[1px] rounded-full bg-gradient-to-r from-transparent via-slateA10 to-transparent transition-all',
 				loadingAnimation && 'animate-border-width',
 			)}
 			onAnimationIteration={handleAnimationIteration}
@@ -98,7 +98,7 @@ function LoadingOverlay({
 		<div
 			className={clsx(
 				'absolute inset-0 -z-10 flex h-full w-full flex-col items-center justify-between transition-all duration-1000',
-				loadingAnimation && 'bg-slate-a3',
+				loadingAnimation && 'bg-slateA3',
 			)}
 		>
 			{pulsingStripe}
@@ -108,7 +108,7 @@ function LoadingOverlay({
 }
 
 const ErrorBar = () => (
-	<div className="flex items-center justify-center gap-2 bg-red-a3 px-2 py-2 text-sm text-red-12">
+	<div className="flex items-center justify-center gap-2 bg-redA3 px-2 py-2 text-sm text-red12">
 		<Icon name="phosphor-icons/fire" />
 		something went wrong...
 	</div>

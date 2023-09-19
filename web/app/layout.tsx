@@ -79,7 +79,7 @@ export default function RootLayout({
 				className={clsx(
 					dmSans.variable,
 					dmMono.variable,
-					'bg-slate-1 text-slate-12 relative flex min-h-screen w-full flex-col overflow-x-clip font-sans',
+					'relative flex min-h-screen w-full flex-col overflow-x-clip bg-slate1 font-sans text-slate12',
 				)}
 			>
 				<CustomThemeProvider>
@@ -93,23 +93,23 @@ export default function RootLayout({
 							// Top
 						}
 						<div className="absolute left-0 top-0 grid w-full grid-cols-default">
-							<div className="bg-indigo-a12 left-0 top-0 col-start-2 h-96 w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-30 sm:hidden" />
+							<div className="left-0 top-0 col-start-2 h-96 w-[50vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigoA12 opacity-30 sm:hidden" />
 						</div>
-						<div className="bg-indigo-a11 absolute left-1/2 top-0 hidden h-80 w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-30 sm:block" />
+						<div className="absolute left-1/2 top-0 hidden h-80 w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigoA11 opacity-30 sm:block" />
 						{
 							// Middle
 						}
-						<div className="bg-sky-a3 absolute right-0 top-[40rem] h-[50vw] w-[50vw] translate-x-1/2 rounded-full dark:opacity-50" />
-						<div className="bg-indigo-a4 absolute left-0 top-[62rem] h-[50vw] w-[50vw] -translate-x-1/2 rounded-full dark:opacity-50" />
+						<div className="absolute right-0 top-[40rem] h-[50vw] w-[50vw] translate-x-1/2 rounded-full bg-skyA3 dark:opacity-50" />
+						<div className="absolute left-0 top-[62rem] h-[50vw] w-[50vw] -translate-x-1/2 rounded-full bg-indigoA4 dark:opacity-50" />
 						{
 							// Middle 2 (coming soon)
 						}
-						<div className="bg-violet-a3 absolute bottom-[30rem] right-0 h-[50vw] w-[50vw] translate-x-1/2 translate-y-1/2 rounded-full  dark:opacity-50  sm:bottom-[44rem]" />
-						<div className="bg-blue-a3 absolute bottom-[20rem] left-0 h-[50vw] w-[50vw] -translate-x-1/2 translate-y-1/2 rounded-full dark:opacity-50  sm:bottom-[34rem]" />
+						<div className="absolute bottom-[30rem] right-0 h-[50vw] w-[50vw] translate-x-1/2 translate-y-1/2 rounded-full bg-violetA3  dark:opacity-50  sm:bottom-[44rem]" />
+						<div className="absolute bottom-[20rem] left-0 h-[50vw] w-[50vw] -translate-x-1/2 translate-y-1/2 rounded-full bg-blueA3 dark:opacity-50  sm:bottom-[34rem]" />
 						{
 							// Bot
 						}
-						<div className="bg-slate-a3 absolute bottom-0 left-1/2 h-80 w-[40rem] -translate-x-1/2 translate-y-1/2 rounded-full" />
+						<div className="absolute bottom-0 left-1/2 h-80 w-[40rem] -translate-x-1/2 translate-y-1/2 rounded-full bg-slateA3" />
 					</div>
 				</CustomThemeProvider>
 			</body>
