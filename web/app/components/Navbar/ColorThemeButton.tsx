@@ -1,10 +1,14 @@
 'use client'
 
+import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
+import { ButtonHTMLAttributes, useEffect, useState } from 'react'
 
-export default function ColorThemeButton() {
+export default function ColorThemeButton({
+	className,
+	...props
+}: ButtonHTMLAttributes<HTMLButtonElement>) {
 	const [mounted, setMounted] = useState(false)
 	const { theme, setTheme } = useTheme()
 
@@ -18,11 +22,15 @@ export default function ColorThemeButton() {
 	}
 	return (
 		<button
-			className="relative aspect-square h-[1rem] text-slate10 will-change-auto hover:text-slate12"
+			className={clsx(
+				'relative aspect-square h-[1rem] text-slate10 will-change-auto hover:text-slate12',
+				className,
+			)}
 			onClick={() => (theme === 'light' ? setTheme('dark') : setTheme('light'))}
 			aria-label={
 				theme === 'light' ? 'switch to dark mode' : 'switch to light mode'
 			}
+			{...props}
 		>
 			<AnimatePresence mode="wait">
 				{theme === 'light' ? <SunIcon key={1} /> : <MoonIcon key={2} />}
