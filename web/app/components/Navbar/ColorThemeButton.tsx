@@ -4,9 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
-type Props = {}
-
-export default function ColorThemeButton({}: Props) {
+export default function ColorThemeButton() {
 	const [mounted, setMounted] = useState(false)
 	const { theme, setTheme } = useTheme()
 
