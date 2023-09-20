@@ -2,6 +2,7 @@ import { PopoverTrigger } from '@radix-ui/react-popover'
 import { Icon } from '@tendenz/icons'
 import clsx from 'clsx'
 import { hoursUntilNextWeekdayHour } from '../../lib/hoursUntilNextWeekdayHour'
+import { FreeFloatButton } from '../FreeFloatButton'
 import Pop from '../Pop'
 import { PopoverContentStyled, PopoverRoot } from '../Pop2'
 
@@ -10,12 +11,14 @@ export default function Timer() {
 
 	return (
 		<PopoverRoot>
-			<PopoverTrigger>
-				<Icon
-					name="radix-icons/clock"
-					className="will-change-transform group-radix-state-open:animate-[rotate-360_1s_cubic-bezier(.12,0,.36,1.5)]"
-				/>
-				<span className="font-light">{timeTill}h</span>
+			<PopoverTrigger asChild>
+				<FreeFloatButton className="group flex items-center gap-1.5 group-radix-state-open:bg-slateA11 group-radix-state-open:text-slate1">
+					<Icon
+						name="radix-icons/clock"
+						className="will-change-transform group-radix-state-open:animate-[rotate-360_1s_cubic-bezier(.12,0,.36,1.5)]"
+					/>
+					<span className="text-sm font-light leading-none">{timeTill}h</span>
+				</FreeFloatButton>
 			</PopoverTrigger>
 			<PopoverContentStyled color="slate">
 				<p>{timeTill} hours left until the next market update.</p>

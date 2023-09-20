@@ -34,7 +34,7 @@ export const PopoverContent = forwardRef(function PopoverContent(
 				avoidCollisions
 				collisionPadding={30}
 				className={clsx(
-					'will-change-[transform,opacity] data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=top]:animate-slideDownAndFade',
+					'data-[state=open]:data-[side=bottom]:animate-slideUpAndFadeIn data-[state=open]:data-[side=left]:animate-slideRightAndFadeIn data-[state=open]:data-[side=right]:animate-slideLeftAndFadeIn data-[state=open]:data-[side=top]:animate-slideDownAndFadeIn data-[state=closed]:data-[side=bottom]:animate-slideUpAndFadeOut data-[state=closed]:data-[side=left]:animate-slideRightAndFadeOut data-[state=closed]:data-[side=right]:animate-slideLeftAndFadeOut data-[state=closed]:data-[side=top]:animate-slideDownAndFadeOut will-change-[transform,opacity]',
 					'z-50 rounded-lg',
 					className,
 				)}
