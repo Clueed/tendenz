@@ -64,12 +64,10 @@ export function SigmaAccordion() {
 						</AnimatePresence>
 					</Accordion.Root>
 					{!isReachingEnd && (
-						<div className="my-10 flex items-center justify-center">
-							<NextPageButton
-								onClick={() => setSize(size + 1)}
-								disabled={loadingAnimation}
-							/>
-						</div>
+						<NextPageButton
+							onClick={() => setSize(size + 1)}
+							disabled={loadingAnimation}
+						/>
 					)}
 				</div>
 			</div>
