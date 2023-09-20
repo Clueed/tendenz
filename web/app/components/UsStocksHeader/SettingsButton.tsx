@@ -2,7 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { Icon } from '@tendenz/icons'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Suspense, lazy, useState } from 'react'
-import FreeFloatButton from '../FreeFloatButton'
+import { FreeFloatButton } from '../FreeFloatButton'
 import { Ball } from '../LoadingsBalls'
 
 const SettingsPage = lazy(() => import('../../settings/page'))

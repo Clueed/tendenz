@@ -61,20 +61,20 @@ module.exports = {
 					from: { opacity: 0, transform: 'translate(-50%, -48%) scale(0.96)' },
 					to: { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
 				},
-				slideDownAndFade: {
-					from: { opacity: 0, transform: 'translateY(-10px)' },
-					to: { opacity: 1, transform: 'translateY(0)' },
-				},
-				slideLeftAndFade: {
-					from: { opacity: 0, transform: 'translateX(10px)' },
-					to: { opacity: 1, transform: 'translateX(0)' },
-				},
 				slideUpAndFade: {
-					from: { opacity: 0, transform: 'translateY(10px)' },
+					from: { opacity: 0, transform: 'translateY(2px)' },
 					to: { opacity: 1, transform: 'translateY(0)' },
 				},
 				slideRightAndFade: {
-					from: { opacity: 0, transform: 'translateX(-10px)' },
+					from: { opacity: 0, transform: 'translateX(-2px)' },
+					to: { opacity: 1, transform: 'translateX(0)' },
+				},
+				slideDownAndFade: {
+					from: { opacity: 0, transform: 'translateY(-2px)' },
+					to: { opacity: 1, transform: 'translateY(0)' },
+				},
+				slideLeftAndFade: {
+					from: { opacity: 0, transform: 'translateX(2px)' },
 					to: { opacity: 1, transform: 'translateX(0)' },
 				},
 				'text-gradient': {

@@ -1,6 +1,6 @@
 import { Icon } from '@tendenz/icons'
 import { motion } from 'framer-motion'
-import FreeFloatButton from '../FreeFloatButton'
+import { FreeFloatButton } from '../FreeFloatButton'
 
 export function NextPageButton(
 	props: React.DetailedHTMLProps<
