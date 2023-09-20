@@ -1,8 +1,8 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { Icon } from '@tendenz/icons'
-import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Suspense, lazy, useState } from 'react'
+import FreeFloatButton from '../FreeFloatButton'
 import { Ball } from '../LoadingsBalls'
 
 const SettingsPage = lazy(() => import('../../settings/page'))
@@ -12,17 +12,12 @@ export default function SettingsButton({}: {}) {
 	return (
 		<Dialog.Root open={open} onOpenChange={setOpen}>
 			<Dialog.Trigger asChild>
-				<button
-					className={clsx(
-						'rounded-md stroke-2 px-2.5 py-1.5 text-sm transition-all',
-						'bg-slateA2 text-slateA11 duration-500 hover:bg-slateA4 hover:shadow-lg group-hover:bg-slateA4',
-					)}
-				>
+				<FreeFloatButton>
 					<Icon
 						name="radix-icons/gear"
 						className="transition-transform duration-1000 ease-linear will-change-transform hover:rotate-[360deg]"
 					/>
-				</button>
+				</FreeFloatButton>
 			</Dialog.Trigger>
 
 			<AnimatePresence>

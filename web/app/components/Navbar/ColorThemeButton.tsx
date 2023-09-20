@@ -3,16 +3,18 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion, useAnimate, usePresence } from 'framer-motion'
 import { useTheme } from 'next-themes'
-import { ButtonHTMLAttributes, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import FreeFloatButton from '../FreeFloatButton'
 
 export default function ColorThemeButton({
 	className,
-	...props
-}: ButtonHTMLAttributes<HTMLButtonElement>) {
+}: {
+	className?: string
+}) {
 	const [mounted, setMounted] = useState(false)
 	const { theme, setTheme } = useTheme()
 
-	// theme is undefined server-side, so only show when mounted
+	// theme is undefined server-side, so only render when mounted
 	useEffect(() => {
 		setMounted(true)
 	}, [])
@@ -20,24 +22,29 @@ export default function ColorThemeButton({
 	if (!mounted) {
 		return null
 	}
+
 	return (
-		<button
-			className={clsx(
-				'relative aspect-square h-[1rem] text-slate10 duration-1000 will-change-auto hover:text-slate12',
-				className,
-			)}
+		<FreeFloatButton
+			className={clsx('relative', className)}
 			onClick={() => (theme === 'light' ? setTheme('dark') : setTheme('light'))}
 			aria-label={
 				theme === 'light' ? 'switch to dark mode' : 'switch to light mode'
 			}
-			{...props}
 		>
 			<AnimatePresence mode="wait">
-				{theme === 'light' ? <SunIcon key={1} /> : <MoonIcon key={2} />}
+				<Aligner>
+					{theme === 'light' ? <SunIcon key={1} /> : <MoonIcon key={2} />}
+				</Aligner>
 			</AnimatePresence>
-		</button>
+		</FreeFloatButton>
 	)
 }
+
+const Aligner = ({ children }: { children: ReactNode }) => (
+	<div className="relative aspect-square h-[1em]">
+		<div className="flex items-center justify-center">{children}</div>
+	</div>
+)
 
 const sunPathVariants = {
 	show: { scale: 1, pathLength: 1 },
@@ -71,14 +78,15 @@ const SunIcon = () => {
 
 			exitAnimation()
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isPresent])
 
 	return (
 		<motion.svg
 			ref={scope}
 			xmlns="http://www.w3.org/2000/svg"
-			width="1rem"
-			height="1rem"
+			width="1em"
+			height="1em"
 			fill="none"
 			initial="hidden"
 			animate="visible"
@@ -122,8 +130,8 @@ const SunIcon = () => {
 const MoonIcon = () => (
 	<motion.svg
 		xmlns="http://www.w3.org/2000/svg"
-		width="1rem"
-		height="1rem"
+		width="1em"
+		height="1em"
 		fill="none"
 		exit="hidden"
 		className="absolute left-0 top-0 "

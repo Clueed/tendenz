@@ -25,7 +25,7 @@ export function Icon({
       {...props}
       fill="currentColor"
       className={
-        "inline self-center aspect-square " +
+        "self-center aspect-square " +
         sizeClassName +
         (className ? " " + className : "")
       }
