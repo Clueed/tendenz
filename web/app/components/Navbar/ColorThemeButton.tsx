@@ -65,14 +65,26 @@ const SunIcon = () => {
 	useEffect(() => {
 		if (isPresent) {
 			const enterAnimation = async () => {
-				await animate('circle', otherVariants.show)
-				await animate('path', sunPathVariants.show)
+				await animate('circle', otherVariants.show, {
+					duration: 0.5,
+					type: 'spring',
+				})
+				await animate('path', sunPathVariants.show, {
+					duration: 0.5,
+					type: 'spring',
+				})
 			}
 			enterAnimation()
 		} else {
 			const exitAnimation = async () => {
-				await animate('path', sunPathVariants.hide)
-				await animate('circle', otherVariants.hide)
+				await animate('path', sunPathVariants.hide, {
+					duration: 0.5,
+					type: 'spring',
+				})
+				await animate('circle', otherVariants.hide, {
+					duration: 0.5,
+					type: 'spring',
+				})
 				safeToRemove()
 			}
 
@@ -141,6 +153,7 @@ const MoonIcon = () => (
 			initial={otherVariants.hide}
 			animate={otherVariants.show}
 			exit={otherVariants.hide}
+			transition={{ duration: 1, type: 'spring' }}
 			fill="none"
 			stroke="currentColor"
 			strokeLinecap="round"
