@@ -1,10 +1,30 @@
+import { PopoverTrigger } from '@radix-ui/react-popover'
 import { Icon } from '@tendenz/icons'
 import clsx from 'clsx'
 import { hoursUntilNextWeekdayHour } from '../../lib/hoursUntilNextWeekdayHour'
 import Pop from '../Pop'
+import { PopoverContentStyled, PopoverRoot } from '../Pop2'
 
 export default function Timer() {
 	const timeTill = hoursUntilNextWeekdayHour(2)
+
+	return (
+		<PopoverRoot>
+			<PopoverTrigger>
+				<Icon
+					name="radix-icons/clock"
+					className="will-change-transform group-radix-state-open:animate-[rotate-360_1s_cubic-bezier(.12,0,.36,1.5)]"
+				/>
+				<span className="font-light">{timeTill}h</span>
+			</PopoverTrigger>
+			<PopoverContentStyled color="slate">
+				<p>{timeTill} hours left until the next market update.</p>
+				<p className="mt-2">
+					Data is available on market close with a ~12 hour delay.
+				</p>
+			</PopoverContentStyled>
+		</PopoverRoot>
+	)
 
 	return (
 		<Pop

@@ -4,7 +4,8 @@ import clsx from 'clsx'
 import { AnimatePresence, motion, useAnimate, usePresence } from 'framer-motion'
 import { useTheme } from 'next-themes'
 import { ReactNode, useEffect, useState } from 'react'
-import FreeFloatButton from '../FreeFloatButton'
+import { FreeFloatButton } from '../FreeFloatButton'
+
 
 export default function ColorThemeButton({
 	className,
