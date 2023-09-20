@@ -50,8 +50,12 @@ export const PopoverContentStyled = forwardRef(function PopoverContentStyled(
 	{
 		children,
 		color,
+		widthClassName = 'w-64',
 		...props
-	}: PopoverPrimitive.PopoverContentProps & { color: keyof typeof colors },
+	}: PopoverPrimitive.PopoverContentProps & {
+		color: keyof typeof colors
+		widthClassName?: string
+	},
 	forwardedRef: ForwardedRef<HTMLDivElement>,
 ) {
 	return (
@@ -61,6 +65,7 @@ export const PopoverContentStyled = forwardRef(function PopoverContentStyled(
 			className={clsx(
 				'rounded-lg bg-gradient-to-br px-5 py-4',
 				colors[color].contentClassName,
+				widthClassName,
 			)}
 			{...props}
 		>
