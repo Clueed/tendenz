@@ -12,7 +12,7 @@ export default function FreeFloatButton({
 		<button
 			{...props}
 			className={clsx(
-				'rounded-md bg-slateA3 leading-none text-slateA11 transition-colors duration-500 hover:bg-slateA4',
+				'rounded-md bg-slateA1 leading-none text-slateA11 transition-colors duration-500 hover:bg-slateA4',
 				aspectRatio === 'square' ? 'px-1.5 py-1.5' : '',
 				className,
 			)}
