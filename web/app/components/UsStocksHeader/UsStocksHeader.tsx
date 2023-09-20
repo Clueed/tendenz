@@ -13,13 +13,13 @@ export default function UsStocksHeader({}: {}) {
 
 	return (
 		<div className="grid grid-cols-default">
-			<div className="col-start-2 mb-[1.5vh] flex items-end justify-between gap-5">
+			<div className="col-start-2 mb-[1.5vh] flex items-end  justify-between gap-5">
 				<h2 className="text-4xl font-normal text-slate11">
 					{lastDate}
 					&apos;s anomalies
 				</h2>
 
-				<div className="flex gap-2">
+				<div className="flex items-end gap-2">
 					<Timer />
 					<SettingsButton />
 				</div>
