@@ -1,5 +1,5 @@
 import Balancer from 'react-wrap-balancer'
-import { HeroPopOver } from './HeroPopOver'
+import { HistoricalPopover, StatPopover } from './HeroPops'
 
 export default function Hero() {
 	return (
@@ -12,33 +12,12 @@ export default function Hero() {
 
 				<div className="mt-4 text-xl text-slate11 sm:text-2xl">
 					<Balancer>
-						<HeroPopOver
-							learnMore="/docs/statistical-significants"
-							popoverText={
-								<>
-									<p>
-										By combining an asset&apos;s average prices with its average
-										volatility, we can estimate the likelihood of the most
-										recent closing price (measured by sigma σ).
-									</p>
-									<p className="mt-2">
-										A high σ indicates an unusual or extraordinary change in
-										price.
-									</p>
-								</>
-							}
-							triggerText="statistical probabilities"
-						/>{' '}
-						of market close prices <br />
+						<StatPopover>statistical probabilities</StatPopover> of market close
+						prices <br />
 					</Balancer>
 				</div>
 				<div className="mt-4 text-slate11 sm:text-xl">
-					based on{' '}
-					<HeroPopOver
-						learnMore={false}
-						popoverText="We use the daily returns of each assets over the past two years."
-						triggerText="historical returns"
-					/>
+					based on <HistoricalPopover>historical returns</HistoricalPopover>
 				</div>
 			</div>
 		</div>
