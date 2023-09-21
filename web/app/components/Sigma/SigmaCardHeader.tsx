@@ -1,11 +1,7 @@
-import { stockTypes } from '@tendenz/types'
 import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
-import { ReactNode, useContext, useEffect, useState } from 'react'
-import Pop from '../Pop'
-import { MarketCap } from './MarketCap'
+import { motion } from 'framer-motion'
+import { useContext, useEffect, useState } from 'react'
 import { SigmaEntryContext } from './SigmaEntryContext'
-import { Tag } from './Tag'
 
 export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 	const { sigma, ticker, name, marketCap, type } = useContext(SigmaEntryContext)
@@ -73,47 +69,8 @@ export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 					<span className="mr-1 text-slate11">{ticker}</span>
 					{'  '}
 					<span className="text-slate12">{nameWithoutTypesAndParan}</span>
-					<AnimatePresence>
-						{expanded && (
-							<>
-								{' '}
-								<StockTypePopover
-									key={type}
-									text={stockTypes[type].description}
-								>
-									<Tag
-										className={clsx(
-											'hover:bg-slateA5 hover:text-slate12',
-											'group-radix-state-open:bg-slateA5 group-radix-state-open:text-slate12',
-										)}
-									>
-										{type}
-									</Tag>
-								</StockTypePopover>{' '}
-								<MarketCap marketCap={marketCap} ticker={ticker} />
-							</>
-						)}
-					</AnimatePresence>
 				</div>
 			</motion.div>
 		</div>
-	)
-}
-
-function StockTypePopover({
-	children,
-	text,
-}: {
-	children: ReactNode | ReactNode[]
-	text: string
-}) {
-	return (
-		<Pop
-			offset={1}
-			popoverColor="slate"
-			popoverContent={<div className="w-52">{text}</div>}
-		>
-			{children}
-		</Pop>
 	)
 }
