@@ -1,13 +1,15 @@
 import { Icon } from '@tendenz/icons'
 import { motion } from 'framer-motion'
+import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react'
 import { FreeFloatButton } from '../FreeFloatButton'
 
-export function NextPageButton(
-	props: React.DetailedHTMLProps<
-		React.ButtonHTMLAttributes<HTMLButtonElement>,
-		HTMLButtonElement
-	>,
-) {
+export function NextPageButton({
+	ref,
+	...props
+}: DetailedHTMLProps<
+	ButtonHTMLAttributes<HTMLButtonElement>,
+	HTMLButtonElement
+>) {
 	return (
 		<motion.div
 			whileInView={{
