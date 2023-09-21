@@ -1,3 +1,5 @@
+'use client'
+
 import * as Dialog from '@radix-ui/react-dialog'
 import { Icon } from '@tendenz/icons'
 import { AnimatePresence, motion } from 'framer-motion'
