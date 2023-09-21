@@ -1,20 +1,17 @@
-'use client'
-
-import { PopoverTrigger } from '@radix-ui/react-popover'
 import { Icon } from '@tendenz/icons'
-import { PopRoot, PopoverContentStyled } from '../Pop2'
+import { PopRoot, PopTrigger, PopoverContentStyled } from '../Pop2'
 import { PopLearnMore } from '../PopLearnMore'
 
 export default function MarketCapFilterLabel({}: {}) {
 	return (
 		<PopRoot>
-			<PopoverTrigger className="text-xxs uppercase leading-none tracking-wider text-slate10 transition-colors duration-500 data-[state=open]:text-slate12">
+			<PopTrigger className="text-xxs uppercase leading-none tracking-wider text-slate10 transition-colors duration-500 data-[state=open]:text-slate12">
 				<span className="leading-none">market&nbsp;cap&nbsp;filter</span>{' '}
 				<Icon
 					name="radix-icons/question-mark-circled"
 					className="inline align-baseline"
 				/>
-			</PopoverTrigger>
+			</PopTrigger>
 			<PopoverContentStyled color="slate">
 				<p>
 					Market Cap stands for <i>Market Capitalization</i> and measures a
