@@ -1,21 +1,10 @@
 import clsx from 'clsx'
-import {
-	ButtonHTMLAttributes,
-	DetailedHTMLProps,
-	ForwardedRef,
-	forwardRef,
-} from 'react'
+import { forwardRef } from 'react'
 
-export const FreeFloatButton = forwardRef(function PopoverContent(
-	{
-		className,
-		...props
-	}: DetailedHTMLProps<
-		ButtonHTMLAttributes<HTMLButtonElement>,
-		HTMLButtonElement
-	>,
-	forwardedRef?: ForwardedRef<HTMLButtonElement>,
-) {
+export const FreeFloatButton = forwardRef<
+	HTMLButtonElement,
+	JSX.IntrinsicElements['button']
+>(function PopoverContent({ className, children, ...props }, forwardedRef?) {
 	return (
 		<button
 			{...props}
@@ -25,7 +14,7 @@ export const FreeFloatButton = forwardRef(function PopoverContent(
 				className,
 			)}
 		>
-			{props.children}
+			{children}
 		</button>
 	)
 })
