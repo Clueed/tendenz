@@ -6,7 +6,6 @@ import { useTheme } from 'next-themes'
 import { ReactNode, useEffect, useState } from 'react'
 import { FreeFloatButton } from '../FreeFloatButton'
 
-
 export default function ColorThemeButton({
 	className,
 }: {
@@ -33,9 +32,15 @@ export default function ColorThemeButton({
 			}
 		>
 			<AnimatePresence mode="wait">
-				<Aligner>
-					{theme === 'light' ? <SunIcon key={1} /> : <MoonIcon key={2} />}
-				</Aligner>
+				{theme === 'light' ? (
+					<Aligner key={1}>
+						<SunIcon />
+					</Aligner>
+				) : (
+					<Aligner key={2}>
+						<MoonIcon />
+					</Aligner>
+				)}
 			</AnimatePresence>
 		</FreeFloatButton>
 	)
@@ -154,7 +159,7 @@ const MoonIcon = () => (
 			initial={otherVariants.hide}
 			animate={otherVariants.show}
 			exit={otherVariants.hide}
-			transition={{ duration: 1, type: 'spring' }}
+			transition={{ duration: 1, type: 'spring', bounce: 0 }}
 			fill="none"
 			stroke="currentColor"
 			strokeLinecap="round"
