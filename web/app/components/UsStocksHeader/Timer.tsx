@@ -2,13 +2,13 @@ import { PopoverTrigger } from '@radix-ui/react-popover'
 import { Icon } from '@tendenz/icons'
 import { hoursUntilNextWeekdayHour } from '../../lib/hoursUntilNextWeekdayHour'
 import { FreeFloatButton } from '../FreeFloatButton'
-import { PopoverContentStyled, PopoverRoot } from '../Pop2'
+import { PopRoot, PopoverContentStyled } from '../Pop2'
 
 export default function Timer() {
 	const timeTill = hoursUntilNextWeekdayHour(2)
 
 	return (
-		<PopoverRoot>
+		<PopRoot>
 			<PopoverTrigger asChild>
 				<FreeFloatButton className="group flex items-center gap-1.5 data-[state=open]:bg-slateA11 data-[state=open]:text-slate1 data-[state=open]:hover:bg-slateA11">
 					<Icon
@@ -24,6 +24,6 @@ export default function Timer() {
 					Data is available on market close with a ~12 hour delay.
 				</p>
 			</PopoverContentStyled>
-		</PopoverRoot>
+		</PopRoot>
 	)
 }
