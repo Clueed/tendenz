@@ -1,6 +1,5 @@
-import clsx from 'clsx'
 import { ReactNode } from 'react'
-import Pop from '../Pop'
+import { PopRoot, PopTrigger, PopoverContentStyled } from '../Pop2'
 import { PopLearnMore } from '../PopLearnMore'
 export function HeroPopOver({
 	popoverText,
@@ -13,26 +12,16 @@ export function HeroPopOver({
 }) {
 	const color = 'indigo'
 	return (
-		<Pop
-			offset={7.5}
-			popoverColor={color}
-			popoverContent={
-				<div className="w-[calc(var(--radix-popover-trigger-width)*1.5)] text-base leading-relaxed">
-					{popoverText}
-					<div className="flex justify-end">
-						{learnMore && <PopLearnMore color={color} href={learnMore} />}
-					</div>
-				</div>
-			}
-		>
-			<span
-				className={clsx(
-					'border-b-2 border-slateA7 transition-colors duration-500 hover:border-slateA9 hover:text-slateA12',
-					'group-radix-state-open:border-indigoA8 group-radix-state-open:text-indigo12',
-				)}
-			>
+		<PopRoot>
+			<PopTrigger className="border-b-2 border-slateA7 transition-colors duration-500 hover:border-slateA9 hover:text-slateA12 data-[state=open]:border-indigoA8 data-[state=open]:text-indigo12">
 				{triggerText}
-			</span>
-		</Pop>
+			</PopTrigger>
+			<PopoverContentStyled color={color}>
+				{popoverText}
+				<div className="flex justify-end">
+					{learnMore && <PopLearnMore color={color} href={learnMore} />}{' '}
+				</div>
+			</PopoverContentStyled>
+		</PopRoot>
 	)
 }

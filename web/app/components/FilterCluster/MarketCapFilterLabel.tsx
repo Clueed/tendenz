@@ -2,12 +2,12 @@
 
 import { PopoverTrigger } from '@radix-ui/react-popover'
 import { Icon } from '@tendenz/icons'
-import { PopoverContentStyled, PopoverRoot } from '../Pop2'
+import { PopRoot, PopoverContentStyled } from '../Pop2'
 import { PopLearnMore } from '../PopLearnMore'
 
 export default function MarketCapFilterLabel({}: {}) {
 	return (
-		<PopoverRoot>
+		<PopRoot>
 			<PopoverTrigger className="text-xxs uppercase leading-none tracking-wider text-slate10 transition-colors duration-500 data-[state=open]:text-slate12">
 				<span className="leading-none">market&nbsp;cap&nbsp;filter</span>{' '}
 				<Icon
@@ -28,6 +28,6 @@ export default function MarketCapFilterLabel({}: {}) {
 					<PopLearnMore href="/docs/market-cap" color="slate" />
 				</div>
 			</PopoverContentStyled>
-		</PopoverRoot>
+		</PopRoot>
 	)
 }

@@ -1,9 +1,11 @@
+'use client'
+
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import clsx from 'clsx'
 import { ForwardedRef, forwardRef } from 'react'
 
-export const PopoverRoot = PopoverPrimitive.Root
-export const PopoverTrigger = PopoverPrimitive.Trigger
+export const PopRoot = PopoverPrimitive.Root
+export const PopTrigger = PopoverPrimitive.Trigger
 
 const colors = {
 	indigo: {
@@ -16,7 +18,7 @@ const colors = {
 	},
 } as const
 
-export const PopoverContent = forwardRef(function PopoverContent(
+export const PopContent = forwardRef(function PopoverContent(
 	{
 		children,
 		className,
@@ -34,7 +36,7 @@ export const PopoverContent = forwardRef(function PopoverContent(
 				avoidCollisions
 				collisionPadding={30}
 				className={clsx(
-					'data-[state=open]:data-[side=bottom]:animate-slideUpAndFadeIn data-[state=open]:data-[side=left]:animate-slideRightAndFadeIn data-[state=open]:data-[side=right]:animate-slideLeftAndFadeIn data-[state=open]:data-[side=top]:animate-slideDownAndFadeIn data-[state=closed]:data-[side=bottom]:animate-slideUpAndFadeOut data-[state=closed]:data-[side=left]:animate-slideRightAndFadeOut data-[state=closed]:data-[side=right]:animate-slideLeftAndFadeOut data-[state=closed]:data-[side=top]:animate-slideDownAndFadeOut will-change-[transform,opacity]',
+					'will-change-[transform,opacity] data-[state=closed]:data-[side=bottom]:animate-slideUpAndFadeOut data-[state=closed]:data-[side=left]:animate-slideRightAndFadeOut data-[state=closed]:data-[side=right]:animate-slideLeftAndFadeOut data-[state=closed]:data-[side=top]:animate-slideDownAndFadeOut data-[state=open]:data-[side=bottom]:animate-slideUpAndFadeIn data-[state=open]:data-[side=left]:animate-slideRightAndFadeIn data-[state=open]:data-[side=right]:animate-slideLeftAndFadeIn data-[state=open]:data-[side=top]:animate-slideDownAndFadeIn',
 					'z-50 rounded-lg',
 					className,
 				)}
@@ -59,7 +61,7 @@ export const PopoverContentStyled = forwardRef(function PopoverContentStyled(
 	forwardedRef: ForwardedRef<HTMLDivElement>,
 ) {
 	return (
-		<PopoverContent
+		<PopContent
 			ref={forwardedRef}
 			arrowClassName={colors[color].arrowClassName}
 			className={clsx(
@@ -71,6 +73,6 @@ export const PopoverContentStyled = forwardRef(function PopoverContentStyled(
 		>
 			<div className="noise-bg absolute inset-0 -z-10 rounded-lg opacity-100 dark:opacity-75" />
 			{children}
-		</PopoverContent>
+		</PopContent>
 	)
 })
