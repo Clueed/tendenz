@@ -14,7 +14,7 @@ export const FreeFloatButton = forwardRef(function PopoverContent(
 		ButtonHTMLAttributes<HTMLButtonElement>,
 		HTMLButtonElement
 	>,
-	forwardedRef: ForwardedRef<HTMLButtonElement>,
+	forwardedRef?: ForwardedRef<HTMLButtonElement>,
 ) {
 	return (
 		<button

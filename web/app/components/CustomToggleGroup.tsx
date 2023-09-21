@@ -69,7 +69,7 @@ export function CustomToggleGroupMultiple<
 			value={selectedKeys}
 			onValueChange={newKeys => {
 				if (newKeys.every(key => allKeys.includes(key))) {
-					newKeys.length > 0 && selectKeys(newKeys as Ks)
+					newKeys.length > 0 && selectKeys(newKeys as K[])
 				} else {
 					throw new Error('Selected invalid key')
 				}
