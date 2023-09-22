@@ -3,7 +3,7 @@ const radix = require('@radix-ui/colors')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	darkMode: 'class',
+	darkMode: ['class', '[data-theme="dark"]'],
 	future: {
 		hoverOnlyWhenSupported: true,
 	},
