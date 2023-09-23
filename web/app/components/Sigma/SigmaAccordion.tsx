@@ -51,6 +51,7 @@ export function SigmaAccordion() {
 						type="single"
 						onValueChange={setExpandedKey}
 						className="px-2 py-2"
+						asChild
 					>
 						<AnimatePresence initial={false} mode="popLayout">
 							{data &&
