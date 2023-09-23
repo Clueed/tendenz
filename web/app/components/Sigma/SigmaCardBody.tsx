@@ -1,4 +1,3 @@
-import clsx from 'clsx'
 import { useContext, useMemo } from 'react'
 import { useOffRampUrl } from '../../lib/hooks/useOffRampUrl'
 import { npl } from '../../lib/naturalLanguageProcessing'
@@ -26,8 +25,33 @@ export function SigmaCardBody() {
 	const url = useOffRampUrl(entry, offRampName)
 
 	return (
+		<div className="mt-2 flex justify-between gap-5">
+			<div className="flex basis-[6.5rem] flex-col flex-wrap items-end justify-end gap-2 text-lg">
+				<MarketCapTag />
+				<AssetTypeTag />
+			</div>
+			<div className="@ma flex flex-grow justify-around gap-4">
+				<ReturnStack
+					number={formattedSecondLastClose}
+					label={npl(secondLast.date as string)}
+					secondLabel="close price"
+				/>
+				<ReturnStack number={dailyReturnString} label="return" />
+				<ReturnStack
+					number={formattedLastClose}
+					label={npl(last.date as string)}
+					secondLabel="close price"
+				/>
+			</div>
+			<div className="">
+				<YahooButton url={url} />
+			</div>
+		</div>
+	)
+
+	return (
 		<>
-			<div className="mt-4 grid grid-cols-[6.5rem_repeat(4_,auto)] justify-between text-right">
+			<div className="mt-4 grid grid-flow-col grid-cols-[minmax(auto,_6.5rem)_repeat(auto-fit,auto)] justify-between gap-x-5 text-right">
 				<div className="row-span-2 flex flex-col flex-wrap items-end justify-end gap-2 text-lg">
 					<MarketCapTag />
 					<AssetTypeTag />
@@ -44,7 +68,7 @@ export function SigmaCardBody() {
 					</div>
 				</div>
 
-				<div className={clsx('col-start-3 row-start-1 text-xl')}>
+				<div className={'col-start-3 row-start-1 text-xl'}>
 					{dailyReturnString}
 				</div>
 				<div className="col-start-3 flex justify-self-end">
@@ -70,3 +94,21 @@ export function SigmaCardBody() {
 		</>
 	)
 }
+
+const ReturnStack = ({
+	number,
+	label,
+	secondLabel,
+}: {
+	number: string
+	label: string
+	secondLabel?: string
+}) => (
+	<div className="text-right">
+		<div className="text-xl">{number}</div>
+		<div className="text-xs leading-tight text-slate12/90">{label}</div>
+		{secondLabel && (
+			<div className="text-xxs leading-tight text-slateA11">{secondLabel}</div>
+		)}
+	</div>
+)
