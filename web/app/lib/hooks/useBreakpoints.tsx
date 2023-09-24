@@ -1,5 +1,5 @@
 import { useMediaQuery } from 'react-responsive'
-import * as screens from '../../tailwind-screens.config'
+import * as screens from '../../../tailwind-screens.config'
 
 type BreakpointKey = keyof typeof screens
 

@@ -1,26 +1,14 @@
-import { stockTypeCode, stockTypes } from '@tendenz/types'
+import { stockTypes } from '@tendenz/types'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useContext, useEffect, useState } from 'react'
 import Pop from '../Pop'
 import { MarketCap } from './MarketCap'
+import { SigmaEntryContext } from './SigmaEntryContext'
 import { Tag } from './Tag'
 
-export function SigmaCardHeader({
-	expanded,
-	sigma,
-	ticker,
-	name,
-	marketCap,
-	type,
-}: {
-	expanded: boolean
-	sigma: number
-	ticker: string
-	name: string
-	marketCap: number
-	type: stockTypeCode
-}) {
+export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
+	const { sigma, ticker, name, marketCap, type } = useContext(SigmaEntryContext)
 	const formattedSigma = Math.abs(sigma).toFixed(2)
 
 	//const { formattedName: nameWithoutTypes, shareTypes } = handleTickerTypes(name)

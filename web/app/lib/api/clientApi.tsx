@@ -1,10 +1,10 @@
 'use client'
 
-import { useFilterStore } from '@/app/components/filterStore'
+import { useFilterStore } from '@/app/lib/stores/filterStore'
 import { tendenzApiSigmaYesterday } from '@tendenz/types'
 import { preload } from 'swr'
 import useSWRInfinite from 'swr/infinite'
-import { fetcher } from './SWRConfigProvider'
+import { fetcher } from '../../components/SWRConfigProvider'
 import { getStocksURL } from './sharedApi'
 
 export function useSigmaYesterdayInfinite() {

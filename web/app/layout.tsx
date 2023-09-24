@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import { DM_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 import { Footer } from './Footer'
-import NavigationBar from './components/Navbar/NavigationBar'
+import NavigationBar from './components/navbar/NavigationBar'
 import './globals.css'
 
 const dmSans = localFont({
@@ -30,7 +30,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en" className="dark-theme w-full overflow-x-hidden">
+		<html lang="en" className="dark-theme min-h-full w-full overflow-x-hidden">
 			<head>
 				<title>Tendenz - Skip past the noise</title>
 				<link
@@ -74,7 +74,7 @@ export default function RootLayout({
 				className={clsx(
 					dmSans.variable,
 					dmMono.variable,
-					'relative flex h-full w-full flex-col overflow-x-clip bg-slate-1 font-sans text-slate-12',
+					'relative flex min-h-screen w-full flex-col overflow-x-clip bg-slate-1 font-sans text-slate-12',
 				)}
 			>
 				<NavigationBar />

@@ -5,7 +5,7 @@ import {
 	DEFAULT_TYPE_GROUP_LABELS,
 	TYPE_GROUPS,
 	TypeGroupLabel,
-} from '../lib/MARKET_CAP_BUCKETS'
+} from '../CONSTANS'
 
 export type MarketCapFilter = {
 	min: number

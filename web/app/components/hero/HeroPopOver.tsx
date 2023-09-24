@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { ReactNode } from 'react'
-import Pop from './Pop'
-import { PopLearnMore } from './PopLearnMore'
+import Pop from '../Pop'
+import { PopLearnMore } from '../PopLearnMore'
 export function HeroPopOver({
 	popoverText,
 	triggerText,

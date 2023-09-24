@@ -1,11 +1,11 @@
 import MarketCapFilter from './MarketCapFilter'
 import MarketCapFilterLabel from './MarketCapFilterLabel'
-import StockTypeToggleDataWrapper from './StockTypeToggleDataWrapper'
+import StockTypeToggle from './StockTypeToggle'
 export function FilterCluster({}) {
 	return (
 		<div className="mb-[2vh] mt-[1vh] grid grid-cols-default">
 			<div className="col-start-2 grid grid-cols-2 items-start">
-				<StockTypeToggleDataWrapper />
+				<StockTypeToggle />
 
 				<MarketCapFilter />
 				<div className="pt-0.5 text-xxs">

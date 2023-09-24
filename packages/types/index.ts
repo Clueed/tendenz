@@ -1,8 +1,3 @@
-export type tendenzApiSigmaYesterdayDay = {
-  close: number;
-  date: string | Date;
-};
-
 export type tendenzApiSigmaYesterdayV0 = {
   ticker: string;
   name: string | null;
@@ -17,10 +12,24 @@ export type tendenzApiSigmaYesterdayV0 = {
   secondLast: tendenzApiSigmaYesterdayDay;
 };
 
+export type tendenzApiSigmaYesterdayDay = {
+  close: number;
+  date: string | Date;
+};
+
+export type primaryExchange =
+  | "XNAS"
+  | "IEXG"
+  | "ARCX"
+  | "XASE"
+  | "BATS"
+  | "XNYS";
+
 export type tendenzApiSigmaYesterday = {
   ticker: string;
   name: string;
   type: stockTypeCode;
+  primaryExchange: primaryExchange;
   sigma: number;
   marketCap: number;
   last: tendenzApiSigmaYesterdayDay;

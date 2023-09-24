@@ -1,18 +1,16 @@
-import { tendenzApiSigmaYesterdayDay } from '@tendenz/types'
 import clsx from 'clsx'
-import { useMemo } from 'react'
+import { useContext, useMemo } from 'react'
+import { useOffRampUrl } from '../../lib/hooks/useOffRampUrl'
 import { npl } from '../../lib/naturalLanguageProcessing'
+import { useSettingsStore } from '../../lib/stores/settingsStore'
+import { SigmaEntryContext } from './SigmaEntryContext'
 import { YahooButton } from './YahooButton'
 
-export function SigmaCardBody({
-	last,
-	secondLast,
-	ticker,
-}: {
-	last: tendenzApiSigmaYesterdayDay
-	secondLast: tendenzApiSigmaYesterdayDay
-	ticker: string
-}) {
+export function SigmaCardBody() {
+	const entry = useContext(SigmaEntryContext)
+
+	const { last, secondLast } = entry
+
 	const formattedLastClose = '$' + last.close.toFixed(2)
 	const formattedSecondLastClose = '$' + secondLast.close.toFixed(2)
 	const dailyReturn = useMemo(
@@ -21,6 +19,11 @@ export function SigmaCardBody({
 	)
 
 	const dailyReturnString = dailyReturn.toFixed(2) + '%'
+
+	const offRampName = useSettingsStore(state => state.offRampName)
+	const url = useOffRampUrl(entry, offRampName)
+
+	console.log('url :>> ', url)
 
 	return (
 		<div className="mt-4 grid grid-cols-[1fr_7rem_repeat(content_fit,_2)_1fr] justify-between text-right">
@@ -36,12 +39,7 @@ export function SigmaCardBody({
 				</div>
 			</div>
 
-			<div
-				className={clsx(
-					'col-start-3 row-start-1 text-xl',
-					//dailyReturnColor
-				)}
-			>
+			<div className={clsx('col-start-3 row-start-1 text-xl')}>
 				{dailyReturnString}
 			</div>
 			<div className="col-start-3 flex justify-self-end">
@@ -61,7 +59,7 @@ export function SigmaCardBody({
 			</div>
 
 			<div className="col-start-5 row-span-2 row-start-1 py-1">
-				<YahooButton ticker={ticker} />
+				<YahooButton url={url} />
 			</div>
 		</div>
 	)

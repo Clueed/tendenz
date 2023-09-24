@@ -1,6 +1,8 @@
 'use client'
-import { useSigmaYesterdayInfinite } from '../lib/api/clientApi'
-import { npl } from '../lib/naturalLanguageProcessing'
+import { useSigmaYesterdayInfinite } from '../../lib/api/clientApi'
+import { npl } from '../../lib/naturalLanguageProcessing'
+import SettingsButton from './SettingsButton'
+
 import Timer from './Timer'
 
 export default function UsStocksHeader({}: {}) {
@@ -17,7 +19,10 @@ export default function UsStocksHeader({}: {}) {
 					&apos;s anomalies
 				</h2>
 
-				<Timer />
+				<div className="flex gap-2">
+					<Timer />
+					<SettingsButton />
+				</div>
 			</div>
 		</div>
 	)
