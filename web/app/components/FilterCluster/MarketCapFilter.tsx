@@ -68,8 +68,8 @@ export default function MarketCapFilter({}: {}) {
 							}}
 							onValueCommit={handleValueCommited}
 						>
-							<Slider.Track className="relative h-1.5 flex-grow rounded-full bg-slate-7">
-								<Slider.Range className="absolute h-full rounded-full bg-slate-10" />
+							<Slider.Track className="relative h-1.5 flex-grow rounded-full bg-slate7">
+								<Slider.Range className="absolute h-full rounded-full bg-slate10" />
 							</Slider.Track>
 							<Thumb>
 								<ThumbLabel
@@ -113,7 +113,7 @@ const Thumb = ({ children }: { children: ReactNode }) => (
 				initial={{ opacity: 0, y: 10 }}
 				animate={{ opacity: 1, y: 0 }}
 			>
-				{/* <div className="h-2 w-2 bg-tomato-9"></div> */}
+				{/* <div className="h-2 w-2 bg-tomato9"></div> */}
 				{children}
 			</motion.div>
 		</Slider.Thumb>
@@ -136,7 +136,7 @@ const ThumbLabel = ({
 			{ 'justify-center': alignToThumb === 'center' },
 			{ 'justify-end': alignToThumb === 'left' },
 			{ 'justify-start': alignToThumb === 'right' },
-			'text-sm text-slate-11',
+			'text-sm text-slate11',
 		)}
 	>
 		{children}

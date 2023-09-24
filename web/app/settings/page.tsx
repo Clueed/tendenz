@@ -15,12 +15,12 @@ export default function SettingsPage() {
 		<>
 			<section>
 				<H3>
-					<div className="flex items-center gap-2 text-slate-12">
+					<div className="flex items-center gap-2 text-slate12">
 						<Icon name="phosphor-icons/chart-line" />
 						offramp provider
 					</div>
 				</H3>
-				<div className="text-sm text-slate-11 sm:text-center">
+				<div className="text-sm text-slate11 sm:text-center">
 					<Balancer>
 						the service to be used when linking to external sites for additional
 						information on assets
@@ -34,7 +34,7 @@ export default function SettingsPage() {
 				<form>
 					<div className="flex items-center">
 						<label
-							className="text-white pr-[15px] text-[15px] leading-none text-slate-11"
+							className="text-white pr-[15px] text-[15px] leading-none text-slate11"
 							htmlFor="remeber-setting"
 						>
 							remember settings
@@ -46,11 +46,11 @@ export default function SettingsPage() {
 							id="remeber-setting"
 							style={{ WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)' }}
 						>
-							<div className="absolute inset-0 -m-0.5 rounded-full bg-slate-a7 transition-colors duration-500 ease-in-out will-change-[backgroundColor] group-radix-state-checked:bg-slate-a9" />
-							<Switch.Thumb className="h-4 w-4 rounded-full bg-slate-1 transition-transform duration-500 ease-in-out will-change-transform data-[state=checked]:translate-x-[calc(2rem-100%)] dark:bg-slate-12" />
+							<div className="absolute inset-0 -m-0.5 rounded-full bg-slateA7 transition-colors duration-500 ease-in-out will-change-[backgroundColor] group-radix-state-checked:bg-slateA9" />
+							<Switch.Thumb className="h-4 w-4 rounded-full bg-slate1 transition-transform duration-500 ease-in-out will-change-transform data-[state=checked]:translate-x-[calc(2rem-100%)] dark:bg-slate12" />
 						</Switch.Root>
 					</div>
-					<div className="mt-1 text-xs text-slate-10">this uses cookies.</div>
+					<div className="mt-1 text-xs text-slate10">this uses cookies.</div>
 				</form>
 			</section>
 		</>

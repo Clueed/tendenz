@@ -9,10 +9,10 @@ export function FilterCluster({}) {
 
 				<MarketCapFilter />
 				<div className="pt-0.5 text-xxs">
-					<span className="uppercase tracking-wider text-indigo-11">
+					<span className="uppercase tracking-wider text-indigo11">
 						assets&nbsp;types
 					</span>{' '}
-					<span className="text-slate-11">United&nbsp;States</span>
+					<span className="text-slate11">United&nbsp;States</span>
 				</div>
 				<div className="flex items-start justify-end text-right">
 					<MarketCapFilterLabel />

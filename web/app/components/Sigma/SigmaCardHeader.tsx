@@ -1,11 +1,7 @@
-import { stockTypes } from '@tendenz/types'
 import clsx from 'clsx'
-import { AnimatePresence, motion } from 'framer-motion'
-import { ReactNode, useContext, useEffect, useState } from 'react'
-import Pop from '../Pop'
-import { MarketCap } from './MarketCap'
+import { motion } from 'framer-motion'
+import { useContext, useEffect, useState } from 'react'
 import { SigmaEntryContext } from './SigmaEntryContext'
-import { Tag } from './Tag'
 
 export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 	const { sigma, ticker, name, marketCap, type } = useContext(SigmaEntryContext)
@@ -39,19 +35,19 @@ export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 			}
 		>
 			<div className="flex items-center justify-end">
-				<div className="text-right text-2xl leading-none text-indigo-12">
+				<div className="text-right text-2xl leading-none text-indigo12">
 					{formattedSigma}
 				</div>
 				<div className="ml-1 flex flex-col text-xl">
 					<div
 						className={clsx('-my-1 text-xxs opacity-90', {
-							'text-red-a11': sigma < 0,
-							'text-green-a11': sigma > 0,
+							'text-redA11': sigma < 0,
+							'text-greenA11': sigma > 0,
 						})}
 					>
 						{sigma < 0 ? '↓' : '↑'}
 					</div>
-					<div className="-my-1 text-sm text-slate-10">σ</div>
+					<div className="-my-1 text-sm text-slate10">σ</div>
 				</div>
 			</div>
 
@@ -70,50 +66,11 @@ export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 				className={'overflow-hidden pr-5 text-left text-xl'}
 			>
 				<div className={clsx({ truncate: expanded ? false : trunc })}>
-					<span className="mr-1 text-slate-11">{ticker}</span>
+					<span className="mr-1 text-slate11">{ticker}</span>
 					{'  '}
-					<span className="text-slate-12">{nameWithoutTypesAndParan}</span>
-					<AnimatePresence>
-						{expanded && (
-							<>
-								{' '}
-								<StockTypePopover
-									key={type}
-									text={stockTypes[type].description}
-								>
-									<Tag
-										className={clsx(
-											'hover:bg-slate-a5 hover:text-slate-12',
-											'group-radix-state-open:bg-slate-a5 group-radix-state-open:text-slate-12',
-										)}
-									>
-										{type}
-									</Tag>
-								</StockTypePopover>{' '}
-								<MarketCap marketCap={marketCap} ticker={ticker} />
-							</>
-						)}
-					</AnimatePresence>
+					<span className="text-slate12">{nameWithoutTypesAndParan}</span>
 				</div>
 			</motion.div>
 		</div>
-	)
-}
-
-function StockTypePopover({
-	children,
-	text,
-}: {
-	children: ReactNode | ReactNode[]
-	text: string
-}) {
-	return (
-		<Pop
-			offset={1}
-			popoverColor="slate"
-			popoverContent={<div className="w-52">{text}</div>}
-		>
-			{children}
-		</Pop>
 	)
 }

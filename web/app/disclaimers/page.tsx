@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 export default function Disclaimers() {
 	return (
 		<section className="mb-[8vh] grid grid-cols-default">
-			<h1 className="col-start-2 mb-[4vh] mt-[8vh] text-5xl font-normal text-slate-11 sm:mb-[6vh] sm:mt-[12vh] sm:text-center">
+			<h1 className="col-start-2 mb-[4vh] mt-[8vh] text-5xl font-normal text-slate11 sm:mb-[6vh] sm:mt-[12vh] sm:text-center">
 				disclaimers
 			</h1>
 			<P>
@@ -65,6 +65,6 @@ export default function Disclaimers() {
 
 function P({ children }: { children: ReactNode }) {
 	return (
-		<p className="col-start-2 mt-4 leading-loose text-slate-12">{children}</p>
+		<p className="col-start-2 mt-4 leading-loose text-slate12">{children}</p>
 	)
 }

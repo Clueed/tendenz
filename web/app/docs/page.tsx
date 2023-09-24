@@ -26,18 +26,18 @@ function MainDocsLink({ href, text }: { href: string; text: string }) {
 			<div
 				className={clsx(
 					bgClassName,
-					'from-slate-a1 to-slate-a3',
+					'from-slateA1 to-slateA3',
 					'group-hover:opacity-0',
 				)}
 			/>
 			<div
 				className={clsx(
 					bgClassName,
-					'from-sky-a4 to-indigo-a5 shadow-xl',
+					'from-skyA4 to-indigoA5 shadow-xl',
 					'opacity-0 group-hover:opacity-100',
 				)}
 			/>
-			<div className="col-start-2 flex items-center justify-between py-8 text-3xl text-slate-12">
+			<div className="col-start-2 flex items-center justify-between py-8 text-3xl text-slate12">
 				<div>{text}</div>
 				<div className="transition-all duration-1000 group-hover:translate-x-3">
 					<Icon name="radix-icons/chevron-right" />

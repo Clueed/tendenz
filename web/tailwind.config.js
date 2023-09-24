@@ -1,6 +1,9 @@
+const { createThemes } = require('tw-colors')
+const radix = require('@radix-ui/colors')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	darkMode: 'media',
+	darkMode: ['class', '[data-theme="dark"]'],
 	future: {
 		hoverOnlyWhenSupported: true,
 	},
@@ -12,41 +15,6 @@ module.exports = {
 	],
 	theme: {
 		colors: {
-			...createColorObject([
-				'tomato',
-				'red',
-				'ruby',
-				'crimson',
-				'pink',
-				'plum',
-				'purple',
-				'violet',
-				'indigo',
-				'iris',
-				'blue',
-				'cyan',
-				'teal',
-				'jade',
-				'green',
-				'grass',
-				'orange',
-				'brown',
-				'sky',
-				'mint',
-				'lime',
-				'yellow',
-				'amber',
-				'gray',
-				'mauve',
-				'slate',
-				'sage',
-				'olive',
-				'sand',
-				'bronze',
-				'gold',
-			]),
-			black: generateScale('black', true),
-			white: generateScale('white', true),
 			transparent: '#00000000',
 		},
 		screens: require('./tailwind-screens.config'),
@@ -73,13 +41,22 @@ module.exports = {
 				slide: 'slide 4s linear infinite',
 				'pulse-1s': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
 				'border-width': 'border-width 1s infinite',
-				slideDownAndFade:
-					'slideDownAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
-				slideLeftAndFade:
-					'slideLeftAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
-				slideUpAndFade: 'slideUpAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
-				slideRightAndFade:
-					'slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
+				slideDownAndFadeIn:
+					'slideDownAndFadeIn 500ms cubic-bezier(0.16, 1, 0.3, 1)',
+				slideLeftAndFadeIn:
+					'slideLeftAndFadeIn 500ms cubic-bezier(0.16, 1, 0.3, 1)',
+				slideUpAndFadeIn:
+					'slideUpAndFadeIn 500ms cubic-bezier(0.16, 1, 0.3, 1)',
+				slideRightAndFadeIn:
+					'slideRightAndFadeIn 500ms cubic-bezier(0.16, 1, 0.3, 1)',
+				slideDownAndFadeOut:
+					'slideDownAndFadeOut 500ms cubic-bezier(0.16, 1, 0.3, 1)',
+				slideLeftAndFadeOut:
+					'slideLeftAndFadeOut 500ms cubic-bezier(0.16, 1, 0.3, 1)',
+				slideUpAndFadeOut:
+					'slideUpAndFadeOut 500ms cubic-bezier(0.16, 1, 0.3, 1)',
+				slideRightAndFadeOut:
+					'slideRightAndFadeOut 500ms cubic-bezier(0.16, 1, 0.3, 1)',
 				overlayShow: 'overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
 				contentShow: 'contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
 				clockRotate: 'rotate-360 1s spring ',
@@ -93,21 +70,37 @@ module.exports = {
 					from: { opacity: 0, transform: 'translate(-50%, -48%) scale(0.96)' },
 					to: { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
 				},
-				slideDownAndFade: {
-					from: { opacity: 0, transform: 'translateY(-10px)' },
+				slideUpAndFadeIn: {
+					from: { opacity: 0, transform: 'translateY(10%)' },
 					to: { opacity: 1, transform: 'translateY(0)' },
 				},
-				slideLeftAndFade: {
-					from: { opacity: 0, transform: 'translateX(10px)' },
+				slideRightAndFadeIn: {
+					from: { opacity: 0, transform: 'translateX(-10%)' },
 					to: { opacity: 1, transform: 'translateX(0)' },
 				},
-				slideUpAndFade: {
-					from: { opacity: 0, transform: 'translateY(10px)' },
+				slideDownAndFadeIn: {
+					from: { opacity: 0, transform: 'translateY(-10%)' },
 					to: { opacity: 1, transform: 'translateY(0)' },
 				},
-				slideRightAndFade: {
-					from: { opacity: 0, transform: 'translateX(-10px)' },
+				slideLeftAndFadeIn: {
+					from: { opacity: 0, transform: 'translateX(10%)' },
 					to: { opacity: 1, transform: 'translateX(0)' },
+				},
+				slideUpAndFadeOut: {
+					from: { opacity: 1, transform: 'translateY(0)' },
+					to: { opacity: 0, transform: 'translateY(10%)' },
+				},
+				slideRightAndFadeOut: {
+					from: { opacity: 1, transform: 'translateX(0)' },
+					to: { opacity: 0, transform: 'translateX(-10%)' },
+				},
+				slideDownAndFadeOut: {
+					from: { opacity: 1, transform: 'translateY(0)' },
+					to: { opacity: 0, transform: 'translateY(-10%)' },
+				},
+				slideLeftAndFadeOut: {
+					from: { opacity: 1, transform: 'translateX(0)' },
+					to: { opacity: 0, transform: 'translateX(10%)' },
 				},
 				'text-gradient': {
 					to: {
@@ -156,26 +149,21 @@ module.exports = {
 	plugins: [
 		require('@tailwindcss/container-queries'),
 		require('tailwindcss-radix'),
+		createThemes({
+			light: Object.entries(radix)
+				.filter(color => !color[0].includes('Dark'))
+				.map(color => color[1])
+				.reduce((accumulator, currentObject) => {
+					Object.assign(accumulator, currentObject)
+					return accumulator
+				}, {}),
+			dark: Object.entries(radix)
+				.filter(color => color[0].includes('Dark'))
+				.map(color => color[1])
+				.reduce((accumulator, currentObject) => {
+					Object.assign(accumulator, currentObject)
+					return accumulator
+				}, {}),
+		}),
 	],
-}
-
-function createColorObject(names) {
-	let colors = {}
-	for (const name of names) {
-		colors[name] = generateScale(name)
-	}
-	return colors
-}
-
-function generateScale(name, alpha_only = false) {
-	let scale = Array.from({ length: 12 }, (_, i) => {
-		let id = i + 1
-		r = [[`a${id}`, `var(--${name}-a${id})`]]
-		if (!alpha_only) {
-			r.push([id, `var(--${name}-${id})`])
-		}
-		return r
-	}).flat()
-
-	return Object.fromEntries(scale)
 }
