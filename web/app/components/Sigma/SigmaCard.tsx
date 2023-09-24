@@ -39,13 +39,11 @@ export const SigmaCard = forwardRef<
 		expanded: boolean
 	}
 >(function SigmaCard(
-	{ entry, expanded, value, className, onAnimationIteration, ...props },
+	{ entry, expanded, className, onAnimationIteration, ...props },
 	forwardedRef,
 ) {
-	const positive = entry.sigma > 0
-
 	return (
-		<Accordion.Item ref={forwardedRef} value={entry.ticker} {...props}>
+		<Accordion.Item ref={forwardedRef} {...props} asChild>
 			<motion.div
 				layout
 				key={entry.ticker}
@@ -60,7 +58,7 @@ export const SigmaCard = forwardRef<
 				onAnimationIteration={onAnimationIteration}
 			>
 				<SigmaEntryContext.Provider value={entry}>
-					<CardBackground expanded={expanded} positive={positive} />
+					<CardBackground expanded={expanded} />
 					<Accordion.Trigger className="col-start-2 col-end-2 @container">
 						<SigmaCardHeader expanded={expanded} />
 					</Accordion.Trigger>
