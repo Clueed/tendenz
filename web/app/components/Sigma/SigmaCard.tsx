@@ -1,12 +1,10 @@
 import * as Accordion from '@radix-ui/react-accordion'
-import { tendenzApiSigmaYesterday } from '@tendenz/types'
 import clsx from 'clsx'
 import { AnimatePresence, Variants, motion } from 'framer-motion'
 import { forwardRef } from 'react'
 import { CardBackground } from './CardBackground'
 import { SigmaCardBody } from './SigmaCardBody'
 import { SigmaCardHeader } from './SigmaCardHeader'
-import { SigmaEntryContext } from './SigmaEntryContext'
 
 const transition = {
 	type: 'spring',
@@ -32,21 +30,18 @@ const variants: Variants = {
 	},
 }
 
-export const SigmaCard = forwardRef<
+export const SigmaAccordionItem = forwardRef<
 	HTMLDivElement,
-	Accordion.AccordionItemProps & {
-		entry: tendenzApiSigmaYesterday
-		expanded: boolean
-	}
->(function SigmaCard(
-	{ entry, expanded, className, onAnimationIteration, ...props },
+	Accordion.AccordionItemProps
+>(function SigmaAccordionItemWrapper(
+	{ value, children, className, onAnimationIteration, ...props },
 	forwardedRef,
 ) {
 	return (
-		<Accordion.Item ref={forwardedRef} {...props} asChild>
+		<Accordion.Item ref={forwardedRef} value={value} {...props} asChild>
 			<motion.div
 				layout
-				key={entry.ticker}
+				key={value}
 				variants={variants}
 				initial="initial"
 				animate="animate"
@@ -57,36 +52,48 @@ export const SigmaCard = forwardRef<
 				)}
 				onAnimationIteration={onAnimationIteration}
 			>
-				<SigmaEntryContext.Provider value={entry}>
-					<CardBackground expanded={expanded} />
-					<Accordion.Trigger className="col-start-2 col-end-2 @container">
-						<SigmaCardHeader expanded={expanded} />
-					</Accordion.Trigger>
-					<div className="col-span-2 col-start-2 @container sm:col-span-1 sm:col-start-2">
-						<AnimatePresence presenceAffectsLayout>
-							{expanded && (
-								<Accordion.Content asChild forceMount>
-									<motion.div
-										initial={{ height: 0, opacity: 0 }}
-										animate={{
-											height: 'auto',
-											opacity: 1,
-										}}
-										exit={{ height: 0, opacity: 0 }}
-										transition={{
-											ease: 'easeInOut',
-											duration: 0.5,
-										}}
-										className={'overflow-hidden'}
-									>
-										<SigmaCardBody />
-									</motion.div>
-								</Accordion.Content>
-							)}
-						</AnimatePresence>
-					</div>
-				</SigmaEntryContext.Provider>
+				{children}
 			</motion.div>
 		</Accordion.Item>
 	)
 })
+
+export function SigmaCard({ expanded }: { expanded: boolean }) {
+	return (
+		<>
+			<CardBackground expanded={expanded} />
+			<Accordion.Trigger className="col-start-2 col-end-2 @container">
+				<SigmaCardHeader expanded={expanded} />
+			</Accordion.Trigger>
+			<div className="col-span-2 col-start-2 @container sm:col-span-1 sm:col-start-2">
+				<AnimatePresence presenceAffectsLayout>
+					{expanded && (
+						<Accordion.Content asChild forceMount>
+							<motion.div
+								initial={{
+									height: 0,
+									opacity: 0,
+								}}
+								animate={{
+									height: 'auto',
+									opacity: 1,
+								}}
+								exit={{
+									height: 0,
+									opacity: 0,
+								}}
+								transition={{
+									ease: 'easeInOut',
+									duration: 0.5,
+								}}
+								className={'overflow-hidden'}
+							>
+								<SigmaCardBody />
+							</motion.div>
+						</Accordion.Content>
+					)}
+				</AnimatePresence>
+			</div>
+		</>
+	)
+}

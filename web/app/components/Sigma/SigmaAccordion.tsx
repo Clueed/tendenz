@@ -8,7 +8,8 @@ import { AnimatePresence } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { useFilterStore } from '../../lib/stores/filterStore'
 import { NextPageButton } from './NextPageButton'
-import { SigmaCard } from './SigmaCard'
+import { SigmaAccordionItem, SigmaCard } from './SigmaCard'
+import { SigmaEntryContext } from './SigmaEntryContext'
 
 export function SigmaAccordion() {
 	const [expandedKey, setExpandedKey] = useState<string>('')
@@ -55,12 +56,11 @@ export function SigmaAccordion() {
 						<AnimatePresence initial={false} mode="popLayout">
 							{data &&
 								flatData.map(card => (
-									<SigmaCard
-										value={card.ticker}
-										key={card.ticker}
-										entry={card}
-										expanded={expandedKey === card.ticker}
-									/>
+									<SigmaAccordionItem value={card.ticker} key={card.ticker}>
+										<SigmaEntryContext.Provider value={card}>
+											<SigmaCard expanded={expandedKey === card.ticker} />
+										</SigmaEntryContext.Provider>
+									</SigmaAccordionItem>
 								))}
 						</AnimatePresence>
 					</Accordion.Root>
