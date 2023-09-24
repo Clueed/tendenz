@@ -71,7 +71,7 @@ export const PopoverContentStyled = forwardRef(function PopoverContentStyled(
 			)}
 			{...props}
 		>
-			<div className="noise-bg absolute inset-0 -z-10 rounded-lg opacity-100 dark:opacity-75" />
+			<div className="noise-bg absolute inset-0 -z-10 rounded-lg opacity-30 dark:opacity-75" />
 			{children}
 		</PopContent>
 	)
