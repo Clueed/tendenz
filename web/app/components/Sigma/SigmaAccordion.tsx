@@ -4,7 +4,7 @@ import { useSigmaYesterdayInfinite } from '@/app/lib/api/clientApi'
 import * as Accordion from '@radix-ui/react-accordion'
 import { Icon } from '@tendenz/icons'
 import clsx from 'clsx'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { useFilterStore } from '../../lib/stores/filterStore'
 import { NextPageButton } from './NextPageButton'
@@ -31,7 +31,7 @@ export function SigmaAccordion() {
 	const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false)
 
 	return (
-		<div className="grid-cols-default sm:grid">
+		<div className="h-[60rem] grid-cols-default items-start sm:grid">
 			<div
 				className={clsx(
 					'relative col-start-2 -mx-2 box-border overflow-hidden transition-all duration-1000 sm:rounded-2xl',
@@ -45,24 +45,30 @@ export function SigmaAccordion() {
 						!isLoadingMore && setLoadingAnimation(false)
 					}}
 				/>
-				<div className="max-h-[55rem] min-h-[30rem] overflow-y-auto overflow-x-hidden">
+				<div className="max-h-[55rem] min-h-[30rem] w-full overflow-y-auto overflow-x-hidden">
 					{error && <ErrorBar />}
 					<Accordion.Root
 						collapsible
 						type="single"
 						onValueChange={setExpandedKey}
-						className="px-2 py-2"
+						asChild
 					>
-						<AnimatePresence initial={false} mode="popLayout">
-							{data &&
-								flatData.map(card => (
-									<SigmaAccordionItem value={card.ticker} key={card.ticker}>
-										<SigmaEntryContext.Provider value={card}>
-											<SigmaCard expanded={expandedKey === card.ticker} />
-										</SigmaEntryContext.Provider>
-									</SigmaAccordionItem>
-								))}
-						</AnimatePresence>
+						<motion.div layout className="px-2 py-2">
+							<AnimatePresence
+								initial={false}
+								mode="popLayout"
+								presenceAffectsLayout
+							>
+								{data &&
+									flatData.map(card => (
+										<SigmaAccordionItem value={card.ticker} key={card.ticker}>
+											<SigmaEntryContext.Provider value={card}>
+												<SigmaCard expanded={expandedKey === card.ticker} />
+											</SigmaEntryContext.Provider>
+										</SigmaAccordionItem>
+									))}
+							</AnimatePresence>
+						</motion.div>
 					</Accordion.Root>
 					{!isReachingEnd && (
 						<NextPageButton
