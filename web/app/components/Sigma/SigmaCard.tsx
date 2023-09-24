@@ -6,27 +6,18 @@ import { CardBackground } from './CardBackground'
 import { SigmaCardBody } from './SigmaCardBody'
 import { SigmaCardHeader } from './SigmaCardHeader'
 
-const transition = {
-	type: 'spring',
-	duration: 1,
-	bounce: 0.35,
-}
-
 const variants: Variants = {
 	initial: {
-		x: '2.5vw',
+		x: '5%',
 		opacity: 0,
-		transition,
 	},
 	animate: {
 		x: 0,
 		opacity: 1,
-		transition,
 	},
 	exit: {
-		x: '-2.5vw',
+		x: '-5%',
 		opacity: 0,
-		transition,
 	},
 }
 
@@ -46,6 +37,11 @@ export const SigmaAccordionItem = forwardRef<
 				initial="initial"
 				animate="animate"
 				exit="exit"
+				transition={{
+					type: 'spring',
+					duration: 1,
+					bounce: 0.35,
+				}}
 				className={clsx(
 					'group/card relative mb-2 grid grid-cols-default py-3 transition-opacity ',
 					className,
