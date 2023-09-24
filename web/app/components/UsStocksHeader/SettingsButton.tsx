@@ -14,10 +14,10 @@ export default function SettingsButton({}: {}) {
 	return (
 		<Dialog.Root open={open} onOpenChange={setOpen}>
 			<Dialog.Trigger asChild>
-				<FreeFloatButton>
+				<FreeFloatButton className="group">
 					<Icon
 						name="radix-icons/gear"
-						className="transition-transform duration-1000 ease-linear will-change-transform hover:rotate-[360deg]"
+						className="transition-transform duration-1000 ease-spring will-change-transform group-hover:rotate-[180deg] "
 					/>
 				</FreeFloatButton>
 			</Dialog.Trigger>
