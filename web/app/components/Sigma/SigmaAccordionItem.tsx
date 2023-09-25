@@ -1,5 +1,4 @@
 import * as Accordion from '@radix-ui/react-accordion'
-import clsx from 'clsx'
 import { Variants, motion } from 'framer-motion'
 import { forwardRef } from 'react'
 
@@ -38,10 +37,7 @@ export const SigmaAccordionItem = forwardRef<
 					duration: 1,
 					bounce: 0.35,
 				}}
-				className={clsx(
-					'group/card relative mb-2 grid grid-cols-default py-3 transition-opacity ',
-					className,
-				)}
+				className={className}
 				onAnimationIteration={onAnimationIteration}
 			>
 				{children}

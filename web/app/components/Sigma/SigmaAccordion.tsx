@@ -32,12 +32,10 @@ export function SigmaAccordion() {
 	const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false)
 
 	return (
-		<div className="h-[60rem] grid-cols-default items-start sm:grid">
+		<div className="grid h-[60rem] grid-cols-default items-start">
 			<div
 				className={clsx(
-					'relative col-start-2 -mx-2 box-border overflow-hidden transition-all duration-1000 sm:rounded-2xl',
-					size > 1 && 'bg-slateA2',
-					error && 'bg-tomatoA3',
+					'relative col-span-full col-start-1 sm:col-span-1 sm:col-start-2',
 				)}
 			>
 				<LoadingOverlay
@@ -45,6 +43,8 @@ export function SigmaAccordion() {
 					handleAnimationIteration={() => {
 						!isLoadingMore && setLoadingAnimation(false)
 					}}
+					size={size}
+					error={error}
 				/>
 				<div className="max-h-[55rem] min-h-[30rem] w-full overflow-y-auto overflow-x-hidden">
 					{error && <ErrorBar />}
@@ -54,7 +54,7 @@ export function SigmaAccordion() {
 						onValueChange={setExpandedKey}
 						asChild
 					>
-						<motion.div layout className="px-2 py-2">
+						<motion.div layout className="">
 							<AnimatePresence
 								initial={false}
 								mode="popLayout"
@@ -86,14 +86,18 @@ export function SigmaAccordion() {
 function LoadingOverlay({
 	loadingAnimation,
 	handleAnimationIteration,
+	size,
+	error,
 }: {
 	loadingAnimation: boolean
 	handleAnimationIteration: () => void
+	size: number
+	error: any
 }) {
 	const pulsingStripe = (
 		<div
 			className={clsx(
-				'left-0 h-[1px] rounded-full bg-gradient-to-r from-transparent via-slateA10 to-transparent transition-all',
+				'h-[1px] rounded-full bg-gradient-to-r from-transparent via-slateA10 to-transparent transition-all',
 				loadingAnimation && 'animate-border-width',
 			)}
 			onAnimationIteration={handleAnimationIteration}
@@ -103,7 +107,9 @@ function LoadingOverlay({
 	return (
 		<div
 			className={clsx(
-				'absolute inset-0 -z-10 flex h-full w-full flex-col items-center justify-between transition-all duration-1000',
+				'absolute -inset-2 -z-10 flex flex-col items-center justify-between transition-colors duration-1000 sm:rounded-2xl',
+				size > 1 && 'bg-slateA2',
+				error && 'bg-tomatoA3',
 				loadingAnimation && 'bg-slateA3',
 			)}
 		>

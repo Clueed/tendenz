@@ -6,12 +6,12 @@ import { SigmaCardHeader } from './SigmaCardHeader'
 
 export function SigmaCard({ expanded }: { expanded: boolean }) {
 	return (
-		<>
+		<div className="group/card relative mb-2 py-3 transition-opacity ">
 			<CardBackground expanded={expanded} />
 			<Accordion.Trigger className="col-start-2 col-end-2 @container">
 				<SigmaCardHeader expanded={expanded} />
 			</Accordion.Trigger>
-			<div className="col-span-2 col-start-2 @container sm:col-span-1 sm:col-start-2">
+			<div className="col-span-full col-start-1">
 				<AnimatePresence presenceAffectsLayout>
 					{expanded && (
 						<Accordion.Content asChild forceMount>
@@ -40,6 +40,6 @@ export function SigmaCard({ expanded }: { expanded: boolean }) {
 					)}
 				</AnimatePresence>
 			</div>
-		</>
+		</div>
 	)
 }
