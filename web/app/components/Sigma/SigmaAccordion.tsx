@@ -8,7 +8,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { useFilterStore } from '../../lib/stores/filterStore'
 import { NextPageButton } from './NextPageButton'
-import { SigmaAccordionItem, SigmaCard } from './SigmaCard'
+import { SigmaAccordionItem } from './SigmaAccordionItem'
+import { SigmaCard } from './SigmaCard'
 import { SigmaEntryContext } from './SigmaEntryContext'
 
 export function SigmaAccordion() {
