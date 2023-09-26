@@ -5,7 +5,7 @@ import * as Accordion from '@radix-ui/react-accordion'
 import { Icon } from '@tendenz/icons'
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState } from 'react'
 import { useFilterStore } from '../../lib/stores/filterStore'
 import { NextPageButton } from './NextPageButton'
 import { SigmaAccordionItem } from './SigmaAccordionItem'
@@ -48,29 +48,16 @@ export function SigmaAccordion() {
 				/>
 				<div className="max-h-[55rem] min-h-[30rem] w-full overflow-y-auto overflow-x-hidden">
 					{error && <ErrorBar />}
-					<Accordion.Root
-						collapsible
-						type="single"
-						onValueChange={setExpandedKey}
-						asChild
-					>
-						<motion.div layout className="">
-							<AnimatePresence
-								initial={false}
-								mode="popLayout"
-								presenceAffectsLayout
-							>
-								{data &&
-									flatData.map(card => (
-										<SigmaAccordionItem value={card.ticker} key={card.ticker}>
-											<SigmaEntryContext.Provider value={card}>
-												<SigmaCard expanded={expandedKey === card.ticker} />
-											</SigmaEntryContext.Provider>
-										</SigmaAccordionItem>
-									))}
-							</AnimatePresence>
-						</motion.div>
-					</Accordion.Root>
+					<SigmaAccordionRoot onValueChange={setExpandedKey}>
+						{data &&
+							flatData.map(card => (
+								<SigmaAccordionItem value={card.ticker} key={card.ticker}>
+									<SigmaEntryContext.Provider value={card}>
+										<SigmaCard expanded={expandedKey === card.ticker} />
+									</SigmaEntryContext.Provider>
+								</SigmaAccordionItem>
+							))}
+					</SigmaAccordionRoot>
 					{!isReachingEnd && (
 						<NextPageButton
 							onClick={() => setSize(size + 1)}
@@ -82,6 +69,27 @@ export function SigmaAccordion() {
 		</div>
 	)
 }
+
+export const SigmaAccordionRoot = forwardRef<
+	HTMLDivElement,
+	Omit<Accordion.AccordionSingleProps, 'collapsible' | 'type'>
+>(function SigmaAccordionRoot({ children, ...props }, forwardedRef) {
+	return (
+		<Accordion.Root
+			collapsible
+			type="single"
+			{...props}
+			ref={forwardedRef}
+			asChild
+		>
+			<motion.div layout>
+				<AnimatePresence initial={false} mode="popLayout" presenceAffectsLayout>
+					{children}
+				</AnimatePresence>
+			</motion.div>
+		</Accordion.Root>
+	)
+})
 
 function LoadingOverlay({
 	loadingAnimation,
