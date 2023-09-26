@@ -29,7 +29,7 @@ export function NextPageButton({
 				{...props}
 				aria-label="load more"
 				className="text-2xl"
-				disabled={loadingAnimation}
+				disabled={!loadingAnimation}
 			>
 				<Icon name="radix-icons/chevron-down" />
 			</FreeFloatButton>

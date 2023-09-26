@@ -14,19 +14,19 @@ import { SigmaTableLoadingOverlay } from './SigmaTableLoadingOverlay'
 export function SigmaTable() {
 	const [expandedKey, setExpandedKey] = useState<string>('')
 
-	const { data, size, setSize, isLoadingMore, error, flatData, isReachingEnd } =
+	const { data, size, setSize, error, flatData, isReachingEnd } =
 		useSigmaYesterdayInfinite()
 
 	return (
 		<div className="grid h-[60rem] grid-cols-default items-start">
 			<div
 				className={clsx(
-					'relative col-span-full col-start-1 sm:col-span-1 sm:col-start-2',
+					'relative col-span-full col-start-1 sm:col-span-1 sm:col-start-2 ',
 				)}
 			>
-				<SigmaTableLoadingOverlay />
-				<div className="max-h-[55rem] min-h-[30rem] w-full overflow-y-auto overflow-x-hidden">
-					{error && <ErrorBar />}
+				<SigmaTableLoadingOverlay className="sm:rounded-2xl" />
+
+				<div className="max-h-[55rem] min-h-[30rem] w-full overflow-y-auto overflow-x-hidden sm:rounded-2xl">
 					<SigmaAccordionRoot onValueChange={setExpandedKey}>
 						{data &&
 							flatData.map(card => (

@@ -3,7 +3,7 @@ import { useSigmaYesterdayInfinite } from '@/app/lib/api/clientApi'
 import { useLoadingAnimation } from '@/app/lib/hooks/useLoadingAnimation'
 import clsx from 'clsx'
 
-export function SigmaTableLoadingOverlay({}: {}) {
+export function SigmaTableLoadingOverlay({ className }: { className: string }) {
 	const { loadingAnimation, handleAnimationIteration } = useLoadingAnimation()
 	const { size, error } = useSigmaYesterdayInfinite()
 
@@ -20,10 +20,11 @@ export function SigmaTableLoadingOverlay({}: {}) {
 	return (
 		<div
 			className={clsx(
-				'absolute -inset-2 -z-10 flex flex-col items-center justify-between transition-colors duration-1000 sm:rounded-2xl',
+				'absolute -inset-2 -z-10 flex flex-col items-center justify-between transition-colors duration-1000 ',
 				size > 1 && 'bg-slateA2',
 				error && 'bg-tomatoA3',
 				loadingAnimation && 'bg-slateA3',
+				className,
 			)}
 		>
 			{pulsingStripe}
