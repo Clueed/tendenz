@@ -1,4 +1,3 @@
-import SWRConfigProvider from './components/SWRConfigProvider'
 import { ComingSoon } from './components/comingsoon/ComingSoon'
 import { FilterCluster } from './components/filtercluster/FilterCluster'
 import Hero from './components/hero/Hero'
@@ -11,6 +10,7 @@ import {
 } from './lib/CONSTANS'
 import { getFallback } from './lib/api/serverApi'
 import { ApiQuery } from './lib/api/sharedApi'
+import SWRConfigProvider from './lib/providers/SWRConfigProvider'
 
 export default async function Home() {
 	const selectTypeLabels: TypeGroupLabel[][] = [

@@ -5,7 +5,7 @@ import { PAGE_SIZE, tendenzApiSigmaYesterday } from '@tendenz/types'
 import { useMemo } from 'react'
 import { preload } from 'swr'
 import useSWRInfinite from 'swr/infinite'
-import { fetcher } from '../../components/SWRConfigProvider'
+import { fetcher } from '../providers/SWRConfigProvider'
 import { getStocksURL } from './sharedApi'
 
 export function useSigmaYesterdayInfinite() {
