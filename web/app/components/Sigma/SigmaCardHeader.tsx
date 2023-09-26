@@ -4,15 +4,8 @@ import { useContext, useEffect, useState } from 'react'
 import { SigmaEntryContext } from './SigmaEntryContext'
 
 export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
-	const { sigma, ticker, name, marketCap, type } = useContext(SigmaEntryContext)
+	const { sigma, ticker, name } = useContext(SigmaEntryContext)
 	const formattedSigma = Math.abs(sigma).toFixed(2)
-
-	//const { formattedName: nameWithoutTypes, shareTypes } = handleTickerTypes(name)
-	//const { cleanInput: nameWithoutTypesAndParan, content: parantheses } = extractContentInParentheses(nameWithoutTypes)
-
-	const nameWithoutTypesAndParan = name
-	const shareTypes: any[] = []
-	const parantheses = ''
 
 	// All of truncation stuff here addresses the issue that
 	// on the close animation if truncation happens during/before
@@ -68,7 +61,7 @@ export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 				<div className={clsx({ truncate: expanded ? false : trunc })}>
 					<span className="mr-1 text-slate11">{ticker}</span>
 					{'  '}
-					<span className="text-slate12">{nameWithoutTypesAndParan}</span>
+					<span className="text-slate12">{name}</span>
 				</div>
 			</motion.div>
 		</div>
