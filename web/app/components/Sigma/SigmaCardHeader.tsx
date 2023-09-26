@@ -1,9 +1,13 @@
+import * as Accordion from '@radix-ui/react-accordion'
 import clsx from 'clsx'
 import { motion } from 'framer-motion'
-import { useContext, useEffect, useState } from 'react'
+import { forwardRef, useContext, useEffect, useState } from 'react'
 import { SigmaEntryContext } from './SigmaEntryContext'
 
-export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
+export const SigmaCardHeader = forwardRef<
+	HTMLButtonElement,
+	Accordion.AccordionTriggerProps & { expanded: boolean }
+>(function SigmaCardHeader({ expanded, ...props }, forwardedRef) {
 	const { sigma, ticker, name } = useContext(SigmaEntryContext)
 	const formattedSigma = Math.abs(sigma).toFixed(2)
 
@@ -22,13 +26,13 @@ export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 	}, [expanded])
 
 	return (
-		<div
-			className={
-				'w-100 grid cursor-pointer grid-cols-[6.5rem_auto] items-baseline gap-x-4'
-			}
+		<button
+			{...props}
+			ref={forwardedRef}
+			className={'flex w-full cursor-pointer items-baseline gap-x-4'}
 		>
 			<div className="flex items-center justify-end">
-				<div className="text-right text-2xl leading-none text-indigo12">
+				<div className="w-[6rem] text-right text-2xl leading-none text-indigo12">
 					{formattedSigma}
 				</div>
 				<div className="ml-1 flex flex-col text-xl">
@@ -56,7 +60,7 @@ export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 						duration: 0.75,
 					},
 				}}
-				className={'overflow-hidden pr-5 text-left text-xl'}
+				className={'w-full overflow-hidden pr-5 text-left text-xl'}
 			>
 				<div className={clsx({ truncate: expanded ? false : trunc })}>
 					<span className="mr-1 text-slate11">{ticker}</span>
@@ -64,6 +68,6 @@ export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 					<span className="text-slate12">{name}</span>
 				</div>
 			</motion.div>
-		</div>
+		</button>
 	)
-}
+})
