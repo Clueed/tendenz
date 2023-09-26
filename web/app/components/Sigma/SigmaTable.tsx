@@ -1,6 +1,7 @@
 'use client'
 
 import { useSigmaYesterdayInfinite } from '@/app/lib/api/clientApi'
+import { useLoadingAnimation } from '@/app/lib/hooks/useLoadingAnimation'
 import { Icon } from '@tendenz/icons'
 import clsx from 'clsx'
 import { useState } from 'react'
@@ -17,17 +18,27 @@ export function SigmaTable() {
 	const { data, size, setSize, error, flatData, isReachingEnd } =
 		useSigmaYesterdayInfinite()
 
+	const { loadingAnimation, handleAnimationIteration } = useLoadingAnimation()
+
 	return (
 		<div className="grid h-[60rem] grid-cols-default items-start">
 			<div
 				className={clsx(
-					'relative col-span-full col-start-1 sm:col-span-1 sm:col-start-2 ',
+					'relative col-span-full col-start-1 sm:col-span-1 sm:col-start-2',
+					'-m-2 overflow-clip transition-colors duration-1000 sm:rounded-2xl',
+					size > 1 && 'bg-slateA2',
+					error && 'bg-tomatoA3',
+					loadingAnimation && 'bg-slateA3',
 				)}
 			>
-				<SigmaTableLoadingOverlay className="sm:rounded-2xl" />
-
+				{error && <ErrorBar />}
+				<SigmaTableLoadingOverlay
+					className="sm:rounded-2xl"
+					loadingAnimation={loadingAnimation}
+					onAnimationIteration={handleAnimationIteration}
+				/>
 				<div className="max-h-[55rem] min-h-[30rem] w-full overflow-y-auto overflow-x-hidden sm:rounded-2xl">
-					<SigmaAccordionRoot onValueChange={setExpandedKey}>
+					<SigmaAccordionRoot onValueChange={setExpandedKey} className="p-2">
 						{data &&
 							flatData.map(card => (
 								<SigmaAccordionItem value={card.ticker} key={card.ticker}>
@@ -38,7 +49,10 @@ export function SigmaTable() {
 							))}
 					</SigmaAccordionRoot>
 					{!isReachingEnd && (
-						<NextPageButton onClick={() => setSize(size + 1)} />
+						<NextPageButton
+							onClick={() => setSize(size + 1)}
+							disabled={loadingAnimation}
+						/>
 					)}
 				</div>
 			</div>
@@ -47,7 +61,7 @@ export function SigmaTable() {
 }
 
 const ErrorBar = () => (
-	<div className="flex items-center justify-center gap-2 bg-redA3 px-2 py-2 text-sm text-red12">
+	<div className="flex items-center justify-center gap-2 bg-redA3 p-2 text-sm font-light text-red12 sm:rounded-t-2xl">
 		<Icon name="phosphor-icons/fire" />
 		something went wrong...
 	</div>
