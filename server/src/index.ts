@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url'
 import { SHARE_ENV } from 'node:worker_threads'
 import { DatabaseApi } from './lib/databaseApi/databaseApi.js'
 import prismaPlugin from './plugins/prisma.js'
+import { UsStocksDailyRoute } from './routes/usStocksDaily.js'
 
 if (process.env.NODE_ENV === 'production') {
 	console.debug = function () {}
@@ -31,6 +32,8 @@ fastify.register(cors, {
 })
 
 fastify.register(prismaPlugin)
+
+fastify.register(UsStocksDailyRoute)
 
 fastify.get('/us-stocks/daily/:page', async request => {
 	const db = new DatabaseApi(fastify.prisma)
@@ -66,7 +69,8 @@ fastify.get('/us-stocks/daily/:page', async request => {
 	const today = await db.getToday(
 		page,
 		mostRecentDates[0],
-		marketCap,
+		marketCap.min,
+		marketCap.max,
 		typesFilter as stockTypeCode[] | undefined,
 		10,
 	)

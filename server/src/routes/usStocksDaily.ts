@@ -19,7 +19,7 @@ export const UsStocksDailyRoute: FastifyPluginAsync = fp(
 			Querystring: FromSchema<typeof usStocksDailyQuerySchema>
 			Params: FromSchema<typeof usStocksDailyParams>
 		}>(
-			'/us-stocks/daily/:page',
+			'/test/us-stocks/daily/:page',
 			{
 				preValidation(request, _, done) {
 					if (typeof request.query.stockTypes === 'undefined')
