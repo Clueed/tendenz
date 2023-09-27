@@ -1,23 +1,26 @@
-import { stockTypeCode, tendenzApiSigmaYesterday } from '@tendenz/types'
+import {
+	UsStocksDailyParamsType,
+	UsStocksDailyQueryType,
+	stockTypeCode,
+	tendenzApiSigmaYesterday,
+	usStocksDailyParamsSchema,
+	usStocksDailyQuerySchema,
+} from '@tendenz/types'
 import {
 	FastifyInstance,
 	FastifyPluginAsync,
 	FastifyPluginOptions,
 } from 'fastify'
 import fp from 'fastify-plugin'
-import { FromSchema } from 'json-schema-to-ts'
 import { formatName } from '../lib/api/formatName.js'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
-import {
-	usStocksDailyParams,
-	usStocksDailyQuerySchema,
-} from '../schemas/usStocksDailySchemas.js'
 
 export const UsStocksDailyRoute: FastifyPluginAsync = fp(
 	async (server: FastifyInstance, options: FastifyPluginOptions) => {
 		server.get<{
-			Querystring: FromSchema<typeof usStocksDailyQuerySchema>
-			Params: FromSchema<typeof usStocksDailyParams>
+			Querystring: UsStocksDailyQueryType
+			Params: UsStocksDailyParamsType
+			Reply: tendenzApiSigmaYesterday[]
 		}>(
 			'/test/us-stocks/daily/:page',
 			{
@@ -31,7 +34,7 @@ export const UsStocksDailyRoute: FastifyPluginAsync = fp(
 				},
 				schema: {
 					querystring: usStocksDailyQuerySchema,
-					params: usStocksDailyParams,
+					params: usStocksDailyParamsSchema,
 				},
 			},
 			async (request, reply) => {
@@ -101,7 +104,7 @@ export const UsStocksDailyRoute: FastifyPluginAsync = fp(
 					return reply.code(200).send(response)
 				} catch (error) {
 					request.log.error(error)
-					return reply.send(400)
+					return reply.code(400).send()
 				}
 			},
 		)
