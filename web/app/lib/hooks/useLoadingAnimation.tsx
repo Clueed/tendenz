@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useSigmaYesterdayInfinite } from '../api/clientApi'
+import { useSigmaYesterdayInfinite } from './useSigmaYesterdayInfinite'
 
 export function useLoadingAnimation() {
 	const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false)

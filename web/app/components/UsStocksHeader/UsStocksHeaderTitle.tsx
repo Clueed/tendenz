@@ -1,6 +1,6 @@
 'use client'
 
-import { useSigmaYesterdayInfinite } from '@/app/lib/api/clientApi'
+import { useSigmaYesterdayInfinite } from '@/app/lib/hooks/useSigmaYesterdayInfinite'
 import { npl } from '@/app/lib/naturalLanguageProcessing'
 
 export function UsStocksHeaderTitle() {

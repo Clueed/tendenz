@@ -1,7 +1,7 @@
 'use client'
 
-import { useSigmaYesterdayInfinite } from '@/app/lib/api/clientApi'
 import { useLoadingAnimation } from '@/app/lib/hooks/useLoadingAnimation'
+import { useSigmaYesterdayInfinite } from '@/app/lib/hooks/useSigmaYesterdayInfinite'
 import { Icon } from '@tendenz/icons'
 import clsx from 'clsx'
 import { useState } from 'react'
