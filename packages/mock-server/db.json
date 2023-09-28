@@ -1,0 +1,102 @@
+[
+  {
+    "sigma": -145.8189873493878,
+    "marketCap": 97095531,
+    "ticker": "ANZU",
+    "name": "Anzu Special Acquisition Corp I Class A",
+    "type": "CS",
+    "primaryExchange": "XNAS",
+    "last": { "close": 6.5, "date": "2023-09-27T20:00:00.000Z" },
+    "secondLast": { "close": 10.02, "date": "2023-09-26T20:00:00.000Z" }
+  },
+  {
+    "sigma": -40.43913885221001,
+    "marketCap": 162533335.1,
+    "ticker": "JGGC",
+    "name": "Jaguar Global Growth Corporation I Class A",
+    "type": "CS",
+    "primaryExchange": "XNAS",
+    "last": { "close": 5.3, "date": "2023-09-27T20:00:00.000Z" },
+    "secondLast": { "close": 8.39, "date": "2023-09-26T20:00:00.000Z" }
+  },
+  {
+    "sigma": 19.14269492182133,
+    "marketCap": 43361260.5027,
+    "ticker": "AIB",
+    "name": "AIB Acquisition Corporation Class A",
+    "type": "CS",
+    "primaryExchange": "XNAS",
+    "last": { "close": 11.9501, "date": "2023-09-27T20:00:00.000Z" },
+    "secondLast": { "close": 11.18, "date": "2023-09-26T20:00:00.000Z" }
+  },
+  {
+    "sigma": -13.01413740472547,
+    "marketCap": 92024512.332,
+    "ticker": "MOBV",
+    "name": "Mobiv Acquisition Corp Class A",
+    "type": "CS",
+    "primaryExchange": "XNAS",
+    "last": { "close": 10.436, "date": "2023-09-27T20:00:00.000Z" },
+    "secondLast": { "close": 11.17, "date": "2023-09-26T20:00:00.000Z" }
+  },
+  {
+    "sigma": -11.89326516919911,
+    "marketCap": 63986212.36,
+    "ticker": "WTMA",
+    "name": "Welsbach Technology Metals Acquisition Corp.",
+    "type": "CS",
+    "primaryExchange": "XNAS",
+    "last": { "close": 10.82, "date": "2023-09-27T20:00:00.000Z" },
+    "secondLast": { "close": 11.44, "date": "2023-09-26T20:00:00.000Z" }
+  },
+  {
+    "sigma": -11.28218287518917,
+    "marketCap": 3499982836.02,
+    "ticker": "NEP",
+    "name": "NextEra Energy Partners, LP",
+    "type": "CS",
+    "primaryExchange": "XNYS",
+    "last": { "close": 37.46, "date": "2023-09-27T20:00:00.000Z" },
+    "secondLast": { "close": 46.9, "date": "2023-09-26T20:00:00.000Z" }
+  },
+  {
+    "sigma": -10.95137236682948,
+    "marketCap": 95673721.23,
+    "ticker": "LATG",
+    "name": "LatAmGrowth SPAC Class A",
+    "type": "CS",
+    "primaryExchange": "XNAS",
+    "last": { "close": 10.81, "date": "2023-09-27T20:00:00.000Z" },
+    "secondLast": { "close": 11.2, "date": "2023-09-26T20:00:00.000Z" }
+  },
+  {
+    "sigma": -9.084347197219078,
+    "marketCap": 210252000,
+    "ticker": "OPER",
+    "name": "ClearShares Ultra-Short Maturity",
+    "type": "ETF",
+    "primaryExchange": "ARCX",
+    "last": { "close": 100.12, "date": "2023-09-27T20:00:00.000Z" },
+    "secondLast": { "close": 100.645, "date": "2023-09-26T20:00:00.000Z" }
+  },
+  {
+    "sigma": -8.820821666127872,
+    "marketCap": 94516069.2,
+    "ticker": "ACAQ",
+    "name": "Athena Consumer Acquisition Corp.",
+    "type": "CS",
+    "primaryExchange": "XASE",
+    "last": { "close": 9.38, "date": "2023-09-27T20:00:00.000Z" },
+    "secondLast": { "close": 10.7, "date": "2023-09-26T20:00:00.000Z" }
+  },
+  {
+    "sigma": 8.560225159274353,
+    "marketCap": 1855438544.37,
+    "ticker": "MLKN",
+    "name": "MillerKnoll, Inc.",
+    "type": "CS",
+    "primaryExchange": "XNAS",
+    "last": { "close": 24.51, "date": "2023-09-27T20:00:00.000Z" },
+    "secondLast": { "close": 19.15, "date": "2023-09-26T20:00:00.000Z" }
+  }
+]
