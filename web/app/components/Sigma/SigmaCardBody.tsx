@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { useContext, useMemo } from 'react'
 import { useOffRampUrl } from '../../lib/hooks/useOffRampUrl'
 import { npl } from '../../lib/naturalLanguageProcessing'
@@ -6,6 +7,15 @@ import { AssetTypeTag } from './AssetTypeTag'
 import { MarketCapTag } from './MarketCapTag'
 import { SigmaEntryContext } from './SigmaEntryContext'
 import { YahooButton } from './YahooButton'
+
+function TagStack() {
+	return (
+		<div className="flex flex-col flex-wrap items-end justify-end gap-2 text-lg">
+			<MarketCapTag />
+			<AssetTypeTag />
+		</div>
+	)
+}
 
 export function SigmaCardBody() {
 	const entry = useContext(SigmaEntryContext)
@@ -25,12 +35,11 @@ export function SigmaCardBody() {
 	const url = useOffRampUrl(entry, offRampName)
 
 	return (
-		<div className="mt-2 flex justify-between gap-5">
-			<div className="flex basis-[6.5rem] flex-col flex-wrap items-end justify-end gap-2 text-lg">
-				<MarketCapTag />
-				<AssetTypeTag />
+		<div className="mt-3 flex justify-between gap-5 px-3">
+			<div className="hidden basis-[6.5rem] @sm:block">
+				<TagStack />
 			</div>
-			<div className="@ma flex flex-grow justify-around gap-4">
+			<div className="flex flex-grow flex-wrap justify-start gap-4 @md:justify-around">
 				<ReturnStack
 					number={formattedSecondLastClose}
 					label={npl(secondLast.date as string)}
@@ -43,8 +52,13 @@ export function SigmaCardBody() {
 					secondLabel="close price"
 				/>
 			</div>
-			<div className="">
-				<YahooButton url={url} />
+			<div className=" flex flex-col justify-between gap-5">
+				<div className="block @sm:hidden">
+					<TagStack />
+				</div>
+				<div className="-mr-3">
+					<YahooButton url={url} />
+				</div>
 			</div>
 		</div>
 	)
@@ -99,12 +113,14 @@ const ReturnStack = ({
 	number,
 	label,
 	secondLabel,
+	className,
 }: {
 	number: string
 	label: string
 	secondLabel?: string
+	className?: string
 }) => (
-	<div className="text-right">
+	<div className={clsx('min-w-[4rem] text-right', className)}>
 		<div className="text-xl">{number}</div>
 		<div className="text-xs leading-tight text-slate12/90">{label}</div>
 		{secondLabel && (

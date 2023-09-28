@@ -29,7 +29,7 @@ export const SigmaCardHeader = forwardRef<
 		<button
 			{...props}
 			ref={forwardedRef}
-			className={'flex w-full cursor-pointer items-baseline gap-x-4'}
+			className={'flex w-full cursor-pointer items-baseline gap-x-4 px-3'}
 		>
 			<div className="flex items-center justify-end">
 				<div className="w-[6rem] text-right text-2xl leading-none text-indigo12">

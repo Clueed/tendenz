@@ -6,7 +6,7 @@ import { SigmaCardHeader } from './SigmaCardHeader'
 
 export function SigmaCard({ expanded }: { expanded: boolean }) {
 	return (
-		<div className="group/card relative mb-2 py-3">
+		<div className="group/card relative mb-2 py-3 @container">
 			<CardBackground expanded={expanded} />
 
 			<Accordion.Trigger asChild>
