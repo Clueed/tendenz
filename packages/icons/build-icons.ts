@@ -30,7 +30,7 @@ if (files.length === 0) {
 
 async function generateIconFiles() {
   const spriteFilepath = path.join(outputDir, "sprite.svg");
-  const typeOutputFilepath = path.join(outputDir, "name.ts");
+  const typeOutputFilepath = path.join(outputDir, "name.d.ts");
   const currentSprite = await fsExtra
     .readFile(spriteFilepath, "utf8")
     .catch(() => "");

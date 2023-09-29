@@ -1,6 +1,5 @@
 import { type SVGProps } from "react";
-import { IconName } from "./output/name";
-
+import { type IconName } from "./output/name";
 import React from "react";
 
 export function Icon({
