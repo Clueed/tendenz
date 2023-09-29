@@ -20,8 +20,6 @@ export function SigmaTable() {
 
 	const { loadingAnimation, handleAnimationIteration } = useLoadingAnimation()
 
-	console.log('error :>> ', error)
-
 	return (
 		<div className="grid h-[60rem] grid-cols-default items-start">
 			<div

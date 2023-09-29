@@ -1,10 +1,14 @@
+import { useSigmaYesterdayInfinite } from '@/app/lib/hooks/useSigmaYesterdayInfinite'
+import { useFilterStore } from '@/app/lib/stores/filterStore'
 import { useEffect, useRef, useState } from 'react'
-import { useSigmaYesterdayInfinite } from './useSigmaYesterdayInfinite'
 
 export function useLoadingAnimation() {
 	const [loadingAnimation, setLoadingAnimation] = useState<boolean>(false)
 
+	const filterStore = useFilterStore()
+
 	const { isLoadingMore } = useSigmaYesterdayInfinite()
+
 	const isMounted = useRef(false)
 	useEffect(() => {
 		if (isMounted.current) {
@@ -12,7 +16,7 @@ export function useLoadingAnimation() {
 		} else {
 			isMounted.current = true
 		}
-	}, [isLoadingMore])
+	}, [filterStore])
 
 	const handleAnimationIteration = () =>
 		!isLoadingMore && setLoadingAnimation(false)
