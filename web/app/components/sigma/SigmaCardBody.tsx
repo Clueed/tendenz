@@ -35,12 +35,7 @@ export function SigmaCardBody() {
 					})}
 				>
 					<div className="text-xl">{dailyReturnString}</div>
-					<div className="leading-none">
-						<span className="text-xxxs leading-tight opacity-90">
-							geometric{' '}
-						</span>
-						<span className="text-xs leading-tight opacity-90">return</span>
-					</div>
+					<div className="text-xs leading-tight opacity-90">return</div>
 				</div>
 
 				<div>
@@ -69,12 +64,10 @@ export function SigmaCardBody() {
 const ReturnStack = ({
 	number,
 	label,
-	secondLabel,
 	className,
 }: {
 	number: string
 	label: string
-	secondLabel?: string
 	className?: string
 }) => (
 	<div className={clsx('items-baseline', className)}>
@@ -83,16 +76,14 @@ const ReturnStack = ({
 	</div>
 )
 
-function TagStack({ className }: { className?: string }) {
-	return (
-		<div
-			className={clsx(
-				'flex flex-col flex-wrap items-end justify-center gap-2 text-lg',
-				className,
-			)}
-		>
-			<MarketCapTag />
-			<AssetTypeTag />
-		</div>
-	)
-}
+const TagStack = ({ className }: { className?: string }) => (
+	<div
+		className={clsx(
+			'flex flex-col flex-wrap items-end justify-center gap-2 text-lg',
+			className,
+		)}
+	>
+		<MarketCapTag />
+		<AssetTypeTag />
+	</div>
+)

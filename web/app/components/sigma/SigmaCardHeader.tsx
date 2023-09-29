@@ -31,23 +31,19 @@ export const SigmaCardHeader = forwardRef<
 			ref={forwardedRef}
 			className={'flex w-full cursor-pointer items-baseline gap-x-4 px-3'}
 		>
-			<div className="items-top flex w-[8.5rem] justify-end gap-1">
-				<div
-					className={clsx('text-right text-2xl leading-none ', {
-						'text-red12': sigma < 0,
-						'text-green12': sigma > 0,
-					})}
-				>
+			<div
+				className={clsx(
+					'items-top flex w-[8.5rem] justify-end gap-1 bg-gradient-to-br bg-clip-text text-transparent',
+					{
+						'from-slate12 to-tomato12': sigma < 0,
+						'from-slate12 to-green12 ': sigma > 0,
+					},
+				)}
+			>
+				<div className={clsx('text-right text-2xl leading-none')}>
 					{formattedSigma}
 				</div>
-				<div
-					className={clsx('text-sm leading-tight', {
-						'text-red12/75': sigma < 0,
-						'text-green12/75': sigma > 0,
-					})}
-				>
-					σ
-				</div>
+				<div className={clsx('text-sm leading-tight')}>σ</div>
 			</div>
 
 			<motion.div
@@ -65,7 +61,7 @@ export const SigmaCardHeader = forwardRef<
 				className={'w-full overflow-hidden pr-5 text-left text-xl'}
 			>
 				<div className={clsx({ truncate: expanded ? false : trunc })}>
-					<span className="mr-1 text-slate11">{ticker}</span>
+					<span className={clsx('mr-1 text-slate11')}>{ticker}</span>
 					{'  '}
 					<span className="text-slate12">{name}</span>
 				</div>
