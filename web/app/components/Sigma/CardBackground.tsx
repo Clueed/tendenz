@@ -1,6 +1,6 @@
+import { SigmaEntryContext } from '@/components/sigma/SigmaEntryContext'
 import clsx from 'clsx'
 import { useContext } from 'react'
-import { SigmaEntryContext } from './SigmaEntryContext'
 
 export const CardBackground = ({ expanded }: { expanded: boolean }) => {
 	const { sigma } = useContext(SigmaEntryContext)

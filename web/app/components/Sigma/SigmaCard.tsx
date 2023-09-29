@@ -1,8 +1,8 @@
+import { CardBackground } from '@/components/sigma/CardBackground'
+import { SigmaCardBody } from '@/components/sigma/SigmaCardBody'
+import { SigmaCardHeader } from '@/components/sigma/SigmaCardHeader'
 import * as Accordion from '@radix-ui/react-accordion'
 import { AnimatePresence, motion } from 'framer-motion'
-import { CardBackground } from './CardBackground'
-import { SigmaCardBody } from './SigmaCardBody'
-import { SigmaCardHeader } from './SigmaCardHeader'
 
 export function SigmaCard({ expanded }: { expanded: boolean }) {
 	return (

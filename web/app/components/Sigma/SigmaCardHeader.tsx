@@ -1,8 +1,8 @@
+import { SigmaEntryContext } from '@/components/sigma/SigmaEntryContext'
 import * as Accordion from '@radix-ui/react-accordion'
 import clsx from 'clsx'
 import { motion } from 'framer-motion'
 import { forwardRef, useContext, useEffect, useState } from 'react'
-import { SigmaEntryContext } from './SigmaEntryContext'
 
 export const SigmaCardHeader = forwardRef<
 	HTMLButtonElement,

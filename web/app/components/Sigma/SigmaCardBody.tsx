@@ -1,12 +1,12 @@
+import { AssetTypeTag } from '@/components/sigma/AssetTypeTag'
+import { MarketCapTag } from '@/components/sigma/MarketCapTag'
+import { SigmaEntryContext } from '@/components/sigma/SigmaEntryContext'
+import { YahooButton } from '@/components/sigma/YahooButton'
+import { useOffRampUrl } from '@/lib/hooks/useOffRampUrl'
+import { npl } from '@/lib/naturalLanguageProcessing'
+import { useSettingsStore } from '@/lib/stores/settingsStore'
 import clsx from 'clsx'
 import { useContext, useMemo } from 'react'
-import { useOffRampUrl } from '../../lib/hooks/useOffRampUrl'
-import { npl } from '../../lib/naturalLanguageProcessing'
-import { useSettingsStore } from '../../lib/stores/settingsStore'
-import { AssetTypeTag } from './AssetTypeTag'
-import { MarketCapTag } from './MarketCapTag'
-import { SigmaEntryContext } from './SigmaEntryContext'
-import { YahooButton } from './YahooButton'
 
 export function SigmaCardBody() {
 	const entry = useContext(SigmaEntryContext)

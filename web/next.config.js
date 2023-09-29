@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	transpilePackages: ['@tendenz/types'],
+	transpilePackages: ['@tendenz/*'],
 }
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({

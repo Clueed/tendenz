@@ -1,16 +1,16 @@
-import { ComingSoon } from './components/comingsoon/ComingSoon'
-import { FilterCluster } from './components/filtercluster/FilterCluster'
-import Hero from './components/hero/Hero'
-import { SigmaTable } from './components/sigma/SigmaTable'
-import UsStocksHeader from './components/usstocksheader/UsStocksHeader'
+import { ComingSoon } from '@/components/comingsoon/ComingSoon'
+import { FilterCluster } from '@/components/filtercluster/FilterCluster'
+import Hero from '@/components/hero/Hero'
+import { SigmaTable } from '@/components/sigma/SigmaTable'
+import UsStocksHeader from '@/components/usstocksheader/UsStocksHeader'
 import {
 	DEFAULT_MARKET_CAP,
 	DEFAULT_TYPE_GROUP_LABELS,
 	TypeGroupLabel,
-} from './lib/CONSTANS'
-import { getFallback } from './lib/api/serverApi'
-import { ApiQuery } from './lib/api/sharedApi'
-import SWRConfigProvider from './lib/providers/SWRConfigProvider'
+} from '@/lib/CONSTANS'
+import { getFallback } from '@/lib/api/serverApi'
+import { ApiQuery } from '@/lib/api/sharedApi'
+import SWRConfigProvider from '@/lib/providers/SWRConfigProvider'
 
 export default async function Home() {
 	const selectTypeLabels: TypeGroupLabel[][] = [
