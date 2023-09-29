@@ -1,15 +1,15 @@
 import { Icon } from '@tendenz/icons'
 import { motion } from 'framer-motion'
-import { ButtonHTMLAttributes, DetailedHTMLProps } from 'react'
+import { MouseEventHandler } from 'react'
 import { FreeFloatButton } from '../FreeFloatButton'
 
 export function NextPageButton({
-	ref,
-	...props
-}: DetailedHTMLProps<
-	ButtonHTMLAttributes<HTMLButtonElement>,
-	HTMLButtonElement
->) {
+	onClick,
+	disabled,
+}: {
+	onClick: MouseEventHandler<HTMLButtonElement>
+	disabled: boolean
+}) {
 	return (
 		<motion.div
 			whileInView={{
@@ -22,7 +22,12 @@ export function NextPageButton({
 			}}
 			className="my-10 flex items-center justify-center"
 		>
-			<FreeFloatButton {...props} aria-label="load more" className="text-2xl">
+			<FreeFloatButton
+				disabled={disabled}
+				onClick={onClick}
+				aria-label="load more"
+				className="text-2xl"
+			>
 				<Icon name="radix-icons/chevron-down" />
 			</FreeFloatButton>
 		</motion.div>

@@ -34,11 +34,11 @@ export default function ColorThemeButton({
 			<AnimatePresence mode="wait">
 				{theme === 'light' ? (
 					<Aligner key={1}>
-						<SunIcon />
+						<MoonIcon />
 					</Aligner>
 				) : (
 					<Aligner key={2}>
-						<MoonIcon />
+						<SunIcon />
 					</Aligner>
 				)}
 			</AnimatePresence>

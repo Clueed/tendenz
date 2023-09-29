@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { useContext, useMemo } from 'react'
 import { useOffRampUrl } from '../../lib/hooks/useOffRampUrl'
 import { npl } from '../../lib/naturalLanguageProcessing'
@@ -10,7 +11,7 @@ import { YahooButton } from './YahooButton'
 export function SigmaCardBody() {
 	const entry = useContext(SigmaEntryContext)
 
-	const { last, secondLast } = entry
+	const { last, secondLast, sigma } = entry
 
 	const formattedLastClose = '$' + last.close.toFixed(2)
 	const formattedSecondLastClose = '$' + secondLast.close.toFixed(2)
@@ -25,73 +26,43 @@ export function SigmaCardBody() {
 	const url = useOffRampUrl(entry, offRampName)
 
 	return (
-		<div className="mt-2 flex justify-between gap-5">
-			<div className="flex basis-[6.5rem] flex-col flex-wrap items-end justify-end gap-2 text-lg">
-				<MarketCapTag />
-				<AssetTypeTag />
+		<div className="mt-3 flex flex-wrap justify-end gap-5 px-3">
+			<div className="flex flex-grow justify-start gap-5">
+				<div
+					className={clsx('max-w-[6.5rem] flex-grow text-right ', {
+						'text-red12': sigma < 0,
+						'text-green12': sigma > 0,
+					})}
+				>
+					<div className="text-xl">{dailyReturnString}</div>
+					<div className="leading-none">
+						<span className="text-xxxs leading-tight opacity-90">
+							geometric{' '}
+						</span>
+						<span className="text-xs leading-tight opacity-90">return</span>
+					</div>
+				</div>
+
+				<div>
+					<ReturnStack
+						number={formattedSecondLastClose}
+						label={npl(secondLast.date as string)}
+					/>
+
+					<ReturnStack
+						number={formattedLastClose}
+						label={npl(last.date as string)}
+					/>
+				</div>
 			</div>
-			<div className="@ma flex flex-grow justify-around gap-4">
-				<ReturnStack
-					number={formattedSecondLastClose}
-					label={npl(secondLast.date as string)}
-					secondLabel="close price"
-				/>
-				<ReturnStack number={dailyReturnString} label="return" />
-				<ReturnStack
-					number={formattedLastClose}
-					label={npl(last.date as string)}
-					secondLabel="close price"
-				/>
-			</div>
-			<div className="">
-				<YahooButton url={url} />
-			</div>
-		</div>
-	)
 
-	return (
-		<>
-			<div className="mt-4 grid grid-flow-col grid-cols-[minmax(auto,_6.5rem)_repeat(auto-fit,auto)] justify-between gap-x-5 text-right">
-				<div className="row-span-2 flex flex-col flex-wrap items-end justify-end gap-2 text-lg">
-					<MarketCapTag />
-					<AssetTypeTag />
-				</div>
-				<div className="col-start-2 row-start-1 text-xl">
-					{formattedSecondLastClose}
-				</div>
-				<div className="col-start-2">
-					<div className="text-xs leading-tight text-slateA12">
-						{npl(secondLast.date as string)}
-					</div>
-					<div className="text-[0.6rem] leading-tight text-slateA11">
-						close price
-					</div>
-				</div>
-
-				<div className={'col-start-3 row-start-1 text-xl'}>
-					{dailyReturnString}
-				</div>
-				<div className="col-start-3 flex justify-self-end">
-					<div className="text-xs leading-tight text-slateA12">return</div>
-				</div>
-
-				<div className="col-start-4 row-start-1 text-xl">
-					{formattedLastClose}
-				</div>
-				<div className="col-start-4">
-					<div className="text-xs leading-tight text-slateA12">
-						{npl(last.date as string)}
-					</div>
-					<div className="text-[0.6rem] leading-tight text-slateA11">
-						close price
-					</div>
-				</div>
-
-				<div className="col-start-5 row-span-2 row-start-1 py-1">
+			<div className="flex gap-5">
+				<TagStack />
+				<div className="-mr-3">
 					<YahooButton url={url} />
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }
 
@@ -99,16 +70,29 @@ const ReturnStack = ({
 	number,
 	label,
 	secondLabel,
+	className,
 }: {
 	number: string
 	label: string
 	secondLabel?: string
+	className?: string
 }) => (
-	<div className="text-right">
-		<div className="text-xl">{number}</div>
-		<div className="text-xs leading-tight text-slate12/90">{label}</div>
-		{secondLabel && (
-			<div className="text-xxs leading-tight text-slateA11">{secondLabel}</div>
-		)}
+	<div className={clsx('items-baseline', className)}>
+		<span className="text-lg text-slate12/90">{number}</span>{' '}
+		<span className="text-xxs leading-tight text-slate11">{label}</span>
 	</div>
 )
+
+function TagStack({ className }: { className?: string }) {
+	return (
+		<div
+			className={clsx(
+				'flex flex-col flex-wrap items-end justify-center gap-2 text-lg',
+				className,
+			)}
+		>
+			<MarketCapTag />
+			<AssetTypeTag />
+		</div>
+	)
+}

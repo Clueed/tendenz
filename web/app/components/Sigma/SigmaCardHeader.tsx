@@ -1,18 +1,15 @@
+import * as Accordion from '@radix-ui/react-accordion'
 import clsx from 'clsx'
 import { motion } from 'framer-motion'
-import { useContext, useEffect, useState } from 'react'
+import { forwardRef, useContext, useEffect, useState } from 'react'
 import { SigmaEntryContext } from './SigmaEntryContext'
 
-export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
-	const { sigma, ticker, name, marketCap, type } = useContext(SigmaEntryContext)
+export const SigmaCardHeader = forwardRef<
+	HTMLButtonElement,
+	Accordion.AccordionTriggerProps & { expanded: boolean }
+>(function SigmaCardHeader({ expanded, ...props }, forwardedRef) {
+	const { sigma, ticker, name } = useContext(SigmaEntryContext)
 	const formattedSigma = Math.abs(sigma).toFixed(2)
-
-	//const { formattedName: nameWithoutTypes, shareTypes } = handleTickerTypes(name)
-	//const { cleanInput: nameWithoutTypesAndParan, content: parantheses } = extractContentInParentheses(nameWithoutTypes)
-
-	const nameWithoutTypesAndParan = name
-	const shareTypes: any[] = []
-	const parantheses = ''
 
 	// All of truncation stuff here addresses the issue that
 	// on the close animation if truncation happens during/before
@@ -29,25 +26,27 @@ export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 	}, [expanded])
 
 	return (
-		<div
-			className={
-				'w-100 grid cursor-pointer grid-cols-[6.5rem_auto] items-baseline gap-x-4'
-			}
+		<button
+			{...props}
+			ref={forwardedRef}
+			className={'flex w-full cursor-pointer items-baseline gap-x-4 px-3'}
 		>
-			<div className="flex items-center justify-end">
-				<div className="text-right text-2xl leading-none text-indigo12">
+			<div className="items-top flex w-[8.5rem] justify-end gap-1">
+				<div
+					className={clsx('text-right text-2xl leading-none ', {
+						'text-red12': sigma < 0,
+						'text-green12': sigma > 0,
+					})}
+				>
 					{formattedSigma}
 				</div>
-				<div className="ml-1 flex flex-col text-xl">
-					<div
-						className={clsx('-my-1 text-xxs opacity-90', {
-							'text-redA11': sigma < 0,
-							'text-greenA11': sigma > 0,
-						})}
-					>
-						{sigma < 0 ? '↓' : '↑'}
-					</div>
-					<div className="-my-1 text-sm text-slate10">σ</div>
+				<div
+					className={clsx('text-sm leading-tight', {
+						'text-red12/75': sigma < 0,
+						'text-green12/75': sigma > 0,
+					})}
+				>
+					σ
 				</div>
 			</div>
 
@@ -63,14 +62,14 @@ export function SigmaCardHeader({ expanded }: { expanded: boolean }) {
 						duration: 0.75,
 					},
 				}}
-				className={'overflow-hidden pr-5 text-left text-xl'}
+				className={'w-full overflow-hidden pr-5 text-left text-xl'}
 			>
 				<div className={clsx({ truncate: expanded ? false : trunc })}>
 					<span className="mr-1 text-slate11">{ticker}</span>
 					{'  '}
-					<span className="text-slate12">{nameWithoutTypesAndParan}</span>
+					<span className="text-slate12">{name}</span>
 				</div>
 			</motion.div>
-		</div>
+		</button>
 	)
-}
+})
