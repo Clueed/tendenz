@@ -1,7 +1,11 @@
+import { FreeFloatButton } from '@/app/components/FreeFloatButton'
+import {
+	PopRoot,
+	PopTrigger,
+	PopoverContentStyled,
+} from '@/app/components/Pop2'
+import { hoursUntilNextWeekdayHour } from '@/app/lib/hoursUntilNextWeekdayHour'
 import { Icon } from '@tendenz/icons'
-import { hoursUntilNextWeekdayHour } from '../../lib/hoursUntilNextWeekdayHour'
-import { FreeFloatButton } from '../FreeFloatButton'
-import { PopRoot, PopTrigger, PopoverContentStyled } from '../Pop2'
 
 export default function Timer() {
 	const timeTill = hoursUntilNextWeekdayHour(2)

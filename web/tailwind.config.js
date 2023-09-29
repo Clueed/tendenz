@@ -20,7 +20,8 @@ module.exports = {
 		screens: require('./tailwind-screens.config'),
 		extend: {
 			fontSize: {
-				xxs: ['0.64rem', { lineHeight: '1rem' }],
+				xxs: ['0.64rem', { lineHeight: '1em' }],
+				xxxs: ['0.5rem', { lineHeight: '1em' }],
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

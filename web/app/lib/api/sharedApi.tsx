@@ -34,6 +34,7 @@ export const getStocksURL = (querry?: ApiQuery) => {
 	const appendString = appendStrings.filter(filterFalseAndUndefined).join('&')
 
 	const url = BASE_URL + `/us-stocks/daily/${page || ''}?` + appendString
+	//console.log('url :>> ', url)
 	return url
 }
 

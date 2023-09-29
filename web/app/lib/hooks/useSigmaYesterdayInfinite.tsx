@@ -5,8 +5,8 @@ import { PAGE_SIZE, tendenzApiSigmaYesterday } from '@tendenz/types'
 import { useMemo } from 'react'
 import { preload } from 'swr'
 import useSWRInfinite from 'swr/infinite'
-import { fetcher } from '../../components/SWRConfigProvider'
-import { getStocksURL } from './sharedApi'
+import { getStocksURL } from '../api/sharedApi'
+import { fetcher } from '../providers/SWRConfigProvider'
 
 export function useSigmaYesterdayInfinite() {
 	const marketCap = useFilterStore(state => state.marketCap)

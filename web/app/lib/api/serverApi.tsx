@@ -2,7 +2,7 @@ import { tendenzApiSigmaYesterday } from '@tendenz/types'
 import { unstable_serialize } from 'swr/infinite'
 import { ApiQuery, getStocksURL } from './sharedApi'
 
-const cacheInterval = Number(process.env.REVALIDATE_INTERVAL) ?? 600
+export const cacheInterval = Number(process.env.REVALIDATE_INTERVAL) ?? 600
 
 console.debug('Next cache interval:', cacheInterval, 's')
 

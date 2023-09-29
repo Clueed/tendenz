@@ -1,9 +1,9 @@
+import { Footer } from '@/app/Footer'
+import NavigationBar from '@/app/components/navbar/NavigationBar'
+import { CustomThemeProvider } from '@/app/lib/providers/ThemeProvider'
 import clsx from 'clsx'
 import { DM_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
-import { Footer } from './Footer'
-import { CustomThemeProvider } from './components/ThemeProvider'
-import NavigationBar from './components/navbar/NavigationBar'
 import './globals.css'
 
 const dmSans = localFont({

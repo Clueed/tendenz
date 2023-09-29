@@ -1,16 +1,16 @@
-import SWRConfigProvider from './components/SWRConfigProvider'
-import { ComingSoon } from './components/comingsoon/ComingSoon'
-import { FilterCluster } from './components/filtercluster/FilterCluster'
-import Hero from './components/hero/Hero'
-import { SigmaAccordion } from './components/sigma/SigmaAccordion'
-import UsStocksHeader from './components/usstocksheader/UsStocksHeader'
+import { ComingSoon } from '@/app/components/comingsoon/ComingSoon'
+import { FilterCluster } from '@/app/components/filtercluster/FilterCluster'
+import Hero from '@/app/components/hero/Hero'
+import { SigmaTable } from '@/app/components/sigma/SigmaTable'
+import UsStocksHeader from '@/app/components/usstocksheader/UsStocksHeader'
 import {
 	DEFAULT_MARKET_CAP,
 	DEFAULT_TYPE_GROUP_LABELS,
 	TypeGroupLabel,
-} from './lib/CONSTANS'
-import { getFallback } from './lib/api/serverApi'
-import { ApiQuery } from './lib/api/sharedApi'
+} from '@/app/lib/CONSTANS'
+import { getFallback } from '@/app/lib/api/serverApi'
+import { ApiQuery } from '@/app/lib/api/sharedApi'
+import SWRConfigProvider from '@/app/lib/providers/SWRConfigProvider'
 
 export default async function Home() {
 	const selectTypeLabels: TypeGroupLabel[][] = [
@@ -40,7 +40,7 @@ export default async function Home() {
 				<SWRConfigProvider fallback={fallback}>
 					<UsStocksHeader />
 					<FilterCluster />
-					<SigmaAccordion />
+					<SigmaTable />
 				</SWRConfigProvider>
 			</section>
 
