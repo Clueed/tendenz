@@ -8,15 +8,6 @@ import { MarketCapTag } from './MarketCapTag'
 import { SigmaEntryContext } from './SigmaEntryContext'
 import { YahooButton } from './YahooButton'
 
-function TagStack() {
-	return (
-		<div className="flex flex-col flex-wrap items-end justify-end gap-2 text-lg">
-			<MarketCapTag />
-			<AssetTypeTag />
-		</div>
-	)
-}
-
 export function SigmaCardBody() {
 	const entry = useContext(SigmaEntryContext)
 
@@ -35,11 +26,8 @@ export function SigmaCardBody() {
 	const url = useOffRampUrl(entry, offRampName)
 
 	return (
-		<div className="mt-3 flex justify-between gap-5 px-3">
-			<div className="hidden basis-[6.5rem] @sm:block">
-				<TagStack />
-			</div>
-			<div className="flex flex-grow flex-wrap justify-start gap-4 @md:justify-around">
+		<div className="mt-3 flex flex-wrap justify-end gap-5 px-3">
+			<div className="flex flex-grow justify-around gap-1">
 				<ReturnStack
 					number={formattedSecondLastClose}
 					label={npl(secondLast.date as string)}
@@ -52,60 +40,13 @@ export function SigmaCardBody() {
 					secondLabel="close price"
 				/>
 			</div>
-			<div className=" flex flex-col justify-between gap-5">
-				<div className="block @sm:hidden">
-					<TagStack />
-				</div>
+			<div className="flex gap-5">
+				<TagStack />
 				<div className="-mr-3">
 					<YahooButton url={url} />
 				</div>
 			</div>
 		</div>
-	)
-
-	return (
-		<>
-			<div className="mt-4 grid grid-flow-col grid-cols-[minmax(auto,_6.5rem)_repeat(auto-fit,auto)] justify-between gap-x-5 text-right">
-				<div className="row-span-2 flex flex-col flex-wrap items-end justify-end gap-2 text-lg">
-					<MarketCapTag />
-					<AssetTypeTag />
-				</div>
-				<div className="col-start-2 row-start-1 text-xl">
-					{formattedSecondLastClose}
-				</div>
-				<div className="col-start-2">
-					<div className="text-xs leading-tight text-slateA12">
-						{npl(secondLast.date as string)}
-					</div>
-					<div className="text-[0.6rem] leading-tight text-slateA11">
-						close price
-					</div>
-				</div>
-
-				<div className={'col-start-3 row-start-1 text-xl'}>
-					{dailyReturnString}
-				</div>
-				<div className="col-start-3 flex justify-self-end">
-					<div className="text-xs leading-tight text-slateA12">return</div>
-				</div>
-
-				<div className="col-start-4 row-start-1 text-xl">
-					{formattedLastClose}
-				</div>
-				<div className="col-start-4">
-					<div className="text-xs leading-tight text-slateA12">
-						{npl(last.date as string)}
-					</div>
-					<div className="text-[0.6rem] leading-tight text-slateA11">
-						close price
-					</div>
-				</div>
-
-				<div className="col-start-5 row-span-2 row-start-1 py-1">
-					<YahooButton url={url} />
-				</div>
-			</div>
-		</>
 	)
 }
 
@@ -128,3 +69,17 @@ const ReturnStack = ({
 		)}
 	</div>
 )
+
+function TagStack({ className }: { className?: string }) {
+	return (
+		<div
+			className={clsx(
+				'flex flex-col flex-wrap items-end justify-center gap-2 text-lg',
+				className,
+			)}
+		>
+			<MarketCapTag />
+			<AssetTypeTag />
+		</div>
+	)
+}
