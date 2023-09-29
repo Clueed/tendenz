@@ -31,20 +31,22 @@ export const SigmaCardHeader = forwardRef<
 			ref={forwardedRef}
 			className={'flex w-full cursor-pointer items-baseline gap-x-4 px-3'}
 		>
-			<div className="flex items-center justify-end">
-				<div className="w-[6rem] text-right text-2xl leading-none text-indigo12">
+			<div className="items-top flex w-[8.5rem] justify-end gap-1">
+				<div
+					className={clsx('text-right text-2xl leading-none ', {
+						'text-red12': sigma < 0,
+						'text-green12': sigma > 0,
+					})}
+				>
 					{formattedSigma}
 				</div>
-				<div className="ml-1 flex flex-col text-xl">
-					<div
-						className={clsx('-my-1 text-xxs opacity-90', {
-							'text-redA11': sigma < 0,
-							'text-greenA11': sigma > 0,
-						})}
-					>
-						{sigma < 0 ? '↓' : '↑'}
-					</div>
-					<div className="-my-1 text-sm text-slate10">σ</div>
+				<div
+					className={clsx('text-sm leading-tight', {
+						'text-red12/75': sigma < 0,
+						'text-green12/75': sigma > 0,
+					})}
+				>
+					σ
 				</div>
 			</div>
 

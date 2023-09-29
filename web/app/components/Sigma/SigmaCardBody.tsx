@@ -11,7 +11,7 @@ import { YahooButton } from './YahooButton'
 export function SigmaCardBody() {
 	const entry = useContext(SigmaEntryContext)
 
-	const { last, secondLast } = entry
+	const { last, secondLast, sigma } = entry
 
 	const formattedLastClose = '$' + last.close.toFixed(2)
 	const formattedSecondLastClose = '$' + secondLast.close.toFixed(2)
@@ -27,19 +27,35 @@ export function SigmaCardBody() {
 
 	return (
 		<div className="mt-3 flex flex-wrap justify-end gap-5 px-3">
-			<div className="flex flex-grow justify-around gap-1">
-				<ReturnStack
-					number={formattedSecondLastClose}
-					label={npl(secondLast.date as string)}
-					secondLabel="close price"
-				/>
-				<ReturnStack number={dailyReturnString} label="return" />
-				<ReturnStack
-					number={formattedLastClose}
-					label={npl(last.date as string)}
-					secondLabel="close price"
-				/>
+			<div className="flex flex-grow justify-start gap-5">
+				<div
+					className={clsx('max-w-[6.5rem] flex-grow text-right ', {
+						'text-red12': sigma < 0,
+						'text-green12': sigma > 0,
+					})}
+				>
+					<div className="text-xl">{dailyReturnString}</div>
+					<div className="leading-none">
+						<span className="text-xxxs leading-tight opacity-90">
+							geometric{' '}
+						</span>
+						<span className="text-xs leading-tight opacity-90">return</span>
+					</div>
+				</div>
+
+				<div>
+					<ReturnStack
+						number={formattedSecondLastClose}
+						label={npl(secondLast.date as string)}
+					/>
+
+					<ReturnStack
+						number={formattedLastClose}
+						label={npl(last.date as string)}
+					/>
+				</div>
 			</div>
+
 			<div className="flex gap-5">
 				<TagStack />
 				<div className="-mr-3">
@@ -61,12 +77,9 @@ const ReturnStack = ({
 	secondLabel?: string
 	className?: string
 }) => (
-	<div className={clsx('min-w-[4rem] text-right', className)}>
-		<div className="text-xl">{number}</div>
-		<div className="text-xs leading-tight text-slate12/90">{label}</div>
-		{secondLabel && (
-			<div className="text-xxs leading-tight text-slateA11">{secondLabel}</div>
-		)}
+	<div className={clsx('items-baseline', className)}>
+		<span className="text-lg text-slate12/90">{number}</span>{' '}
+		<span className="text-xxs leading-tight text-slate11">{label}</span>
 	</div>
 )
 
