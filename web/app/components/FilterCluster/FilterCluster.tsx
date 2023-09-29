@@ -4,7 +4,7 @@ import StockTypeToggle from './StockTypeToggle'
 export function FilterCluster({}) {
 	return (
 		<div className="mb-[2vh] mt-[1vh] grid grid-cols-default">
-			<div className="col-start-2 grid grid-cols-2 items-start">
+			<div className="col-start-2 grid grid-cols-2 items-start gap-x-5">
 				<StockTypeToggle />
 
 				<MarketCapFilter />
