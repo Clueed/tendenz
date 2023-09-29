@@ -71,6 +71,7 @@ fastify.get<{
   const { query } = request;
 
   const seed = cyrb128(JSON.stringify(query));
+
   const rand = sfc32(seed[0], seed[1], seed[2], seed[3]);
 
   const dataArray = dummyData;
