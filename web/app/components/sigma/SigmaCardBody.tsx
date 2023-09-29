@@ -28,14 +28,9 @@ export function SigmaCardBody() {
 	return (
 		<div className="mt-3 flex flex-wrap justify-end gap-5 px-3">
 			<div className="flex flex-grow justify-start gap-5">
-				<div
-					className={clsx('max-w-[6.5rem] flex-grow text-right ', {
-						'text-red12': sigma < 0,
-						'text-green12': sigma > 0,
-					})}
-				>
+				<div className={clsx('max-w-[6.5rem] flex-grow text-right')}>
 					<div className="text-xl">{dailyReturnString}</div>
-					<div className="text-xs leading-tight opacity-90">return</div>
+					<div className="text-xs leading-tight text-slate11">return</div>
 				</div>
 
 				<div>
