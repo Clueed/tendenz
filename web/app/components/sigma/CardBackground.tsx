@@ -1,4 +1,4 @@
-import { SigmaEntryContext } from '@/components/sigma/SigmaEntryContext'
+import { SigmaEntryContext } from '@/app/components/sigma/SigmaEntryContext'
 import clsx from 'clsx'
 import { useContext } from 'react'
 

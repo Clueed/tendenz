@@ -1,6 +1,6 @@
-import { CardBackground } from '@/components/sigma/CardBackground'
-import { SigmaCardBody } from '@/components/sigma/SigmaCardBody'
-import { SigmaCardHeader } from '@/components/sigma/SigmaCardHeader'
+import { CardBackground } from '@/app/components/sigma/CardBackground'
+import { SigmaCardBody } from '@/app/components/sigma/SigmaCardBody'
+import { SigmaCardHeader } from '@/app/components/sigma/SigmaCardHeader'
 import * as Accordion from '@radix-ui/react-accordion'
 import { AnimatePresence, motion } from 'framer-motion'
 
