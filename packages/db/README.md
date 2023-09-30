@@ -7,7 +7,7 @@
 
 - This is done allow for seemless substitution of `fly proxy`. Ignoring the passwords means not having to change `DATABASE_URL` in any application.
 - Besides there is no sensitive data here.
-- Still, make sure you don't make it accessible on unstructed networks or enable passwords by removing `POSTGRES_HOST_AUTH_METHOD=TRUST` and settings `POSTGRES_PASSWORD={password}` in `docker-compose.yml`.
+- Still, make sure you don't make it accessible on untrusted networks or enable passwords by removing `POSTGRES_HOST_AUTH_METHOD=TRUST` and settings `POSTGRES_PASSWORD={password}` in `docker-compose.yml`.
 
 ## Run DB locally
 
