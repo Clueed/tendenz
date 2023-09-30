@@ -2,9 +2,10 @@ import { tendenzApiSigmaYesterday } from '@tendenz/types'
 import { unstable_serialize } from 'swr/infinite'
 import { ApiQuery, getStocksURL } from './sharedApi'
 
-export const cacheInterval = Number(process.env.REVALIDATE_INTERVAL) ?? 600
+//export const cacheInterval = Number(process.env.REVALIDATE_INTERVAL) ?? 600
+// console.debug('Next cache interval:', cacheInterval, 's')
 
-console.debug('Next cache interval:', cacheInterval, 's')
+const cacheInterval = 600
 
 async function getData<T>(url: string) {
 	const res = await fetch(url, {
