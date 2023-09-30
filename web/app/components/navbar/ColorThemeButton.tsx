@@ -20,7 +20,11 @@ export default function ColorThemeButton({
 	}, [])
 
 	if (!mounted) {
-		return null
+		return (
+			<FreeFloatButton className={className}>
+				<div className={clsx('aspect-square h-4')} />
+			</FreeFloatButton>
+		)
 	}
 
 	return (
