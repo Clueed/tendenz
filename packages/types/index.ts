@@ -191,12 +191,6 @@ export type UsStocksDailyQueryType = FromSchema<
   typeof usStocksDailyQuerySchema
 >;
 
-// export interface UsStocksDailyQueryType {
-// 	mainMarketCap: number
-// 	maxMarketCap: number
-// 	stockTypes: stockTypeCode[]
-// }
-
 export const usStocksDailyParamsSchema = {
   type: "object",
   properties: {
@@ -211,7 +205,3 @@ export const usStocksDailyParamsSchema = {
 export type UsStocksDailyParamsType = FromSchema<
   typeof usStocksDailyParamsSchema
 >;
-
-// export type UsStocksDailyParamsType = {
-// 	page: number
-// }
