@@ -1,13 +1,13 @@
 # `@tendenz/db`
 
-- Currently only used for local development environments because production is hosted on Fly Postgres, which is semi-managed.
+- Currently, it is only used for local development environments because production is hosted on Fly Postgres, which is semi-managed.
 - It also serves as a backup in case a migration from fly.io is ever necessary.
 
-## ⚠️ Postgres is setup here to not require passwords ⚠️
+## ⚠️ Postgres is set up here to not require passwords ⚠️
 
-- This is done allow for seemless substitution of `fly proxy`. Ignoring the passwords means not having to change `DATABASE_URL` in any application.
-- Besides there is no sensitive data here.
-- Still, make sure you don't make it accessible on untrusted networks or enable passwords by removing `POSTGRES_HOST_AUTH_METHOD=TRUST` and settings `POSTGRES_PASSWORD={password}` in `docker-compose.yml`.
+- This is done to allow for seamless substitution of `fly proxy`. Ignoring passwords means not having to change `DATABASE_URL` in any application.
+- Besides, there is no sensitive data here.
+- Still, make sure you don't make it accessible on untrusted networks or enable passwords by removing `POSTGRES_HOST_AUTH_METHOD=TRUST` and setting `POSTGRES_PASSWORD={password}` in `docker-compose.yml`.
 
 ## Run DB locally
 
