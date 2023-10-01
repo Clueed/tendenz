@@ -21,16 +21,17 @@ import { IncomingMessage, ServerResponse } from 'http'
 import { formatName } from '../lib/api/formatName.js'
 import { DatabaseApi } from '../lib/databaseApi/databaseApi.js'
 
-interface UsStocksDailyRouteGenericInterface extends RouteGenericInterface {
+export interface UsStocksDailyRouteGenericInterface
+	extends RouteGenericInterface {
 	Querystring: UsStocksDailyQueryType
 	Params: UsStocksDailyParamsType
 	Reply: tendenzApiSigmaYesterday[]
 }
 
-type UsStocksDailyRouteRequest =
+export type UsStocksDailyRouteRequest =
 	FastifyRequest<UsStocksDailyRouteGenericInterface>
 
-type UsStocksDailyRouteReply = FastifyReply<
+export type UsStocksDailyRouteReply = FastifyReply<
 	RawServerDefault,
 	IncomingMessage,
 	ServerResponse<IncomingMessage>,
@@ -41,38 +42,56 @@ type UsStocksDailyRouteReply = FastifyReply<
 	tendenzApiSigmaYesterday[]
 >
 
-export const UsStocksDailyRoute: FastifyPluginAsync = fp(
-	async (server: FastifyInstance, options: FastifyPluginOptions) => {
-		server.get<UsStocksDailyRouteGenericInterface>(
-			'/test/us-stocks/daily/:page',
-			{
-				preValidation(request, _, done) {
-					// if (typeof request.query.stockTypes === 'undefined')
-					// 	request.query.stockTypes = []
-					if (
-						typeof request.query.stockTypes !== 'undefined' &&
-						!Array.isArray(request.query.stockTypes)
-					)
-						request.query.stockTypes = [request.query.stockTypes]
+export type GenericRequestHandler<
+	TServer extends FastifyInstance,
+	TRequest extends FastifyRequest,
+	TReply extends FastifyReply,
+> = (server: TServer, request: TRequest, reply: TReply) => Promise<void>
 
-					done()
-				},
-				schema: {
-					querystring: usStocksDailyQuerySchema,
-					params: usStocksDailyParamsSchema,
-				},
-			},
-			async (request, response) =>
-				handleUsStocksDailyRequest(server, request, response),
-		)
-	},
-)
+export type UsStocksDailyRequestHandler = GenericRequestHandler<
+	FastifyInstance,
+	UsStocksDailyRouteRequest,
+	UsStocksDailyRouteReply
+>
 
-async function handleUsStocksDailyRequest(
-	server: FastifyInstance,
-	request: UsStocksDailyRouteRequest,
-	reply: UsStocksDailyRouteReply,
+export function constructUsStocksDailyRoute(
+	handleRequest: UsStocksDailyRequestHandler,
 ) {
+	const UsStocksDailyRoute: FastifyPluginAsync = fp(
+		async (server: FastifyInstance, options: FastifyPluginOptions) => {
+			server.get<UsStocksDailyRouteGenericInterface>(
+				'/test/us-stocks/daily/:page',
+				{
+					preValidation(request, _, done) {
+						// if (typeof request.query.stockTypes === 'undefined')
+						// 	request.query.stockTypes = []
+						if (
+							typeof request.query.stockTypes !== 'undefined' &&
+							!Array.isArray(request.query.stockTypes)
+						)
+							request.query.stockTypes = [request.query.stockTypes]
+
+						done()
+					},
+					schema: {
+						querystring: usStocksDailyQuerySchema,
+						params: usStocksDailyParamsSchema,
+					},
+				},
+				async (request, response) =>
+					await handleRequest(server, request, response),
+			)
+		},
+	)
+
+	return UsStocksDailyRoute
+}
+
+const handleUsStocksDailyRequest: GenericRequestHandler<
+	FastifyInstance,
+	UsStocksDailyRouteRequest,
+	UsStocksDailyRouteReply
+> = async (server, request, reply) => {
 	try {
 		const { page } = request.params
 
@@ -142,3 +161,7 @@ async function handleUsStocksDailyRequest(
 		return reply.code(400).send()
 	}
 }
+
+export const usStocksDailyRoute = constructUsStocksDailyRoute(
+	handleUsStocksDailyRequest,
+)
