@@ -25,9 +25,12 @@ export const UsStocksDailyRoute: FastifyPluginAsync = fp(
 			'/test/us-stocks/daily/:page',
 			{
 				preValidation(request, _, done) {
-					if (typeof request.query.stockTypes === 'undefined')
-						request.query.stockTypes = []
-					if (!Array.isArray(request.query.stockTypes))
+					// if (typeof request.query.stockTypes === 'undefined')
+					// 	request.query.stockTypes = []
+					if (
+						typeof request.query.stockTypes !== 'undefined' &&
+						!Array.isArray(request.query.stockTypes)
+					)
 						request.query.stockTypes = [request.query.stockTypes]
 
 					done()
@@ -40,18 +43,19 @@ export const UsStocksDailyRoute: FastifyPluginAsync = fp(
 			async (request, reply) => {
 				try {
 					const { page } = request.params
+					const selectedPage = page || 0
+
 					const { minMarketCap, maxMarketCap, stockTypes } = request.query
 
 					const db = new DatabaseApi(server.prisma)
 					const mostRecentDates = await db.getMostRecentDates(2)
 
 					const today = await db.getToday(
-						page || 0,
+						selectedPage,
 						mostRecentDates[0],
 						minMarketCap,
 						maxMarketCap,
-						stockTypes as stockTypeCode[],
-						10,
+						stockTypes,
 					)
 
 					const tickers = today.map(value => value.ticker)
