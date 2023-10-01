@@ -196,8 +196,10 @@ export const usStocksDailyParamsSchema = {
   properties: {
     page: {
       type: "integer",
+      minimum: 0,
     },
   },
+  required: ["page"],
   additionalProperties: false,
 } as const;
 

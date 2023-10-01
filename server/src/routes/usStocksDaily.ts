@@ -42,7 +42,6 @@ export const UsStocksDailyRoute: FastifyPluginAsync = fp(
 			async (request, reply) => {
 				try {
 					const { page } = request.params
-					const selectedPage = page || 0
 
 					const { minMarketCap, maxMarketCap, stockTypes } = request.query
 
@@ -50,7 +49,7 @@ export const UsStocksDailyRoute: FastifyPluginAsync = fp(
 					const mostRecentDates = await db.getMostRecentDates(2)
 
 					const today = await db.getToday(
-						selectedPage,
+						page,
 						mostRecentDates[0],
 						minMarketCap,
 						maxMarketCap,
