@@ -1,7 +1,6 @@
 import {
 	UsStocksDailyParamsType,
 	UsStocksDailyQueryType,
-	stockTypeCode,
 	tendenzApiSigmaYesterday,
 	usStocksDailyParamsSchema,
 	usStocksDailyQuerySchema,
@@ -87,7 +86,7 @@ export const UsStocksDailyRoute: FastifyPluginAsync = fp(
 								throw new Error(`${ticker} has no yesterday value`)
 							}
 
-							const cleanName = formatName(name, type as stockTypeCode)
+							const cleanName = formatName(name, type)
 
 							return {
 								...rest,
