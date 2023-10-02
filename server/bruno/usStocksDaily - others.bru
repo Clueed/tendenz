@@ -1,0 +1,31 @@
+meta {
+  name: usStocksDaily - others
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/us-stocks/daily/0?minMarketCap=1000000&maxMarketCap=10000000&type=ETF&type=ETN&type=ETV&type=ETS&type=FUND&type=OTHER&type=BOND&type=SP&type=WARRANT&type=ADRW&type=ADRR&type=BASKET&type=UNIT&type=LT&type=AGEN&type=EQLK
+  body: none
+}
+
+query {
+  minMarketCap: 1000000
+  maxMarketCap: 10000000
+  type: ETF
+  type: ETN
+  type: ETV
+  type: ETS
+  type: FUND
+  type: OTHER
+  type: BOND
+  type: SP
+  type: WARRANT
+  type: ADRW
+  type: ADRR
+  type: BASKET
+  type: UNIT
+  type: LT
+  type: AGEN
+  type: EQLK
+}
