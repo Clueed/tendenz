@@ -1,19 +1,5 @@
 import { FromSchema } from "json-schema-to-ts";
 
-export type tendenzApiSigmaYesterdayV0 = {
-  ticker: string;
-  name: string | null;
-  sigma: number;
-  absSigma: number;
-  weight: number;
-  marketCap: number | null;
-  stdLogReturn: number;
-  meanLogReturn: number;
-  sampleSize: number;
-  last: tendenzApiSigmaYesterdayDay;
-  secondLast: tendenzApiSigmaYesterdayDay;
-};
-
 export type tendenzApiSigmaYesterdayDay = {
   close: number;
   date: string | Date;
