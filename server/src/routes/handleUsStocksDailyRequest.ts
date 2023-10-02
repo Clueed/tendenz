@@ -13,11 +13,21 @@ export const handleUsStocksDailyRequest: UsStocksDailyRouteType['RequestHandler'
 			const db = new DatabaseApi(server.prisma)
 			const mostRecentDates = await db.getMostRecentDates(2)
 
+			const realMinMarketCap =
+				maxMarketCap === Infinity || maxMarketCap === -Infinity
+					? undefined
+					: minMarketCap
+
+			const realMaxMarketCap =
+				maxMarketCap === Infinity || maxMarketCap === -Infinity
+					? undefined
+					: maxMarketCap
+
 			const today = await db.getToday(
 				page,
 				mostRecentDates[0],
-				minMarketCap,
-				maxMarketCap,
+				realMinMarketCap,
+				realMaxMarketCap,
 				type,
 			)
 
