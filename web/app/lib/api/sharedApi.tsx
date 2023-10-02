@@ -24,8 +24,6 @@ export const getStocksURL = (call: ApiCall) => {
 		appendSearchParams(url.searchParams, obj),
 	)
 
-	console.log('url :>> ', url.toString())
-
 	return url.toString()
 }
 
