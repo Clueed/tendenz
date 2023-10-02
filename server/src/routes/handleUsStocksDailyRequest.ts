@@ -8,7 +8,7 @@ export const handleUsStocksDailyRequest: UsStocksDailyRouteType['RequestHandler'
 		try {
 			const { page } = request.params
 
-			const { minMarketCap, maxMarketCap, stockTypes } = request.query
+			const { minMarketCap, maxMarketCap, type } = request.query
 
 			const db = new DatabaseApi(server.prisma)
 			const mostRecentDates = await db.getMostRecentDates(2)
@@ -18,7 +18,7 @@ export const handleUsStocksDailyRequest: UsStocksDailyRouteType['RequestHandler'
 				mostRecentDates[0],
 				minMarketCap,
 				maxMarketCap,
-				stockTypes,
+				type,
 			)
 
 			const tickers = today.map(value => value.ticker)

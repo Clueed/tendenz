@@ -176,7 +176,7 @@ export const usStocksDailyQuerySchema = {
       type: "integer",
       minimum: 0,
     },
-    stockTypes: {
+    type: {
       type: "array",
       items: {
         type: "string",

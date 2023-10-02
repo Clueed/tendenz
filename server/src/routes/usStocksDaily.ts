@@ -25,16 +25,16 @@ export function constructUsStocksDailyRoute(
 	const UsStocksDailyRoute: FastifyPluginAsync = fp(
 		async (server: FastifyInstance, options: FastifyPluginOptions) => {
 			server.get<UsStocksDailyRouteType['RouteInterface']>(
-				'/test/us-stocks/daily/:page',
+				'/us-stocks/daily/:page',
 				{
 					preValidation(request, _, done) {
-						// if (typeof request.query.stockTypes === 'undefined')
-						// 	request.query.stockTypes = []
+						// if (typeof request.query.type === 'undefined')
+						// 	request.query.type = []
 						if (
-							typeof request.query.stockTypes !== 'undefined' &&
-							!Array.isArray(request.query.stockTypes)
+							typeof request.query.type !== 'undefined' &&
+							!Array.isArray(request.query.type)
 						)
-							request.query.stockTypes = [request.query.stockTypes]
+							request.query.type = [request.query.type]
 
 						done()
 					},
