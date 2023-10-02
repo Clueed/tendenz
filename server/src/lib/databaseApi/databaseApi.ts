@@ -281,7 +281,8 @@ export class DatabaseApi {
 	async getToday(
 		page: number,
 		date: Date,
-		marketCap?: { min?: number; max?: number },
+		minMarketCap?: number,
+		maxMarketCap?: number,
 		types?: stockTypeCode[] | undefined,
 		pageSize: number = PAGE_SIZE,
 	) {
@@ -291,7 +292,7 @@ export class DatabaseApi {
 				sigmaAbs: 'desc',
 			},
 			where: {
-				marketCap: { gte: marketCap?.min, lte: marketCap?.max } || {
+				marketCap: { gte: minMarketCap, lte: maxMarketCap } || {
 					not: null,
 				},
 				date: date,

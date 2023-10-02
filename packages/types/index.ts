@@ -1,16 +1,4 @@
-export type tendenzApiSigmaYesterdayV0 = {
-  ticker: string;
-  name: string | null;
-  sigma: number;
-  absSigma: number;
-  weight: number;
-  marketCap: number | null;
-  stdLogReturn: number;
-  meanLogReturn: number;
-  sampleSize: number;
-  last: tendenzApiSigmaYesterdayDay;
-  secondLast: tendenzApiSigmaYesterdayDay;
-};
+import { FromSchema } from "json-schema-to-ts";
 
 export type tendenzApiSigmaYesterdayDay = {
   close: number;
@@ -162,3 +150,46 @@ export const stockTypes = {
 export type stockTypeCode = keyof typeof stockTypes;
 
 export const PAGE_SIZE = 10;
+
+export const usStocksDailyQuerySchema = {
+  type: "object",
+  properties: {
+    minMarketCap: {
+      type: "integer",
+      minimum: 0,
+    },
+    maxMarketCap: {
+      type: "integer",
+      minimum: 0,
+    },
+    type: {
+      type: "array",
+      items: {
+        type: "string",
+        enum: Object.keys(stockTypes) as stockTypeCode[],
+      },
+    },
+  },
+  additionalProperties: false,
+} as const;
+
+export type UsStocksDailyQueryType = FromSchema<
+  typeof usStocksDailyQuerySchema
+>;
+
+export const usStocksDailyParamsSchema = {
+  type: "object",
+  properties: {
+    page: {
+      type: "integer",
+      minimum: 0,
+      //default: 0,
+    },
+  },
+  required: ["page"],
+  additionalProperties: false,
+} as const;
+
+export type UsStocksDailyParamsType = FromSchema<
+  typeof usStocksDailyParamsSchema
+>;

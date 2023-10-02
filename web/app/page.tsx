@@ -9,7 +9,7 @@ import {
 	TypeGroupLabel,
 } from '@/app/lib/CONSTANS'
 import { getFallback } from '@/app/lib/api/serverApi'
-import { ApiQuery } from '@/app/lib/api/sharedApi'
+import { ApiCall } from '@/app/lib/api/sharedApi'
 import SWRConfigProvider from '@/app/lib/providers/SWRConfigProvider'
 
 export default async function Home() {
@@ -19,9 +19,10 @@ export default async function Home() {
 		['stocks', 'ETFs', 'others'],
 	]
 
-	const selectTypesDefaultMarketCap: ApiQuery[] = selectTypeLabels.map(
+	const selectTypesDefaultMarketCap: ApiCall[] = selectTypeLabels.map(
 		typeLabels => {
 			return {
+				page: 0,
 				marketCap: DEFAULT_MARKET_CAP,
 				typeLabels,
 			}
