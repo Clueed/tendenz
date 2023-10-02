@@ -13,6 +13,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const fastify = Fastify({
 	logger: true,
+	ajv: { customOptions: { coerceTypes: 'array' } },
 })
 
 process.on('SIGINT', async () => await fastify.close()) // CTRL+C

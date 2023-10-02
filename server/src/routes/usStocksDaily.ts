@@ -28,17 +28,6 @@ export function constructUsStocksDailyRoute(
 			server.get<UsStocksDailyRouteType['RouteInterface']>(
 				url,
 				{
-					preValidation(request, _, done) {
-						// if (typeof request.query.type === 'undefined')
-						// 	request.query.type = []
-						if (
-							typeof request.query.type !== 'undefined' &&
-							!Array.isArray(request.query.type)
-						)
-							request.query.type = [request.query.type]
-
-						done()
-					},
 					schema: {
 						querystring: usStocksDailyQuerySchema,
 						params: usStocksDailyParamsSchema,
