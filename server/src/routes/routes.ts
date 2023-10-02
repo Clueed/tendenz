@@ -1,43 +1,6 @@
-import { tendenzApiSigmaYesterday } from '@tendenz/types'
-import {
-	FastifyInstance,
-	FastifyReply,
-	FastifyRequest,
-	FastifySchema,
-	FastifyTypeProviderDefault,
-	RawServerDefault,
-	RouteGenericInterface,
-} from 'fastify'
-import { IncomingMessage, ServerResponse } from 'http'
+import { handleUsStocksDailyRequest } from './handleUsStocksDailyRequest.js'
+import { constructUsStocksDailyRoute } from './usStocksDaily.js'
 
-export type GenericHandleRequest<
-	TServer extends FastifyInstance,
-	TRequest extends FastifyRequest,
-	TReply extends FastifyReply,
-> = (server: TServer, request: TRequest, reply: TReply) => Promise<void>
-
-export interface GenericRouteType<
-	A extends RouteGenericInterface = {
-		Querystring: unknown
-		Params: unknown
-		Reply: unknown
-	},
-> {
-	RouteInterface: A
-	Request: FastifyRequest<GenericRouteType<A>['RouteInterface']>
-	Reply: FastifyReply<
-		RawServerDefault,
-		IncomingMessage,
-		ServerResponse<IncomingMessage>,
-		A,
-		unknown,
-		FastifySchema,
-		FastifyTypeProviderDefault,
-		tendenzApiSigmaYesterday[]
-	>
-	RequestHandler: GenericHandleRequest<
-		FastifyInstance,
-		GenericRouteType<A>['Request'],
-		GenericRouteType<A>['Reply']
-	>
-}
+export const usStocksDailyRoute = constructUsStocksDailyRoute(
+	handleUsStocksDailyRequest,
+)

@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url'
 import { SHARE_ENV } from 'node:worker_threads'
 import { DatabaseApi } from './lib/databaseApi/databaseApi.js'
 import prismaPlugin from './plugins/prisma.js'
-import { usStocksDailyRoute } from './routes/usStocksDaily.js'
+import { usStocksDailyRoute } from './routes/routes.js'
 
 if (process.env.NODE_ENV === 'production') {
 	console.debug = function () {}
