@@ -22,6 +22,7 @@ export default async function Home() {
 	const selectTypesDefaultMarketCap: ApiCall[] = selectTypeLabels.map(
 		typeLabels => {
 			return {
+				page: 0,
 				marketCap: DEFAULT_MARKET_CAP,
 				typeLabels,
 			}
