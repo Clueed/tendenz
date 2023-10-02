@@ -197,6 +197,7 @@ export const usStocksDailyParamsSchema = {
     page: {
       type: "integer",
       minimum: 0,
+      //default: 0,
     },
   },
   required: ["page"],
