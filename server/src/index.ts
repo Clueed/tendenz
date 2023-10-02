@@ -24,7 +24,6 @@ fastify.register(cors, {
 })
 
 fastify.register(prismaPlugin)
-
 fastify.register(usStocksDailyRoute)
 
 const bree = new Bree({

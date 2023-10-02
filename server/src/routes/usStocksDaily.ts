@@ -20,12 +20,13 @@ export type UsStocksDailyRouteType = GenericRouteType<{
 }>
 
 export function constructUsStocksDailyRoute(
+	url: string,
 	handleRequest: UsStocksDailyRouteType['RequestHandler'],
 ) {
 	const UsStocksDailyRoute: FastifyPluginAsync = fp(
 		async (server: FastifyInstance, options: FastifyPluginOptions) => {
 			server.get<UsStocksDailyRouteType['RouteInterface']>(
-				'/us-stocks/daily/:page',
+				url,
 				{
 					preValidation(request, _, done) {
 						// if (typeof request.query.type === 'undefined')
